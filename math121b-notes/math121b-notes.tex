@@ -1,0 +1,27 @@
+\DocumentMetadata{
+  lang        = en,
+  pdfstandard = ua-2,
+  %pdfstandard = a-4f, %or a-4
+  tagging=on,
+  %tagging-setup={math/setup=mathml-SE}
+}
+
+\documentclass[11pt,letterpaper]{article}
+
+\input{preamble-packages}
+\input{preamble-commands}
+
+\includeonly{
+	1cayley/1cayley,
+}
+
+\begin{document}
+
+\pagenumbering{roman}
+%
+
+\pagenumbering{arabic}
+\include{1cayley/1cayley}
+
+
+\end{document}

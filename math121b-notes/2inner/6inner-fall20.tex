@@ -1,0 +1,2515 @@
+\graphicspath{{notes/6inner/asy/}}
+
+\setcounter{section}{5}
+
+\section{Inner Product Spaces}
+
+\subsection{Inner Products and Norms}
+
+You should be familiar with the \emph{scalar} or \emph{dot product} from previous courses, and with its basic properties: for instance, in $\R^2$,
+\[\twovec xy\cdot \twovec zw=xz+yw\]
+Moreover, the \emph{angle} $\theta$ between two vectors satisfies the formula
+\[\vx\cdot\vy=\Nm\vx\Nm\vy\cos\theta\]
+where $\Nm\vx=\sqrt{\vx\cdot\vx}$ is the \emph{norm} or length of the vector $\vx$. The dot product is therefore associated to the idea of \emph{orthogonality} or \emph{perpendicularity}:
+\[\vx\cdot\vy=0\iff \vx,\vy\quad\text{are perpendicular}\]
+The dot product is precisely the algebraic structure that allows us to consider length and angle. An \emph{inner product} is a generalization that does exactly the same thing for a vector space.
+
+\begin{defn}{}{innerproduct}
+An \emph{inner product space} is a vector space $V$ over a field $\F$ ($=\R$ or $\C$) equipped with an \emph{inner product}, a function $\ip{\ ,\ }:V\times V\to\F$ satisfying the following properties: $\forall\lambda\in\F,\ \vx,\vy,\vz\in V$,
+\begin{enumeratea}
+  \item $\ip{\lambda\vx+\vy,\vz}=\lambda\ip{\vx,\vz}+\ip{\vy,\vz}$
+  \item $\cl{\ip{\vx,\vy}}=\ip{\vy,\vx}$
+  \item $\vx\neq \V0\implies \ip{\vx,\vx}>0$
+\end{enumeratea}
+The \emph{norm} or \emph{length} of a vector $\vx$ is defined to be $\Nm{\vx}=\sqrt{\ip{\vx,\vx}}$: a \emph{unit vector} has $\Nm\vx=1$.\\[5pt]
+Vectors $\vx,\vy$ are \emph{perpendicular} or \emph{orthogonal} if $\ip{\vx,\vy}=0$. Vectors are \emph{orthonormal} if they are orthogonal unit vectors.
+\end{defn}
+
+Property (a) says that an inner product is linear in its first entry: for any fixed $\vz\in V$, the map
+\[L_\vz:V\to\F:\vx\mapsto\ip{\vx,\vz}\]
+is linear. The bar in property (b) is the complex conjugate (only necessary if $\F=\C$). This allows us to consider linear combinations in the second entry:
+\[\ip{\vx,\lambda\vy+\vz}=\cl{\ip{\lambda\vy+\vz,\vx}}=\cl{\lambda\ip{\vy,\vx}+\ip{\vz,\vx}} =\cl\lambda\ip{\vx,\vy}+\ip{\vx,\vz} \tag{$\ast$}\]
+This `conjugate-linear' property is sometimes known as \emph{sesquilinearity}: the prefix \emph{sesqui} meaning `one and a half.' If $\F=\R$, then the inner product is linear in both slots and is termed \emph{bilinear.}\\
+Finally, property (c) is known as \emph{positive definiteness}: this forces the norm of a non-zero vector to be positive.\\
+
+\textcolor{red}{Warning!} In case you dabble in the dark arts of Physics, be aware that its convention is for an inner product to be conjugate-linear in the \emph{first} entry rather than the second!
+
+
+\begin{examples}\label{exs:ipstds}
+\begin{enumerate}
+  \item In $\F^n$, the \emph{standard inner product} is\footnote{$\vy^*=\cl\vy^T$ is the conjugate transpose of $\vy$.}
+	\[\ip{\vx,\vy}=\vy^*\vx=\sum_{j=1}^nx_j\cl{y_j}=x_1\cl{y_1}+\cdots+x_n\cl{y_n}\]
+	Properties (a)--(c) should be obvious. When $\F=\C$ this is known as the standard \emph{Hermitian product,} while in $\R^n$ it is the \emph{dot product.} The \emph{norm} is the well-known length function:\footnote{While unnecessary when $\F=\R$, the expression $\nm{x_j}=\sqrt{x_j\cl{x_j}}$ denotes the \emph{modulus} of a complex number when $\F=\C$. It is to distinguish between this and the norm that we use slightly different notation for each!}
+	\[\Nm\vx=\sqrt{\sum_{j=1}^n\nm{x_j}^2}\]
+	\item\label{ex:ip:std2} We modify the previous example with \emph{weights}: let $a_1,\ldots,a_n$ be positive real numbers and define
+  \[\ip{\vx,\vy}=\sum_{j=1}^na_jx_j\cl{y_j}=a_1x_1\cl{y_1}+\cdots+a_nx_n\cl{y_n}\]
+  Check the inner product properties:
+  \begin{enumeratea}
+  	\item $\ip{\lambda\vx+\vy,\vz}= \sum_{j=1}^na_j(\lambda x_j+y_j)\cl{z_j}= \lambda\sum_{j=1}^na_jx_j\cl{z_j}+\sum_{j=1}^na_jy_j\cl{z_j}=\lambda\ip{\vx,\vz}+\ip{\vy,\vz}$
+  	\item $\cl{\ip{\vx,\vy}}=\sum_{j=1}^na_j\cl{x_j}y_j=\ip{\vy,\vx}$: we used the fact that $a_j\in\R$ here.
+  	\item $\ip{\vx,\vx}=\sum_{j=1}^na_j\nm{x_j}^2>0$ whenever $\vx\neq\V0$: this is the reason we need \emph{all} $a_j>0$.
+  \end{enumeratea}
+  Note that different inner product create different relationships between vectors. For instance, compare the standard `dot' product on $\R^2$ with the alternative inner product
+  \[\ip{\vx,\vy}=x_1y_1+3x_2y_2\]
+  With respect to these distinct inner products, vectors have different properties: for example if $\vx=\frac 12\stwovec 11$ and $\vy=\frac 1{2\sqrt{3}}\stwovec 3{-1}$, we see that $\{\vx,\vy\}$ is an orthonormal set with respect to $\ip{\ ,\ }$:
+  \begin{gather*}
+  \Nm\vx^2=\frac 14(1^2+3\cdot 1^2)=1,\qquad \Nm\vy^2=\frac 1{12}(3^2+3\cdot 1^2)=1,\qquad\\\ip{\vx,\vy}=\frac 1{4\sqrt 3}(3-3)=0
+  \end{gather*}
+  With the dot product, these vectors are not at all special:
+  \[\vx\cdot\vx=\frac 12,\qquad \vy\cdot\vy=\frac 56,\qquad \vx\cdot \vy=\frac 1{2\sqrt 3}\]
+  We have the same \emph{vector space} $\R^2$, but different \emph{inner product spaces}: $(\R^2,\cdot)\neq(\R^2,\ip{\ ,\ })$.
+\end{enumerate}
+\end{examples}%\pagebreak[4]
+
+We've already seen one of the basic properties of an inner product; we restate here for reference.
+
+\begin{lemm}{}{ipbasic}
+Let $\ip{\ ,\ }$ be an inner product on $V$ over $\F$ with norm $\Nm{\ }$. Let $\vx,\vy,\vz\in V$ and $\lambda\in\F$.
+\begin{enumerate}
+  \item (Conjugate-linearity ($\ast$)) \ $\ip{\vx,\lambda\vy+\vz} =\cl\lambda\ip{\vx,\vy}+\ip{\vx,\vz}$
+  \item $\ip{\vx,\V0}=0$
+  \item $\Nm\vx=0\iff \vx=\V0$
+  \item $\Nm{\lambda\vx}=\nm{\lambda}\Nm{\vx}$
+  \item $\ip{\vx,\vy}=\ip{\vx,\vz}$ for all $\vx\implies \vy=\vz$
+  \item (Cauchy--Schwarz inequality) \ $\nm{\ip{\vx,\vy}}\le\Nm\vx\Nm\vy$ with equality if and only if $\vx$ and $\vy$ are parallel
+  \item (Triangle Inequality) \ $\Nm{\vx+\vy}\le\Nm\vx+\Nm\vy$ with equality if and only if $\vx$ and $\vy$ are parallel and point in the same direction
+\end{enumerate}
+\end{lemm}
+
+\begin{proof}
+Part 1 is done above; we leave 2--4 as exercises.
+\begin{enumerate}\setcounter{enumi}{4}
+%   \item Done above
+%   \item $\ip{\vx,\V0}=\ip{\vx,\vx-\vx}=\ip{\vx,\vx}-\ip{\vx,\vx}=0$
+%   \item ($\Rightarrow$) is the contrapositive of defining property (c), while $(\Leftarrow)$ follows from part 2.
+%   \item $\Nm{\lambda\vx}^2=\ip{\lambda\vx,\lambda\vx}=\lambda\cl\lambda\ip{\vx,\vx}=\nm{\lambda}^2\Nm{\vx}^2$
+  \item Let $\vx=\vy-\vz$ to see that $\ip{\vx,\vy}=\ip{\vx,\vz}\implies \Nm{\vy-\vz}^2=0\implies \vy=\vz$ by part 2.
+  \item If $\vy=\V0$, the result is trivial. WLOG we may assume $\Nm\vy=1$: if the inequality holds for this it holds for all $\vy$. Expand out the following:
+  \begin{align*}
+  0&\le\Nm{\vx-\ip{\vx,\vy}\vy}^2 =\Nm\vx^2+\nm{\ip{\vx,\vy}}^2- \cl{\ip{\vx,\vy}}\ip{\vx,\vy}-\ip{\vx,\vy}\ip{\vy,\vx}\\
+  &=\Nm\vx^2-\nm{\ip{\vx,\vy}}^2 \implies \nm{\ip{\vx,\vy}}\le\Nm\vx\Nm\vy
+  \end{align*}
+  Equality is if and only if $\vx=\ip{\vx,\vy}\vy$ which is precisely when $\vx,\vy$ are linearly dependent.
+  \item We establish the squared result:
+  \begin{align*}
+  (\Nm\vx+\Nm\vy)^2-\Nm{\vx+\vy}^2&=\Nm\vx^2+2\Nm\vx\Nm\vy+\Nm\vy^2-\Nm\vx^2-\ip{\vx,\vy}-\ip{\vy,\vx}-\Nm\vy^2\\
+  &=2\Nm\vx\Nm\vy-\ip{\vx,\vy}-\cl{\ip{\vx,\vy}}\\
+  &=2\Nm\vx\Nm\vy-2\Re\ip{\vx,\vy}\tag{real part}\\
+  &\ge 2\left(\Nm\vx\Nm\vy-\nm{\ip{\vx,\vy}}\right) \tag{$\Re z\le\nm z$ for any $z\in\C$}\\
+  &\ge 0 \tag{Cauchy--Schwarz}
+  \end{align*}
+  Equality requires both equality in Cauchy--Schwarz (parallel) and that $\Re\ip{\vx,\vy}\ge 0$: since $\vx,\vy$ are already parallel, this means that one is a non-negative multiple of the other.\qedhere
+\end{enumerate}
+\end{proof}
+
+
+The use of complex numbers in some of these proofs/examples may seem difficult. This is quite deliberate but also very easy to get around. It is perfectly acceptable (and encouraged!) to restrict to \emph{real} inner product spaces until you are comfortable: try rewriting the above proofs in this context and see how much easier they are!
+
+\subsubsection*{Further Examples of Inner Products}
+
+\paragraph{The Frobenius inner product}
+
+For any $A,B\in M_{m\times n}(\F)$, define
+\[\ip{A,B}=\tr(B^*A)\]
+where $\tr$ is the \emph{trace} of a square matrix, and $B^*=\cl B^T$ is the \emph{conjugate transpose.} This makes $M_{m\times n}(\F)$ into an inner product space. When $n=1$, this is simply the standard Hermitian inner product on $\C^n$.
+
+\begin{example}{}{frobenius}
+In $M_{3\times 2}(\C)$,
+\begin{gather*}
+\begin{aligned}
+\ip{\begin{pmatrix}
+1&i\\
+2-i&0\\
+0&-1
+\end{pmatrix}
+,
+\begin{pmatrix}
+0&7\\
+1&2i\\
+3-2i&4
+\end{pmatrix}}
+&=\tr\begin{pmatrix}
+0&1&3+2i\\
+7&-2i&4
+\end{pmatrix}\begin{pmatrix}
+1&i\\
+2-i&0\\
+0&-1
+\end{pmatrix}
+=\tr\begin{pmatrix}
+2-i&-3-2i\\
+9-4i&-4+7i
+\end{pmatrix}\\
+&=2-i-4+7i=-2-8i
+\end{aligned}\\
+\begin{aligned}
+\Nm{\begin{pmatrix}
+1&i\\
+2-i&0\\
+0&-1
+\end{pmatrix}}^2
+&=\tr\begin{pmatrix}
+1&2+i&0\\
+-i&0&-1
+\end{pmatrix}\begin{pmatrix}
+1&i\\
+2-i&0\\
+0&-1
+\end{pmatrix}
+=\tr\begin{pmatrix}
+6&i\\
+-i&2
+\end{pmatrix}=8
+\end{aligned}
+\end{gather*}
+\end{example}
+As before, if this example seems too difficult because you are unfamiliar with the complex numbers, first restrict to the reals: if $\F=\R$, then $\ip{A,B}=\tr(B^TA)$.
+
+
+
+\paragraph{The $L^2$ inner product}
+
+If $f,g\in C([a,b])$ are continuous functions on a bounded interval $[a,b]$, define
+\[\ip{f,g}:=\int_a^b f(x)\cl{g(x)}\,\dx\]
+If you've studied analysis, this should feel legitimate: continuous functions on closed bounded intervals are integrable. The properties of an inner product are easy to check, in particular,
+\[\Nm f^2=\int_a^b\nm{f(x)}^2\,\dx=0\iff f(x)\equiv 0\]
+follows because $f$ is continuous. With sufficient care, we can even take the interval to be $(-\infty,\infty)$  though we must restrict to functions $f$ for which $\int_\R\nm{f(x)}\,\dx<\infty$. This is our first example of an \emph{infinite dimensional} inner product space.  %While this is often known as the \emph{$L^2$ inner product,} the class of $L^2$ functions for which it is named are a far more complicated business.
+
+\begin{example}{}{}
+Let $f,g\in C[-1,1]$ where $f(x)=x$ and $g(x)=x^2$. We compute the $L^2$ inner products:
+\[\ip{f,g}=\int_{-1}^1x^3\,\dx=0,\qquad \Nm f^2=\int_{-1}^1x^2\,\dx=\frac 23,\qquad \Nm g^2=\int_{-1}^1x^4\,\dx=\frac 25\]
+With some simple scaling, we see that $\left\{\frac 1{\Nm f}f,\frac 1{\Nm g}g\right\}=\left\{\sqrt{\frac 32}x,\sqrt{\frac 52}x^2\right\}$ is an orthonormal set.
+\end{example}
+
+There are many, many more examples in this vein; indeed since every polynomial is continuous, these inner products also turn any vector space of polynomials into an inner product space.
+
+
+\paragraph{The $\ell^2$ inner product (for Analysis aficionados only!)}\phantomsection\label{ell2ip}
+
+The standard inner product on $\F^n$ can be generalized to the vector space $\ell^2$ of \emph{square-summable sequences} with values in $\F$. That is,
+\[(s_n)\in \ell^2\iff \sum_{n=1}^\infty\nm{s_n}^2<\infty\]
+The inner product is defined by
+\[\ip{(s_n),(t_n)}=\sum_{n=1}^\infty s_n\cl{t_n}\]
+It is a little work, and outside the scope of this course, to check the convergence conditions necessary to prove that $\ell^2$ really is a vector space and that we have an inner product. You should compare the structure with the $L^2$ inner product: this is also an infinite dimensional inner product space. Both inner products can also be generalized with weights analogously to Example \hyperref[ex:ip:std2]{\ref*{exs:ipstds}.\ref*{ex:ip:std2}}.
+
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item Define $\ip{\vx,\vy}:=\sum\limits_{j=1}^nx_jy_j$ on $\C^n$. Is this an inner product? Which of the properties (a), (b), (c) of Definition \ref{defn:innerproduct} does it satisfy?
+  
+  \item Prove parts 2, 3 and 4 of Lemma \ref{lemm:ipbasic}.
+  
+  \item\label{ex:pythag} Let $V$ be an inner product space, prove Pythagoras' Theorem:
+  \[\text{If }\ip{\vx,\vy}=0\text{ then }\Nm{\vx+\vy}^2=\Nm{\vx}^2+\Nm{\vy}^2\]
+  
+  
+  %\item Prove that $\tr(A+B)=\tr A+\tr B$ for any square matrices $A,B$.
+  
+  \item\label{ex:fourier} Let $m\in\Z$ and consider the complex-valued\footnote{If the reliance on complex numbers is alarming, recall Euler's formula $e^{imx}=\cos mx+i\sin mx$. One can instead work entirely with the real-valued functions $\cos mx$ and $\sin mx$. The problem is that you then need integration by parts :(} function $f_m(x)=\frac 1{\sqrt{2\pi}}e^{imx}$ defined on the interval $[-\pi,\pi]$. If $\ip{\ ,\ }$ is the $L^2$ inner product on $C([-\pi,\pi])$, prove that $\{f_m:m\in\Z\}$ is an orthonormal set. This example is central to the study of \emph{Fourier series.}
+	
+	\item\label{ex:Tinj} Let $T\in\cL(V)$ be a linear operator on an inner product space and suppose that $\Nm{T(\vx)}=\Nm{\vx}$ for all $\vx\in V$. Prove that $T$ is injective (1--1).
+	
+	\item Prove the polarization identities:
+	\begin{enumerate}
+	  \item In any real inner product space: $\ip{\vx,\vy}=\frac 14\Nm{\vx+\vy}^2 -\frac 14\Nm{\vx-\vy}^2$
+	  \item In any complex inner product space: $\ip{\vx,\vy}=\frac 14\sum\limits_{k=1}^4i^k\Nm{\vx+i^k\vy}^2$
+	\end{enumerate}
+	
+	\item Let $A,B\in M_n(\F)$ and let $\ip{\ ,\ }$ be the standard inner product on $\F^n$.
+	\begin{enumerate}
+	  \item Prove that $\forall\vx,\vy\in \F^n$, we have $\ip{\vx,A\vy}=\ip{A^*\vx,\vy}$.
+	  \item Suppose $\ip{\vx,A\vy}=\ip{B\vx,\vy}$ for all $\vx,\vy\in\F^n$: prove that $B=A^*$.
+	  \item Let $\beta$ be any orthonormal basis of $\F^n$ and let $Q$ be the matrix whose columns are the co-ordinates of the elements of $\beta$ with respect to the standard basis. Prove that $Q^*=Q^{-1}$.
+	\end{enumerate}
+	
+\end{enumerate}
+\end{exercises}
+
+\pagebreak[3]
+
+\subsection{Gram--Schmidt Orthogonalization and Orthogonal Subspaces}
+
+This section has two goals: to see how orthogonal sets simplify calculations in an inner product space, and to see how to construct orthogonal sets. Before calculating anything, it is useful to introduce some terminology.
+
+\begin{defn}{}{orthproj}
+Let $\vw\in V$ be a non-zero vector in an inner product space $V$. The \emph{orthogonal projection} onto $\Span\{\vw\}$ is the map:
+\[\pi_\vw:V\to V: \vx\mapsto \frac{\ip{\vx,\vw}}{\Nm\vw^2}\vw\]
+More generally, if $U=\Span\{\vect un\}$ is a \emph{finite-dimensional} subspace spanned by non-zero orthogonal vectors $\vw_j$, then the orthogonal projection onto $U$ is
+\[\pi_U:V\to V: \vx\mapsto  \sum_{j=1}^n\pi_{\vw_j}(\vx)= \sum_{j=1}^n\frac{\ip{\vx,\vw_j}}{\Nm{\vw_j}^2}\vw_j\]
+\end{defn}
+
+Orthogonal projections allow us to easily compute the coefficients of a vector with respect to a basis. 
+
+\begin{thm}{}{orthproj}
+Suppose $S=\{\vect{\vw}{n}\}$ is a finite orthogonal subset of $V$ where all $\vw_j\neq\V0$, let $U=\Span S$, and $\vy\in U$. Then
+\[\vy=\pi_U(\vy)=\sum_{j=1}^n\frac{\ip{\vy,\vw_j}}{\Nm{\vw_j}^2}\vw_j \tag{$\ast$}\]
+Moreover, $S$ is a linearly independent set and thus a basis of $U$.\\
+If $S$ is additionally orthonormal, then the formula is even simpler: $\vy=\sum\limits_{j=1}^n\ip{\vy,\vw_j}\vw_j$.
+\end{thm}
+
+Observe also that $\vy=\pi_U(\vy)$ means $\pi_U$, at least\footnote{We shall see later that $\pi_U$ really is well-defined as a function $\pi_U:V\to V$. This requires a little more work.} applied to $U$, is independent of the choice of orthogonal basis of $U$.
+
+
+\begin{proof}
+If $\vy=\sum\limits_{k=1}^na_k\vw_k$, then the linearity of the inner product in the first slot says
+\[\ip{\vy,\vw_j}= \sum\limits_{k=1}^na_k\ip{\vw_k,\vw_j}= a_j\Nm{\vw_j}^2\]
+Now apply this to $\vy=\V0$ to see that the only linear combination of $S$ summing to zero is trivial. 
+\end{proof}
+
+It is easy to miss what this theorem is saying: an orthogonal set makes it almost trivial to calculate the coefficients of a linear combination!
+
+
+
+\begin{examples}{}{}
+\begin{enumerate}
+  \item Let $S=\{\vi,\vj\}\le\R^2$ with the standard dot product, and let $\vy=\stwovec xy$. The coefficients of the linear combination are clearly\vspace{-3pt}
+  \[\pi_{\vi}(\vy)=\frac{\ip{\vy,\vi}}{\Nm{\vi}^2}=x,\quad \pi_{\vj}(\vy)=\frac{\ip{\vy,\vj}}{\Nm{\vj}^2}=y\]
+  \item Observe that $S=\{\vw_1,\vw_2,\vw_3\}=\left\{\sthreevec 123,\sthreevec 2{-1}0,\sthreevec 36{-5}\right\}$ is an orthogonal set (indeed a basis) in $\R^3$ with respect to the standard (dot) inner product. Now let $\vy=\sthreevec 742$ and compute:\vspace{-5pt}
+	\begin{align*}
+	\vy&=\sum_{j=1}^3\frac{\ip{\vy,\vw_j}}{\Nm{\vw_j}^2}\vw_j = \frac{7+8+6}{1+4+9}\threevec 123 + \frac{14-4+0}{4+1+0}\threevec 2{-1}0 + \frac{21+24-10}{9+36+25}\threevec 36{-5}\\
+	&= \frac 32\threevec 123 + 2\threevec 2{-1}0 + \frac 12\threevec 36{-5} \implies [\vy]_S=\threevec{3/2}{2}{1/2}
+	\end{align*}
+	Compare this with the slow (augmented matrix) method for finding the coefficients!
+\end{enumerate}
+
+\end{examples}
+
+
+\subsubsection*{The Gram--Schmidt process}
+
+Since orthogonal sets are so useful for simplifying calculations, the burning question is then \emph{how to find them?} We now describe an algorithm for constructing an orthogonal set from a given ordered set in such a way that the spans of the two sets are the same. The trick is to employ repeated projections.
+
+\def\vs{{\V s}}
+\def\vt{{\V t}}
+
+\begin{thm}{Gram--Schmidt}{gs}
+Suppose $S=\{\vect{\vs}{n}\}$ is a linearly independent subset of an inner product space $V$. Construct a sequence of vectors $\vect{\vt}{n}$ inductively:\vspace{-2pt}
+\begin{itemize}\itemsep0pt
+  \item Define $\vt_1=\vs_1$\vspace{-5pt}
+  \item For each $k\ge 2$, define $\displaystyle\vt_k=\vs_k-\pi_{\Span\{\vt_1,\ldots,\vt_{k-1}\}}(\vs_k) =\vs_k-\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vt_j}}{\Nm{\vt_j}^2}\vt_j$ \hfill($\ast$)
+\end{itemize}
+Then $T:=\{\vect{\vt}{n}\}$ is an orthogonal set with $\Span T=\Span S$.
+\end{thm}
+
+\begin{example}{}{gs1}
+Let $S=\{\vs_1,\vs_2,\vs_3\}=\left\{\sthreevec 100,\sthreevec 2{-1}3,\sthreevec 111\right\}\subseteq\R^3$. We compute:
+	\begin{gather*}
+\vt_1=\vs_1=\sthreevec 100\implies \Nm{\vt_1}^2=1\\
+\vt_2=\vs_2-\pi_{\vt_1}(\vs_1)=\sthreevec 2{-1}3-\frac{2}{1}\sthreevec 100 =\sthreevec 0{-1}3 \implies \Nm{\vt_2}^2=10\\
+\begin{aligned}
+\vt_3&=\vs_3-\pi_{\Span\{\vt_1,\vt_2\}}(\vs_3) =\vs_3-\frac{\ip{\vs_3,\vt_1}}{\Nm{\vt_1}^2}\vt_1 -\frac{\ip{\vs_3,\vt_2}}{\Nm{\vt_2}^2}\vt_2=\sthreevec 111-\frac{1}{1}\sthreevec 100 -\frac{2}{10}\sthreevec 0{-1}3 =\sthreevec 0{6/5}{2/5}
+\end{aligned}
+	\end{gather*}
+	The orthogonality of $T=\{\vt_1,\vt_2,\vt_3\}$ should be clear, as should $\Span\{\vt_1,\vt_2\}=\Span\{\vs_1,\vs_2\}$. One could easily produce a simpler orthogonal basis of $\R^3$ by scaling, or indeed an orthonormal basis.
+\end{example}
+
+
+\begin{proof}[Proof of Theorem \ref{thm:gs}]
+We prove by induction. For each $i\le n$, define $S_i=\{\vect{\vs}{i}\}$ and $T_i=\{\vect{\vt}{i}\}$.\\[5pt]
+Certainly $T_1=\{\vt_1\}=S_1$ is an orthogonal set.\\[5pt]
+Fix $k\ge 2$, assume $T_{k-1}$ is orthogonal and that $\Span T_{k-1}=\Span S_{k-1}$. If $\vt_k=\V0$, ($\ast$) says that
+\[\vs_k\in\Span T_{k-1}=\Span S_{k-1}\]
+and so $S_k$ is not linearly independent: contradiction. We conclude that $\vt_k\neq\V0$.\\
+Now suppose $i<k$: by the linearity of the inner product, we have
+%\[\pi_{\vt_i}(\vt_k)=\pi_{\vt_i}(\vs_k) -\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vt_j}}{\Nm{\vt_j}^2}\pi_{\vt_i}(\vt_j)
+%=\pi_{\vt_i}(\vs_k) -\frac{\ip{\vs_k,\vt_i}}{\Nm{\vt_i}^2}\vt_i =\V0\]
+\[\ip{\vt_k,\vt_i}=\ip{\vs_k,\vt_i} -\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vt_j}}{\Nm{\vt_j}^2}\ip{\vt_j,\vt_i}
+=\ip{\vs_k,\vt_i} -\frac{\ip{\vs_k,\vt_i}}{\Nm{\vt_i}^2}\ip{\vt_i,\vt_i} =0\]
+where the orthogonality of $T_{k-1}$ was used to see that most of the inner products vanish. We see that $\vt_k$ is a non-zero vector orthogonal to $T_{k-1}$, whence $T_k$ is an orthogonal set.\\[5pt]
+Moreover, $\vs_k\in\Span T_k\implies \Span S_k\le\Span T_k$. Similarly, $\vt_k\in\Span(\{\vs_k\}\cup T_{k-1})=\Span S_k$, by assumption and we conclude that $\Span T_k\le\Span S_k$, which completes the theorem.
+\end{proof}
+
+
+\begin{example}{}{ell201}
+This time we work in the inner product space of real-valued continuous functions $C([0,1])$ equipped with the $L^2$ inner product $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$.\\[5pt]
+Let $S=\{1,x,x^2\}$ and apply the algorithm:
+	\begin{gather*}
+	t_1=1 \implies \Nm{t_1}^2=\int_0^11\,\dx=1\\
+	\begin{aligned}
+	t_2=x-\pi_{t_1}(x)&=x-\frac{\ip{x,1}}{\Nm 1^2}1= x-\int_0^1x\,\dx =x-\frac 12\\
+	&\implies \Nm{t_2}^2=\int_0^1\left(x-\frac 12\right)^2\,\dx=\frac 1{12}
+	\end{aligned}\\
+	\begin{aligned}
+	t_3&=x^2-\pi_{\Span\{t_1,t_2\}}(x^2)= x^2-\frac{\ip{x^2,1}}{\Nm 1^2}1-\frac{\ip{x^2,x-\frac 12}}{\Nm{x-\frac 12}^2}\left(x-\frac 12\right)\\
+	&=x^2-\int_0^1x^2\,\dx-\frac{\int_0^1x^2\left(x-\frac 12\right)\,\dx}{1/12}\left(x-\frac 12\right) =x^2-x+\frac 16
+	\end{aligned}
+	\end{gather*}
+	This example can be extended to arbitrary degree since $\{1,x,x^2,\ldots\}$ is an infinite linearly independent family in $C([0,1])$. 
+\end{example}
+
+By applying Gram--Schmidt to any basis, we instantly see the following:
+
+\begin{cor}{}{orthbasis}
+Every finite-dimensional inner product space has an orthonormal basis.
+\end{cor}
+
+\subsubsection*{Orthogonal Complements and Projections}
+
+As an aid to our intuition, it is worth returning to the notion of orthogonal projection (Definition \ref{defn:orthproj}).
+
+It is useful to introduce a little more language to help our intuition.
+
+\begin{defn}{}{}
+Let $U$ be a subspace of an inner product space $V$. Its \emph{orthogonal complement} $U^\perp$ (read $U$-perp) is the set of all vectors orthogonal to $U$:
+\[U^\perp:=\{\vx\in V:\forall\vw\in U,\ \ip{\vx,\vw}=0\}\]
+\end{defn}
+
+The most basic properties of $U$ are an easy exercise.
+
+\begin{lemm}{}{orthsubspace}
+$U^\perp$ is a subspace of $V$ and $U\cap U^\perp=\{\V0\}$.
+\end{lemm}
+
+\begin{example}{}{}
+Following Example \ref{ex:gs1}, the subspace $U=\Span\left\{\sthreevec 100,\sthreevec 0{-1}3\right\}$ of $\R^3$ has orthogonal complement $U^\perp=\Span\left\{\sthreevec 031\right\}$.
+\end{example}
+
+
+\begin{defn}{}{}
+Suppose $U$ is a finite-dimensional subspace of an inner product space $V$: by virtue of Corollary \ref{cor:orthbasis}, the function $\pi_U:V\to V$ may be defined using any orthonormal basis of $U$. The \emph{perpendicular} or \emph{complementary projection} is the function
+\[\pi^\perp_U:V\to V:\vx\mapsto \vx-\pi_U(\vx)\]
+\end{defn}
+
+We now get to see the origin of the term \emph{orthogonal projection}: in $\R^2$ and $\R^3$, the vectors $\pi_U(\vx)$ and $\pi_U^\perp(\vx)$ form the sides of a right triangle with hypotenuse $\vx$, so that the two projections form an orthogonal decomposition:
+\[\vx=\pi_U(\vx)+\pi_U^\perp(\vx)\quad\text{and}\quad \pi_U(\vx)\perp \pi_U^\perp(\vx)\]
+\begin{center}
+\includegraphics{gram-orthproj2}
+\hfill
+\includemedia[transparent=false, activate=onclick, add3Djscript=asylabels.js, %add3Djscript=3Dspintool.js,
+3Dmenu,
+  3Dcoo=-1.33 41 12.8,
+  3Dc2c=0.83 -0.035 -0.56,
+  3Droo=336,
+  3Droll=12,
+3Dlights=Headlamp]{\includegraphics{gram-orthproj+0_0}}{gram-orthproj+0.prc}
+\end{center}
+
+
+We finally check that everything goes through in a general inner product space.
+
+\begin{thm}{}{projcleanup}
+The functions $\pi_U$ and $\pi^\perp_U$ are linear maps satisfying
+\[\pi_U(\vx)=\begin{cases}
+  \vx&\text{if }\vx\in U\\
+  \V0&\text{if }\vx\in U^\perp
+  \end{cases}\qquad \pi_U^\perp(\vx)=\begin{cases}
+  \vx&\text{if }\vx\in U^\perp\\
+  \V0&\text{if }\vx\in U
+  \end{cases}\]
+  Moreover $\pi_U^\perp(\vw) \in U^\perp$ for any $\vw\in V$ and $U\oplus U^\perp=V$.\\[5pt]
+  Finally, $\pi_U(\vx)$ is the \emph{closest} vector in the subspace $U$ to $\vx$, in that
+  \[\forall\vw\in U,\ \Nm{\pi_U(\vx)-\vx}\le\Nm{\vw-\vx}\]
+\end{thm}
+
+\begin{proof}
+$\pi_U$ is linear by property (a) of Definition \ref{defn:innerproduct}. The linearity of $\pi_U^\perp=\I-\pi_U$ is then immediate.\\[5pt]
+The values for $\pi_U(\vx)$ and $\pi^\perp_U(\vx)$ follow trivially from Definition \ref{defn:orthproj} and ($\ast$) in Theorem \ref{thm:orthproj}.\\[5pt]
+Finally, let $\vw\in V$, and let $U=\Span\{\vect{\vw}{n}\}$ be spanned by orthonormal vectors: then we have a calculation very like part of the proof of Gram--Schmidt:
+\begin{align*}
+\pi_U^\perp(\vw)=\vw-\sum_{j=1}^n\ip{\vw,\vw_j}\vw_j \implies \ip{\vw_i,\pi_U^\perp(\vw)} &= \ip{\vw_i,\vw}-\sum_{j=1}^n\cl{\ip{\vw,\vw_j}}\ip{\vw_i,\vw_j}\\
+&=\ip{\vw_i,\vw}-\cl{\ip{\vw,\vw_i}}\ip{\vw_i,\vw_i} =0
+\end{align*}
+Since $\pi_U^\perp(\vw)$ is orthogonal to a basis of $U$, it must lie in $U^\perp$.\\[5pt]
+We can now decompose any vector into $U$- and $U^\perp$-parts: $\vx=\pi_U(\vx)+\pi_U^\perp(\vx)$. Since $U\cap U^\perp=\{\V0\}$, we see that $U\oplus U^\perp=V$.\\[5pt]
+Finally, use Pythagoras' (Exercise \ref{ex:pythag}) to observe that
+\[\Nm{\vw-\vx}^2=\Nm{\vw-\pi_U(\vx)-\pi_U^\perp(\vx)}^2=\Nm{\vw-\pi_U(\vx)}^2+\Nm{\pi_U^\perp(\vx)}^2\]
+whence
+\[\Nm{\vw-\vx}\ge \Nm{\vw-\pi_U(\vx)}\tag*{\qedhere}\]
+\end{proof}
+
+The Theorem also (finally) shows that $\pi_U$ is independent of the basis of $U$ used in its definition. We already know that $\pi_U(\vw)=\vw$ whenever $\vw\in U$ was basis-independent. Since $V=U\oplus U^\perp$, and $\pi_U(U^\perp)=\V0$, the function is now well-defined on all of $V$ independent of choice.\\[-5pt]
+
+\emph{Warning}: the Theorem \emph{only} applies when $\dim U<\infty$ since the proof depends crucially on being able to define $\pi_U$ for which we require a \emph{finite} orthogonal basis. Indeed there are examples where $V\neq U\oplus U^\perp$.\\[-5pt]
+
+The final property is often known as the \emph{least-squares} property of projections since one is minimizing distance: for the standard inner product on $\R^n$, this amounts to minimizing the distance squared, which is itself a sum of squares. The method of least-squares curve-fitting in statistics can be rephrased as a linear algebra problem involving projections.
+  
+  
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]  
+  \item Apply the Gram--Schmidt algorithm to each set $S$ and thus obtain an orthogonal basis for $\Span S$, then obtain the co-ordinate representation of the given vector with respect to your basis.
+  \begin{enumerate}
+    \item $S=\left\{\sthreevec 111,\sthreevec 011,\sthreevec 001\right\}\subseteq\R^3$ (standard inner product),\quad $\vx=\sthreevec 101$
+    \item $S=\left\{
+    \begin{smatrix}
+    3&5\\-1&1
+    \end{smatrix},
+    \begin{smatrix}
+    -1&9\\5&-1
+    \end{smatrix},
+    \begin{smatrix}
+    7&-17\\2&-6
+    \end{smatrix}
+    \right\}\subseteq M_2(\R)$ (\hyperref[ex:frobenius]{Frobenius} product),\qquad $X=\begin{smatrix}
+    -1&27\\-4&8
+    \end{smatrix}$
+    \item $S=\{\sin t,\cos t,1,t\}$ with $\ip{f,g}=\int_0^\pi f(t)g(t)\,\dt$ and $h(t)=2t+1$
+  \end{enumerate}
+  
+  \item Consider the set $\{\vw_1,\vw_2\}=\left\{\sthreevec 103,\sthreevec 2{-1}0\right\}$ and let $U=\Span\{\vw_1,\vw_2\}\le\R^3$ with the usual inner product. Find the projection of $\vx=\sthreevec 3{-1}{-2}$ onto $U$.
+  
+  %, we compute
+ 	%\[\pi_U(\vx)=\frac{\ip{\vx,\vw_1}}{\Nm{\vw_1}^2}\vw_1 +\frac{\ip{\vx,\vw_2}}{\Nm{\vw_2}^2}\vw_2 = \frac{3+0-6}{1+0+9}\threevec 103 +\frac{6+1+0}{4+1+0}\threevec 2{-1}0 =\frac 1{10}\threevec{25}{-14}{-9}\]
+ 	
+ 	\item Find the orthogonal complement to $U=\Span\{1+x,2-x^3\}\le P_3(\R)$ with respect to the inner product $\ip{f,g}=\int_0^1 f(t)g(t)\,\dt$
+ 	
+ 	
+  \item Prove Lemma \ref{lemm:orthsubspace}.
+    
+  \item\label{ex:fdipsmatrix} Let $V$ be a finite-dimensional inner product space with orthonormal basis $\beta=\{\vect{\vw}{n}\}$ and let $L\in\cL(V)$. Prove that the matrix of $L$ with respect to $\beta$ has $jk^\text{th}$ entry $\ip{L(\vw_k),\vw_j}$.\\
+  (\emph{Hint: see Theorem \ref{thm:orthproj}})
+  
+  \item\label{ex:uperpperp}\begin{enumerate}
+    \item Suppose $U$ is a subspace of an inner product space $V$. Prove that $U\subseteq (U^\perp)^\perp$.\\
+    (\emph{Theorem \ref{thm:projcleanup} says this is equality when $U$ is finite-dimensional})
+    \item Let $\ell^2$ be the set of square-summable sequences of real numbers (see page \pageref{ell2ip}). Consider the sequences $\vw_1,\vw_2,\vw_3,\ldots$, where $\vw_j$ is the zero sequence, except for a single 1 in the $j$th entry. For instance,
+ 		\[\vw_4=(0,0,0,1,0,0,0,0,\ldots)\]
+  	\begin{enumerate}
+    	\item Let $U=\Span\{\vw_j:j\in\N\}$. Prove that $U^\perp$ contains only the zero sequence.
+    	\item Show that the sequence $(s_n)=\left(\frac 1n\right)$ lies in $\ell^2$, but does not lie in $U$; thus conclude that $U$ is a proper subset of $(U^\perp)^\perp$.
+  	\end{enumerate}
+  \end{enumerate}
+  
+  
+  \item Recall Exercise \ref{ex:fourier}: $S=\{\frac 1{\sqrt{2\pi}}e^{imx}:m\in\Z\}$ is orthonormal with respect to $\ip{f,g}=\int_{-\pi}^\pi f(t)\cl{g(t)}\,\dt$. The \emph{Fourier series} of a function $f$ is its orthogonal projection onto $\Span S$:
+  \[\mathcal{F}(f):=\sum_{m=-\infty}^\infty \ip{f,\tfrac 1{\sqrt{2\pi}}e^{imx}}\tfrac 1{\sqrt{2\pi}}e^{imx} =\frac 1{2\pi} \sum_{m=0}^\infty\left(\int_{-\pi}^\pi f(x)e^{-imx}\,\dx\right)e^{imx}\]
+  Explicitly compute the integrals $\int_{-\pi}^\pi xe^{-imx}\,\dx$ for each $m\in\Z$ and hence show that the Fourier series expression for the function $f(x)=x$ is
+  \[\mathcal{F}(x)=\sum_{m=1}^\infty\frac{2(-1)^{m+1}}m\sin mx\]
+  Sketch a few of the Fourier approximations (sum up to $m=5$ or 7\ldots) and observe, when extended to $\R$, how they approximate a discontinuous periodic function. 
+\end{enumerate}
+\end{exercises}
+
+\clearpage
+
+\subsection{The Adjoint of a Linear Operator}
+
+For any linear operator on an inner product space, we can describe a related operator.
+
+\begin{defn}{}{adjoint}
+Let $V$ be an inner product space and let $T\in\cL(V)$. The \emph{adjoint} of $T$ is a function $T^*:V\to V$ ($L$-star) satisfying
+\[\forall \vx,\vy\in V,\quad \ip{T^*(\vx),\vy}=\ip{\vx,T(\vy)}\] 
+\end{defn}
+
+There is much to unpack here, including the usual obvious questions.
+\begin{description}\itemsep0pt
+  \item[\normalfont\emph{Existence}] Does every linear map have an adjoint?
+  \item[\normalfont\emph{Uniqueness}] We wrote `\emph{The} adjoint\ldots': is this legitimate?
+  \item[\normalfont\emph{Linearity}]  Is $T^*$ a linear map?
+  \item[\normalfont\emph{Computation}] How do we compute $T^*$ given $T$?
+\end{description}
+
+It turns out that the first question is the trickiest: it will turn out to be true \emph{provided} $V$ is finite-dimensional, though it is is possible for a linear transformation of an infinite-dimensional inner product space to have no adjoint. The remaining questions all have nice answers: we'll prove uniqueness and linearity shortly; for now we assume these and compute an example or two. First we note a simple corollary of Theorem \ref{thm:orthproj} as proved in Exercise \ref{ex:fdipsmatrix}.
+
+\begin{cor}{}{matrixip}
+If $T\in\cL(V)$ where $\beta=\{\vect{\vw}{n}\}$ is an orthonormal basis of $V$, then the matrix $A=[T]_\beta$ of $T$ with respect to $\beta$ has $jk^\text{th}$ entry
+\[A_{jk}=\ip{T(\vw_j),\vw_k}\]
+\end{cor}
+
+\begin{examples}
+\begin{enumerate}
+  \item Let $T=L_A\in\cL(\R^2)$ with respect to the standard inner product, where $A=\begin{smatrix}
+  3&2\\
+  -1&1
+  \end{smatrix}$. Considering the standard orthonormal basis $\{\vi,\vj\}$, we see that
+  \begin{align*}
+  &\ip{T^*(\vi),\vi}=\ip{\vi,T(\vi)}=3 &&\ip{T^*(\vj),\vi}=\ip{\vj,T(\vi)}=-1\\
+  &\ip{T^*(\vi),\vj}=\ip{\vi,T(\vj)}=2 &&\ip{T^*(\vj),\vj}=\ip{\vj,T(\vj)}=1
+  \end{align*}
+  Since $T^*$ is linear, we see that we have computed its matrix with respect to $\{\vi,\vj\}$: thus
+  \[T^*=L_B\quad\text{where}\quad B=\begin{pmatrix}
+  3&-1\\
+  2&1
+  \end{pmatrix}\]
+  Note that $B=A^T$ is simply the \emph{transpose} of $A$.
+  
+  \item More generally, If $T=L_A\in\cL(\C^n)$ with the standard inner product, then, with respect to the standard orthonormal basis $\{\vect{\ve}{n}\}$, we see that the matrix $B$ of of $T^*$ has $jk^\text{th}$ entry
+  \[B_{jk}=\ip{T^*(\ve_j),\ve_k} =\ip{\ve_j,T(\ve_k)} =\cl{\ip{T(\ve_k),\ve_j}} =\cl{A_{kj}}\]
+	We conclude that the matrix of $T^*$ is the \emph{conjugate transpose} of that of $T$: $B=A^*=\cl A^T$.
+\end{enumerate}
+\end{examples}
+
+Indeed the second example can be generalized very easily with \emph{exactly} the same proof:
+
+\begin{lemm}{}{adjmatrix}
+If $\beta=\{\vect{\vw}{n}\}$ is an orthonormal basis of $V$ and $T\in\cL(V)$ has matrix $A=[T]_\beta$, then the matrix of the adjoint $T^*$ with respect to $\beta$ is the conjugate transpose $A^*$.
+\end{lemm}
+
+\begin{example}[breakable]{}{}
+Let $V=P_2(\R)$ be equipped with an inner product defined so that $\epsilon=\{1,x,x^2\}$ is an orthonormal basis. Also let $T=\diff x$. Then the matrix of $T$ is
+\[[T]_\epsilon=\begin{pmatrix}
+0&1&0\\
+0&0&2\\
+0&0&0
+\end{pmatrix}\]
+It follows that the matrix of the adjoint is the transpose:
+\[[T]_\epsilon^*=\begin{pmatrix}
+0&0&0\\
+1&0&0\\
+0&2&0
+\end{pmatrix}\]
+The adjoint is therefore the linear map defined by
+\[T^*(a+bx+cx^2)=ax+2bx^2\]
+To spice things up a bit, consider an alternative inner product, where $\beta=\{1,x-1,x^2\}$ is orthonormal. With respect to this basis, we have
+\[[T(1)]_\beta=[0]_\beta=\threevec 000,\qquad [T(x-1)]_\beta=[1]_\beta=\threevec 100,\qquad [T(x^2)]_\beta=[2x]_\beta=\threevec 220\]
+It follows that the adjoint has matrix
+\[[T]_\beta^*=\begin{pmatrix}
+0&0&0\\
+1&0&0\\
+2&2&0
+\end{pmatrix}\]
+In particular,
+\begin{gather*}
+T^*(1)=(x-1)+2(x^2)=2x^2+x-1,\\
+T^*(x)=T^*(x-1+1)=2x^2+(2x^2+x-1)=4x^2+x-1\\
+T^*(x^2)=0
+\end{gather*}
+Notice that this is a very different linear map from above, which is to be expected: the inner product spaces are different!
+\end{example}
+
+\subsubsection*{Tidying up the Definition}
+
+
+
+\begin{lemm}{}{adjlinear}
+If a linear map has an adjoint, then it is linear and unique.
+\end{lemm}
+
+\begin{proof}
+Suppose $T^*$ and $S^*$ are adjoints of $T$. Then
+\[\ip{T^*(\vx),\vy}=\ip{\vx,T(\vy)}=\ip{S^*(\vy),\vz}\]
+Since this holds for all $\vy$, Lemma \ref{lemm:ipbasic} part 5 says that $\forall\vx,\ T^*(\vx)=S^*(\vx)$, whence $T^*=S^*$.\\
+It is similarly easy to check that
+\[\ip{T^*(\lambda\vx+\vy),\vz} =\ip{\lambda T^*(\vx)+T^*(\vy),\vz}\]
+Another appeal to the lemma establishes the linearity of $T^*$.
+\end{proof}
+
+
+Before addressing existence, we consider a natural isomorphism between a finite-dimensional inner product space and its \emph{dual-space.} By Corollary \ref{cor:orthbasis}, such a $V$ has an orthonormal basis $\beta=\{\vect{\vw}{n}\}$. Let $g:V\to \F$ be linear ($g\in V^*$ is a member of the \emph{dual space}) and define
+\[\vy:=\sum_{j=1}^n\cl{g(\vw_j)}\vw_j\]
+Certainly $\vx\mapsto \ip{\vx,\vy}$ is a linear map and thus an element of $V^*$. Moreover,
+\[\ip{\vw_k,\vy} =\ip{\vw_k,\sum_{j=1}^n\cl{g(\vw_j)}\vw_j} =\sum_{j=1}^ng(\vw_j)\ip{\vw_k,\vw_j} =g(\vw_k)\]
+Since these linear maps are equal on a basis, they are identical. We conclude:
+
+\begin{thm}{}{reisz}
+If $g:V\to\F$ is a linear map on a finite-dimensional inner product space, then there exists a unique $\vy\in V$ such that $g(\vx)=\ip{\vx,\vy}$. Moreover, $\phi:V\to V^*:\vy\mapsto g$ is an isomorphism.
+\end{thm}
+
+
+\begin{thm}{Existence of the adjoint}{}
+Every linear operator on a finite-dimensional vector space has an adjoint.
+\end{thm}
+
+\begin{proof}
+Let $T\in\cL(V)$ and suppose $\vz\in V$ is given: our goal is to define $T^*(\vz)$ and to check that it satisfies the correct properties.\\\
+Define $g(\vx)=\ip{T(\vx),\vz}$. It is easy to check that this is linear, whence $g\in V^*$. By Theorem \ref{thm:reisz}, $\exists$ a unique $\vy\in V$ such that
+\[g(\vx)=\ip{\vx,\vy}\]
+\emph{Define} $T^*:V\to V$ by $T^*(\vz)=\vy$. It is immediate that
+\[\ip{T^*(\vz),\vx}=\ip{\vy,\vx}=\cl{g(\vx)} =\ip{\vz,T(\vx)}\]
+whence $T^*$ is the adjoint of $T$.
+\end{proof}
+
+It is important to observe the restriction to a finite-dimensional inner product space in these theorems. The infinite-dimensional case is much more complicated; in such a situation there might exist linear operators without an adjoint. However, there is a class of inner product spaces known as \emph{Hilbert spaces} which satisfy an analysis-style completeness property; the common examples are infinite-dimensional and are built on the $\ell^2$ and $L^2$ inner products mentioned previously. A more general version of Theorem \ref{thm:reisz} applies in these cases and is known as the \emph{Riesz representation theorem}: it guarantees the existence of the adjoint of every \emph{bounded} linear operator on a Hilbert space. 
+
+\subsubsection*{Projections and Least Squares Problems}\def\rank{\operatorname{rank}}
+
+The conjugate transpose of a matrix provides a rapid technique for computing projections in the inner product space $\F^m$ equipped with the standard inner product. To see how this works, we first need an easy result:
+\begin{thm}{}{}
+Let $A\in M_{m\times n}(\F)$.
+\begin{enumerate}
+  \item $\forall\vx\in\F^n,\ \vy\in\F^m$, we have $\ip{A\vx,\vy}=\ip{\vx,A^*\vy}$, where the first inner product lies in $\F^m$ and the second in $\F^n$.
+  \item $\rank(A^*A)=\rank A$, so that $A^*A\in M_n(\F)$ is invertible if and only if $\rank A=n$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\begin{enumerate}
+  \item This follows trivially from the fact that the standard inner product is $\ip{\vw,\vw}=\vw^*\vw$.
+  \item $A^*A\vx=\V0\implies \ip{A^*A\vx,\vx}=\ip{A\vx,A\vx}=0\implies A\vx=\V0$. Conversely $A\vx=\V0\implies A^*A\vx=\V0$. Thus $A^*A$ and $A$ have the same nullspace. By the rank--nullity theorem, $n$ is the sum of the rank and nullity of both, whence both have the same rank.\qedhere
+\end{enumerate}
+\end{proof}
+
+Consider the following problem. Let $A\in M_{m\times n}(\F)$ and $\vy\in\F^m$ be given and define $U=C(A)$ to be the column space of $A$. Our goal is to find a vector $\vx_0\in\F^n$ such that
+\[\forall \vx\in\F^n,\quad \Nm{\vy-A\vx_0}\le\Nm{\vy-A\vx}\tag{$\ast$}\]
+We know from Theorem \ref{thm:projcleanup} that $\vx_0$ minimizes the function $\Nm{\vy-A\vx}$ precisely when $A\vx_0=\pi_U(\vy)$. But this is precisely when
+\[\vy-A\vx_0\in U^\perp \iff \forall\vw\in U,\ \ip{\vy-A\vx_0,\vw}=0 \iff \forall\vz\in\F^n,\ \ip{\vy-A\vx_0,A\vz}=0\]
+since $U$ is the column space of $A$. However, this is if and only if
+\[\forall\vz\in\F^n,\ \ip{A^*A\vx_0-A^*\vy,\vz}=0 \iff A^*A\vx_0=A^*\vy\]
+Since $\rank(A^*A)=\rank A=\rank A^*$, we see that $A^*A$ and $A^*$ have the same column space, whence this equation always has a solution. To summarize:
+
+\begin{thm}{}{leastsq}
+Suppose $A\in M_{m\times n}(\F)$ and $\vy\in\F^m$. Then $\exists \vx_0\in\F^n$ such that $A^*A\vx_0=A^*\vy$ which moreover satisfies ($\ast$).\\
+If $\rank A=n$, then $A^*A$ is invertible, and $\vx_0=(A^*A)^{-1}A^*\vy$. Moreover, with respect to the standard basis, $[\pi_U]_\epsilon=A(A^*A)^{-1}A^*$.
+\end{thm}
+
+\begin{example}{}{}
+Compute the orthogonal projection onto $U=\Span\left\{\sthreevec 10{-1},\sthreevec 31{-2}\right\}$. Taking the columns of $A$ to be the basis of $U$, we compute
+\begin{align*}
+[\pi_U]_\epsilon &=A(A^*A)^{-1}A^* =
+\begin{pmatrix}
+1&3\\
+0&1\\
+-1&-2
+\end{pmatrix}
+\left[
+\begin{pmatrix}
+1&0&-1\\
+3&1&-2
+\end{pmatrix}\begin{pmatrix}
+1&3\\
+0&1\\
+-1&-2
+\end{pmatrix}
+\right]^{-1}
+\begin{pmatrix}
+1&0&-1\\
+3&1&-2
+\end{pmatrix}\\
+&=\begin{pmatrix}
+1&3\\
+0&1\\
+-1&-2
+\end{pmatrix}
+\begin{pmatrix}
+2&5\\
+5&14
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+1&0&-1\\
+3&1&-2
+\end{pmatrix}
+=\frac 13
+\begin{pmatrix}
+1&3\\
+0&1\\
+-1&-2
+\end{pmatrix}
+\begin{pmatrix}
+14&-5\\
+-5&2
+\end{pmatrix}
+\begin{pmatrix}
+1&0&-1\\
+3&1&-2
+\end{pmatrix}\\
+&=\frac 13\begin{pmatrix}
+2&1&-1\\
+1&2&1\\
+-1&1&2
+\end{pmatrix}
+\end{align*}
+You should check that $\pi_U(\vw)=\vw$ for any $\vw\in U$ and that $\pi_U\sthreevec 1{-1}1=\V0$. Moreover, you could easily choose an alternative basis of $U$, for instance $\left\{\sthreevec 10{-1},\sthreevec 110\right\}$; the projection map will be the same!
+\end{example}
+
+This process will allow you to to compute projections more generally; the problem is that you have to be able to compute adjoints, which is only easy when everything is written with respect to an orthonormal basis.\\
+
+We now come to a major application. Given a data set of points in the plane $\{(t_j,y_j):1\le j\le m\}$ (where $m\ge 2$), we want to find the straight line\footnote{This is the \emph{linear regression} line from statistics, used to predict $y$ given a value of $t$.} (equation $y=c_0+c_1t$) which minimizes the sum of the squares of the vertical deviations
+\[\sum_{j=1}^m\nm{y_j-c_1t_j-c_0}^2\]
+As such, we call this a \emph{least-squares problem.} By the above discussion, we know how to solve it: define
+\[A=\begin{pmatrix}
+t_1&1\\
+\vdots&\vdots\\
+t_m&1
+\end{pmatrix}\quad \vx=\twovec{c_1}{c_0}\quad \vy=\threevec{y_1}{\vdots}{y_m} \implies \sum_{j=1}^m\nm{y_j-c_1t_j-c_0}^2 =\Nm{\vy-A\vx}^2\]
+The solution is to choose $\vx_0=\twovec{c_1}{c_0}\in\F^2$ to be any vector satisfying $A^*A\vx_0=A^*\vy$: indeed, unless $t_1=t_2=\cdots =t_m$, we see that $\rank A=2$, whence there is a unique solution
+\[\vx_0=\twovec{c_1}{c_0}=(A^*A)^{-1}A^*\vy\]
+We call the straight line $y=c_1t+c_0$ the \emph{best-fitting least-squares straight line} for the data.
+
+\begin{example}{}{lsq}
+Given the data set $\{(0,1),(1,1),(2,0),(3,2),(4,2)\}$, we compute
+\begin{align*}
+A=\begin{pmatrix}
+0&1\\
+1&1\\
+2&1\\
+3&1\\
+4&1
+\end{pmatrix},\quad \vy=\begin{pmatrix}
+1\\1\\0\\2\\2
+\end{pmatrix} \implies \vx_0&=\twovec{c_1}{c_0} =(A^*A)^{-1}A^*\vy=\begin{pmatrix}
+30&10\\
+10&5
+\end{pmatrix}^{-1}
+\twovec{15}{6} =\twovec{0.3}{0.6}
+\end{align*}
+The regression line therefore has equation $y=0.3t+0.6$.\\[5pt]
+The process can be applied more generally to approximate a data set using many other families of functions. For instance, to find the best-fitting quadratic polynomial $y=c_2t^2+c_1t+c_0$, we'd work with
+\begin{gather*}
+A=\begin{pmatrix}
+t_1^2&t_1&1\\
+\vdots&\vdots&\vdots\\
+t_m^2&t_m&1
+\end{pmatrix}\quad \vx=\threevec{c_2}{c_1}{c_0}\quad \vy=\threevec{y_1}{\vdots}{y_m} \implies \sum_{j=1}^m\nm{y_j-c_2t_j^2-c_1t_j-c_0}^2 =\Nm{\vy-A\vx}^2
+\end{gather*}
+Provided we have at least three distinct values $t_1,t_2,t_3$, the matrix $A$ is guaranteed to have rank 3, and there will be a best-fitting least-squares quadratic: in this case
+\[y=\frac 1{70}(15t^2-39t+72)\]
+This curve, and the best-fitting straight line are shown below.
+\begin{center}
+\includegraphics{least-sq-line}\hfill
+\includegraphics{least-sq-quad}
+\end{center}
+\end{example}
+
+The above process can easily be extended to a degree $n$ polynomial or to other families of functions. For instance, to find the best-fitting least-squares curve of the form $y=ae^t+b$ to the data, we would apply the method to
+\[A=\begin{pmatrix}
+e^{t_1}&1\\
+\vdots&\vdots\\
+e^{t_m}&1
+\end{pmatrix}\quad \vx=\twovec{a}{b}\quad \vy=\threevec{y_1}{\vdots}{y_m} \implies \sum_{j=1}^m\nm{y_j-ae^{t_j}-b}^2 =\Nm{\vy-A\vx}^2\]
+
+
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item For each of the inner product spaces $V$ and linear transformations $g:V\to\F$, find a vector $\vy\in V$ such that $g(\vx)=\ip{\vx,\vy}$ for all $\vx\in V$.
+  \begin{enumerate}
+    \item $V=\R^3$ with the standard inner product, and $g\sthreevec xyz=x-2y+4z$
+    \item $V=\C^2$ with the standard inner product, and $g\stwovec zw=iz-2w$
+    \item $V=P_2(\R)$ with the $L^2$ inner product $\ip{f,h}=\int_0^1 f(t)h(t)\,\dt$, and $g(f)=f(0)+f'(1)$
+  \end{enumerate}
+  
+  \item For each inner product space $V$ and linear operator $T\in\cL(V)$, evaluate $T^*$ on the given vector.
+  \begin{enumerate}
+    \item $V=\R^2$ with the standard inner product, $T\stwovec xy=\stwovec{2x+y}{x-3y}$ and $\vx=\stwovec 35$
+    \item $V=\C^2$ with the standard inner product, $T\stwovec zw=\stwovec{2z+iw}{(1-i)z}$ and $\vx=\stwovec{3-i}{1+2i}$
+    \item $V=P_1(\R)$ with $\ip{f,g}=\int_0^1 f(t)g(t)\,\dt$, $T(f)=f'+3f$ and $f(t)=4-2t$
+  \end{enumerate}
+  
+  \item Let $T(f)=f''$ be a linear transformation of $P_2(\R)$ and let $\epsilon=\{1,x,x^2\}$ be the standard basis. Find $T^*(a+bx+cx^2)$:
+  \begin{enumerate}
+    \item With respect to the inner product where $\epsilon$ is orthonormal;
+    \item With respect to the inner product $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$.\\
+    (\emph{Hint: $\{1,x,x^2-\frac 13\}$ is orthogonal, so project $T^*(1)$, etc., onto its span and use Theorem \ref{thm:orthproj}\ldots})
+  \end{enumerate}
+
+  \item\label{ex:fundssthm} Prove the Fundamental Subspaces Theorem for an inner product space $V$: let $T\in\cL(V)$ have adjoint $T^*$ and let $\cR$ and $\cN$ denote the range and null space of a linear operator.
+  \begin{enumerate}
+    \item $\cR(T^*)^\perp=\cN(T)$
+    \item If $V$ is finite dimensional, $\cR(T^*)=\cN(T)^\perp$
+  \end{enumerate}
+  
+  \item Let $V$ be an inner product space and let $\vy,\vz\in V$ be fixed. Define $T\in\cL(V)$ by
+  \[T(\vx)=\ip{\vx,\vy}\vz\]
+  Show that $T^*$ exists and find an explicit expression for it.
+  
+  \item Suppose $A\in M_{m\times n}(\F)$ is such that no two columns are identical. Prove that $A^*A$ is diagonal if and only if the columns of $A$ are orthogonal. What additionally would it mean if $A^*A=I$?
+  
+  \item Check the calculation for the best-fitting least-squares quadratic in Example \ref{ex:lsq}.
+  
+  \item Find the best-fitting least-squares linear and quadratic approximations to the data set
+  \[\{(1,2),(3,4),(5,7),(7,9),(9,12)\}\]
+  
+  \item (Particularly if you've done statistics/probability)\quad  Consider the best-fitting least-squares line with equation $y=ct+d$ through a data set $\{(t_j,y_j):1\le j\le m\}$.
+  \begin{enumerate}
+    \item Show that the equations $A^*A\vx_0=A^*\vy$ can be written in matrix form
+    \[\begin{pmatrix}
+    \sum t^2_j&\sum t_j\\
+    \sum t_j&m
+    \end{pmatrix}\twovec cd =\twovec{\sum t_jy_j}{\sum y_j}\]
+    \item Show that $c=\frac{\Cov(t,y)}{\sigma^2_t}$ and $d=\cl y-c\cl t$ where $\cl t=\frac 1m\sum t_j$, $\cl y=\frac 1m\sum y_j$, $\sigma^2_t=\frac 1m\sum(t_j-\cl t)^2$ and $\Cov(t,y)=\frac 1m\sum(t_j-\cl t)(y_j-\cl y)$ are the means, variance and covariance respectively.
+	\end{enumerate}
+\end{enumerate}
+\end{exercises}
+
+
+\subsection{Normal and Self-Adjoint Operators}
+
+We now consider a fundamental question: given a linear operator $T\in\cL(V)$, can we find an orthonormal basis of $V$ consisting of eigenvectors of $T$? For a general map this is far too much to hope for: indeed the linear maps for which this is possible are very, very special. We start with the definition and the major result.
+
+\begin{defn}{}{selfadj}
+Suppose $T$ is a linear operator on an inner product space $V$ which has an adjoint. We say that $T$ is:
+\begin{itemize}
+	\item[]\emph{Normal} if $TT^*=T^*T$, where juxtaposition is composition of functions;
+	\item[]\emph{Self-adjoint} if $T^*=T$.
+\end{itemize}
+The corresponding definitions for real or complex square matrices are identical.
+\end{defn}
+
+A few notes:
+\begin{itemize}
+  \item A real matrix $A\in M_n(\R)$ is self-adjoint if and only if it is \emph{symmetric}: $A^T=A$.
+  \item If $T$ is self-adjoint then it is normal, but the converse is false. For instance, every non-zero real \emph{skew-symmetric} matrix is normal but \emph{not} self-adjoint:
+  \[A^T=-A\implies AA^T=-A^2=A^TA\]
+  More generally, the same applies to \emph{skew-hermitian} matrices $A^*=-A$. 
+\end{itemize}
+
+\begin{example}{}{rotatenotselfadj}
+The matrix $A=\begin{smatrix}
+0&-1\\
+1&0
+\end{smatrix}$ is skew-symmetric. Observe that $A^T=-A$ so that $A$ is not self-adjoint. However
+\[AA^T=\begin{pmatrix}
+0&-1\\
+1&0
+\end{pmatrix}\begin{pmatrix}
+0&1\\
+-1&0
+\end{pmatrix}=\begin{pmatrix}
+1&0\\
+0&1
+\end{pmatrix}=\begin{pmatrix}
+0&1\\
+-1&0
+\end{pmatrix}\begin{pmatrix}
+0&-1\\
+1&0
+\end{pmatrix}=A^TA\]
+so that $A$ is normal.
+\end{example}
+
+The main purpose of this section is to prove the following important result. It comes in two flavors, depending on whether an inner product space is real or complex.
+
+\begin{thm}{Spectral Theorem}{spec}
+Let $T$ be a linear operator on a finite-dimensional inner product space $V$ over $\F$.
+\begin{description}
+  \item[\normalfont\emph{Complex case $\F=\C$}:] $V$ has an orthonormal basis of eigenvectors of $T$ if and only if $T$ is normal.
+  \item[\normalfont\emph{Real case $\F=\R$}:] $V$ has an orthonormal basis of eigenvectors of $T$ if and only if $T$ is self-adjoint.
+\end{description}
+In particular, every such linear operator is diagonalizable.
+\end{thm}
+
+Before starting this work, we consider several easy examples.
+
+\begin{examples}[label=exs:specthm]
+\begin{enumerate}
+	\item The linear map $T=L_A$ where $A=\begin{smatrix}
+	6&3\\3&-2
+	\end{smatrix}$ is self-adjoint (and thus normal) in the standard inner product space $\R^2$. To diagonalize, we find the eigenvalues and eigenvectors:
+	\begin{description}
+	  \item[\normalfont\emph{Characteristic polynomial}:] $p(t)=(6-t)(-2-t)-9=t^2-4t-21=(t-7)(t+3)$
+	  \item[\normalfont\emph{Eigenvalues}:] $t_1=7$, $t_2=-3$
+	  \item[\normalfont\emph{Eigenvectors (normalized)}:] $\vw_1=\frac 1{\sqrt{10}}\stwovec{3}{1}$,\ $\vw_2=\frac 1{\sqrt{10}}\stwovec{-1}{3}$
+	\end{description}
+	The basis $\beta=\{\vw_1,\vw_2\}$ is orthonormal, with respect to which $[T]_\beta=\begin{smatrix}
+	7&0\\0&-3
+	\end{smatrix}$ is diagonal.
+	
+  \item\label{ex:schur1} The linear map $T=L_A$ where $A=\begin{smatrix}
+	1&3\\0&-2
+	\end{smatrix}$ is not self-adjoint, and not normal either.\footnote{$AA^*=\begin{pmatrix}
+	1&3\\0&-2
+	\end{pmatrix}\begin{pmatrix}
+	1&0\\3&-2
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+	10&-6\\-6&4
+	\end{pmatrix}
+	\neq \begin{pmatrix}
+	1&3\\3&13
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+	1&0\\3&-2
+	\end{pmatrix}\begin{pmatrix}
+	1&3\\0&-2
+	\end{pmatrix}
+	=A^*A$}	It is diagonalizable, but only with respect to a basis of eigenvectors, which a quick calculation will confirm to be, up to order and scaling,
+	\[\beta=\left\{\twovec 10,\twovec 3{-1}\right\} \rightsquigarrow [T]_\beta=\begin{pmatrix}
+	1&0\\0&-2
+	\end{pmatrix}\]
+	Of course this basis is not orthogonal, in accordance with Theorem \ref{thm:spec}.
+	
+	\item We revisit Example \ref{ex:rotatenotselfadj} and consider the linear maps defined by multiplication by $A=\begin{smatrix}0&-1\\1&0\end{smatrix}$ on both $\C^2$ and $\R^2$: since $A$ is normal but not self-adjoint, we'll see how the field really matters when it comes to the spectral theorem.\\[8pt]
+	First the complex case: according to the spectral theorem, $T=L_A\in\cL(\C^2)$ is normal and thus should be diagonalizable with respect to an orthonormal basis of eigenvectors. Here are the details.
+	\begin{description}
+	  \item[\normalfont\emph{Characteristic polynomial}:] $p(t)=t^2+1=(t-i)(t+i)$
+	  \item[\normalfont\emph{Eigenvalues}:] $t_1=i$, $t_2=-i$
+	  \item[\normalfont\emph{Eigenvectors (normalized)}:] $\vw_1=\frac 1{\sqrt{2}}\stwovec{i}{1}$,\ $\vw_2=\frac 1{\sqrt{2}}\stwovec{-i}{1}$
+	\end{description}
+	Certainly $\ip{\vw_1,\vw_2}=0$ so that $\beta=\{\vw_1,\vw_2\}$ is orthonormal; moreover $[T]_\beta=\begin{smatrix}
+	i&0\\0&-i
+	\end{smatrix}$ is diagonal.\\[8pt]	
+	Now for the real case: the linear map $S=L_A\in\cL(\R^2)$ is not self-adjoint and thus should not be diagonalizable with respect to an orthonormal basis of eigenvectors. In one sense this is trivial: $S$ is rotation by \ang{90} counter-clockwise around the origin, so it has no eigenvectors! Indeed the characteristic polynomial has no roots in $\R$: there are no eigenvalues. For completeness, it is worth considering $S$ with respect to any orthonormal basis of $\R^2$: with a little thought, you should believe that all such bases have the form
+\[\beta=\{\vw,\vu\}=\left\{\twovec{\cos\theta}{\sin\theta},\twovec{-\sin\theta}{\cos\theta}\right\}\quad\text{or}\quad\gamma=\{\vw,-\vu\}\quad\text{for some $\theta$.}\]
+Observe that $S(\vw)=\vu$ and $S(\vu)=-\vw$. It follows that
+\[[S]_\beta=\begin{pmatrix}
+0&-1\\
+1&0
+\end{pmatrix}=A,\qquad [S]_\gamma=\begin{pmatrix}
+0&1\\
+-1&0
+\end{pmatrix}=-A\]
+The matrix of $S$ is essentially the same with respect to \emph{any} orthonormal basis! In particular, there is no orthonormal basis with respect to which the matrix of $S$ is diagonal.
+\end{enumerate}
+\end{examples}
+%\pagebreak[3]
+
+
+We begin the proof of the spectral theorem by stating some basic properties of normal operators.
+
+\begin{lemm}{}{normalbasic}
+Let $T$ be normal on $V$. Then:
+\begin{enumerate}\itemsep0pt
+  \item $\forall \vx\in V$, $\Nm{T(\vx)}=\Nm{T^*(\vx)}$;
+  \item $T-kI$ is normal for any $k\in\F$;
+  \item $T(\vx)=\lambda\vx\iff T^*(\vx)=\cl\lambda\vx$ so that $T$ and $T^*$ have the same eigenvectors and conjugate eigenvalues. If $T$ is additionally self-adjoint, then every eigenvalue is real.
+  \item Distinct eigenvalues of $T$ have orthogonal eigenvectors.
+\end{enumerate}
+\end{lemm}
+Note that the theorem applies to self-adjoint operators as a special case.
+
+\begin{proof}
+\begin{enumerate}
+  \item $\Nm{T(\vx)}^2=\ip{T(\vx),T(\vx)}=\ip{T^*T(\vx),\vx} =\ip{TT^*(\vx),\vx}=\ip{T^*(\vx),T^*(\vx)}=\Nm{T^*(\vx)}^2$.
+  \item $\ip{\vx,(T-kI)(\vy)}=\ip{\vx,T(\vy)}-\cl k\ip{\vx,\vy} =\ip{T^*(\vx),\vy}-\ip{\cl k\vx,\vy} =\ip{(T^*-\cl kI)(\vx),\vy}$ shows that $T-kI$ has adjoint $T^*-\cl kI$. It is trivial to check that these commute.
+  \item $T(\vx)=\lambda\vx\iff \Nm{(T-\lambda I)(\vx)}=0\underset{1 \& 2}{\overset{\text{parts}}{\iff}} \Nm{(T^*-\cl\lambda I)(\vx)}=0 \iff T^*(\vx)=\cl\lambda\vx$.\\
+  Moreover, if $T^*=T$, then $\cl\lambda=\lambda$.
+  \item Suppose $T(\vx)=\lambda\vx$ and $T(\vy)=\mu\vy$ where $\lambda\neq \mu$. By part 3,
+  \[\xymatrix @R=8pt@C=7pt {\hspace*{4.5pt}\ip{T(\vx),\vy} \ar@{=}[r] \ar@{=}[d]& \ip{\lambda\vx,\vy} =\lambda\ip{\vx,\vy}\\
+  \ip{\vx,T^*(\vy)} \ar@{=}[r]& \ip{\vx,\cl\mu\vy} =\mu\ip{\vx,\vy}}\]
+  This is a contradiction unless $\ip{\vx,\vy}=0$.\hfill\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{example}[breakable]{}{}
+Consider $T=L_A$ where $A=\begin{smatrix}
+0&3+4i\\-3+4i&0
+\end{smatrix}$. This is skew-hermitian ($A^*=-A$) and thus normal but not self-adjoint. To find its eigenpairs, we solve
+\[p(t)=t^2-(3+4i)(-3+4i)=t^2+25=0\implies t=\pm 5i\]
+The eigenvectors can then be found:
+\[\lambda=5i\implies \begin{pmatrix}
+  -5i&3+4i\\
+  -3+4i&-5i
+  \end{pmatrix}\vw=\V0\implies \text{choose }\vw_1=\twovec{3+4i}{5i}\]
+  while the other eigenpair is seen to be $\cl\lambda,\vw_2=\stwovec{3+4i}{-5i}$. Observe that these eigenvectors are orthogonal:
+\[\ip{\vw_1,\vw_2}=\vw_2^*\vw_1=(\cl{3+4i})(3+4i)+(\cl{-5i})(5i)= 25-25=0\]
+Note also that the adjoint $A^*=-A$ has the same eigenvectors but with conjugate eigenvalues:
+\[A^*\vw=-A\vw=-\lambda\vw=\cl\lambda\vw\]
+\end{example}
+
+As a consequence of Lemma \ref{lemm:normalbasic}, any \emph{diagonalizable} normal or self-adjoint operators necessarily have an orthogonal eigenbasis. The hard part of the spectral theorem is proving that such operators are diagonalizable in the first place! This can be done in one shot, but first we develop a useful and interesting result.
+
+\begin{lemm}{Schur}{schur}
+Suppose $T\in\cL(V)$ where $\dim V<\infty$. If the characteristic polynomial of $T$ splits,\footnote{Completely factorizes into linear factors over $\F$: this is guaranteed over $\C$ by the Fundamental Theorem of Algebra.} then there exists an orthonormal basis $\beta$ of $V$ such that $[T]_\beta$ is upper-triangular.
+\end{lemm}
+
+Schur's Lemma is stronger than the spectral theorem since it applies to more (non-normal) linear operators, however its conclusion is weaker ($[T]_\beta$ upper-triangular rather than diagonal). Every example of the spectral theorem we've seen is therefore an example of Schur's Lemma. Example \hyperref[ex:schur1]{\ref*{exs:specthm}.\ref*{ex:schur1}} provides another trivial example, since the matrix $A$ is already upper triangular. Here is another: 
+
+\begin{example}{}{}
+Consider $T(f)=2f'(x)+xf(1)$ as a linear map $T\in\cL(P_1(\R))$ with respect to the inner product $\ip{f,g}=\int_0^1f(t)g(t)\,\dt$. We have
+\[T(a+bx)=2b+(a+b)x\]
+If $[T]_\beta$ is to be upper-triangular, then the first vector in $\beta$ must be an eigenvector of $T$.
+It is easily checked that $f_1=1+x$ is such with eigenvalue 2. To find a basis satisfying Schur's Lemma, we need only find $f_2$ orthogonal to this and then normalize. This can be done by brute force since the problem is small, but for the sake of practice we apply Gram--Schmidt to the polynomial 1:
+\[1-\frac{\ip{1,1+x}}{\Nm{1+x}^2}(1+x)= 1-\frac{1+\frac 12}{1+1+\frac 13}(1+x)=\frac 1{14}(5-9x) \implies f_2=5-9x\]
+Indeed we obtain an upper-triangular matrix for $T$:
+\[T(f_2)=-18-4x =-13(1+x)-(5-9x) =-13f_1-f_2\implies [T]_{\{f_1,f_2\}}=\begin{pmatrix}
+2&-13\\
+0&-1
+\end{pmatrix}\]
+We can also work with the corresponding orthonormal basis as posited in the theorem, though the matrix is messier:
+\[\beta=\{g_1,g_2\}=\left\{\sqrt{\frac 37}(1+x),\frac 1{\sqrt 7}(5-9x)\right\} \implies [T]_\beta=\begin{pmatrix}
+2&-\frac{13}{\sqrt 3}\\
+0&-1
+\end{pmatrix}\]
+Alternatively, we could have started with the other eigenvector $h_1=2-x$: an orthogonal vector to this is $h_2=4-9x$, with respect to which
+\[[T]_{\{h_1,h_2\}}=\begin{pmatrix}
+-1&-13\\
+0&2
+\end{pmatrix}\]
+In both cases the eigenvalues are down the diagonal, as must be for an upper-triangular matrix!
+\end{example}\vspace*{10pt}
+
+
+\parbox{\linewidth}{Unfortunately the tactic of extending a single eigenvector to a basis doesn't work so well when $\dim V\ge 3$. Instead we appeal to the more general idea of an invariant subspace. Recall that $U\le V$ being $T$-invariant means that $T(U)\le U$: moreover, if $\gamma$ is a basis of $U$ extended to a basis $\beta=\gamma\cup\eta$ of $V$, then the matrix of $T$ with respect to $\beta$ has block form
+\[[T]_\beta=\left(\begin{array}{c|c}
+A&B\\\hline
+0&C
+\end{array}\right)\]
+The core of the proof is an induction argument: if $\dim U=\dim V-1$ and $A$ is upper-triangular, then $[T]_\beta$ is upper-triangular.\footnote{In the proof, $U$ is the subspace $W^\perp$, and $\eta=\{\vu\}$.}}
+
+\begin{proof}[Proof of Schur's Lemma]
+If $\dim V=1$, then the result is trivial: all linear maps have the form $T(\vx)=\lambda\vx$ for some $\lambda$.\\[5pt]
+Now suppose the result is true for all inner product spaces with dimension $n$. Suppose also that $\dim V=n+1$, and that the characteristic polynomial of $T\in \cL(V)$ splits. It follows that $T$ has at least one eigenpair $(\mu,\vw)$. Moreover, since $V$ is finite-dimensional, $T$ has an adjoint. Indeed,
+\begin{align*}
+\forall \vx\in V,\ 0=\ip{T(\vw)-\mu\vw,\vx}=\ip{\vw,T^*(\vx)-\cl\mu\vx} &\implies \cR(T^*-\cl\mu I)\le\Span\{\vw\}^\perp\\
+&\implies \rank(T^*-\cl\mu I)\le n<\dim V
+\end{align*}
+By the Rank--Nullity Theorem, $T^*-\cl\mu I$ has a non-trivial null space: otherwise said, $T^*$ has an eigenvector $\vu$ (assume unit length) with eigenvalue $\cl\mu$. Let $W=\Span\{\vu\}$ and let $\vy\in W^\perp$. Then
+\[\ip{T(\vy),\vu}=\ip{\vy,T^*(\vu)}=\mu\ip{\vy,\vu}=0\implies T(W^\perp)\le W^\perp\]
+whence $W^\perp$ is $T$-invariant. Recall chapter 5: the characteristic polynomial of the restriction $p_{W^\perp}(t)$ divides that of $T$ on $V$: thus $p_{W^\perp}(t)$ splits. By the induction hypothesis, $W^\perp$ has a basis $\gamma$ with respect to which $[\at T{W^\perp}]_\gamma$ is upper-triangular. Let $\beta=\gamma\cup\{\vu\}$ to finish the induction and thus the proof.
+\end{proof}
+
+We are now (finally!) able to prove the spectral theorem. First we tackle the real case. Since the proof that follows is a little sneaky, we first give a synopsis. To invoke Schur's Lemma we need to see that the characteristic polynomial of $T$ (an operator on a \emph{real} inner product space) splits over $\R$. The trick is to first transfer to a complex inner product space so we can appeal to the Fundamental Theorem of Algebra. Here are the main steps:
+\begin{enumerate}
+  \item Create an associated self-adjoint linear operator $S$ on $\C^n$ with the \emph{same} characteristic polynomial as $T$.
+  \item The Fundamental Theorem of Algebra says this splits over $\C$.
+  \item Self-adjointness says the eigenvalues are \emph{real}.
+  \item Apply Schur's Lemma for an orthonormal basis.
+  \item Show that the resulting matrix is diagonal.
+\end{enumerate}
+
+\begin{proof}[Proof of the Spectral Theorem for real inner product spaces]
+Let $\dim V=n$, $T$ be self-adjoint, choose any orthonormal basis $\gamma$ of $V$, let $A=[T]_\gamma$ and define $S=L_A\in\cL(\C^n)$ to be multiplication by $A$. With respect to the standard basis $\epsilon$ of $\C^n$, the matrix of $S$ is $[S]_\epsilon=A$. Two facts are immediate:
+\begin{itemize}
+  \item The characteristic polynomials of $S$ and $T$ are identical (to that of $A$).
+  \item $S$ is self-adjoint and thus (Lemma \ref{lemm:normalbasic}) has real eigenvalues.
+\end{itemize}
+By the Fundamental Theorem of Algebra, the characteristic polynomial splits \emph{over $\C$}
+\[p(t)=(\lambda_1-t)\cdots(\lambda_n-t)\]
+where the $\lambda_j$ are the \emph{real} eigenvalues of $S$. It follows that $p(t)$ splits over $\R$.\\[5pt]
+By Schur's Lemma, there is an orthonormal basis $\beta$ of $V$ with respect to which $B:=[T]_\beta$ is upper-triangular. However (Lemma \ref{lemm:adjmatrix}), since $T$ is self-adjoint and $\beta$ is orthonormal,
+\[B^*=[T^*]_\beta=[T]_\beta=B\]
+Since $B$ is simultaneously upper- and lower-triangular, it must be diagonal.\\[5pt]
+For the converse, suppose $\beta$ is an orthonormal basis of eigenvectors of $T$. Then $[T]_\beta$ is diagonal with \emph{real} entries. It follows that $[T^*]_\beta=[T]_\beta^*=[T]_\beta$, whence $T^*=T$ is self-adjoint.
+\end{proof}
+
+The proof for the complex case is quite different. We can instantly apply the Fundamental Theorem of Algebra to invoke Schur and obtain a suitable basis. Since normality is a weaker condition than self-adjointness, the difficulty lies in showing that this basis consists entirely of eigenvectors.
+
+\begin{proof}[Proof of Spectral Theorem for complex inner product spaces]
+Let $\dim V=n$ and $T$ be normal. By Schur's Lemma, there exists an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ for which $A:=[T]_\beta$ is upper-triangular. We prove by induction that $\beta$ is a basis of eigenvectors.\\[5pt]
+For the base case, $\vw_1$ is an eigenvector by the upper-triangularity of $A$.\\[5pt]
+Now suppose $\vect{\vw}{k-1}$ are eigenvectors, with $T(\vw_j)=\lambda_j\vw_j$. By Lemma \ref{lemm:normalbasic} $T^*(\vw_j)=\cl{\lambda_j}\vw_j$. By Corollary \ref{cor:matrixip} and the orthonormality of $\beta$,
+\[j<k\implies A_{jk}=\ip{T(\vw_k),\vw_j}=\ip{\vw_k,T^*(\vw_j)} =\lambda_j\ip{\vw_k,\vw_j}=0\]
+However, since $A$ is upper-triangular,
+\[T(\vw_{k})=\sum_{j=1}^{k}A_{jk}\vw_j =A_{kk}\vw_k\]
+whence $\vw_k$ is an eigenvector of $T$.
+By induction, $\beta$ is a basis of eigenvectors and $A$ is diagonal.\\[5pt]
+Conversely, if $\beta$ is an orthonormal basis of eigenvectors, then $[T]_\beta$ is diagonal and so $[T^*]_\beta=[T]_\beta^*$ is diagonal. Since diagonal matrices commute, we see that $T^*T=TT^*$: that is, $T$ is normal.
+\end{proof}
+
+ 
+
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item For each linear operator $T$ on an inner product space $V$, decide whether $T$ is normal, self-adjoint, or neither. If the spectral theorem allows it, find an orthonormal basis of $V$ consisting of eigenvectors of $V$.
+  \begin{enumerate}
+    \item $V=\R^2$ with the dot product and $T\stwovec xy=\stwovec{2a-b}{-2a+5b}$
+    \item $V=\R^3$ with the dot product and $T\sthreevec xyz=\sthreevec{-a-b}{5b}{4a-2b+5c}$
+    \item $V=\C^2$ with the hermitian product and $T\stwovec zw=\stwovec{2z+iw}{z+2w}$
+    \item $V=\R^4$ with $T:(\ve_1,\ve_2,\ve_3,\ve_4)\mapsto (\ve_3,\ve_4,\ve_1,\ve_2)$
+    \item $V=P_2(\R)$ with $\ip{f,g}=\int_0^1f(t)g(t)\,\dt$ and $T(f)=f'$\\
+    (\emph{Hint: Don't compute $T^*$! Instead assume $T$ is normal and aim for a contradiction\ldots})
+  \end{enumerate}
+  
+  \item Let $T(f)(x)=f'(x)+4xf(0)$ where $T\in\cL(P_1(\R))$ and $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$. Find an orthonormal basis of $P_1(\R)$ with respect to which the matrix of $T$ is upper-triangular.
+  
+  \item Let $S,T$ be operators on an inner product space $V$.
+  \begin{enumerate}
+    \item Prove that $(ST)^*=T^*S^*$.\\
+    (\emph{Hint: Consider $\ip{ST\vx,\vy}$\ldots})
+    \item Suppose $S,T$ are self-adjoint. Prove that $ST$ is self-adjoint if and only if $ST=TS$.
+  \end{enumerate}
+  
+  \item Explain the difference between the converses in the two proofs of the Spectral Theorem: how do we come to different conclusions ($[T]_\beta$ self-adjoint versus normal)?
+  
+  \item Let $T\in\cL(V)$ where $V$ is an inner product space, and let $W\le V$ be $T$-invariant. Let $\at TW\in\cL(W)$ be the restriction of $T$ to $W$. Prove:
+  \begin{enumerate}
+    \item $T$ self-adjoint $\implies \at TW$ is self-adjoint.
+    \item $W^\perp$ is $T^*$-invariant.
+    \item If $W$ is both $T$- and $T^*$-invariant, then $(\at TW)^*=\at{(T^*)}W$.
+    %\item If $W$ is both $T$- and $T^*$-invariant and $T$ is normal, then $\at TW$ is normal.
+  \end{enumerate}
+  
+  %\item Let $T$ be a normal operator on a finite-dimensional inner product space $V$ and let $W\le V$. Prove that if $W$ is $T$-invariant then $W$ is also $T^*$-invariant.
+  
+  \item Let $T$ be a normal operator on a finite-dimensional inner product space $V$. Prove that $\cN(T^*)=\cN(T)$ and that $\cR(T^*)=\cR(T)$.\\
+  (\emph{Hint: Use Lemma \ref{lemm:normalbasic} and Exercise \ref{ex:fundssthm}})
+  
+  \item Let $T$ be self-adjoint on a finite-dimensional inner product space $V$. Prove that
+  \[\forall\vx\in V,\quad \Nm{T(\vx)\pm i\vx}^2=\Nm{T(\vx)}^2+\Nm{\vx}^2\]
+  Hence prove that $T-iI$ is invertible and that $[(T-iI)^{-1}]^*=(T+iI)^{-1}$.
+  
+  \item\begin{enumerate}
+    \item Suppose $S$ is a normal operator on a finite-dimensional \emph{complex} inner product space, all of whose eigenvalues are \emph{real.} Prove that $S$ is self-adjoint.
+    \item Let $T$ be a normal operator on a finite-dimensional \emph{real} inner product space $V$ whose characteristic polynomial splits. Prove that $T$ is self-adjoint and that there exists an orthonormal basis of $V$ of eigenvectors of $T$.\\
+    (\emph{Hint: read the proof of the spectral theorem and use part (a)\ldots})
+  \end{enumerate}
+\end{enumerate}
+\end{exercises}
+
+
+
+\subsection{Unitary and Orthogonal Operators and Their Matrices}
+
+In this section we focus on length-preserving transformations of an inner product space.
+
+\begin{defn}{}{}
+A \emph{linear isometry} of an inner product space $V$ over $\F$ is a linear map $T$ satisfying
+\[\forall \vx\in V,\ \Nm{T(\vx)}=\Nm{\vx}\]
+% If $T$ is invertible,\footnote{Automatic when $\dim V<\infty$: Exercise \ref{ex:Tinj} says $T$ is already injective.} it is known as an \emph{orthogonal} or \emph{unitary operator,} depending on whether $\F=\R$ or $\C$.
+\end{defn}
+
+\begin{example}{}{easyrotate}
+Let $T=L_A\in\cL(\R^2)$, where $A=\frac 15\begin{smatrix}
+4&-3\\3&4
+\end{smatrix}$. Then
+\[\Nm{T\twovec xy}^2=\Nm{\frac 15\twovec{4x-3y}{3x+4y}}^2=\frac 1{25}\left((4x-3y)^2+(3x+4y)^2\right)=x^2+y^2=\Nm{\twovec xy}^2\]
+\end{example}
+
+The matrix in this example is very special: its inverse is its transpose:
+\[A^{-1}=\frac 1{\frac{16}{25}+\frac 9{25}}\begin{pmatrix}
+4&3\\-3&4
+\end{pmatrix} =\frac 1{5}\begin{pmatrix}
+4&3\\-3&4
+\end{pmatrix}=A^T\]
+It turns out that all linear isometries of a finite-dimensional inner product space have essentially this form. First we make a definition.
+
+\begin{defn}{}{unitary}
+Let $V$ be an inner product space. A \emph{unitary operator} $T\in\cL(V)$ is an invertible linear map satisfying $T^*T=I=TT^*$. If the base field is $\R$, we instead call these \emph{orthogonal operators.}
+\end{defn}
+
+The operator $T=L_A$ above is therefore orthogonal. We'll see shortly that the effect of the linear map is to rotate counter-clockwise around the origin in $\R^2$ by $\theta=\tan^{-1}\frac 34$.\\[5pt]
+Our main goal is the following:
+
+\begin{thm}{}{}
+Let $T\in\cL(V)$ where $V$ is a finite-dimensional inner product space. Then $T$ is a linear isometry if and only if it is a unitary/orthogonal operator.
+\end{thm}
+
+\begin{proof}
+Suppose $T$ is a linear isometry. Since $(I-T^*T)^*=I^*-(T^*T)^*=I-T^*T$ is self-adjoint, by the spectral theorem, there exists an orthonormal basis of $V$ of eigenvectors of $I-T^*T$. For any such $\vx$ with eigenvalue $\lambda$,
+\begin{align*}
+0=&\Nm{\vx}^2-\Nm{T(\vx)}^2=\ip{\vx,\vx}-\ip{T(\vx),T(\vx)}=\ip{\vx,(I-T^*T)\vx}=\cl{\lambda}\Nm{\vx}^2\\
+&\implies\lambda=0
+\end{align*}
+Since all eigenvalues are zero, $T^*T=I$. Since $V$ is finite-dimensional, we also have $TT^*=I$ whence $T$ is unitary.\\[5pt]
+Now suppose $T$ is unitary. Then
+\[\forall\vx,\vy\in V,\quad\ip{\vx,\vy}=\ip{T^*T(\vx),\vy}=\ip{T(\vx),T(\vy)}\tag{$\dag$}\]
+In particular taking $\vx=\vy$ shows that $T$ is an isometry.
+\end{proof}
+
+The proof shows more:
+
+\begin{cor}{}{unitaryextra}
+Every eigenvalue of a unitary operator has modulus 1.\\[5pt]
+Moreover, on a finite dimensional space, being unitary is equivalent to each of the following:
+\begin{enumeratea}
+ \item Preservation of the inner product $(\dag)$. In particular, in a real inner product space isomteries also preserve the \emph{angle} $\theta$ between vectors since $\cos\theta=\frac{\ip{\vx,\vy}}{\Nm\vx\Nm\vy}$.
+ \item The existence of an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ such that $T(\beta)=\{T(\vw_1),\ldots,T(\vw_n)\}$ is also orthonormal.
+ \item That \emph{every} orthonormal basis $\beta$ of $V$ must be mapped to an orthonormal basis $T(\beta)$.
+\end{enumeratea} 
+\end{cor}
+
+The last first claim follows straight from $(\dag)$, which holds even in infinite dimensions: if $T(\vw)=\lambda\vw$, then
+\[\Nm{\vw}^2=\Nm{T(\vw)}^2=\Nm{\lambda\vw}^2=\nm\lambda^2\Nm{\vw}^2\]
+Claims (b) and (c) are also worth proving explicitly, though they also quickly follow from $(\dag)$: see Exercise \ref{ex:orthbasis}.
+
+% \begin{proof}
+% Suppose $\beta$ and $T(\beta)$ are orthonormal: then for any $\vw_j,\vw_k\in\beta$, we have
+% \[\delta_{jk}=\ip{\vw_j,\vw_k}\quad\text{and}\quad \delta_{jk}=\ip{T(\vw_j),T(\vw_k)}=\ip{T^*T(\vw_j),\vw_k}\]
+% Since $\beta$ is a basis,
+% \[\ip{\vw_j-T^*T(\vj),\vw_k}=0\implies \forall \vw\in V,\ \ip{\vw_j-T^*T(\vw_j),\vw}=0\implies T^*T(\vw_j)=\vw_j\]
+% Since $T^*T=I$ on a basis, it follows that $T^*T=I$ and $T$ is unitary.\\[5pt]
+% If $T$ is unitary and $\beta$ is any orthonormal basis, $(\dag)$ immediately says that $T(\beta)$ is orthonormal. 
+% \end{proof}
+
+\begin{example}{}{unitary1}
+On $\C^2$ with the usual inner product, define $T=L_A$ where
+\[A=\frac i{\sqrt 2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\]
+The standard orthonormal basis $\epsilon=\{\vi,\vj\}$ is mapped to
+  \[T(\epsilon)=\left\{\frac i{\sqrt 2}(\vi+\vj),\frac i{\sqrt 2}(\vj-\vi)\right\}\]
+  which is easily seen to be orthonormal. It follows that $T$ is a unitary operator and that
+  \[T^*=T^{-1}=L_{A^{-1}},\quad\text{where}\quad A^{-1}=-\frac i{\sqrt 2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\]
+  which is, of course, the matrix $A^*$. It is also easy to check that the characteristic polynomial is
+  \[p(t)=\det\begin{pmatrix}
+  \frac i{\sqrt 2}-t&\frac i{\sqrt 2}\\
+  \frac i{\sqrt 2}&-\frac i{\sqrt 2}-t
+  \end{pmatrix} =\frac 12+t^2+\frac 12=t^2+1\implies t=\pm i\]
+  whence the eigenvalues of $T$ both have modulus 1.
+\end{example}
+\vspace{20pt}
+
+
+Note that the discussion in the proof need not all hold for infinite dimensional operators, though some of the conclusions might.
+
+\begin{example}{}{}
+%   \item Consider $\beta=\{\cos x,\sin x\}$ and $V=\Span\beta$ with $\ip{f,g}=\frac 1\pi\int_{-\pi}^\pi f(t)g(t)\,\dt$. Then $\beta$ is an orthonormal basis. Define $T\in\cL(V)$ by
+% \[T(a\cos x+b\sin x)=-b\cos x+a\sin x\]
+% This is an orthogonal operator: indeed, writing $c=\cos x$ and $s=\sin x$, we see that
+% \begin{gather*}
+% \begin{aligned}
+% \ip{T^*(ac+bs),pc+qs}&=\ip{ac+bs,T(pc+qs)}=\ip{ac+bs,-qc+ps}\\
+% &=-aq+bp=\ip{bc-as,pc+qs}
+% \end{aligned}\\
+% \implies T^*(a\cos x+b\sin x)=b\cos x-a\sin x\\
+% \implies TT^*(a\cos x+b\sin x)=T(b\cos x-a\sin x)=a\cos x+b\sin x
+% \end{gather*}
+% so that $TT^*=I$. The orthonormal basis $\beta=\{\cos x,\sin x\}$ is mapped to $T(\beta)=\{-\sin x,\cos x\}$, which is clearly also orthonormal. It is easy to check however, that $T$ has no eigenvalues. This example is really just multiplication by $[T]_\beta=\begin{smatrix}0&-1\\1&0\end{smatrix}$ in disguise!
+In the Fourier-series example, the function
+\[T(f)(x)=e^{ix}f(x)\]
+is linear, and moreover
+\[\ip{e^{ix}f(x),g(x)}=\frac 1{2\pi}\int_{-\pi}^\pi e^{ix}f(x)\cl{g(x)}\,\dx =\frac 1{2\pi}\int_{-\pi}^\pi f(x)\cl{e^{-ix}g(x)}\,\dx =\ip{f(x),e^{-ix}g(x)}\]
+whence $T^*(f)(x)=e^{-ix}f(x)$. Indeed $T^*=T^{-1}$ and so $T$ is a unitary operator. However $T$ has no eigenvalues/eigenvectors:
+\[T(f)=\lambda f\iff \forall x,\ e^{ix}f(x)=\lambda f(x)\]
+which is impossible unless $f\equiv 0$. It can also be seen that the inner product space of continuous functions on $[-2\pi,2\pi]$ with the above inner product has no orthonormal basis.\footnote{An orthonormal set $\beta=\{f_k:k\in\Z\}$ can be found so that every function $f$ equals an \emph{infinite series} in the sense that $\Nm{f-\sum a_kf_k}=0$, but these are not finite sums and so $\beta$ is not a basis. Given that the norm is defined by an integral, this also isn't quite the same as saying that $f$ \emph{equals} $\sum a_kf_k$.}
+\end{example}
+
+\subsubsection*{Unitary and Orthogonal Matrices}
+
+Suppose $\beta$ is an orthonormal basis of $V$ and that $T\in\cL(V)$ is unitary. If $A=[T]_\beta$, then (Lemma \ref{lemm:adjmatrix})
+\[A^*A=\I=AA^*\]
+It therefore makes sense to extend Definition \ref{defn:unitary} to matrices.
+
+\begin{defn}{}{unitarymatrix}
+A \emph{unitary matrix} is a matrix $A\in M_n(\C)$ satisfying $A^*A=\I$.\\
+An \emph{orthogonal matrix} satisfies $A^TA=\I$.
+\end{defn}
+
+Real unitary matrices are always referred to as orthogonal.\footnote{Complex orthogonal matrices exist (see Exercise \ref{ex:comporth}), though these do not have the same relationship to complex inner products as do unitary matrices.} Note that we don't need the condition $AA^*=\I$ for matrices: $A^*A=\I$ forces $A$ to be invertible with $A^{-1}=A^*$\ldots Both conditions are required only for unitary/orthogonal operators on \emph{infinite-dimensional} spaces.
+
+Before seeing some examples, we state a result which makes identifying these matrices very easy.
+
+\begin{cor}{}{}
+A matrix $A\in M_n(\R)$ is orthogonal if and only if its columns form an orthonormal basis of $\R^n$ with respect to the standard (dot) inner product.\\[5pt]
+A matrix $A\in M_n(\C)$ is unitary if and only if its columns form an orthonormal basis of $\C^n$ with respect to the standard (hermitian) inner product.
+\end{cor}
+
+The result follows immediately from Corollary \ref{cor:unitaryextra}: let $\beta=\{\vect{\ve}{n}\}$ be the standard (orthonormal) basis and $T=L_A$, then the columns of $A$ are precisely the vectors $T(\ve_j)$. We can also check this directly by observing that
+\[A=(\vw_1\cdots\vw_n)\implies A^*A=\threevec{\vw_1^*}{\vdots}{\vw_n^*}(\vw_1\ \cdots \vw_n) \implies (A^*A)_{jk}=\vw_j^*\vw_k=\ip{\vw_k,\vw_j}\]
+Clearly $A^*A=\I$ if and only if $\{\vect{\vw}{n}\}$ is orthonormal.
+
+\begin{examples}[label=exes:orthomatrix]
+\begin{enumerate}
+  \item\label{ex:rotref} The matrix $A_\theta=\begin{smatrix}
+	\cos\theta&-\sin\theta\\
+	\sin\theta&\cos\theta
+  \end{smatrix}\in M_2(\R)$ is orthogonal for any $\theta$. Example \ref{ex:easyrotate} is this with $\theta=\tan^{-1}\frac 34$. More generally (Exercise \ref{ex:rotrefmatrix}), it can be seen that every real orthogonal $2\times 2$ matrix has the form $A_\theta$ or 
+	\[B_\theta=\begin{pmatrix}
+	\cos\theta&\sin\theta\\
+	\sin\theta&-\cos\theta
+	\end{pmatrix}\]
+	for some angle $\theta$. The effect of the linear map $L_{A_\theta}$ is to rotate counter-clockwise by $\theta$, while that of $L_{B_\theta}$ is to reflect across the line making angle $\frac 12\theta$ with the positive $x$-axis.
+	
+	\item $A=\frac 1{\sqrt 6}\begin{smatrix}
+	\sqrt 2&\sqrt 3&1\\
+	\sqrt 2&0&-2\\
+	-\sqrt 2&\sqrt 3&-1
+	\end{smatrix}\in M_3(\R)$ is orthogonal.
+	
+	\item The matrix $A=\frac i{\sqrt 2}\begin{smatrix}1&1\\1&-1\end{smatrix}$ in Example \ref{ex:unitary1} is unitary.
+\end{enumerate}
+\end{examples}
+
+
+\subsubsection*{Unitary and Orthogonal Equivalence}
+
+Suppose $A$ is normal: $A^*A=AA^*$. It follows that $A$ can be diagonalized with respect to an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ of eigenvectors: $A\vw_j=\lambda_j\vw_j$. If we write $P=(\vw_1\cdots \vw_n)$, then the columns of $P$ are orthonormal and thus $P$ is unitary! We can therefore write
+\[A=PDP^{-1}=P\begin{pmatrix}
+\lambda_1&\cdots&0\\
+%0&e^{i\theta_2}&&0\\
+\vdots&\ddots&\vdots\\
+0&\cdots&\lambda_n
+\end{pmatrix}P^*\]
+%This is an example of \emph{unitary equivalence.}
+
+\begin{example}{}{easynormal}
+The matrix $A=\begin{smatrix}
+1+i&1+i\\
+-1-i&1+i
+\end{smatrix}$ is normal as can easily be checked. Its characteristic polynomial is
+\[p(t)=t^2-2(1+i)t+4i=(t-2i)(t-2)\]
+with corresponding orthonormal eigenvectors
+\[\vw_2=\frac 1{\sqrt 2}\twovec 1{-i},\qquad \vw_{2i}=\frac 1{\sqrt 2}\twovec 1i\]
+We conclude that
+\[A=\frac 1{\sqrt 2}\begin{pmatrix}
+1&1\\
+-i&i
+\end{pmatrix}
+\begin{pmatrix}
+2&0\\
+0&2i
+\end{pmatrix}
+\left[\frac 1{\sqrt 2}\begin{pmatrix}
+1&1\\
+-i&i
+\end{pmatrix}\right]^{-1}
+=\begin{pmatrix}
+1&1\\
+-i&i
+\end{pmatrix}
+\begin{pmatrix}
+1&0\\
+0&i
+\end{pmatrix}
+\begin{pmatrix}
+1&i\\
+1&-i
+\end{pmatrix}\]
+\end{example}
+
+This is an example of unitary equivalence:
+
+\begin{defn}{}{}
+Square matrices $A,B$ are \emph{unitarily equivalent} if there exists a unitary matrix $P$ such that $B=P^*AP$. \emph{Orthogonal equivalence} is similar: $B=P^TAP$.
+\end{defn}
+
+The above discussion proves half the following:
+
+\begin{thm}{}{}
+$A\in M_n(\C)$ is normal if and only if it is unitarily equivalent to a diagonal matrix (the matrix of its eigenvalues).\\
+Similarly, $A\in M_n(\R)$ is \emph{symmetric} if and only if it is orthogonally equivalent to a diagonal matrix. 
+\end{thm}
+
+\begin{proof}
+We have almost finished the $(\Rightarrow)$ direction. if $A$ is real and $A^T=A$, then it is self-adjoint. The spectral theorem says it has an orthonormal basis of eigenvectors.\\[5pt]
+For the converse, let $D$ be diagonal, $P$ unitary, and $A=P^*DP$. Then
+\[A^*A=(P^*DP)^*P^*DP=P^*D^*PP^*DP=P^*\cl DDP=\cdots =P^*DP(P^*DP)^*=AA^*\]
+since $P^*=P^{-1}$ and because diagonal matrices commute: $\cl DD=D\cl D$.\\[5pt]
+In the special case where $A$ is real and $P$ is orthogonal, then $A$ is symmetric:
+\[A^T=(P^TDP)^T=P^TD^TP=P^TDP=A\tag*{\qedhere}\]
+\end{proof}
+
+Consider an $n\times n$ matrix $A$ and take the linear map $T=L_A\in\cL(\C^n)$. Applying Schur's Lemma, we see that there exists an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ such that $B:=[T]_\beta$ is upper-triangular. Also define
+\[P=(\vw_1\cdots\vw_n)=\begin{pmatrix}
+(\vw_1)_1&\cdots&(\vw_n)_1\\
+\vdots&&\vdots\\
+(\vw_1)_n&\cdots&(\vw_n)_n
+\end{pmatrix}\]
+whose columns are the basis $\beta$ and whose $ik^\text{th}$ entry is $(\vw_k)_i$. Since $[T(\vw_j)]_\beta$ is the $j^\text{th}$ column of $B$, we have
+\[T(\vw_j)=\sum_{k=1}^n \vw_kB_{kj} \implies [T(\vw_j)]_i=\sum_{k=1}^n (\vw_k)_iB_{kj} =(PB)_{ij}\]
+whence the matrix $PB$ has $j^\text{th}$ column $T(\vw_j)$. However we also have
+\[AP=(T(\vw_1)\cdots T(\vw_n))\implies AP=PB\implies B=P^{-1}AP\]
+Finally observe that $P$ has orthonormal columns, so it is unitary: $P^{-1}=P^*$. If $A$ were real, then we could have taken $T\in\cL(\R^n)$, from which $P$ would be orthogonal. The upshot is the following:
+
+\begin{cor}{Schur's Lemma for Matrices}{}
+Every complex $n\times n$ matrix $A$ is unitarily equivalent to an upper triangular matrix $B=P^*AP$.\\
+If $A$ is real, then it is orthogonally equivalent to a real upper triangular $B=P^TAP$.
+\end{cor}
+
+
+% \begin{defn}{}{}
+% A function $f:V\to V$ on a \emph{real} inner product space $V$ is called an \emph{isometry} or \emph{rigid motion,} if
+% \[\forall\vx,\vy\in V,\quad \Nm{f(\vx)-f(\vy)}=\Nm{\vx-\vy}\]
+% A \emph{translation} is a rigid motion defined by $f(\vx)=\vx+\vr_0$ for some fixed $\vr_0\in V$.
+% \end{defn}
+% 
+% It is beneficial to consider origin-preserving isometries.
+% 
+% \begin{thm}{}{}
+% If $f$ is an isometry of $V$, then $T(\vx):=f(\vx)-f(\V0)$ is also an isometry which moreover fixes the origin.\\
+% $T$ is an origin-preserving isometry if and only if it is a linear map which preserves the inner product:
+% \[\forall \vx,\vy\in V,\quad \ip{T(\vx),T(\vy)}=\ip{\vx,\vy}\] 
+% \end{thm}
+% 
+% In particular, every isometry is uniquely the sum of an inner product preserving linear map and a translation.
+% 
+% \begin{proof}
+% The first part is trivial. For the second, start by computing
+% \begin{align*}
+% \Nm{T(\vx)-T(\vy)}^2-\Nm{\vx-\vy}^2&=\Nm{T(\vx)}^2-2\ip{T(\vx),T(\vy)}+\Nm{T(\vy)}^2\\
+% &\qquad\qquad -\Nm{\vx}^2+2\ip{\vx,\vy}-\Nm{\vy}^2
+% \end{align*}
+% If $T$ is an origin-preserving isometry, then the equation reads
+% \[0=-2\ip{T(\vx),T(\vy)}+2\ip{\vx,\vy} \implies \ip{T(\vx),T(\vy)}=\ip{\vx,\vy}\]
+% Conversely, if $\ip{T(\vx),T(\vy)}=\ip{\vx,\vy}$, then the right hand side is zero.\footnote{Note that $\Nm{T(\vx)}^2=\Nm{\vx}^2$ if $T$ is an origin-preserving isometry ($\vy=\V0$) or if $T$ preserves the inner product (take $\vx=\vy$).}\\
+% It remains to be seen that any such map is linear. This is grindy but straightforward: for any $\vx,\vy\in V$ and $\lambda\in\R$,
+% \begin{align*}
+% \Nm{T(\lambda\vx+\vy)-\lambda T(\vx)-T(\vy)}^2&=\Nm{T(\lambda\vx+\vy)}^2+\lambda^2\Nm{T(\vx)}^2+\Nm{T(\vy)}^2\\
+% &\qquad-2\lambda\ip{T(\lambda\vx+\vy),T(\vx)}-2\ip{T(\lambda\vx+\vy),T(\vy)}\\
+% &\qquad\qquad +2\lambda\ip{T(\vx),T(\vy)}\\
+% &=\Nm{\lambda\vx+\vy}^2+\lambda^2\Nm{\vx}^2+\Nm{\vy}^2\\
+% &\qquad-2\lambda\ip{\lambda\vx+\vy,\vx}-2\ip{\lambda\vx+\vy,\vy}\\
+% &\qquad\qquad +2\lambda\ip{\vx,\vy}\\
+% &=\Nm{(\lambda\vx+\vy)-\lambda\vx-\vy}^2=0
+% \end{align*}
+% \end{proof}
+
+
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item\label{ex:orthequiv1} For each matrix $A$ find an orthogonal or unitary matrix $P$ and a diagonal $D=P^*AP$.
+  \begin{enumerate}
+    \item $\begin{pmatrix}
+    1&2\\2&1
+    \end{pmatrix}$
+    \qquad
+    (b)\ \ $\begin{pmatrix}
+    0&-1\\1&0
+    \end{pmatrix}$
+    \qquad
+    (c)\ \ $\begin{pmatrix}
+    2&3-3i\\3+3i&5
+    \end{pmatrix}$
+    \qquad
+    (d)\ \ $\begin{pmatrix}
+    2&1&1\\1&2&1\\1&1&2
+    \end{pmatrix}$
+  \end{enumerate}
+  
+  \item Which of the following pairs of matrices are unitarily/orthogonally equivalent? Explain your answer.
+  \begin{enumerate}
+    \item $A=\begin{pmatrix}
+    0&1\\1&0
+    \end{pmatrix}$ and $B=\begin{pmatrix}
+    0&2\\2&0
+    \end{pmatrix}$
+    \item $A=\begin{pmatrix}
+    0&-1&0\\1&0&0\\0&0&1
+    \end{pmatrix}$ and $B=\begin{pmatrix}
+    2&0&0\\0&-1&0\\0&0&0
+    \end{pmatrix}$
+    \item $A=\begin{pmatrix}
+    0&-1&0\\1&0&0\\0&0&1
+    \end{pmatrix}$ and $B=\begin{pmatrix}
+    1&0&0\\0&i&0\\0&0&-i
+    \end{pmatrix}$
+  \end{enumerate}
+	
+	\item Let $a,b\in\C$ be such that $\nm a^2+\nm b^2=1$. Prove that every $2\times 2$ matrix of the form $\begin{smatrix}
+	a&-e^{i\theta}\cl b\\
+	b&e^{i\theta}\cl a
+	\end{smatrix}$ is unitary. Are these all the unitary $2\times 2$ matrices? Prove or disprove\ldots
+	
+% 	\item\begin{enumerate}
+% 	  \item Suppose $A$ is unitary with eigenpair $(\lambda,\vw)$. Prove that $\vw$  Prove that the determinant of every unitary matrix $A$ is $\pm 1$.
+	
+	\item If $A,B$ are orthogonal, prove that $AB$ and $A^{-1}$ are also orthogonal. Do the same for unitary matrices.\\
+	(\emph{This proves that the orthogonal and unitary matrices form groups under matrix multiplication: usually denoted $\rO(n,\R)$, $\rO(n,\C)$ and $\rU(n)$.}
+  
+  \item\label{ex:comporth} Check that $A=\frac 13\begin{smatrix}
+	5&-4i\\
+	4i&5
+  \end{smatrix}\in M_2(\C)$ is \emph{orthogonal.} Is it unitary? 
+  
+  \item\label{ex:rotrefmatrix} Supply the details of Exercise \hyperref[exes:orthomatrix]{\ref*{exes:orthomatrix}.\ref*{ex:rotref}}.\\
+  (\emph{Hints: $\beta=\{\vi,\vj\}$ is orthonormal, whence $\{A\vi,A\vj\}$ must be orthonormal. Now draw pictures to compute the result of rotating and reflecting the vectors $\vi$ and $\vj$.})
+  
+  
+  \item\label{ex:unitarymatrix} Prove that $A\in M_n(\C)$ has an orthonormal basis of eigenvectors whose eigenvalues have modulus 1, if and only if $A$ is unitary.
+  
+  
+  \item\label{ex:orthbasis} Prove the second and third parts of Corollary \ref{cor:unitaryextra} for a finite-dimensional inner product space:
+  \begin{enumerate}
+    \item If $\beta$ is an orthonormal basis such that $T(\beta)$ is orthonormal, then $T$ is unitary.
+    \item If $T$ is unitary, and $\eta$ is an orthonormal basis, then $T(\eta)$ is an orthonormal basis.
+  \end{enumerate}
+  
+  \item Let $T$ be a linear operator on a finite-dimensional inner product space $V$. If $\Nm{T(\vx)}=\Nm{\vx}$ for all $\vx$ in some orthonormal basis of $V$, must $T$ be unitary? Prove or disprove.
+  
+  \item Let $T$ be a unitary operator on an inner product space $V$ and let $W$ be a finite-dimensional $T$-invariant subspace of $V$. Prove:
+  \begin{enumerate}
+    \item $T(W)=W$\quad (\emph{Hint: show that $\at TW$ is injective\ldots});
+    \item $W^\perp$ is $T$-invariant.
+	\end{enumerate}
+	
+	\item Let $W$ a subspace of an inner product space $V$ such that $V=W\oplus W^\perp$. Define $T\in\cL(V)$ by $T(\vu+\vw)=\vu-\vw$ where $\vu\in W$ and $\vw\in W^\perp$. Prove that $T$ is unitary and self-adjoint.
+\end{enumerate}
+\end{exercises}
+
+
+
+\subsection{Orthogonal Projections}
+
+We have already done most of the work for this in previous sections, though we start from a slightly different place.
+
+\begin{defn}{}{}
+Suppose $V=W_1\oplus W_2$ is a direct sum decomposition of a vector space. The \emph{projection onto $W_1$ along $W_2$} is the linear map $T\in\cL(V)$ defined by
+\[\forall \vr\in W_1,\ \vn\in W_2,\quad T(\vr+\vn)=\vr\]
+Clearly $W_1=\cR(T)$ and $W_2=\cN(T)$, hence our notation. A linear map is a \emph{projection} precisely when subspaces $W_1,W_2$ with $V=W_1\oplus W_2$ exist such that $T$ has the above form.\\[5pt]
+Suppose $T$ is a projection on an inner product space $V$: we say it is an \emph{orthogonal projection} if
+\[\cN(T)=\cR(T)^\perp\quad\text{and}\quad \cR(T)=\cN(T)^\perp\]
+Given a subspace $U$ satisfying $(U^\perp)^\perp=U$, the resulting projection with $\cR(T)=U$ and $\cN(T)=U^\perp$ is \emph{the orthogonal projection onto $U$}: namely $\pi_U$.
+\end{defn}
+
+
+\begin{thm}{}{}
+Let $T$ be a linear operator on a vector space $V$. Then:
+\begin{enumerate}
+  \item $T$ is a projection if and only if $T^2=T$.
+  \item When $V$ is an inner product space, $T$ is an orthogonal projection if and only if it has an adjoint and $T^2=T=T^*$. 
+\end{enumerate}
+\end{thm}
+
+We prove the two parts separately.
+
+\begin{proof}[Proof of part 1]
+Let $T\in\cL(V)$ be given and throughout let $\vr\in\cR(T)$ and $\vn\in\cN(T)$.\\[5pt]
+  If $T$ is a projection, then $V=\cR(T)\oplus \cN(T)$ so that every vector in $V$ has a unique representation $\vw=\vr+\vn$. But then
+  \[T^2(\vr+\vn)=T(\vr)=\vr=T(\vr+\vn)\implies T^2=T\]
+  Conversely, suppose $T^2=T$. Out goal is to show that $V=\cR(T)\oplus\cN(T)$. For any $\vw\in V$, write
+  \[\vw=T(\vw)+\bigl(\vw-T(\vw)\bigr)\tag{$\ast$}\]
+  and observe:
+  \begin{itemize}
+    \item $T\bigl(\vw-T(\vw)\bigr)=T(\vw)-T^2(\vw)=\V0\implies \vw-T(\vw)\in\cN(T)$;
+    \item If $\vr\in\cR(T)$, then $\vr=T(\vw)$ for some $\vw$, whence
+  	\[T(\vr)=T^2(\vw)=T(\vw)=\vr\tag{$\dag$}\]
+  \end{itemize}
+  In particular, $\cR(T)\cap\cN(T)=\{\V0\}$ and $(\ast)$ is therefore the unique decomposition of $\vw$ into $\cR(T)$ and $\cN(T)$ parts. Moreover, ($\dag$) says that $T(\vr+\vn)=\vr$, so that $T$ is a projection.
+\end{proof}
+
+\begin{example}{}{}
+Let $T=L_A\in\cL(\R^2)$, where $A=\frac 15\begin{smatrix}
+2&1\\6&3
+\end{smatrix}$. Then $T$ is a projection, since
+\[\cR(T)=\Span\twovec 13,\quad \cN(T)=\Span\twovec 1{-2} \implies \R^2=\cR(T)\oplus\cN(T)\]
+and $T\stwovec 13=\stwovec 13$. Since $\cR(T)$ and $\cN(T)$ are not orthogonal spaces, the projection is not orthogonal.
+In fact, in $\R^2$, it is easy to classify all projections. There are three cases:
+\begin{enumerate}
+  \item $T=I$ is the identity: $\cR(T)=\R^2$ and $\cN(T)=\{\V0\}$;
+  \item $T=0$ is the zero function: $\cR(T)=\{\V0\}$ and $\cN(T)=\R^2$;
+  \item Choose two distinct 1-dimensional subspaces $\cR(T)=\Span\stwovec ab$ and $\cN(T)=\Span\stwovec cd$, then $T=L_A$ where
+  \[A=\frac 1{ad-bc}\twovec ab(d\ -c)=\frac 1{ad-bc}\begin{pmatrix}
+  ad&-ac\\bd&-bc
+  \end{pmatrix}\]
+\end{enumerate}
+\end{example}
+
+  
+\begin{proof}[Proof of part 2]
+Throughout, let $\vx=\vx_r+\vx_n$ denote the decomposition of $\vx$ according to $V=\cR(T)\oplus\cN(T)$.\\[5pt]
+($\Rightarrow$)\quad Suppose $T$ is an orthogonal projection. By assumption and by part 1, $\cR(T)$ and $\cN(T)$ are orthogonal subspaces, and $T^2=T$. We have
+\[\ip{\vx,T(\vy)}=\ip{\vx_r+\vx_n,\vy_r}=\ip{\vx_r,\vy_r+\vy_n}=\ip{T(\vx),\vy}\]
+It follows that $T$ is self-adjoint.\\[5pt]
+($\Leftarrow$)\quad Suppose $T^2=T=T^*$. By part 1, $T$ is a projection and so $V=\cR(T)\oplus\cN(T)$. By the fundamental subspaces theorem (Exercise \ref{ex:fundssthm}),
+\[\cR(T)=\cR(T^*)=\cN(T)^\perp\]
+Moreover, by Exercise \ref{ex:uperpperp}, we also have $\cN(T)\subseteq(\cN(T)^\perp)^\perp=\cR(T)^\perp$. Let $\vx\in\cR(T)^\perp$. Then
+\[\forall\vw\in V,\ 0=\ip{T(\vw),\vx}=\ip{\vw,T(\vx)}\implies T(\vx)=\V0\implies \vx\in\cN(T)\]
+We conclude that $\cN(T)=\cR(T)^\perp$, and that $T$ is an orthogonal projection.
+\end{proof}
+  
+\begin{example}{}{}
+By the above, it is clear that all orthogonal projections in $\R^2$ are either the identity, the zero map or are left-multiplication by a matrix of the form 
+\[A=\frac 1{ad-bc}\twovec ab(a\ b)=\frac 1{a^2+b^2}\begin{pmatrix}
+a^2&ab\\ab&b^2
+\end{pmatrix}\]
+where $\cR(L_A)=\Span\stwovec ab$ and $\cN(L_A)=\Span\stwovec{-b}a$. Otherwise said, choose a unit vector $\vw$ and define $\pi_{\vw}=\vw\vw^T$: this is, of course, precisely Definition \ref{defn:orthproj}.
+\end{example}
+  
+  
+\subsubsection*{Finite-dimensional Spaces and the Spectral Theorem}
+
+It should be clear that every projection $T$ has (at most) two eigenspaces:
+\begin{itemize}
+  \item $\cR(T)$ is an eigenspace with eigenvalue 1;
+  \item $\cN(T)$ is an eigenspace with eigenvalue 0.
+\end{itemize}
+In a finite-dimensional space, if $\rho$ is a basis of $\cR(T)$ and $\eta$ of $\cN(T)$, then the matrix of $T$ with respect to $\rho\cup\eta$ must have block form
+\[[T]_{\rho\cup\eta} =\left(\begin{array}{c|c}
+I&0\\\hline
+0&0
+\end{array}\right)\]
+where $\Rank I=\Rank T$. In particular, every projection is diagonalizable.\\
+
+For projections on a finite-dimensional vector space, the language of orthogonal projections allows us to rephrase Theorem \ref{thm:spec}.
+  
+\begin{thm}{Spectral Theorem, mk.\,II}{}
+Let $T$ be a normal/self-adjoint\footnote{Normal if $V$ is complex, self-adjoint if $V$ is real.} linear operator on a finite-dimensional inner product space $V$ with distinct eigenvalues $\lambda_1,\ldots,\lambda_k$ and corresponding eigenspaces $E_1,\ldots,E_k$. Let $T_j\in\cL(V)$ be the orthogonal projection onto $E_j$. Then:
+\begin{enumerate}
+  \item $V=E_1\oplus \cdots\oplus E_k$ is a direct sum of orthogonal subspaces, in particular, $E_j^\perp$ is the direct sum of the remaining eigenspaces;
+  \item $T_iT_j=0$ if $i\neq j$;
+  \item $I_V=T_1+\cdots+T_k$;
+  \item $T=\lambda_1T_1+\cdots+\lambda_kT_k$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\begin{enumerate}
+  \item We know that $T$ is diagonalizable and so $V$ is the direct sum of the eigenspaces of $T$. By Lemma \ref{lemm:normalbasic}, the eigenvectors corresponding to distinct eigenvalues are orthogonal, whence the eigenspaces are mutually orthogonal. In particular, this says that
+  \[\hat E_j:=\bigoplus_{i\neq k}E_j\le E_j^\perp\]
+  Since $V$ is finite-dimensional, Theorem \ref{thm:projcleanup} says $V=E_j\oplus E_j^\perp$, whence
+  \[\dim \hat{E_j}=\sum\limits_{j\neq k}\dim E_j=\dim V-\dim E_j=\dim E_j^\perp \implies \hat E_j=E_j^\perp\]
+  \item This is clear by part 1, since $\cN(T_j)=E_j^\perp=\hat E_j$.
+  \item Write $\vx=\sum_{j=1}^k\vx_j$ where each $\vx_j\in E_j$. Then $T_j(\vx)=\vx_j$: now add\ldots
+  \item $T(\vx)=\sum_{j=1}^kT(\vx_j)=\sum_{j=1}^k\lambda_j\vx_j=\sum_{j=1}^k\lambda_jT_j(\vx)$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{defn}{}{}
+The \emph{spectrum} of a normal/self-adjoint operator $T$ on a finite dimensional inner product space is its set of eigenvalues. The expressions in parts 3 and 4 are called, respectively, the \emph{resolution of the identity} and the \emph{spectral decomposition of $T$.}
+\end{defn}
+
+\begin{examples}
+\begin{enumerate}
+  \item Recall Example \ref{ex:easynormal} where we had a normal matrix $A=\begin{smatrix}
+1+i&1+i\\
+-1-i&1+i
+\end{smatrix}$
+with orthonormal eigenvectors
+\[\vw_2=\frac 1{\sqrt 2}\twovec 1{-i},\qquad \vw_{2i}=\frac 1{\sqrt 2}\twovec 1i\]
+It is easy to see that the orthogonal projections are $T_2=L_{B_2}$ and $T_{2i}=L_{B_{2i}}$, where
+\[B_2=\vw_2\vw_{2}^*=\frac 12\twovec 1{-i}(1\ \ i)=\frac 12\begin{pmatrix}
+1&i\\-i&1
+\end{pmatrix}
+\qquad B_{2i}=\vw_{2i}\vw_{2i}^*=\frac 12\begin{pmatrix}
+1&-i\\i&1
+\end{pmatrix}\]
+Indeed observe that
+\begin{gather*}
+B_2+B_{2i}=\begin{pmatrix}
+1&0\\0&1
+\end{pmatrix}\quad\text{and}\quad
+2B_2+2iB_{2i}=\begin{pmatrix}
+1&i\\-i&1
+\end{pmatrix}+\begin{pmatrix}
+i&1\\1&i
+\end{pmatrix}=A
+\end{gather*}
+
+\item The matrix $A=\begin{smatrix}
+0&1&1\\
+1&0&1\\
+1&1&0
+\end{smatrix}$ has eigenvalues $2,-1,-1$ and an orthonormal eigenbasis
+\[\{\vw_1,\vw_2,\vw_3\} =\left\{\frac 1{\sqrt 3}\threevec 111, \frac 1{\sqrt 2}\threevec 1{-1}0,\frac 1{\sqrt 6}\threevec 11{-2} \right\}\]
+As eignspaces, we have $E_2=\Span\{\vw_1\}$ and $E_{-1}=\Span\{\vw_2,\vw_3\}$. The orthogonal projections are then multiplication by the following matrices
+\begin{gather*}
+B_2=\vw_1\vw_1^T=\frac 13\begin{pmatrix}
+1&1&1\\
+1&1&1\\
+1&1&1
+\end{pmatrix}\\
+B_{-1}=\vw_2\vw_2^T+\vw_3\vw_3^T
+=\frac 12\begin{pmatrix}
+1&-1&0\\
+-1&1&0\\
+0&0&0
+\end{pmatrix}+\frac 16\begin{pmatrix}
+1&1&-2\\
+1&1&-2\\
+-2&-2&4
+\end{pmatrix}
+=\frac 13\begin{pmatrix}
+2&-1&-1\\
+-1&2&-1\\
+-1&-1&2
+\end{pmatrix}
+\end{gather*}
+It is moreover easy to check the resolution of the identity and the spectral decomposition:
+\[B_2+B_{-1}=I\quad\text{and}\quad 2B_2-B_{-1}=A\]
+\end{enumerate}
+\end{examples}
+
+
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item Compute the matrices of the orthogonal projections onto the following subspaces: in all cases we use the standard inner product.
+  \begin{enumerate}
+    \item $\Span\stwovec 4{-1}$ in $\R^2$
+    \item $\Span\left\{\sthreevec 121,\sthreevec 10{-1}\right\}$ in $\R^3$
+    \item $\Span\left\{\sthreevec i10,\sthreevec 1i1\right\}$ in $\C^3$
+    \item $\Span\left\{\sthreevec 110,\sthreevec 121\right\}$ in $\R^3$\quad (\emph{watch out, these vectors aren't orthogonal!})
+	\end{enumerate}
+	
+	\item For each of the matrices in Exercise \ref{ex:orthequiv1}, compute the projections onto each eigenspace, verify the resolution of the identity and the spectral decomposition.
+	
+	\item If $W$ be a finite-dimensional subspace of an inner product space $V$. If $T=\pi_W$ is the orthogonal projection onto $W$, prove that then $I-T$ is the orthogonal projection onto $W^\perp$.
+	
+	\item Let $T\in\cL(V)$ where $V$ is finite-dimensional.
+	\begin{enumerate}
+	  \item If $T$ is an orthogonal projection, prove that $\Nm{T(\vx)}\le\Nm{\vx}$ for all $\vx\in V$.
+	 	\item Give an example of a projection for which the inequality in (a) is false.
+	 	\item If $T$ is a projection for which $\Nm{T(\vx)}=\Nm{\vx}$ for all $\vx\in V$, what is $T$?
+	 	\item If $T$ is a projection for which $\Nm{T(\vx)}\le\Nm{\vx}$ for all $\vx\in V$, prove that $T$ is an orthogonal projection.
+	\end{enumerate}
+	
+	\item Let $T$ be a normal operator on a finite-dimensional inner product space. If $T$ is a projection, prove that it must be an orthogonal projection.
+	
+	\item Let $T$ be a normal operator on a finite-dimensional complex inner product space $V$. Use the spectral decomposition $T=\lambda_1T_1+\cdots+\lambda_kT_k$ to prove:
+	\begin{enumerate}
+	  \item If $T^n$ is the zero map for some $n\in\N$, then $T$ is the zero map.
+	  \item $U\in\cL(V)$ commutes with $T$ if and only if $U$ commutes with each $T_j$.
+	  \item There exists a normal $U\in\cL(V)$ such that $U^2=T$.
+	  \item $T$ is invertible if and only if $\lambda_j\neq 0$ for all $j$.
+	  \item $T$ is a projection if and only if every $\lambda_j=0$ or 1.
+	  \item $T=-T^*$ if and only if every $\lambda_j$ is imaginary.
+	\end{enumerate}
+\end{enumerate}
+\end{exercises}\clearpage
+
+
+\subsection{The Singular Value Decomposition and the Pseudoinverse}
+
+Our first goal in this section is to extend the spectral theorem to any linear operator between vector spaces $V,U$. 
+
+\begin{example}{}{}
+Let $T=L_A\in\cL(\R^2,\R^3)$ where $A=\begin{smatrix}
+3&1\\
+2&-2\\
+1&3
+\end{smatrix}$, then
+\[T\twovec 11=\sthreevec 404\quad\text{and}\quad T\twovec 1{-1}=\sthreevec 24{-2}\]
+If we take orthonormal bases
+\[\beta=\{\vv_1,\vv_2\}=\left\{\frac 1{\sqrt 2}\twovec 11,\frac 1{\sqrt 2}\twovec 1{-1}\right\},\quad \gamma=\{\vu_1,\vu_2,\vu_3\}=\left\{\frac 1{\sqrt 2}\sthreevec 101,\frac 1{\sqrt 6}\sthreevec 12{-1}, \frac 1{\sqrt 3}\sthreevec 1{-1}{-1}\right\}\]
+Then $T(\vv_1)=4\vu_1$ and $T(\vv_2)=2\sqrt 3\vu_2$. With respect to these bases, we have
+\[[T]_\beta^\gamma=\begin{pmatrix}
+4&0\\
+0&2\sqrt 3\\
+0&0
+\end{pmatrix}\]
+which is as close to a diagonal matrix representation as we're going to be able to get.
+\end{example}
+
+In the example, the bases $\beta,\gamma$ play a similar role to the orthonormal basis of eigenvectors diagonalizing a normal/self-adjoint operator as considered in the spectral theorem. The numbers $4$ and $2\sqrt 3$ behave very like eigenvalues. Our main result says that this can always be done.
+
+\begin{thm}{Singular Value Decomposition}{}
+Suppose $U,V$ are finite-dimensional inner product spaces and that $T\in\cL(V,U)$ has rank $r$.
+\begin{enumerate}
+  \item There exist orthonormal bases $\beta=\{\vect{\vv}{n}\}$ of $V$ and $\gamma=\{\vect{\vu}{m}\}$ of $U$ and positive scalars $\sigma_1\ge\sigma_2\ge\cdots\ge \sigma_r$ such that
+  \[T(\vv_j)=\begin{cases}
+  \sigma_j\vu_j&\text{if }j\le r\\
+  \V0&\text{otherwise}
+  \end{cases}\]
+  \item Each $\vv_j$ is an eigenvector of $T^*T$: indeed
+  \[T^*T(\vv_j)=\begin{cases}
+  \sigma_j^2\vv_j&\text{if }j\le r\\
+  \V0&\text{otherwise}
+  \end{cases}\]
+  We conclude that the scalars $\sigma_j$ are uniquely determined\footnote{The basis $\beta$ is not, though it determines $\gamma$. The eigenspaces of $T^*T$ are determined: these are, in order, spanned by the elements of $\beta$. Thus there is significant freedom in $\beta$, particularly if any of the $\sigma_j$'s are equal.} by $T$.
+\end{enumerate}
+\end{thm}
+
+In the example, $\sigma_1=4,\sigma_2=2\sqrt 3$ and $A^*A=\begin{smatrix}
+14&2\\2&14
+\end{smatrix}$ which has eigenvalues $\sigma_1^2=16$ and $\sigma_2^2=12$.
+
+\begin{proof}
+\begin{enumerate}
+  \item $T^*T$ is self-adjoint: by the spectral theorem it has an orthonormal basis of eigenvectors $\beta=\{\vect{\vv}{n}\}$. Observe that
+	\[\ip{T(\vv_j),T(\vv_k)}=\ip{T^*T(\vv_j),\vv_k}=\lambda_j\delta_{jk}\]
+	Certainly every eigenvalue is a non-negative real number: $\lambda_j=\Nm{T(\vv_j)}^2\ge 0$. Exactly $r$ of the eigenvalues are non-zero: by reordering the basis vectors if necessary, we may assume that
+	\[\lambda_1\ge\cdots\ge\lambda_r>0\]
+	If $j\le r$, define $\sigma_j:=\sqrt{\lambda_j}>0$ and $\vu_j:=\frac 1{\sigma_j}T(\vv_j)$, then the set $\{\vect{\vu}{r}\}$ is orthonormal. To finish, simply extend this to an orthonormal basis $\gamma$.
+	\item This is very easy given part 1:
+	\[\ip{T^*(\vu_j),\vv_k}=\ip{\vu_j,T(\vv_k)}=\ip{\vu_j,\sigma_k\vu_k}=\sigma_k\delta_{jk} =\ip{\sigma_j\vv_j,\vv_k} \implies T^*(\vu_j)=\sigma_j\vv_j\]
+	since $\beta$ is a basis. We conclude that $T^*T(\vv_j)=\sigma^2_j\vv_j$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{defn}{}{}
+We call the numbers $\sigma_1,\ldots,\sigma_r$ the \emph{singular values} of $T$. If $T$ is not maximum rank, we have additional singular values $\sigma_{r+1}=\cdots=\sigma_{\min(m,n)}:=0$. If $A$ is a matrix, then its singular values are the singular values of the linear map $L_A$.
+\end{defn}
+
+It should be reasonably clear that if $V=U$ and if $T$ is normal, then each $\vw_j$ is an eigenvector of $T$ and $\sigma_j$ is the \emph{modulus} of the corresponding eigenvalue (exercise).
+
+\begin{cor}{Singular Value Decomposition for Matrices}{}
+Let $\sigma_1\ge \cdots\ge \sigma_r>0$ be the non-zero singular values of a rank $r$ matrix $A\in M_{m\times n}(\F)$. Then there exist unitary matrices $U,V$ such that
+\[A=U\Sigma V,\quad\text{where}\quad \Sigma=\begin{pmatrix}
+\diag(\sigma_1,\ldots,\sigma_r)&O\\
+O&O
+\end{pmatrix}\]
+\end{cor}
+
+\begin{proof}
+Let $T=L_A\in\cL(\F^n,\F^m)$ and define $U=(\vect{\vu}{m})$ and $V^*=(\vect{\vv}{n})$ where the orthonormal basis vectors in the singular value theorem are the columns of the matrices. Clearly these are unitary matrices. Moreover, for each $\vv_k$,
+\[U\Sigma V\vv_k=U\Sigma\ve_k=\sigma_kU\ve_k=\sigma_k\vu_k=A\vv_k\]
+where $\ve_k,\hat{\ve_k}$ are the $k^\text{th}$ standard basis vectors of $\F^m$ and $\F^n$ respectively. Since $U\Sigma V$ and $A$ agree on a basis, they are equal.
+\end{proof}
+
+\begin{example}{}{}
+We find the singular value decomposition of the matrix $A=\begin{smatrix}
+  -1&7\\3&4\\7&1
+  \end{smatrix}$.\\[5pt]
+  According to the singular value theorem, we need to compute the orthonormal eigenpairs for
+  \[A^*A=\begin{pmatrix}
+  -1&3&7\\7&4&1
+  \end{pmatrix}\begin{pmatrix}
+  -1&7\\3&4\\7&1
+  \end{pmatrix}
+  =\begin{pmatrix}
+  59&12\\12&66
+  \end{pmatrix}\]
+  When arranged in decreasing order, these are easily seen to be\
+  \[(\vv_1,\lambda_1)=\left(\frac 15\twovec 34,75\right)\quad\text{and}\quad(\vv_2,\lambda_2)=\left(\frac 15\twovec{-4}3,50\right)\]
+  It follows that the singular values are $\sigma_1=\sqrt{75}=5\sqrt 3$ and $\sigma_2=5\sqrt 2$. Now compute the other basis vectors:
+  \[\vu_1:=\frac 1{\sigma_1}A\vv_1=\frac 1{25\sqrt 3}\sthreevec{25}{25}{25}=\frac 1{\sqrt 3}\sthreevec 111,\quad \vu_2:=\frac 1{\sigma_2}A\vv_2=\frac 1{25\sqrt 2}\sthreevec{25}{0}{-25}=\frac 1{\sqrt 2}\sthreevec 10{-1}\]
+  and we take $\vu_3=\frac 1{\sqrt 6}\sthreevec 1{-2}1$ to complete the orthonormal basis $\gamma=\{\vu_1,\vu_2,\vu_3\}$. We conclude that
+  \[A=U\Sigma V=
+  \begin{pmatrix}
+  \frac 1{\sqrt 3}&\frac 1{\sqrt 2}&\frac 1{\sqrt 6}\\
+  \frac 1{\sqrt 3}&0&\frac{-2}{\sqrt 6}\\
+  \frac 1{\sqrt 3}&\frac{-1}{\sqrt 2}&\frac 1{\sqrt 6} 
+  \end{pmatrix}
+  \begin{pmatrix}
+  5\sqrt 3&0\\0&5\sqrt 2\\0&0
+  \end{pmatrix}
+  \begin{pmatrix}
+  \frac 35&\frac{-4}5\\\frac 45&\frac 35 
+  \end{pmatrix}^T\]
+\end{example}
+
+It is typically much harder to find singular values in non-standard inner product spaces since computation of the adjoint is typically so difficult. Here is a classic example.
+
+\begin{example}{}{derivpseudo}
+On the inner product spaces $P_2(\R)$ and $P_1(\R)$ with  $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$, we have orthonormal bases
+\[\beta=\{\sqrt 5(6x^2-6x+1),\sqrt 3(2x-1),1\},\qquad \gamma=\{\sqrt 3(2x-1),1\}\]
+Now let $T=\diff x$. Since the bases are orthonormal, it is easy to find the matrices of $T$ and its adjoint, etc:
+\[[T]_\beta^\gamma=A=\begin{pmatrix}
+2\sqrt{15}&0&0\\
+0&2\sqrt 3&0
+\end{pmatrix},\quad
+[T^*]_\gamma^\beta=A^*=\begin{pmatrix}
+2\sqrt{15}&0\\
+0&2\sqrt 3\\
+0&0
+\end{pmatrix}
+\implies A^*A=\begin{pmatrix}
+60&0&0\\
+0&12&0\\
+0&0&0
+\end{pmatrix}\]
+Since $A^*A$ is diagonal, it follows that the orthonormal bases $\beta$, $\gamma$ are already ordered in line with the singular values $\sigma_1=2\sqrt{15}$, $\sigma_2=2\sqrt 3$.\\[5pt]
+Since $\beta,\gamma$ are already the correct orthonormal bases for the singular value theorem, the matrix singular value decomposition with respect to these is completetly uninteresting: $A=IAI$!
+\end{example}
+
+\subsubsection*{The Pseudoinverse}
+
+Given the singular values, it is straightforward to define something that lookslike the inverse of a linear transformation, but which makes sense even when the transformation is not invertible!
+
+\begin{defn}{}{}
+Suppose $T\in\cL(V,U)$ is a linear map between finite-dimensional inner product spaces and that we've found its singular value decomposition. The \emph{pseudoinverse} of $T$ is the linear map $T^\dag\in\cL(U,V)$ defined by
+  \[T^\dag(\vu_j)=\begin{cases}
+  \frac 1{\sigma_j}\vv_j&\text{if }j\le r\\
+  \V0&\text{otherwise}
+  \end{cases}\]
+  If $A$ is a matrix, then its pseudoinverse $A^\dag$ is the matrix of $L_A^\dag$ with respect to the standard bases.
+\end{defn}
+
+Restricted to $\cN(T)^\perp=\Span\{\vect{\vv}{r}\}$ and $\cR(T)=\Span\{\vect{\vu}{r}\}$ we obtain an isomorphism
+\[\at{T}{\cN(T)^\perp}:\cN(T)^\perp\to\cR(T)\quad\text{with  inverse}\quad \at{T^\dag}{\cR(T)}\]
+
+\begin{example}{}{}
+If $T=L_A$ where $A=\begin{smatrix}
+  -1&7\\3&4\\7&1
+  \end{smatrix}$, then we have pseudoinverse
+  \[T^\dag:=\frac 1{\sigma_1}\vv_1\vu_1^*+\frac 1{\sigma_2}\vv_2\vu_2^*\]
+  which has matrix
+  \[A^\dag=\frac 1{5\sqrt 3\cdot 5\cdot\sqrt 3}\twovec 34(1\ 1\ 1) +\frac 1{5\sqrt 2\cdot 5\cdot\sqrt 2}\twovec{-4}3(1\ 0\ -1) =\frac 1{150}
+  \begin{pmatrix}
+  -6&6&18\\17&8&-1
+  \end{pmatrix}\]
+  It is easy to check that
+  \[A^\dag A=\begin{pmatrix}
+  1&0\\0&1
+  \end{pmatrix},
+  \quad\text{and}\quad
+  AA^\dag=\frac 16\begin{pmatrix}
+  5&2&-1\\2&2&2\\-1&2&5
+  \end{pmatrix}\]
+  The first result is unsurprising: since $T$ has rank 2 the restriction $T:\R^2\to\cR(T)$ is a isomorphism!\\
+  Finally, observe that $TT^\dag=\vu_1\vu_1^*+\vu_2\vu_2^*=\pi_{\vu_1}+\pi_{\vu_2}$ is precisely the \emph{orthogonal projection} onto $\cR(T)=\Span\{\vu_1,\vu_2\}$: indeed, given $A$ as above, it is easy to check that
+  \[A(A^TA)^{-1}A^T=AA^\dag\]
+  is the projection matrix onto the column space of $A$, as discussed in Theorem \ref{thm:leastsq}.
+%   we see that \[A(A^TA)^{-1}A^T=U\Sigma V(V^T\Sigma^TU^TU\Sigma V)^{-1}V^T\Sigma^TU^T= U\begin{smatrix}
+%   1&0&0\\0&1&0\\0&0&0
+%   \end{smatrix}U^T=AA^\dag\]
+\end{example}
+
+In fact this link-up with projections happens in general:
+
+\begin{cor}{}{}
+$TT^\dag=\pi_{\cR(T)}$ and $T^\dag T=\pi_{\cN(T)^\perp}$
+\end{cor}
+
+% \begin{itemize}
+%   \item : the closest vector $\vr\in\cR(T)$ to a given $\vu\in U$ is $\vr:=TT^\dag(\vu)$.
+%   \item In matrix language, if $A\in M_{m\times n}(\F)$ has rank $n$, then,
+%   \[A^\dag=(A^*A)^{-1}A^*\]
+%   In particular, if $A\vx=\vb$ is an overdetermined system of linear equations, then $A^\dag A=I_n$ and $AA^\dag=\pi_{R(A)}$, whence $\vx=A^\dag\vb$ is the unique least-squares solution to $A\vx=\vb$: it is the unique vector minimizing the distance $\Nm{A\vx-\vb}$.
+% \end{itemize}
+% 
+% In the above example, for instance, take $\vb=\sthreevec 100$ and consider the overdetermined system
+% \[\begin{cases}
+% -x+7y=1\\
+% 3x+4y=0\\
+% 7x+y=0
+% \end{cases} \quad\leftrightsquigarrow A\vx=\vb\]
+% The unique least-squares solution is
+% \[\vx=A^\dag\vb=\frac 1{150}
+%   \begin{pmatrix}
+%   -6&6&18\\17&8&-1
+%   \end{pmatrix}\threevec 100 =\frac 1{150}\twovec{-6}{17} \implies A\vx=\threevec{5/6}{2/6}{-1/6}\]
+
+Finally we check that the pseudoinverse of the derivative operator behaves roughly as expected.
+
+\begin{example}{}{}
+The pseudoinverse of $T=\diff x:P_2(\R)\to P_1(\R)$, as seen in Example \ref{ex:derivpseudo}, maps
+\begin{gather*}
+T^\dag(\sqrt 3(2x-1))=\frac 1{2\sqrt{15}}\sqrt 5(6x^2-6x+1) =\frac 1{2\sqrt 3}(6x^2-6x+1)\\
+T^\dag(1)=\frac 1{2\sqrt 3}\sqrt 3(2x-1)=x-\frac 12\\
+\begin{aligned}
+\implies T^\dag(a+bx)&=T^\dag\left(a+\frac b2+\frac b{2\sqrt 3}\sqrt 3(2x-1)\right) =\left(a+\frac b2\right)\left(x-\frac 12\right)+\frac b{12}(6x^2-6x+1)\\
+&=\frac b2x^2+ax-\frac b6
+\end{aligned}
+\end{gather*}
+As expected, the pseudoinverse of `differentiation' returns a particular choice of anti-derivative.
+\end{example}
+
+\begin{exercises}[breakable]
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item\label{exs:pseudo1} Find the ingredients $\beta,\gamma$ and the singular values for each of the following:
+  \begin{enumerate}
+    \item $T\in\cL(\R^2,\R^3)$ where $T\stwovec xy=\sthreevec x{x+y}{x-y}$
+    \item $T:P_2(\R)\to P_1(\R)$ and $T(f)=f''$ where $\ip{f,g}:=\int_0^1f(x)g(x)\,\dx$
+    \item $V=W=\Span\{1,\sin x,\cos x\}$ and $\ip{f,g}=\int_0^{2\pi}f(x)g(x)\,\dx$, with $T(f)=f'+2f$
+  \end{enumerate}
+  
+  \item\label{exs:pseudo2} Find a singular value decomposition of each of the matrices:
+  \begin{enumerate}
+    \item $\begin{smatrix}
+    1&1\\1&1\\-1&-1
+    \end{smatrix}$\qquad
+    (b)\ \ $\begin{smatrix}
+    1&0&1\\1&0&-1
+    \end{smatrix}$\qquad
+    (c)\ \ $\begin{smatrix}
+    1&1&1\\1&-1&0\\1&0&-1
+    \end{smatrix}$
+  \end{enumerate}
+  
+  \item Find an explicit formula for $T^\dag$ in each of the examples in Exercise \ref{exs:pseudo1}.
+  
+  \item Find the pseudoinverse of each of the matrices in Exercise \ref{exs:pseudo2}.
+  
+  \item Suppose $T:V\to U$ is written according to the singular value theorem. Prove that $\gamma$ is a basis of eigenvectors of $TT^*$ with the \emph{same} non-zero eigenvalues as $T^*T$, including repetitions.
+  
+  \item Suppose $T=\cL(V)$ is a normal operator. Prove that each $\vv_j$ in the singular value theorem may be chosen to be an eigenvector of $T$ and that $\sigma_j$ is the \emph{modulus} of the corresponding eigenvalue.
+  
+  \item Let $V,U$ be finite-dimensional inner product spaces and $T\in\cL(V,U)$. Prove:
+  \begin{enumerate}
+    \item If $T$ is injective, then $T^*T$ is invertible and $T^\dag=(T^*T)^{-1}T^*$.
+    \item If $T$ is surjective, then $TT^*$ is invertible and $T^\dag=T^*(TT^*)^{-1}$.
+	\end{enumerate}
+
+	\item Suppose $A\in M_{m\times n}(\R)$ and $\vb\in\R^m$ where $m>n$, so that the the system of equations $A\vx=\vb$ is overdetermined. Let $\vz=A^\dag\vb$.
+	\begin{enumerate}
+	  \item If $A\vx=\vb$ is consistent (has a solution), prove that $\vz$ is the solution with minimal norm.
+	  \item If $A\vx=\vb$ is inconsistent, prove that $\vz$ is the unique minimizer of $\Nm{A\vz-\vb}$ with minimal norm.
+	\end{enumerate}
+	
+	\item For the following systems, find the minimal norm solution to the first and the vector which comes closest to solving the second:
+	\[\begin{cases}
+		-x+7y=6\\
+		3x+4y=7\\
+		7x+y=8
+		\end{cases}
+		\qquad\qquad
+		\begin{cases}
+		-x+7y=1\\
+		3x+4y=0\\
+		7x+y=0
+		\end{cases}\]
+\end{enumerate}
+\end{exercises}
+
+
+\subsection{Bilinear and Quadratic Forms}
+
+In this section we slightly generalize the idea of an inner products. Throughout, $V$ is a vector space over a field $\F$: unlike the rest of this chapter, $V$ need not be an inner product space and $\F$ can be any field (not just $\R$ or $\C$).
+
+\begin{defn}{}{}
+A \emph{bilinear form} $B:V\times V\to\F$ is a function which is linear in each entry when the other is held fixed. That is: $\forall \vv,\vx,\vy\in V,\lambda\in\R$,
+  \[\ip{\lambda\vx+\vy,\vv}=\lambda\ip{\vx,\vv}+\ip{\vy,\vv},\qquad \ip{\vv,\lambda\vx+\vy}=\lambda\ip{\vv,\vx}+\ip{\vv,\vy}\]
+Additionally, $B$ is \emph{symmetric} if $\forall \vx,\vy\in V$,\ $\ip{\vx,\vy}=\ip{\vy,\vx}$.
+\end{defn}
+
+\begin{examples}[label=exs:bilinear]
+\begin{enumerate}
+	\item If $V$ is a \emph{real} inner product space, then the inner product $\ip{\ ,\ }$ is a symmetric bilinear form. Note that a \emph{complex} inner product is \emph{not bilinear!}
+	
+	\item\label{ex:bilinear1} If $A\in M_n(\F)$, then $B(\vv,\vw):=\vv^TA\vw$ is a bilinear form on $\F^n$. For instance, on $\R^2$, let
+	\[B(\vv,\vw)=\vv^T\begin{pmatrix}
+	1&2\\2&0
+	\end{pmatrix}\vw =v_1w_1+2v_1w_2+2v_2w_1\]
+	This defines a symmetric bilinear form. Note that $B$ \emph{isn't} an inner product on $\R^2$ since it isn't positive definite: for example,
+	\[B(\vj,\vj)=0\]
+	
+  \item On the vector space $V=\Z_3^2$ over the finite field $\Z_3=\{0,1,2\}$ of remainders modulo 3, define
+  \[B(\vv,\vw)=\vv^T\begin{pmatrix}
+	2&0\\1&1
+	\end{pmatrix}\vw=2v_1w_1+v_2w_1+v_2w_2\]
+	For instance, $B\left(\stwovec 20,\stwovec 12\right)=1$. This clearly isn't symmetric, since $B\left(\stwovec 12,\stwovec 20\right)=2$.
+\end{enumerate}
+\end{examples}
+
+As seen in the examples, we often make use of a matrix.
+
+\begin{defn}{}{}
+Let $B$ be a bilinear form on a finite-dimensional vector space $V$ with basis $\beta=\{\vect{\vv}{n}\}$. The matrix $A\in M_n(\F)$ with $ij^\text{th}$ entry
+\[A_{ij}=B(\vv_i,\vv_j)\]
+is the \emph{matrix of $B$ with respect to $\beta$.}
+\end{defn}
+
+The correspondence should be clear: given $\vx,\vy\in V$ we may compute their co-ordinate vectors $[\vx]_\beta,[\vy]_\beta$ with respect to $\beta$, then
+\[B(\vx,\vy)=[\vx]_\beta^TA[\vy]_\beta\]
+In particular, given a basis $\beta$, the set of bilinear forms on $V$ is in bijective correspondence with the set $M_n(\F)$. Moreover, since the transpose of a scalar is the same scalar,
+\[B(\vy,\vx)=\left([\vy]_\beta^TA[\vx]_\beta\right)^T=[\vx]_\beta^TA^T[\vy]_\beta\]
+Evaluating this on all pairs of basis elements, we see that
+\begin{align*}
+B\text{ symmetric}&\implies \forall i,j,\ B(\vv_i,\vv_j)=B(\vv_j,\vv_i)\\
+&\implies \forall i,j,\ A_{ij}=A_{ji}\\
+&\implies A^T=A\text{\ \ ($A$ symmetric)}\\
+&\implies B\text{ symmetric}
+\end{align*}
+We have therefore proved:
+\begin{lemm}{}{}
+A bilinear form on a finite-dimensional vector space is symmetric if and only if its matrix with respect to any (and all) bases is symmetric.
+\end{lemm}
+
+Given the relationship of the co-ordinate vectors with the matrix of a bilinear form, it is easy to see that if $\gamma$ is another basis of $V$, then
+\[B(\vx,\vy)=[\vx]_\beta^TA[\vy]_\beta =(Q_\gamma^\beta[\vx]_\gamma)^TA(Q_\gamma^\beta[\vy]_\gamma) =[\vx]_\gamma^T\left((Q_\gamma^\beta)^TAQ_\gamma^\beta\right)[\vy]_\gamma\]
+where $Q_\beta^\gamma=[I]_\beta^\gamma$ is the change or co-ordinate matrix from $\beta$ to $\gamma$. In particular,
+\begin{lemm}{}{}
+If $A$ is the matrix of $B$ with respect to some basis, then every other matrix of $B$ has the form $Q^TAQ$ for some invertible $Q$.
+\end{lemm}
+
+\begin{example}{}{}
+Recall Example \hyperref[ex:bilinear1]{\ref*{exs:bilinear}.\ref*{ex:bilinear1}}, where $A=\begin{smatrix}
+	1&2\\2&0
+\end{smatrix}$ is the matrix of $B$ with respect to the standard basis $\beta=\{\vi,\vj\}$ of $\R^2$. Let $\gamma=\{\vw_1,\vw_2\}:=\{\vi,\vj-2\vi\}$, then
+\begin{gather*}
+B(\vw_1,\vw_1)=1,\quad B(\vw_2,\vw_1)=B(\vw_1,\vw_2)=B(\vi,\vj)-2B(\vi,\vi)=0,\\
+B(\vw_2,\vw_2)=(-2\ 1)\begin{pmatrix}
+	1&2\\2&0
+\end{pmatrix}\twovec{-2}1 =-4
+\end{gather*}
+It follows that the matrix of $B$ with respect to $\gamma$ is
+\[\begin{pmatrix}
+	1&0\\0&-4
+\end{pmatrix}
+=\begin{pmatrix}
+	1&0\\-2&1
+\end{pmatrix}
+\begin{pmatrix}
+	1&2\\2&0
+\end{pmatrix}
+\begin{pmatrix}
+	1&-2\\0&1
+\end{pmatrix}
+=Q^TAQ
+\]
+where $Q=Q_\beta^\gamma=([\vw_1]_\beta\ [\vw_2]_\beta)$ is plainly the change of co-ordinate matrix from $\gamma$ to $\beta$.
+\end{example}
+
+This example gives us a clue regarding the \emph{diagonalization} of a bilinear form: the change of co-ordinate matrix in this case is an \emph{elementary matrix} $E_{12}^{(-2)}$. Recall:
+\begin{itemize}
+  \item As a row operation (left-multiplication), $E_{21}^{(-2)}=Q^T$ adds to the second row $-2$ times the first.
+  \item As a column operation (right-multiplication), $E_{12}^{(-2)}=Q$ adds to the second column $-2$ times the first.
+\end{itemize}
+
+By repeatedly applying simultaneous row and column operations, we can diagonalize almost any symmetric bilinear form (caveat below\ldots).
+
+\begin{example}{}{}
+Diagonalize $B(\vv,\vw)=\vv^TA\vw=\vv^T
+\begin{smatrix}
+	1&-2&3\\-2&0&4\\3&4&-1
+\end{smatrix}\vw$\\
+We perform a sequence of row and column operations to clean out all non-diagonal entries. We only need elementary matrices of type III, which we'll denote $E_{ij}^{(\lambda)}$: this is the identity matrix with an additional $\lambda$ in the $ij^\text{th}$ entry.
+\begin{align*}
+&E_{21}^{(2)}AE_{12}^{(2)}=\begin{pmatrix}
+	1&0&3\\0&-4&10\\3&10&-1
+\end{pmatrix} \tag{add twice the first row to the second, columns similarly}\\
+&E_{31}^{(-3)}E_{21}^{(2)}AE_{12}^{(2)}E_{13}^{(-3)}=\begin{pmatrix}
+	1&0&0\\0&-4&10\\0&10&-10
+\end{pmatrix} \tag{subtract $3$ times the first row from the third, etc.}\\
+&E_{23}^{(1)}E_{31}^{(-3)}E_{21}^{(2)}AE_{12}^{(2)}E_{13}^{(-3)}E_{32}^{(1)}=\begin{pmatrix}
+	1&0&0\\0&6&0\\0&0&-10
+\end{pmatrix} \tag{add the third row to the second, etc.}
+\end{align*}
+If $\beta=\{\vi,\vj,\vk\}$ is the standard basis, we therefore have change of co-ordinate matrix
+\[Q=Q_\gamma^\beta=E_{12}^{(2)}E_{13}^{(-3)}E_{32}^{(1)}
+=\begin{pmatrix}
+	1&2&0\\0&1&0\\0&0&1
+\end{pmatrix}
+\begin{pmatrix}
+	1&0&-3\\0&1&0\\0&0&1
+\end{pmatrix}
+\begin{pmatrix}
+	1&0&0\\0&1&0\\0&1&1
+\end{pmatrix}
+=\begin{pmatrix}
+	1&-1&-3\\0&1&0\\0&1&1
+\end{pmatrix}\]
+With respect to the basis $\gamma=\left\{\sthreevec 100,\sthreevec{-1}11,\sthreevec{-3}01\right\}$ the symmetric bilinear form $B$ is diagonal.
+\end{example}
+
+\begin{thm}{}{}
+If $B$ is diagonalizable on a finite-dimensional vector space, then it is symmetric.\\
+Conversely, if $B$ is symmetric and the field $\F$ does not have characteristic 2, then $B$ is diagonalizable. 
+\end{thm}
+
+\begin{example}{}{}
+Why the problem with characteristic 2? Consider $B=\vv^T\begin{smatrix}0&1\\1&0\end{smatrix}\vw$. If we apply our algorithm:
+\begin{align*}
+&E_{12}^{(1)}\begin{pmatrix}
+	0&1\\1&0
+\end{pmatrix}E_{21}^{(1)}=\begin{pmatrix}
+	2&1\\1&0
+\end{pmatrix} \tag{add the second row to the first, columns similarly}\\
+&E_{21}^{(-1/2)}E_{12}^{(1)}\begin{pmatrix}
+	0&1\\1&0
+\end{pmatrix}E_{21}^{(1)}E_{12}^{(-1/2)}=\begin{pmatrix}
+	2&0\\0&-\frac 12
+\end{pmatrix} \tag{subtract $\frac 12$ row 1 from row 2, etc.}
+\end{align*}
+Since $Q=E_{21}^{(1)}E_{12}^{(-1/2)}= \begin{smatrix}
+	1&0\\1&1
+\end{smatrix}\begin{smatrix}
+	1&-\frac 12\\0&1
+\end{smatrix}=\begin{smatrix}
+	1&-\frac 12\\1&\frac 12
+\end{smatrix}$
+we see that $B$ is diagonal with respect to the basis $\gamma=\left\{\stwovec 11,\stwovec{-1/2}{1/2}\right\}$. If the field has characteristic 2, however, then $\frac 12$ is meaningless! Perhaps surprisingly, the matrix of $B$ is the same with respect to \emph{any} basis of $\Z_2^2$: $B$ is therefore non-diagonalizable!
+\end{example}
+
+\begin{proof}
+The first part is easy: $B$ is diagonalizable if there exists a basis with respect to which its matrix $A$ is diagonal. Since $A$ is symmetric, so is $B$.\\[5pt]
+The converse is more difficult,\footnote{If the field is $\R$ it is easy: $A^T=A$ is symmetric and thus orthogonally equivalent to a diagonal matrix\ldots}. Suppose $B$ is non-zero, for otherwise this is trivial. First observe that there exists a vector $\vx\in V$ such that $B(\vx,\vx)\neq 0$: choose any two vectors $\vu,\vv\in V$ such that $B(\vu,\vv)\neq 0$ and if both $B(\vu,\vu)=0=B(\vv,\vv)$, then $\vx=\vu+\vv$ satisfies
+\[B(\vx,\vx)=2B(\vu,\vv)\neq 0\]
+This is where the characteristic $\neq 2$ condition comes in!\\[5pt]
+Now proceed by induction on the dimension $n$ of $V$. If $n=1$ the result is trivial: every bilinear form on $V$ is symmetric since it has the form $B(x,y)=axy$ for some $a\in\F$.\\
+Now fix $n\in\N$ and assume the result holds for all non-zero symmetric bilinear forms on all vector spaces with dimension $\le n$. Let $\dim V=n+1$. By the above, $\exists \vx\in V$ such that $B(\vx,\vx)\neq 0$. Consider the linear map
+\[T:V\to\F:\vv\mapsto B(\vx,\vv)\]
+Since $\Rank T=1$, we see that $\Null T=n$ and so $N(T)\le V$ is a dimension $n$ subspace. Clearly $B$ is symmetric when restricted to $N(T)$ and thus, by the induction hypothesis, is diagonalizable. Choose a basis $\beta$ of $N(T)$ such that the matrix of $\at{B}{N(T)}$ with respect to $\beta$ is diagonal. Then $B$ is clearly diagonal with respect to the basis $\beta\cup\{\vx\}$. 
+\end{proof}
+
+\begin{cor}{}{}
+Over any field $\F$ of characteristic $\neq 2$, every symmetric matrix is similar to a diagonal matrix.
+\end{cor}
+
+\subsubsection*{Quadratic Forms}
+
+
+\begin{defn}{}{}
+To every symmetric bilinear form $B:V\times V\to\F$ is associated a \emph{quadratic form}
+\[K:V\to\F:\vv\mapsto B(\vv,\vv)\]
+Indeed a function $K$ is a quadratic form precisely when such a symmetric bilinear form exists.
+\end{defn}
+
+
+\begin{examples}{}{}
+\begin{enumerate}
+  \item If $B$ is a real inner product on $V$, then $K(\vv)=\ip{\vv,\vv}=\Nm{\vv}^2$ is the square of the norm. This partly explains the term `quadratic.
+  
+  \item Let $\dim V=n$ and $A$ be the matrix of $B$ with respect to a basis $\beta$. By the symmetry of $A$,
+  \[K(\vx)=\vx^TA\vx=\sum_{i,j=1}^nx_iA_{ij}x_j =\sum_{1\le i\le j\le n}\tilde a_{ij}x_ix_j
+  \quad\text{where}\ \tilde a_{ij}=\begin{cases}
+  A_{ij}&\text{if $i=j$}\\
+  2A_{ij}&\text{if }i\neq j
+  \end{cases}\]
+  E.g., $K(\vx)=3x_1^2+4x_2^2-2x_1x_2$ corresponds to the bilinear form $B(\vx,\vy)=\vx^T\begin{smatrix}
+  3&-1\\-1&4
+  \end{smatrix}\vy$
+%   where $\tilde a_{ij}=\begin{cases}
+%   A_{ij}&\text{if $i=j$}\\
+%   2A_{ij}&\text{if }i\neq j
+%   \end{cases}$
+\end{enumerate}
+\end{examples}
+
+An application of quadratic forms and their relationship to symmetric (diagonalizable) bilinear forms is to the study of quadratic manifolds: these are conics in $\R^2$ and quadratic surfaces in $\R^3$. For example, the general non-zero quadratic form on $\R^2$ is
+\[K(\vx)=ax^2+2bxy+cy^2\leftrightsquigarrow B(\vv,\vw)=\vv^T\begin{pmatrix}
+a&b\\b&c
+\end{pmatrix}\vw\]
+Diagonalizing with respect to an orthonormal basis $\{\vv_1,\vv_2\}$, there exist scalars $\lambda_1,\lambda_2$ with
+\[K(t_1\vv_1+t_2\vv_2)=\lambda_1t_1^2+\lambda_2t_2^2\]
+With respect to this basis the general conic has the form
+\[\lambda_1t_1^2+\lambda_2t_2^2+\mu_1t_1+\mu_2t_2=\eta,\quad \lambda_1,\lambda_2,\mu_1,\mu_2,\eta\in\R\]
+If the $\lambda_i$ are non-zero, we may complete the square via the linear transformations $s_j=t_j+\frac{\mu_j}{2\lambda_j}$. The canonical forms are then recovered:
+\begin{description}
+	\item[\normalfont Parabola] $\lambda_1$ or $\lambda_2=0$.
+	\item[\normalfont Ellipse] $\lambda_1s_1^2+\lambda_2s_2^2=k$ where $\lambda_1,\lambda_2$ have the same sign.
+	\item[\normalfont Hyperbola] $\lambda_1s_1^2+\lambda_2s_2^2=k$ where $\lambda_1,\lambda_2$ have opposite signs.
+\end{description}
+Since we only applied a rotation (change to the orthonormal basis $\{\vv_1,\vv_2\}$) and translation (completing the square), it is clear that every conic may be recovered thus from the canonical forms.
+
+
+\begin{example}[lower separated=false, sidebyside, sidebyside align=top seam, sidebyside gap=0pt, righthand width=0.4\linewidth]{}{}
+We describe and plot the conic with equation $7x^2+24xy=144$.\\[5pt]
+The matrix of the associated bilinear form is $\begin{smatrix}
+7&12\\12&0
+\end{smatrix}$ which has orthonormal eigenpairs
+\[(\lambda_1,\vv_1)=(16,\tfrac 15\stwovec 43),\quad (\lambda_2,\vv_2)=(-9,\tfrac 15\stwovec{-3}4)\]
+In the rotated basis, we have the canonical hyperbola
+\[16t_1^2-9t_2^2=144\iff \frac{t_1^2}{3^2}-\frac{t_2^2}{4^2}=1\]
+which is easily plotted.
+\tcblower
+\flushright\includegraphics{quad-hyperbola}
+\end{example} 
+
+ 
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+  \item Prove that the sum of any two bilinear forms is bilinear, and that any scalar multiple of a bilinear form is bilinear: thus the set of bilinear forms on $V$ is a vector space.\\
+  (\emph{You can't use matrices here, since $V$ could be infinite-dimensional!})
+  
+  \item Compute the matrix of the bilinear form
+  \[B(\vx,\vy)=x_1y_1-2x_1y_2+x_2y_1-x_3y_3\]
+  on $\R^3$ with respect to the basis $\beta=\left\{\sthreevec 101,\sthreevec 10{-1},\sthreevec 010\right\}$.
+  
+  \item Check that the function $B(f,g)=f'(0)g''(0)$ is a bilinear form on the vector space of twice-differentiable functions. Find the matrix of $B$ with respect to $\beta=\{\cos t,\sin t,\cos 2t,\sin 2t\}$ when restricted to the subspace $\Span\beta$.
+  
+  \item For each matrix $A$ with real valued entries, find a diagonal matrix $D$ and an invertible matrix $Q$ such that $Q^TAQ=D$.
+  \begin{enumerate}
+    \item $\begin{pmatrix}
+    1&3\\3&2
+    \end{pmatrix}$\qquad
+    (b)\ \ $\begin{pmatrix}
+    3&1&2\\1&4&0\\2&0&-1
+    \end{pmatrix}$
+  \end{enumerate}
+  
+  \item If $K$ is a quadratic form and $K(\vx)=2$, what is the value of $K(3\vx)$?
+  
+  \item If $\F$ does not have characteristic 2, and $K(\vx)=B(\vx,\vx)$ is a symmetric quadratic form, prove that we can recover the bilinear form $B$ via
+		\[B(\vx,\vy)=\frac 12\left(K(\vx+\vy)-K(\vx)-K(\vy)\right)\]
+  
+  \item If $B(\vx,\vy)=\vx^T\begin{smatrix}0&1\\1&0\end{smatrix}\vy$ is a bilinear form on $\F^2$, compute the quadratic form $K(\vx)$.
+  
+  \item Describe and plot the following conics:
+  \begin{enumerate}
+    \item $x^2+y^2+xy=6$
+    
+    \item $35x^2+120xy=4x+3y$
+  \end{enumerate}
+  
+  \item Suppose that a conic $C$ in $\R^2$ has the form $ax^2+2bxy+cy^2+dx+ey+f=0$, where at least one of $a,b,c\neq 0$, and define $\Delta=b^2-ac$. Prove that:
+  \begin{itemize}
+    \item $C$ is a parabola if and only if $\Delta=0$;
+    \item $C$ is an ellipse if and only if $\Delta<0$;
+    \item $C$ is a hyperbola if and only if $\Delta>0$.
+  \end{itemize}
+  (\emph{Hint: $\lambda_1,\lambda_2$ are the eigenvalues of a symmetric matrix, so\ldots})
+  
+  %\item Consider the quadratic form $K(x,y,z)=x^2+y^2-z^2$ which describes a cone in three dimensions. Let $ax+by+cz=1$ be the equation of a plane in $\R^3$ which does not pass through the origin. Prove that 
+\end{enumerate}
+\end{exercises}\clearpage
+
+\setcounter{subsection}{10}
+\subsection{The Geometry of Orthogonal Operators}
+
+The purpose of this section is to classify the orthogonal operators $T\in\cL(V)$ on any finite-dimensional \emph{real} inner product space $V$. This is very easy to do when $\dim V=1$ or 2.
+
+\begin{description}
+	\item[\normalfont\emph{Dimension 1}:] Clearly $T(\vx)=a\vx$ for some $a\in\R$. $T$ is clearly self-adjoint and therefore orthogonal if and only if $a^2=1$, yielding $T=\pm I$.
+	\item[\normalfont\emph{Dimension 2}:] Any choice of orthonormal basis $\beta$ generates an isomorphism of inner product spaces $\phi:V\to\R^2$ and the problem becomes that of identifying every orthogonal matrix in $M_2(\F)$. We already did this in Exercise \ref{ex:rotrefmatrix}: all orthogonal $2\times 2$ real matrices have the form
+\[A_\theta=\begin{pmatrix}
+	\cos\theta&-\sin\theta\\
+	\sin\theta&\cos\theta
+  \end{pmatrix},\qquad B_\theta=\begin{pmatrix}
+	\cos\theta&\sin\theta\\
+	\sin\theta&-\cos\theta
+	\end{pmatrix}\]
+for some $\theta\in\R$. Moreover, their effects are as follows:
+	\begin{itemize}
+	  \item $L_{A_\theta}\in\cL(\R^2)$ rotates vectors counter-clockwise about the origin by $\theta$ radians;
+	  \item $L_{B_\theta}\in\cL(\R^2)$ reflects vectors across the line making angle $\frac 12\theta$ with the positive $x$-axis.
+	\end{itemize}
+\end{description}
+	
+These maps provides the motivation for a general definition of rotation and reflection.
+	
+\begin{defn}{}{}
+Suppose $T\in\cL(V)$ where $V$ is a finite-dimensional real inner product space. We say that $T$ is a:
+\begin{description}
+  \item[\normalfont\emph{Rotation}] if either $T$ is the identity map, or if there exists a two-dimensional subspace $W\le V$ with orthonormal basis $\beta=\{\vx,\vy\}$ and some $\theta\in(0,2\pi)$ such that\footnote{We could include the identity here with $\theta=0$, but then \emph{any} 2-dimensional subspace $W$ is suitable and the axis of rotation is not well-defined.}
+  \[T(\vx)=\cos\theta\,\vx+\sin\theta\,\vy,\qquad T(\vy)=-\sin\theta\,\vx+\cos\theta\,\vy,\qquad T(\vw^\perp)=\vw^\perp,\]
+  for all $\vw^\perp\in W^\perp$, termed the \emph{axis of rotation.} Otherwise said, $[\at T{W}]_\beta=A_\theta$ and $\at T{W^\perp}=I$. 
+  
+  \item[\normalfont\emph{Reflection}] if there exists a one-dimensional subspace $W\le V$ such that $\forall \vw\in W,\vw^\perp\in W^\perp$,
+  \[T(\vw+\vw^\perp)=-\vw+\vw^\perp\]
+  Otherwise said, $\at T{W}=-I$ and $\at T{W^\perp}=I$. We could call this \emph{reflection across $W^\perp$.}
+\end{description}
+\end{defn}
+
+\begin{example}{}{}
+We compute the matrix of the reflection across $W^\perp=\Span\{\vi+2\vj\}\le\R^2$.\\[5pt]
+First observe that $W=\Span\{2\vi-\vj\}$, whence $\beta=\{\stwovec 2{-1},\stwovec 12\}$ is an orthogonal basis (it doesn't need to be orthonormal!). The change of co-ordinate matrix from $\beta$ to the standard basis $\epsilon=\{\vi,\vj\}$ is $Q=Q_\beta^\epsilon=\begin{smatrix}
+2&1\\-1&2
+\end{smatrix}$, whence the required matrix is
+\[A=Q_\beta^\epsilon\begin{pmatrix}
+-1&0\\0&1
+\end{pmatrix}Q_\epsilon^\beta =\frac 15\begin{pmatrix}
+-3&4\\4&3
+\end{pmatrix}\]
+which is easily checked to satisfy $A\stwovec 2{-1}=-\stwovec 2{-1}$ and $A\stwovec 12=\stwovec 12$.
+\end{example}
+
+It should be clear that every rotation and reflection is an orthogonal operator and that they may be easily distinguished by determinant:
+\[\det(\text{rotation})=1,\qquad \det(\text{reflection})=-1\]
+It is also easy to see that $L_{A_\theta}\in\cL(\R^2)$ is a rotation as per the definition: simply take $\beta=\{\vi,\vj\}$ and $W=\R^2$! We leave the verification that $L_{B_\theta}\in\cL(\R^2)$ is a reflection as an exercise. The case for $\dim V=1$ is even easier. To summarize:
+
+\begin{lemm}{}{22orth}
+Suppose $V$ is a real inner product space with $\dim V=1$ or $2$. Then every orthogonal operator $T\in\cL(V)$ is either a rotation or a reflection.
+\end{lemm}
+
+
+Our goal is to describe any orthogonal operator $T$ in terms of rotations and reflections. The upshot is that there exists an orthonormal basis $\beta$ with respect to which the matrix of $T$ has block form
+\[[T]_\beta=\diag(R_1,R_2,\ldots,R_k)\]
+and each $R_j$ is either a $2\times 2$ rotation matrix, or is $\pm 1$.
+
+\begin{example}{}{}
+The matrix $A=\begin{smatrix}
+\frac 35&-\frac 45&0&0\\
+\frac 45&\frac 35&0&0\\
+0&0&1&0\\
+0&0&0&-1
+\end{smatrix}$ describes an orthogonal operator $L_A\in\cL(\R^4)$. We have three commuting orthogonal operations $L_A=T_1T_2T_3$:
+\begin{itemize}
+  \item $T_1$ rotates by $\theta=\tan^{-1}\frac 43$ about the axis $W_1^\perp=\Span\{\ve_3,\ve_4\}$;
+  \item $T_2$ is the identity rotation with `axis' $W_2^\perp=\Span\{\ve_1,\ve_2,\ve_4\}$;
+  \item $T_3$ is reflection across $W_3^\perp=\Span\{\ve_1,\ve_2,\ve_3\}$
+\end{itemize}
+\end{example}
+
+To see that this always happens, we first need a little theory regarding a real $n\times n$ matrix $A$. Our primary strategy always to relies on eigendecompositions; unfortunately $A$ need not have any \emph{real} eigenvectors. As a linear operator on $\C^n$ however, it must have at least one eigenpair $(\lambda,\vv)$: consider the real and imaginary parts: $\vv=\vx+i\vy$ and $\lambda=p+iq$ and observe that
+\[A\vx+iA\vy=A(\vx+i\vy)=(p+iq)(\vx+i\vy)=(p\vx-q\vy)+i(p\vy+q\vx) \tag{$\ast$}\]
+Since $A$ is real, we can equate real and imaginary parts to see that $\Span\{\vx,\vy\}$ \emph{is an $L_A$-invariant subspace of $\R^n$.} This is the generic situation, since, upon choosing a basis, any linear operator on a finite-dimensional real vector space is multiplication by some real matrix $A$. We therefore conclude:
+
+\begin{lemm}{}{}
+If $T\in\cL(V)$ is a linear operator on a finite-dimensional real vector space, then there exists a $T$-invariant subspace $W\le V$ such that $\dim W=1$ or 2.
+\end{lemm}
+
+The reason our construction might product a 1-dimensional space? The real and imaginary parts $\vx,\vy$ might be parallel! In this case, of course, $W$ is an eigenspace of $T$.\\
+
+Of particular interest to our current goal is that the real and imaginary parts of ($\ast$) look very like a \emph{rotation.} Indeed if we specialize the Lemma to an orthogonal operator $T$, it is an easy exercise to check that $W^\perp$ is also $T$-invariant. We conclude that $\at T{W^\perp}$ is an orthogonal operator on a lower-dimensional vector space. We may now repeat the process until we have exhausted $V$. This leads to the following:
+
+\begin{thm}{}{}
+Let $T\in\cL(V)$ be an orthogonal operator on a finite-dimensional real inner product space. Then:
+\begin{enumerate}
+  \item There exists an orthogonal decomposition
+	\[V= W_1\oplus\cdots \oplus W_m\]
+	where each $W_k$ is a 1 or 2-dimensional $T$-invariant subspace.\footnote{It should be clear that $\frac n2\le m\le n$.}
+	\item For each $j$, define $T_j:=\at T{W_j}+\at I{W_j^\perp}$. Then $T_j$ is a rotation or a reflection and $T=T_1\cdots T_m$.
+	\item $\det T=(-1)^k$ where exactly $k$ of the $T_j$ are reflections.
+	\item The subspaces may be chosen so that there is at most one reflection $T_j$, and where $\dim W_j=1$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\begin{enumerate}
+  \item We've already done this, though it could be made more formal by induction.
+  \item Since $\at T{W_j}$ is orthogonal on a 1 or 2-dimensional space, Lemma \ref{lemm:22orth} says it is either a rotation or a reflection. Extending to $T_j$ by forcing the identity on $W_j^\perp$ produces a rotation or reflection on $\R^n$. Moreover, since the $W_j$ are orthogonal subspaces, we see that
+  \[\vv_j\in W_j\implies T_k(\vv_j)=\begin{cases}
+  T(\vv_j)&\text{if $j=k$}\\
+  \vv_j&\text{if $j\neq k$}
+  \end{cases}\]
+  By applying to a basis where each $\vv_j$ lies in some $W_j$, the relationship $T=T_1\cdots T_m$ is now clear.
+  \item This is immediate since every rotation has determinant 1 and every reflection determinant $-1$.
+  \item Suppose that $T_j$ is a reflection and $\dim W_j=2$. Then there exists a one-dimensional subspace $\hat W_j$ such that
+  \[\at{T_j}{\hat W_j}=-I,\qquad \at{T_j}{\hat W_j^\perp}=I\]
+  By replacing $W_j$ by $\hat W_j\oplus \hat W_j^\perp$, we see that every reflection may be assumed to be one-dimensional.\\
+  Now suppose $W_j,W_k$ are 1-dimensional subspaces corresponding to reflections $T_j,T_k$. Then
+  \[(T_j+T_k)(\vv)=\begin{cases}
+  -\vv&\text{if $\vv\in W_j\oplus W_k$}\\
+  \vv&\text{if $\vv\in (W_j\oplus W_k)^\perp$}
+  \end{cases}\]
+  Otherwise said, $T_j+T_k$ is the \emph{rotation} with $W=W_j\oplus W_k$ and $\theta=\pi$. We can therefore replace an even number of reflections with rotations.\qedhere
+\end{enumerate}
+\end{proof}
+
+
+
+% 
+% \begin{lemm}{}{orthrotref}
+% Every rotation is an orthogonal operator with determinant 1.\\
+% Every reflection is an orthogonal operator with determinant $-1$.
+% \end{lemm}\pagebreak[3]
+% 
+% \begin{proof}
+% Given a rotation $T\in\cL(V)$ with axis $W^\perp$, extend the basis $\beta=\{\vx,\vy\}$ of $W$ to an orthonormal basis $\gamma$ of $V$. With respect to this basis, the matrix of $T$ has block form
+% \[[T]_\gamma=\left(\begin{array}{c|c}
+% A_\theta&0\\\hline
+% 0&I
+% \end{array}\right) \implies [T^*]_\gamma=\left(\begin{array}{c|c}
+% A_\theta^T&0\\\hline
+% 0&I
+% \end{array}\right)
+% =\left(\begin{array}{c|c}
+% A_\theta^{-1}&0\\\hline
+% 0&I
+% \end{array}\right) =[T]_\gamma^{-1}\]
+% since $A_\theta$ is orthogonal. We conclude that $T$ is invertible with inverse $T^{-1}=T^*$: that is, $T$ is an orthogonal operator. Moreover its determinant is clearly $\det A_\theta=1$.\\[5pt]
+% We leave the reflection argument as an exercise.
+% \end{proof}
+
+
+
+\begin{example}{}{orthorotatenasty}
+Consider the matrix $A=\frac 1{25}\begin{smatrix}
+  15&-12&-16\\
+  20&9&12\\
+  0&-20&15
+  \end{smatrix}$. We show that $L_A\in\cL(\R^3)$ is a rotation and find its axis and angle of rotation.\\[5pt]
+  It is easy (with a calculator!) to check that $A^TA=I$ so that $A$ is orthogonal, and moreover that $\det A=1$.
+  %\[\det A=\frac 1{25^3}\left(15^2\cdot 9+16\cdot 20^2+2\cdot 12\cdot 15\cdot 20\right)=1\]
+  According to the Theorem, there are no reflections in $A$ and so there must exist a decomposition $\R^3=W\oplus W^\perp$ where $\dim W=2$ and such that $W^\perp$ is an eigenspace with eigenvalue 1. We can hunt for the eigenvalues via the usual approach, or we can do it by brute force: $\vw^\perp=\sthreevec abc$ has eigenvalue 1 if and only if
+   \[\begin{cases}
+   15a-12b-16c=25a\\
+   20a+9b+12c=25b\\
+   -20b+15c=25c
+   \end{cases} \iff c=-2b, \ a=2b \iff \vw^\perp\propto\threevec 21{-2}\]
+   The axis of rotation is therefore $W^\perp=\Span\left\{\sthreevec 21{-2}\right\}$. To find the angle, we simply need to choose anything orthogonal to this (and therefore in $W$), and see how $A$ changes the angle. Thus let $\vw=\sthreevec 101$ and compute
+   \[A\vw=\frac 1{25}\threevec{-1}{32}{15}\implies \cos\theta=\frac{\sthreevec 101\cdot\sthreevec{-1}{32}{15}}{ \sqrt{1+1}\sqrt{1+32^2+15^2}}
+   =\frac{14}{50}=\frac 7{25} \implies \theta\approx \ang{74}\]
+   In fact $(\vw,A\vw,\vw^\perp)$ is negatively oriented if we `look down' on $W=\Span\{\vw,A\vw\}$ from above $\vw^\perp$, the rotation would be through  \ang{74} \emph{clockwise.}
+\end{example}
+
+Because of the theorem, some authors prefer to simply define a rotation to be any orthogonal operator with determinant 1 and a reflection to be any with determinant $-1$. The multiplicative property of determinant then shows that the composition of any two rotations is a rotation,\footnote{In particular, this shows that the set of `rotations' forms a normal subgroup $\rSO(V)$ of the group of orthogonal operators on $V$, known as the \emph{special orthogonal group.}} of two reflections is a rotation, etc. The problem with this definition is that one loses the notion of an axis of rotation, since a general determinant 1 orthogonal operator will typically require multiple rotations around several axes.
+
+\begin{example}{}{}
+For given $\theta,\phi$, the matrix
+\[A=\begin{smatrix}
+  \cos\theta&-\sin\theta&0&0\\
+  \sin\theta&\cos\theta&0&0\\
+  0&0&\cos\phi&-\sin\phi\\
+  0&0&\sin\phi&\cos\phi
+\end{smatrix}\]
+performs two rotations. It has no `axis' of rotation, since it has no eigenspace with eigenvalue 1: indeed it has no \emph{real} eigenvalues at all. Regardless, it is orthogonal and has determinant 1, so many authors consider this to be a rotation.
+\end{example}
+
+\begin{exercises}
+\begin{enumerate}[label=\thesubsection.\arabic*., align=right]
+	\item Find the matrices with respect to the standard basis of the reflections in $W^\perp$:
+	\begin{enumerate}
+	  \item $W=\Span\{-2\vi+5\vj\}$
+	  \item $W=\Span\{\vi+2\vj+2\vk\}$\quad  \emph{Hint: consider the basis $\beta=\left\{\frac 13\sthreevec 122,\frac 13\sthreevec 2{-2}1,\frac 13\sthreevec 21{-2}\right\}$}
+	\end{enumerate}
+	
+  \item\begin{enumerate}
+  	\item Given $\phi$, let $\beta=\{\vx,\vy\}=\left\{\stwovec{\cos\phi}{\sin\phi},\stwovec{-\sin\phi}{\cos\phi}\right\}$ and $\gamma=\{\vx,-\vy\}$. Clearly every orthonormal basis of $\R^2$ has the form $\beta$ or $\gamma$. Compute the matrices
+  	\[[L_{A_\theta}]_\beta\quad\text{and}\quad[L_{A_\theta}]_\gamma\quad\text{where}\quad A_\theta=\begin{pmatrix}
+		\cos\theta&-\sin\theta\\
+		\sin\theta&\cos\theta
+  	\end{pmatrix}\]
+  	What do you observe?
+  	\item Now consider the reflection matrix $B_\theta=\begin{smatrix}
+		\cos\theta&\sin\theta\\
+		\sin\theta&-\cos\theta
+  	\end{smatrix}$. Show that there is a privileged orthonormal basis (indeed four up to scaling and reordering) $\beta$ such that $[L_{B_\theta}]_\beta=\begin{smatrix}
+		1&0\\
+		0&-1
+  	\end{smatrix}$.
+ 	\end{enumerate}
+ 	
+ 	\item Compute $A_\phi B_\theta A_\phi^{-1}$. Across what line in $\R^2$ does this matrix reflect? Can you do this \emph{without} multiplying out the matrices?
+  
+  \item Prove explicitly:
+  \begin{enumerate}
+    \item If $T$ is a rotation then it is orthogonal and $\det T=1$;
+    \item If $T$ is a reflection then it is orthogonal and $\det T=-1$.
+  \end{enumerate}
+  
+  \item If $W$ is a $T$-invariant subspace where $T$ is an orthogonal operator on a finite-dimensional real inner product space $V$, prove that $W^\perp$ is also $T$-invariant.
+
+	\item Find the result when the vector $\vx=\sthreevec 342$ is rotated \ang{90} counter-clockwise around the $z$-axis (when viewed from above) and then reflected in the $xz$-plane. What is the effect of this transformation on a general vector?
+  
+  \item For any non-zero $\theta,\phi\in(-\pi,\pi)$, define the matrices
+  \[A=\begin{pmatrix}
+  \cos\theta&-\sin\theta&0\\
+  \sin\theta&\cos\theta&0\\
+  0&0&1
+  \end{pmatrix}\qquad B=\begin{pmatrix}
+  1&0&0\\
+  0&\cos\phi&-\sin\phi\\
+  0&\sin\phi&\cos\phi
+  \end{pmatrix}\]
+  Prove that $L_{AB}$ is a rotation of $\R^3$ and find its axis of rotation.
+
+ 	
+%  	 since it has eigenspaces
+% \[W=E_{-1}=\Span\left\{\twovec{-\sin\frac\theta 2}{\cos\frac\theta 2}\right\},\qquad W^\perp=E_1=\Span\left\{\twovec{\cos\frac\theta 2}{\sin\frac\theta 2}\right\}\]
+  
+%  
+%   
+%   \item Recall (Exercise \ref{ex:unitarymatrix}) that a unitary matrix $A\in M_n(\C)$ has an orthonormal eigenbasis $\gamma=\{\vect{\vv}{n}\}$ and eigenvalues $e^{i\theta_1},\ldots,e^{i\theta_n}$.
+%   \begin{enumerate}
+%     \item Suppose $A$ is real (it is an \emph{orthogonal} matrix). Prove that each $\cl{\vv_j}$ is also an eigenvector with eigenvalue $e^{-i\theta_j}$.
+%     \item If $e^{i\theta_j}$ is not real, show that $\dim\Span\{\vv_j,\cl{\vv_j}\}=2$. Moreover, find a 2-dimensional subspace $W$ of $\R^n$ so that $L_A$ restricted to $W$ is a rotation by angle $\theta_j$.
+%     \item If $e^{i\theta_j}$ is real, show that there exists a 1 or 2-dimensional subspace $W$ of $\R^n$ such that $L_A$ restricted to $W$ is $\pm I$.
+% 	\end{enumerate}
+	
+	\item Let $V$ be a real inner product space of dimension 2. Given any $\vx\neq \vy$ with $\Nm\vx=\Nm\vy=1$, show that there exists a unique rotation $T\in\cL(V)$ such that $T(\vx)=\vy$.
+% 	  \item (If you've done group actions in group theory) Write $\rSO(n+1)$ for the special orthogonal group $\rSO(\R^{n+1})$. Part (a) shows that the action of the group $\rSO(n+1)$ is transitive on $S^n$. Given $\vx\in S^n$ consider the \emph{stabilizer} subgroup
+% 	  \[\Stab(\vx)=\{U\in\rSO(n+1):U(\vx)=\vx\}\]
+% 	  Prove that $\Stab(\vx)\cong\rSO(n)$ and moreover that there exists a bijection of the unit sphere with the set of left cosets
+% 	  \[\mu:S^n\to\quotient{\rSO(n+1)}{\rSO(n)}=\{TU:T\in\rSO(n+1),U\in\Stab(\vx)\}\]
+% 	  (\emph{This `transitive action modulo stabilizer' construction is known as a homogeneous space})
+% 	\end{enumerate}
+\end{enumerate}
+\end{exercises}

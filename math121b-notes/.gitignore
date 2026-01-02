@@ -1,0 +1,10 @@
+/tmp/
+math121b-notes.pdf
+*synctex.gz
+*synctex
+*.aux
+*.log
+*.out
+*.toc
+*_.tex
+math121b-notes-luamml-mathml.html
