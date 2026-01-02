@@ -210,14 +210,8 @@ There are two special cases when $V=W$:
 \end{example*}
 
 
-% \begin{exercises}{}
-% 	Cn as 2n dim real space.
-% 	F2 has 4 elements
-% 	Extension field Q(rt 2) dimension 2 over Q
-% \end{exercises}
-
-
 \clearpage
+
 
 %\setcounter{section}{4}
 \section{Diagonalizability \& the Cayley--Hamilton Theorem}
@@ -488,26 +482,31 @@ Everything prior to this \emph{should} be review. If it feels very unfamiliar, r
 	  \emph{Your argument should work even if $V$ is infinite-dimensional: no matrices!}
 	  	
 	  	
-	  \item\label{exs:detTbasis} If $V$ is finite-dimensional and $\rT\in\cL(V)$, we define
+	  \item\label{exs:detTbasis} Throughout this question, suppose $\rT\in\cL(V)$ is a linear map on a finite-dimensional vector space $V$, and that $\beta,\gamma$ are bases of $V$. We use the \emph{change of co-ordinate matrix} $Q_\beta^\gamma$, defined as follows:
 	  \[
-	  	\det\rT:=\det[\rT]_\beta
+	  	\forall \vv\in V,\ [\vv]_\gamma=Q_\beta^\gamma[\vv]_\beta
 	  \]
-	  where $\beta$ is any basis of $V$. Explain why the choice of basis does not matter: that is, if $\gamma$ is any other basis of $V$, then $\det[\rT]_\gamma=\det[\rT]_\beta$.
+	  \begin{enumerate}
+	    \item Prove that
+	  	\[
+	  		[\rT]_\gamma=Q_\beta^\gamma [\rT]_\beta (Q_\beta^\gamma)^{-1}
+	  	\]
+	  	\item Define $\det\rT:=\det[\rT]_\beta$, where $\beta$ is \emph{any} basis of $V$. Explain why the choice of basis does not matter: that is, if $\gamma$ is any other basis of $V$, then $\det[\rT]_\gamma=\det[\rT]_\beta$.
+	  	\item Suppose $A\in M_n(\F)$ is diagonalizable with eigenbasis $\beta=\{\vect vn\}$. Prove that there exists a matrix $M$ such that
+	  	\[
+	  		A=MDM^{-1}
+	  	\]
+	  	where $D=\diag(\lambda_1,\ldots,\lambda_n)$ is the diagonal matrix of eigenvalues.
+	  \end{enumerate}
 	  
 	  
 	  \item Prove Lemma \ref{lemm:evectindep}.
-	  
-	  
-	  \item Suppose $A\in M_n(\F)$ is diagonalizable with eigenbasis $\beta=\{\vect vn\}$. Prove that
-	  \[
-	  	A=MDM^{-1}
-	  \]
-	  where $M=Q_\beta^\epsilon =[\I]_\beta^\epsilon$ is the change of co-ordinate matrix (page \pageref{pg:changeofcoords}) from $\beta$ to the standard basis $\epsilon=\{\vect en\}$, and $D=\diag(\lambda_1,\ldots,\lambda_n)$ is the diagonal matrix of eigenvalues.
 	\end{enumerate}
 \end{exercises}
 
 
 \clearpage
+
 
 
 
@@ -1091,86 +1090,5 @@ With a little sneakiness, we can drop the $W$'s entirely and observe an intimate
 	\end{enumerate}
 \end{exercises}
 
-
-
-
-% \end{document}
-
-% \boldinline{Examples}
-% \begin{enumerate}
-%   \item Let $A=\begin{pmatrix}
-%   2&0&0&0\\
-%   0&3&1&0\\
-%   0&0&3&1\\
-%   0&0&0&3
-%   \end{pmatrix}$. Then $p(\lambda)=(2-\lambda)(3-\lambda)^3$ and
-%   \[\begin{array}{c||c|c}
-% 	\lambda&2&3\\\hline\hline
-% 	E_\lambda&\Span(\ve_1)&\Span(\ve_2)\\\hline
-% 	\operatorname{mult}(\lambda)&1&3\\\hline
-% 	\dim E_\lambda&1&1
-% 	\end{array}\]
-% 	Even though $p(\lambda)$ splits, the linear map $L_A$ is non-diagonalizable: indeed
-% 	\[\sum_{i=1}^2\dim E_{\lambda_i}=2<4\quad\text{and}\quad \dim E_3\neq\operatorname{mult}(3)\]
-% 	\item Let $B=\begin{pmatrix}
-%   -1&6&0&0\\
-%   -2&6&0&0\\
-%   0&0&3&0\\
-%   0&0&0&3
-%   \end{pmatrix}$. Then $p(\lambda)=(2-\lambda)(3-\lambda)^3$ and
-%   \[\begin{array}{c||c|c}
-% 	\lambda&2&3\\\hline\hline
-% 	E_\lambda&\Span(2\ve_1+\ve_2)&\Span(3\ve_1+2\ve_2,\ve_3,\ve_4)\\\hline
-% 	\operatorname{mult}(\lambda)&1&3\\\hline
-% 	\dim E_\lambda&1&3
-% 	\end{array}\]
-% 	The linear map $L_A$ is diagonalizable, and the Theorem is easily seen to be satisfied. Indeed
-% 	\[\beta=\left\{\fourvec 2100,\fourvec 3200,\fourvec 0010,\fourvec 0001\right\}\]
-% 	is seen to be an eigenbasis with respect to which
-% 	\[[L_B]_\beta=\begin{pmatrix}
-%   2&0&0&0\\
-%   0&3&0&0\\
-%   0&0&3&0\\
-%   0&0&0&3
-%   \end{pmatrix}\]
-% \end{enumerate}
-% 
-% Recall the example on page \pageref{ex:eigen2}. We use the Cayley--Hamilton Theorem to compute $L^4$.\\
-% The characteristic polynomial is 
-% \[p(t)=(2-t)^2(1-t)=4-8t+5t^2-t^3\]
-% It follows that
-% \begin{align*}
-% L^4&=L\circ L^3=L\circ(5L^2-8L+4I)=5L^3-8L^2+4L=5(5L^2-8L+4I)-8L^2+4L\\
-% &=17L^2-36L+20I
-% \end{align*}
-% Where $I\in\cL(P_2(\R))$ is the identity map. Since
-% \[A=[L]_\epsilon=\begin{pmatrix}
-% 2&-1&\frac 83\\
-% 0&1&-6\\
-% 0&0&2
-% \end{pmatrix}\]
-% we can easily compute
-% \begin{align*}
-% [L^4]_\epsilon&=17A^2-36A+20I=17\begin{pmatrix}
-% 4&-3&\frac{50}3\\
-% 0&1&-18\\
-% 0&0&4
-% \end{pmatrix}-36\begin{pmatrix}
-% 2&-1&\frac 83\\
-% 0&1&-6\\
-% 0&0&2
-% \end{pmatrix}+20\begin{pmatrix}
-% 1&0&0\\
-% 0&1&0\\
-% 0&0&1
-% \end{pmatrix}\\
-% &=\begin{pmatrix}
-% 16&-15&\frac{562}3\\
-% 0&1&-90\\
-% 0&0&16
-% \end{pmatrix}
-% \end{align*}
-% It follows, for example, that
-% \[L^4(35-3x^2)=35\cdot 16-3\left(\frac{562}3-90x+16x^2\right)=-2+270x-48x^2\]
-
-
+\iffalse
+\fi
