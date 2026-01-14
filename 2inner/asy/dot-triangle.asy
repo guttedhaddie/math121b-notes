@@ -1,5 +1,5 @@
-settings.prc=false;
-settings.outformat="pdf";
+settings.tex="pdflatex";
+defaultpen(fontsize(11pt));
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
@@ -8,7 +8,7 @@ texpreamble("\usepackage{amsmath}
 ");
 import graph;
 
-size(120);
+size(110);
 
 pair xy=(4,1);
 pair x=(2.5,2);

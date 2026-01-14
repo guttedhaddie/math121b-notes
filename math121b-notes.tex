@@ -8,20 +8,22 @@
 
 \documentclass[11pt,letterpaper]{article}
 
-\input{preamble-packages}
-\input{preamble-commands}
-
-\includeonly{
-	1cayley/1cayley,
-}
-
-\begin{document}
-
-\pagenumbering{roman}
-%
-
-\pagenumbering{arabic}
-\include{1cayley/1cayley}
-
+	\input{preamble-packages}
+	\input{preamble-commands}
+	
+	\includeonly{
+		1cayley/1cayley,
+		2inner/2inner,
+	}
+	
+	\begin{document}
+	
+	\pagenumbering{roman}
+	%
+	
+	\pagenumbering{arabic}
+	\include{1cayley/1cayley}
+	\include{2inner/2inner}
+	
 
 \end{document}
