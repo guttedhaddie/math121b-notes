@@ -274,7 +274,7 @@ Self-adjoint means symmetric ($A^T=A$) if $A$ is a real matrix.
 
 As always when discussing inner products, the field $\F$ must be either $\R$ or $\C$.
 
-\begin{defn}{Frobenius inner product}{}
+\begin{defn}{Frobenius inner product}{frobeniusip}
 	If $A,B\in M_{m\times n}(\F)$, define
 	\[
 		\ip{A,B}=\tr(B^*A) =\sum_{j=1}^m\sum_{k=1}^n \cl{b_{kj}}a_{jk}
@@ -635,7 +635,7 @@ As in the example and part (d) of the Lemma, it is common to have a direct sum d
 \hfill
 \begin{minipage}[t]{0.35\linewidth}\vspace{-45pt}
 	\hfill
-	\href{https://www.math.uci.edu/~ndonalds/math121b/gram-orthproj.html}{\includegraphics[scale=0.9]{gram-orthproj}}
+	\href{https://www.math.uci.edu/~ndonalds/math121b/gram-orthproj.html}{\includegraphics[alt={orthogonal projection}]{gram-orthproj}}
 \end{minipage}\smallbreak
 Orthogonal projections are crucial both theoretically and in applications. We'll discuss them repeatedly in future sections.\par
 As our next result shows, orthogonal projections are simple when $U$ has a \emph{finite orthogonal basis}.
@@ -710,7 +710,7 @@ In examples, we often choose non-zero multiples $\vu_k=a_k\pi^\perp_{U_{k-1}}(\v
 \begin{proof}
 	For each $k\le n$, define $S_k=\{\vect{\vs}{k}\}$ and $\beta_k=\{\vect{\vu}{k}\}$. We prove by induction that each $\beta_k$ is an orthogonal basis of $U_k:=\Span\beta_k=\Span S_k$. The Theorem is the terminal case $k=n$.
 	\begin{description}
-		\item[\normalfont (Base case $k=1$)] Certainly $\beta_1=\{a_1\vs_1\}$ is an orthogonal set and $U_1=\Span\beta_1=\Span S_1$.
+		\item[\normalfont (Base case $k=1$)] Certainly $\beta_1=\{\vs_1\}=\{\vu_1\}$ is an orthogonal set and $U_1=\Span\beta_1=\Span S_1$.
 		\item[\normalfont	(Induction step)] Fix $k\ge 2$ and assume $\beta_{k-1}$ is an orthogonal basis of $U_{k-1}=\Span S_{k-1}$. By Theorem \ref{thm:orthcalc}, $\vu_k=\pi_{U_{k-1}}^\perp(\vs_k)\in U_{k-1}^\perp$. We also see that $\vu_k\neq \V0$, for if not,
 		\[
 			\vs_k =\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vu_j}}{\Nm{\vu_j}^2}\vu_j\in U_{k-1}=\Span S_{k-1}
@@ -786,7 +786,7 @@ We finish with a book-keeping corollary.
 
   
 \begin{proof}
-	\exstart If $V$ is finite-dimensional, take any basis $S=\{\vect sn\}$, apply Gram--Schmidt and normalize the result.
+	\exstart Simply apply Gram--Schmidt to any basis.
 	\begin{enumerate}\setcounter{enumi}{1}
 	  \item By part 1, $U$ has an orthonormal basis. Theorem \ref{thm:orthcalc} therefore applies. \qedhere
 	\end{enumerate}
@@ -801,80 +801,115 @@ as the \emph{Fourier series} of $\vx$, provided this sum converges.
   
 \bigskip
 
-TIDY EXERCISES!
 
 \begin{exercises}{}{}
-\exstart Apply Gram--Schmidt to obtain an orthogonal basis $\beta$ for $\Span S$. Then obtain the co-ordinate representation (Fourier coefficients) of the given vector with respect to $\beta$.
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[]\begin{enumerate}
-    \item $S=\left\{\sthreevec 111,\sthreevec 011,\sthreevec 001\right\}\subseteq\R^3$,\quad $\vx=\sthreevec 101$
-    \item $S=\left\{
-    \begin{smatrix}
-    3&5\\-1&1
-    \end{smatrix},
-    \begin{smatrix}
-    -1&9\\5&-1
-    \end{smatrix},
-    \begin{smatrix}
-    7&-17\\2&-6
-    \end{smatrix}
-    \right\}\subseteq M_2(\R)$,\quad $X=\begin{smatrix}
-    -1&27\\-4&8
-    \end{smatrix}$\quad  (use the \hyperref[ex:frobenius]{Frobenius} product)
-    \item $S=\left\{\sthreevec 1i0,\sthreevec 01i,\sthreevec 001\right\}\subseteq\C^3$ with $\vx=\sthreevec 111$
-    \item $S=\{1,x,x^2\}$ with $\ip{f,g}=\int_{-1}^1f(x)g(x)\,\dx$ and $f(x)=x^2$.
-  \end{enumerate}
-  \emph{Important!} You'll likely need \emph{much} more practice than this to get comfortable with Gram--Schmidt; make up your own problems!
-  \goodbreak
-  
-  \item Let $S=\{\vs_1,\vs_2\}=\left\{\sthreevec 103,\sthreevec 2{-1}0\right\}$ and $U=\Span S\le\R^3$. Find $\pi_U(\vx)$ if $\vx=\sthreevec 3{-1}{-2}$.\smallbreak
-  (\emph{Hint: First apply Gram--Schmidt})
- 	
- 	\item Find the orthogonal complement to $U=\Span\{x^2\}\le P_2(\R)$ with respect to the inner product $\ip{f,g}=\int_0^1 f(t)g(t)\,\dt$
-    
-  \item\label{ex:fdipsmatrix} Let $\rT\in\cL(V,W)$ where $V,W$ are inner product spaces with orthonormal bases $\beta=\{\vect{\vv}{n}\}$ and $\gamma=\{\vect wm\}$ respectively. Prove that the matrix $A=[\rT]_\beta^\gamma \in M_{m\times n}(\F)$ of $\rT$ with respect to these bases has $jk^\text{th}$ entry
-  \[A_{jk}=\ip{\rT(\vv_k),\vw_j}\]
-  
-  \item Suppose that $\beta$ is an orthonormal basis of an $n$-dimensional inner product space $V$. Prove that,
-	\[\forall\vx,\vy\in V,\ \ip{\vx,\vy}=[\vy]_\beta^*[\vx]_\beta\]
-	\emph{Otherwise said, the co-ordinate isomorphism $\phi_\beta:V\to \F^n$ defined by $\phi_\beta(\vx)=[\vx]_\beta$ is an isomorphism of inner product spaces where we use the standard inner product on $\F^n$. Informally, ``every inner product on a finite dimensional vector space looks like the dot or hermitian product.''}
- 	
- 	
-  \item\label{exs:uperpperp} Prove all four parts of Lemma \ref{lemm:uperpperp}.
-  
-  
-  
-  \item\label{ex:ell2ex} Let $\ell^2$ be the set of square-summable sequences of real numbers (Definition \ref{defn:ell2ip}). Consider the sequences $\vu_1,\vu_2,\vu_3,\ldots$, where $\vu_j$ is the zero sequence except for a single 1 in the $j^\text{th}$ entry. For instance,
- 	\[\vu_4=(0,0,0,1,0,0,0,0,\ldots)\]
-  \begin{enumerate}
-    \item Let $U=\Span\{\vu_j:j\in\N\}$. Prove that $U^\perp$ contains only the zero sequence.
-    \item Show that the sequence $\vy=\left(\frac 1n\right)$ lies in $\ell^2$, but does not lie in $U$.\smallbreak
-    \emph{$U$ is therefore a \emph{proper subset} of $(U^\perp)^\perp=\ell^2$ and $\ell^2\neq U\oplus U^\perp$.}
-  \end{enumerate}
- 
-  \item\label{ex:fourierx} Recall Exercise \hyperref[ex:fourier]{\ref*{sec:realcomplexips}.\ref*{ex:fourier}} where we saw that the set $\beta=\{\frac 1{\sqrt{2\pi}}e^{i mx}:m\in\Z\}$ is orthonormal with respect to $\ip{f,g}=\int_{-\pi}^\pi f(t)\cl{g(t)}\,\dt$.
-  \begin{enumerate}
-    \item Show that the \emph{Fourier series} of $f(x)=x$ is
-  	\[\mathcal{F}(x):=\sum_{m=-\infty}^\infty \ip{x,\tfrac 1{\sqrt{2\pi}}e^{i mx}}\tfrac 1{\sqrt{2\pi}}e^{i mx} %=\frac 1{2\pi} \sum_{m=0}^\infty\left(\int_{-\pi}^\pi xe^{-imx}\,\dx\right)e^{imx}
-  	=\sum_{m=1}^\infty\frac{2(-1)^{m+1}}m\sin mx\]
-  	\item Briefly explain why the Fourier series is \emph{not} an element of $\Span\beta$.
-  	\item Sketch a few of the Fourier approximations (sum up to $m=5$ or 7\ldots) and observe, when extended to $\R$, how they approximate a discontinuous periodic function.
- 	\end{enumerate}
-
-  
-  \item (Hard)\quad Much of Theorem \ref{thm:orthcalc} remains true, with suitable modifications, even if $\beta$ is an \emph{infinite} set. Restate and prove as much as you can, and identify the false part(s).%\smallbreak
-  %(\emph{Hint: a linear combination is always a finite sum!})
-
-  
-  % 	\item\label{ex:Tinj} Let $T\in\cL(V)$ be a linear operator on an inner product space and suppose that $\Nm{T(\vx)}=\Nm{\vx}$ for all $\vx\in V$. Prove that $T$ is injective (1--1).	
+	\exstart Apply Gram--Schmidt to obtain an orthogonal basis $\beta$ for $\Span S$. Then obtain the co-ordinate representation of the given vector with respect to $\beta$.
 	
-% 	\item Let $A,B\in M_n(\F)$ and let $\ip{\ ,\ }$ be the standard inner product on $\F^n$.
-% 	\begin{enumerate}
-% 	  \item Prove that $\forall\vx,\vy\in \F^n$, we have $\ip{\vx,A\vy}=\ip{A^*\vx,\vy}$.
-% 	  \item Suppose $\ip{\vx,A\vy}=\ip{B\vx,\vy}$ for all $\vx,\vy\in\F^n$: prove that $B=A^*$.
-% 	  \item Let $\beta$ be any orthonormal basis of $\F^n$ and let $Q$ be the matrix whose columns are the co-ordinates of the elements of $\beta$ with respect to the standard basis. Prove that $Q^*=Q^{-1}$.
-% 	\end{enumerate}
-\end{enumerate}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]\begin{enumerate}
+	    \item $S=\left\{\sthreevec 111,\sthreevec 011,\sthreevec 001\right\}$ with the standard inner/dot product on $\R^3$. $\vx=\sthreevec 101$.
+	    
+	    \item $S=\left\{\stwovec 11,\stwovec 10\right\}$ with the inner product $\ip{\vx,\vy}=\vy^T
+	    \begin{smatrix}
+	    	3&1\\1&1
+	    \end{smatrix}\vx$ on $\R^2$. $\vx=\stwovec 01$.
+	    
+	    \item $S=\left\{
+	    \begin{smatrix}
+	    	3&5\\
+	    	-1&1
+	    \end{smatrix},
+	    \begin{smatrix}
+	    	-1&9\\
+	    	5&-1
+	    \end{smatrix},
+	    \begin{smatrix}
+	    	7&-17\\
+	    	2&-6
+	    \end{smatrix}
+	    \right\}$ with the Frobenius product (Definition \ref{defn:frobeniusip}) on $M_2(\R)$.\par
+	    $X=
+	    \begin{smatrix}
+	    	-1&27\\
+	    	-4&8
+	    \end{smatrix}$. (Remember that this is just the dot product in $\R^4$ in disguise!)
+	    
+	    \item $S=\left\{\sthreevec 1i0,\sthreevec 01i,\sthreevec 001\right\}$ with the standard/Hermitian inner product on $\C^3$. $\vx=\sthreevec 111$.
+	    
+	    \item $S=\{1,x,x^2\}$ with the $L^2$ inner product $\ip{f,g}=\int_{-1}^1f(x)g(x)\,\dx$ and $f(x)=x^2$.
+	  \end{enumerate}
+	  
+	  \textbf{Important!} You will likely need \emph{much} more practice than this to get comfortable with Gram--Schmidt. Make up your own problems: start by changing the numbers in part (a)\ldots
+
+	  
+	  \item Let $S=\{\vs_1,\vs_2\}=\left\{\sthreevec 103,\sthreevec 2{-1}0\right\}$ and $U=\Span S\le\R^3$. Find $\pi_U(\vx)$ if $\vx=\sthreevec 3{-1}{-2}$.\par
+	  (\emph{Hint: First apply Gram--Schmidt})
+	 	
+	 	
+	 	\item Find the orthogonal complement $U^\perp$ to $U=\Span\{x^2\}\le P_2(\R)$ with respect to the $L^2$ inner product $\ip{f,g}=\int_0^1 f(t)g(t)\,\dt$.
+	 	 
+	  
+	  \item Suppose that $\beta$ is an orthonormal basis of an $n$-dimensional inner product space $V$. Prove that,
+		\[
+			\forall\vx,\vy\in V,\ \ip{\vx,\vy}=[\vy]_\beta^*[\vx]_\beta
+		\]
+		\emph{In other words, the function $\phi_\beta:\big(V,\ip{\ ,\ }\big)\to \big(\F^n,\widetilde{\ip{\ ,\ }}\big):\vx\mapsto [\vx]_\beta$ is an isomorphism of inner product spaces where $\widetilde{\ip{\ ,\ }}$ is the standard (dot/Hermitian) inner product on $\F^n$.}
+	    
+	    
+	  \item\label{ex:fdipsmatrix} Suppose $V,W$ are finite dimensional inner product spaces with orthonormal bases $\beta=\{\vect{\vv}{n}\}$ and $\gamma=\{\vect wm\}$ respectively. Suppose also that $\rT\in\cL(V,W)$.\par
+	  Prove that the matrix $A=[\rT]_\beta^\gamma \in M_{m\times n}(\F)$ of $\rT$ with respect to these bases has $jk^\th$ entry
+	  \[
+	  	A_{jk}=\ip{\rT(\vv_k),\vw_j}
+	  \]
+
+	 	
+	  \item\label{exs:uperpperp} Prove all four parts of Lemma \ref{lemm:uperpperp}.
+	  
+	  
+	  \item\begin{enumerate}
+	    \item Verify that the set $\beta=\{1,x\}$ is orthogonal with respect to the $L^2$ inner product $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$.
+	    \item Compute the projection $\pi_U(x^2)$ where $U=\Span\beta$. Compare your answer to Example \ref{ex:ell201}.
+	  \end{enumerate}
+	  
+	  
+	  \item\label{ex:ell2ex} Let $\ell^2$ be the set of square-summable sequences of real numbers (Definition \ref{defn:ell2ip}). Consider the sequences $\vu_1,\vu_2,\vu_3,\ldots$, where $\vu_j$ is the zero sequence except for a single 1 in the $j^\th$ entry. For instance,
+	 	\[
+	 		\vu_4=(0,0,0,1,0,0,0,0,\ldots)
+	 	\]
+	  \begin{enumerate}
+	    \item Let $U=\Span\{\vu_j:j\in\N\}$. Prove that $U^\perp$ contains only the zero sequence.
+	    
+	    \item Show that the sequence $\vy=\left(\frac 1n\right)$ lies in $\ell^2$, but does not lie in $U$.\par
+	    \emph{$U$ is therefore a \emph{proper subset} of $(U^\perp)^\perp=\ell^2$ and $\ell^2\neq U\oplus U^\perp$.}
+	  \end{enumerate}
+	  
+	 
+	  \item\label{ex:fourierx} Recall Exercise \ref*{sec:realcomplexips}.\ref{exs:fourier} where we saw that the set $\beta=\left\{\frac 1{\sqrt{2\pi}}e^{i mx}:m\in\Z\right\}$ is orthonormal with respect to the $L^2$ inner product $\ip{f,g}=\int_{-\pi}^\pi f(t)\cl{g(t)}\,\dt$.
+	  \begin{enumerate}
+	    \item Verify that the \emph{Fourier series} of $f(x)=x$ is
+	  	\[
+	  		\mathcal{F}(x):=\sum_{m=-\infty}^\infty \ip{x,\tfrac 1{\sqrt{2\pi}}e^{i mx}}\tfrac 1{\sqrt{2\pi}}e^{i mx} %=\frac 1{2\pi} \sum_{m=0}^\infty\left(\int_{-\pi}^\pi xe^{-imx}\,\dx\right)e^{imx}
+	  		=\sum_{m=1}^\infty\frac{2(-1)^{m+1}}m\sin mx
+	  	\]
+	  	
+	  	\item Briefly explain why the Fourier series is \emph{not} an element of $\Span\beta$.
+	  	
+	  	\item Sketch a few of the Fourier approximations (sum up to $m=5$ or 7\ldots) and observe, when extended to $\R$, how they approximate a discontinuous periodic function.
+	 	\end{enumerate}
+	
+	  
+	  \item (Hard) \ Consider Lemma \ref{lemm:orthcalc} and Theorem \ref{thm:orthcalc} when $\beta$ is an \emph{infinite} set. Do these results still hold? Explain as much as you can.
+	
+	  
+	  % 	\item\label{ex:Tinj} Let $T\in\cL(V)$ be a linear operator on an inner product space and suppose that $\Nm{T(\vx)}=\Nm{\vx}$ for all $\vx\in V$. Prove that $T$ is injective (1--1).	
+		
+	% 	\item Let $A,B\in M_n(\F)$ and let $\ip{\ ,\ }$ be the standard inner product on $\F^n$.
+	% 	\begin{enumerate}
+	% 	  \item Prove that $\forall\vx,\vy\in \F^n$, we have $\ip{\vx,A\vy}=\ip{A^*\vx,\vy}$.
+	% 	  \item Suppose $\ip{\vx,A\vy}=\ip{B\vx,\vy}$ for all $\vx,\vy\in\F^n$: prove that $B=A^*$.
+	% 	  \item Let $\beta$ be any orthonormal basis of $\F^n$ and let $Q$ be the matrix whose columns are the co-ordinates of the elements of $\beta$ with respect to the standard basis. Prove that $Q^*=Q^{-1}$.
+	% 	\end{enumerate}
+	\end{enumerate}
 \end{exercises}
 
 \clearpage

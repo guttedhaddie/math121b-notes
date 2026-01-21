@@ -1,13 +1,19 @@
-//Sets non Webgl by default
-import settings;
-batchView=false;
-
-//Sets pdf output
 settings.tex="pdflatex";
+defaultpen(fontsize(11pt));
 
-//Sets html output
+//OpenGL (default)
+
+//PNG
+//if(!settings.multipleView) settings.batchView=false;
+//settings.render=4;settings.outformat="png";
+
+//HTML
 settings.outformat="html";
-settings.verbose=1;
+
+//PDF
+if(!settings.multipleView) settings.batchView=false;
+settings.render=4;settings.outformat="pdf";
+
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
@@ -22,7 +28,7 @@ import graph;
 import graph3;
 import solids;
 
-size(0,110);
+size(0,100);
 
 triple a=(1,2,-1);
 triple b=(-1,1,2);
