@@ -1,5 +1,4 @@
 \graphicspath{{2inner/asy/}}
-\def\at#1#2{#1_{#2}}
 
 \setcounter{section}{1}
 
@@ -357,14 +356,14 @@ This isn't really a new example: if we map $M_{m\times n}(\F)\to\F^{m\times n}$ 
 	defines an inner product on the space $C[a,b]$ of continuous functions $f:[a,b]\to\F$.
 \end{defn}
 
-With careful restriction, this works even for infinite intervals and a larger class of functions.\footnote{%
-	For us, functions will always be continuous (often polynomials) on closed bounded intervals. The \emph{square-integrable functions} and \emph{$L^2$-spaces} for which the inner product is named are a more complicated business and beyond this course.%
-}
+
 Verifying Definition \ref{defn:innerproduct} is straightforward with a little analysis; for instance continuity allows us to conclude
 \[
 	\Nm f^2=\int_a^b\nm{f(x)}^2\,\dx=0\iff f(x)\equiv 0
 \]
-This is our first example of an \emph{infinite-dimensional} inner product space.
+This is our first example of an \emph{infinite-dimensional} inner product space. With careful restriction, this works even for infinite intervals and a larger class of functions.\footnote{%
+	For us, functions will always be continuous (often polynomials) on closed bounded intervals. The \emph{square-integrable functions} and \emph{$L^2$-spaces} for which the inner product is named are a more complicated business and beyond this course.%
+}
 
 \begin{example}{}{}
 	Let $f(x)=x$ and $g(x)=x^2$. These lie in the $L^2$ inner product space $C[-1,1]$. Indeed,
@@ -473,7 +472,7 @@ In essence, this is the standard inner product on $\F^n$ after letting $n\to\inf
 		\]
 	
 	  
-	  \item\label{exs:fourier} (Basic Fourier Series) \ Let $m\in\Z$ and consider the complex-valued function $f_m(x)=\frac 1{\sqrt{2\pi}}e^{i mx}$. Prove that the functions $f_m$ are pairwise orthonormal 
+	  \item\label{exs:fourier} (Fourier Series basis) \ Let $m\in\Z$ and consider the complex-valued function $f_m(x)=\frac 1{\sqrt{2\pi}}e^{i mx}$. Prove that the functions $f_m$ are pairwise orthonormal 
 	  \[
 	  	\ip{f_m,f_n}=
 	  	\begin{cases}
@@ -501,224 +500,308 @@ In essence, this is the standard inner product on $\F^n$ after letting $n\to\inf
 \clearpage
 
 
-\iffalse
 
 
-\subsection{Orthogonal Sets and the Gram--Schmidt Process}\label{sec:gs}
+\subsection{Orthogonal Subspaces and the Gram--Schmidt Process}\label{sec:gs}
 
-Suppose $V$ is a real or complex vector space with a basis $\beta$. Prove that there exists exactly one inner product on $V$ for which $\beta$ is orthonormal. Otherwise said, prove:
-	
-\begin{lemm}{}{basisonip}
-Let $V$ be a vector space over $\R$ or $\C$. If $\beta$ is a basis of $V$, then there exists exactly one inner product on $V$ for which $\beta$ is an orthonormal set.
+
+In finite dimensions, linear algebra can sometimes feel purely algorithmic: evaluate the co-ordinates of every vector with respect to a basis $\beta=\{\vect vn\}$,
+\[
+	\vx=\sum_{k=1}^na_k\vv_k=\lincom a{v}n 
+	\quad\longrightsquigarrow\quad  
+	[\vx]_\beta=\threevec{a_1}{\vdots}{a_n} \tag{$\ast$}
+\]
+and use matrix multiplication to represent linear maps. In practice, finding the co-ordinates can be tedious (many row operations). If, however, $\beta$ is an \emph{orthogonal} basis, then this becomes almost trivial.
+
+
+\begin{lemm}{}{orthcalc}
+	Let $V$ be an inner product space and $\beta=\{\vect{\vv}{n}\}$ an orthogonal spanning set of non-zero vectors:
+	\[
+		V=\Span\beta
+		\quad\text{and}\quad
+		\ip{\vv_j,\vv_k}=
+		\begin{cases}
+			0&\text{if $j\neq k$}\\
+			\Nm{\vv_j}^2\neq 0&\text{if $j=k$}
+		\end{cases}
+	\]
+	Then $\beta$ is a basis of $V$ and each $\vx\in V$ has unique representation
+  \[
+  	\vx=\sum\limits_{k=1}^n\frac{\ip{\vx,\vv_k}}{\Nm{\vv_k}^2}\vv_k
+  	\tag*{$\left(a_k=\frac{\ip{\vx,\vv_k}}{\Nm{\vv_k}^2}\text{ in }(\ast)\right)$}
+  \]
+  This simplifies to $\vx=\sum\ip{\vx,\vv_k}\vv_k$ if $\beta$ is an orthonormal set.
 \end{lemm}
-% 
-% The Gram--Schmidt process is a simple algorithm whose purpose is the construction of \emph{orthogonal} sets of vectors. It relies on a basic property of orthogonal sets.
-
-We start with a simple definition, relating subspaces to orthogonality. 
-
-\begin{defn}{}{}
-Let $U$ be a subspace of an inner product space $V$. The \emph{orthogonal complement} $U^\perp$ is the set
-\[U^\perp=\{\vx\in V:\forall\vu\in U,\ \ip{\vx,\vu}=0\}\]
-\end{defn}
-
-It is easy to check that $U^\perp$ is itself a subspace of $V$ and that $U\cap U^\perp=\{\V0\}$. It can moreover be seen that $U\subseteq (U^\perp)^\perp$, though equality need not hold in infinite dimensions (see Exercise \ref{ex:ell2ex}).
-
-\begin{example}{}{orthcompeeasy}
-$U=\Span\left\{\sthreevec 100,\sthreevec 0{-1}3\right\}\le\R^3$ has orthogonal complement $U^\perp=\Span\left\{\sthreevec 031\right\}$.
-\end{example}
-
-\begin{minipage}[t]{0.62\linewidth}\vspace{0pt}
-As in the example, we often have a direct sum decomposition $V=U\oplus U^\perp$: otherwise said,
-\[\forall \vx\in V, \exists \text{ unique }\vu\in U,\vw\in U^\perp \text{ such that }\vx=\vu+\vw\]
-In such a case, we'll call $\vu=\pi_U(\vx)$ and $\vw=\pi_U^\perp(\vx)$ the \emph{orthogonal projections} of $\vx$ onto $U$ and $U^\perp$ respectively. As our first result shows, these are easy to compute whenever $U$ has a finite orthogonal basis.
-\end{minipage}
-\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}
-\flushright%\includemedia[transparent=false, activate=onclick, add3Djscript=asylabels.js, %add3Djscript=3Dspintool.js,
-% 3Dmenu,
-%   3Dcoo=6.2 46.8 5.9,
-%   3Dc2c=0.51 -0.77 0.39,
-%   3Droo=325,
-%   3Droll=-6.2,
-% 3Dlights=Headlamp]{\includegraphics{gram-orthproj3+0_0}}{gram-orthproj3+0.prc}
-\href{https://www.math.uci.edu/~ndonalds/math121b/gram-orthproj.html}{\includegraphics{gram-orthproj}}
-\end{minipage}
-
-\begin{thm}{}{orthcalc}
-Let $V$ be an inner product space and let $U=\Span \beta$ where $\beta=\{\vect{\vu}{n}\}$ is an orthogonal set of non-zero vectors;
-%\[\ip{\vu_j,\vu_k}=0\text{ if $j\neq k$}\]
-\[\ip{\vu_j,\vu_k}=\begin{cases}
-0&\text{if $j\neq k$}\\
-\Nm{\vu_j}^2\neq 0&\text{if $j=k$}
-\end{cases}\]
-Then:
-\begin{enumerate}
-  \item $\beta$ is a basis of $U$ and each $\vx\in U$ has unique representation
-  \[\vx=\sum\limits_{j=1}^n\frac{\ip{\vx,\vu_j}}{\Nm{\vu_j}^2}\vu_j\tag{$\ast$}\]
-  This simplifies to $\vx=\sum\ip{\vx,\vu_j}\vu_j$ if $\beta$ is an orthonormal set.
-  \item $V=U\oplus U^\perp$. For any $\vx\in V$, we may write $\vx=\vu+\vw$ where
-  \[\vu=\sum\limits_{j=1}^n\frac{\ip{\vx,\vu_j}}{\Nm{\vu_j}^2}\vu_j\in U\quad\text{and}\quad \vw=\vx-\vu\in U^\perp\]
-  %are the orthogonal projections.
-\end{enumerate}
-\end{thm}
-
-
-Observe that ($\ast$) essentially calculates the co-ordinate vector $[\vx]_\beta\in\F^n$. Recalling how unpleasant such calculations have been in the past, often requiring large matrix inversions, we immediately see the power of inner products and orthogonal bases. 
-\goodbreak
- 
 
 \begin{proof}
-\begin{enumerate}
-  \item Since $\beta$ spans $U$, a given $\vx\in U$ may be written
-  \[\vx=\sum_{k=1}^na_k\vu_k\]
-  for some scalars $a_k$. The orthogonality of $\beta$ recovers the required expression for $a_j$:
-  \[\ip{\vx,\vu_j}=\sum_{k=1}^na_k\ip{\vu_k,\vu_j}=a_j\Nm{\vu_j}^2\]
- 	Finally, let $\vx=\V0$ to see that $\beta$ is linearly independent.
-  \item Clearly $\vu\in U$. For each $\vu_k$, the orthogonality of $\beta$ tells us that
-  \[\ip{\vw,\vu_k}=\ip{\vx-\vu,\vu_k}=\ip{\vx,\vu_k}-\sum_{j=1}^n\frac{\ip{\vx,\vu_j}}{\Nm{\vu_j}^2}\ip{\vu_j,\vu_k}=\ip{\vx,\vu_k}-\ip{\vx,\vu_k}=0\]
-  Since $\vw$ is orthogonal to a basis of $U$ it is orthogonal to any element of $U$; we conclude that $\vw\in U^\perp$. Finally, $U\cap U^\perp=\{\V0\}$ forces the uniqueness of the decomposition $\vx=\vu+\vw$, whence $V=U\oplus U^\perp$.\qedhere
-\end{enumerate}
+  Since $\beta$ spans $V$, any given $\vx\in V$ may be written as a linear combination $(\ast)$. Simply take the inner product with each basis vector in turn, and apply the orthogonality of $\beta$:
+  \[
+		\ip{\vx,\vv_j}=\sum_{k=1}^na_k\ip{\vv_k,\vv_j}=a_j\Nm{\vv_j}^2
+	\]
+ 	Finally, let $\vx=\V0$ to see that $\beta$ is linearly independent ($\lincom a{v}n=\V0\Longrightarrow a_k=0$).
 \end{proof}
 
 
 \begin{examples}{}{}
-\exstart Consider the standard orthonormal basis $\beta=\{\ve_1,\ve_2\}$ of $\R^2$. For any $\vx=\stwovec{x_1}{x_2}$, we easily check that
-  \[\sum_{j=1}^2\ip{\vx,\ve_j}\ve_j=x_1\ve_1+x_2\ve_2=\vx\]
-\begin{enumerate}\setcounter{enumi}{1}
-  \item In $\R^3$, $\beta=\{\vu_1,\vu_2,\vu_3\}=\left\{\sthreevec 123,\sthreevec 2{-1}0,\sthreevec 36{-5}\right\}$ is an orthogonal set and thus a basis. We compute the co-ordinates of $\vx=\sthreevec 742$ with respect to $\beta$:\vspace{-3pt}
+	\exstart Let $\vx=\stwovec{x_1}{x_2} =x_1\ve_1+x_2\ve_2$ with respect to the standard orthonormal basis $\beta=\{\ve_1,\ve_2\}$ of $\R^2$. We easily check that
+  \[
+  	\sum_{k=1}^2\ip{\vx,\ve_k}\ve_k =x_1\ve_1+x_2\ve_2 =\vx
+  \]
+  \begin{enumerate}\setcounter{enumi}{1}
+    \item In Euclidean $\R^3$, $\beta=\{\vv_1,\vv_2,\vv_3\}=\left\{\sthreevec 123,\sthreevec 2{-1}0,\sthreevec 36{-5}\right\}$ is an orthogonal set and thus a basis. We compute the co-ordinates of $\vx=\sthreevec 742$ with respect to $\beta$:\vspace{-3pt}
 	\begin{align*}
-	\vx&=\sum_{j=1}^3\frac{\ip{\vx,\vu_j}}{\Nm{\vu_j}^2}\vu_j = \frac{7+8+6}{1+4+9}\threevec 123 + \frac{14-4+0}{4+1+0}\threevec 2{-1}0 + \frac{21+24-10}{9+36+25}\threevec 36{-5}\\
-	&= \frac 32\threevec 123 + 2\threevec 2{-1}0 + \frac 12\threevec 36{-5} \implies [\vx]_\beta=\threevec{3/2}{2}{1/2}
+		\vx
+		&=\sum_{k=1}^3\frac{\ip{\vx,\vv_k}}{\Nm{\vv_k}^2}\vv_k 
+			=\frac{7+8+6}{1+4+9}\threevec 123 
+			+\frac{14-4+0}{4+1+0}\threevec 2{-1}0 
+			+\frac{21+24-10}{9+36+25}\threevec 36{-5}\\
+		&=\frac 32\threevec 123 + 2\threevec 2{-1}0 + \frac 12\threevec 36{-5} 
+			\implies [\vx]_\beta=\threevec{3/2}{2}{1/2}
 	\end{align*}
 	Compare this with the painfully slow augmented matrix method for finding co-ordinates!
-% 	
-% 	\item $S=\{1,x,x^2-\frac 13\}$ is orthogonal with respect to the $L^2$ inner product on $[-1,1]$. Moreover,
-% 	\[\Nm{1}^2=\int_{-1}^11^2\,\dx=2,\qquad \Nm{x}^2=\int_{-1}^1x^2\,\dx=\frac 23,\qquad \Nm{x^2-\frac 13}^2=\frac 8{45}\]
-% 	We confirm that
-% 	\[x^2+x=\]
-
-	\item Revisiting Example \ref{ex:orthcompeeasy}, let $\vx=\sthreevec 111$. Since $\beta=\left\{\sthreevec 100,\sthreevec 0{-1}3\right\}$ is an orthogonal basis of $U$, we observe that
-	\[\pi_U(\vx)=\frac{1}{1}\threevec 100+\frac{2}{10}\threevec 0{-1}3=\frac 15\threevec 5{-1}3,\qquad \pi_U^\perp(\vx)=\vx-\pi_U(\vx)=\frac 25\threevec 031\]
-	are the orthogonal projections corresponding to $\R^3=U\oplus U^\perp$.
-\end{enumerate}
+	
+	\pagebreak[3]
+	
+    \item With respect to the standard inner product on $\C^2$, $\beta=\{\vv_1,\vv_2\} =\bigl\{\stwovec 1{i},\stwovec i1\bigr\}$ forms an orthogonal basis (each vector has norm $\sqrt 2$). Given $\vx=\stwovec{1+i}{3i}$, observe that
+	  \begin{align*}
+	  	\sum_{k=1}^2\frac{\ip{\vx,\vv_k}}{\Nm{\vv_k}^2}\vv_k
+	  	&=\frac{\ip{\stwovec{1+i}{3i},\stwovec{1}{i}}}{2}\twovec{1}{i} 
+	  	+
+	  	\frac{\ip{\stwovec{1+i}{3i},\stwovec{i}{1}}}{2}\twovec{i}{1}\\
+	  	&=\frac{(1+i)(1)+(3i)(-i)}{2}\twovec{1}{i} 
+	  	+
+	  	\frac{(1+i)(-i)+(3i)(1)}{2}\twovec{i}{1}\\
+	  	&=\frac{4+i}{2}\twovec{1}{i}
+	  	+\frac{1+2i}2\twovec{i}{1} =\vx	 
+	  \end{align*}
+	  Otherwise said, $[\vx]_\beta=\frac 12\stwovec{4+i}{1+2i}$.
+  \end{enumerate}
 \end{examples}
+
+
+\boldsubsubsection{Orthogonal Subspaces, Complements and Projections}
+
+Given the practical benefit of an orthogonal/orthonormal basis, the obvious question is ``How do we find one?'' For this purpose, and for other reasons, it is helpful to discuss how subspaces interact with the structure of an inner product. 
+
+\begin{defn}{}{orthcomp}
+	Let $V$ be an inner product space and $U$ a subspace. The \emph{orthogonal complement} $U^\perp$ is
+	\[
+		U^\perp =\big\{\vx\in V:\forall\vu\in U,\ \ip{\vx,\vu}=0\big\}
+	\]
+	More generally, subspaces $U,W$ are \emph{orthogonal} if
+	\[
+		\forall \vu\in U,\ \vw\in W,\ \ip{\vu,\vw}=0
+	\]
+\end{defn}
+
+
+\begin{example}{}{orthcompeeasy}
+	Given the subspace $U=\Span\left\{\sthreevec 100,\sthreevec 0{-1}3\right\}$ of Euclidean $\R^3$, we see that
+	\[
+		U^\perp
+		=\left\{ \vx\in\R^3:\vx\cdot\sthreevec 100=0=\vx\cdot\sthreevec 0{-1}3\right\}
+		=\Span\sthreevec 031
+	\]
+\end{example}
+
+The example certainly suggests that $U^\perp$ is a subspace. This, and much else, holds in general.
+
+\begin{lemm}{}{uperpperp}
+	Suppose $U$ is a subspace of an inner product space $V$. Then:
+	\begin{enumeratea}
+    \item $U^\perp$ is a subspace of $V$.
+    \item $U\cap U^\perp=\{\V0\}$.
+    \item $U\le (U^\perp)^\perp$. In particular, $U$ and $U^\perp$ are orthogonal subspaces (Definition \ref{defn:orthcomp}).
+    \item If $V=U\oplus U^\perp$, then $U=(U^\perp)^\perp$.
+	\end{enumeratea}
+\end{lemm}
+
+We leave the proof to Exercise \ref{exs:uperpperp}. Theorem \ref{thm:orthcalc} and Corollary \ref{cor:orthbasis} will show that $V=U\oplus U^\perp$ (and thus $(U^\perp)^\perp=U$) always holds when $\dim U$ is finite. It is perhaps surprising that (c) need not be equality in infinite dimensions (Exercise \ref{ex:ell2ex}).
+
+
+\boldinline{Orthogonal Projections}
+
+As in the example and part (d) of the Lemma, it is common to have a direct sum decomposition $V=U\oplus U^\perp$. Recall what this means:
+\[
+	\forall \vx\in V, \exists \text{ \emph{unique} }\vu\in U,\vw\in U^\perp \text{ such that }\vx=\vu+\vw
+\]
+
+\begin{minipage}[t]{0.64\linewidth}\vspace{-5pt}
+	In such a situation, the vectors $\vu=\pi_U(\vx)$, $\vw=\pi^\perp_U(\vx)$ are called the \emph{orthogonal projections} of $\vx$ onto the subspaces $U,U^\perp$. Indeed the orthogonal projections can be thought of as \emph{functions}
+	\[
+		\pi_U:V\to U,\quad \pi_{U^\perp}:V\to\ U^\perp
+	\]
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.35\linewidth}\vspace{-45pt}
+	\hfill
+	\href{https://www.math.uci.edu/~ndonalds/math121b/gram-orthproj.html}{\includegraphics[scale=0.9]{gram-orthproj}}
+\end{minipage}\smallbreak
+Orthogonal projections are crucial both theoretically and in applications. We'll discuss them repeatedly in future sections.\par
+As our next result shows, orthogonal projections are simple when $U$ has a \emph{finite orthogonal basis}.
+
+
+\begin{thm}{}{orthcalc}
+	Let $V$ be an inner product space. Suppose $\beta=\{\vect{\vu}{n}\}$ is a set of orthogonal non-zero vectors and let $U=\Span\beta$. Then $V=U\oplus U^\perp$.\par
+	More specifically, every $\vx\in V$ decomposes uniquely in the form $\vx=\vu+\vw$ where
+  \[
+  	\vu =\pi_U(\vx)=\sum\limits_{k=1}^n\frac{\ip{\vx,\vu_k}}{\Nm{\vu_k}^2}\vu_k\in U
+  	\quad\text{and}\quad 
+  	\vw=\pi^\perp_U(\vx)=\vx-\vu\in U^\perp
+  \]
+\end{thm}
+
+\begin{proof}
+	Since $U$ is an inner product space in its own right, Lemma \ref{lemm:orthcalc} says that $\beta$ is a basis of $U$.\smallbreak
+	Now consider $\vu,\vw$ as defined. Plainly $\vu\in \Span\beta=U$. For each $\vu_j$, the orthogonality of $\beta$ tells us that
+  \begin{align*}
+  	\ip{\vw,\vu_j}
+  	&=\ip{\vx-\vu,\vu_j} =\ip{\vx,\vu_j}-\ip{\vu,\vu_j}
+  	=\ip{\vx,\vu_j}-\ip{\sum_{k=1}^n\frac{\ip{\vx,\vu_k}}{\Nm{\vu_k}^2}\vu_k,\vu_j}\\
+  	&=\ip{\vx,\vu_j}-\sum_{k=1}^n\frac{\ip{\vx,\vu_k}}{\Nm{\vu_k}^2}\ip{\vu_k,\vu_j}\\
+  	&=\ip{\vx,\vu_j}-\ip{\vx,\vu_j}=0
+  \end{align*}
+  Since $\vw$ is orthogonal to a basis of $U$, it follows that $\vw$ is orthogonal to any element of $U$; we conclude that $\vw\in U^\perp$.\par
+  Finally, suppose $\vx=\vu_1+\vw_1$ for some $\vu_1\in U$, $\vw_1\in U^\perp$. Then
+  \[
+  	\vx=\vu_1+\vw_1=\vu+\vw\implies \vu_1-\vu=\vw-\vw_1 \in U\cap U^\perp =\{\V0\}
+  \]
+  by Lemma \ref{lemm:uperpperp}. We conclude that the decomposition $\vx=\vu+\vw$ is unique, and that $V=U\oplus U^\perp$ is indeed a direct sum.
+\end{proof}
+
+
+\begin{example}{}{}
+	Revisiting Example \ref{ex:orthcompeeasy}, we project $\vx=\sthreevec 111$ onto $U=\Span\left\{\sthreevec 100,\sthreevec 0{-1}3\right\}$:
+	\[
+		\pi_U(\vx)=\frac{1}{1}\threevec 100+\frac{2}{10}\threevec 0{-1}3=\frac 15\threevec 5{-1}3,\qquad \pi_U^\perp(\vx)=\vx-\pi_U(\vx)=\frac 25\threevec 031
+	\]
+\end{example}
+
+
+\pagebreak[3]
+
 
 \boldsubsubsection{The Gram--Schmidt Process}
 
-Theorem \ref{thm:orthcalc} tells us how to compute the orthogonal projections corresponding to $V=U\oplus U^\perp$, \emph{provided $U$ has a finite, orthogonal basis.} Given how useful such bases are, our next goal is to see that such exist for any finite-dimensional subspace. Helpfully there exists a constructive algorithm.
+Theorem \ref{thm:orthcalc} tells us how to compute the orthogonal projections corresponding to $V=U\oplus U^\perp$, \emph{provided $U$ has a finite, orthogonal basis.} Given the usefulness of such a set-up, our next goal is to see how to construct such. Thankfully there exists a straightforward algorithm.
 
 \begin{thm}{Gram--Schmidt}{gs}
-Suppose $S=\{\vect{\vs}{n}\}$ is a linearly independent subset of an inner product space $V$. Construct a sequence of vectors $\vect{\vu}{n}$ inductively:
-\begin{itemize}
-  \item Choose $\vu_1=a_1\vs_1$ where $a_1\neq 0$\vspace{-2pt}
-  \item For each $k\ge 2$, choose $\displaystyle\vu_k=a_k\left(\vs_k-\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vu_j}}{\Nm{\vu_j}^2}\vu_j\right)$ where $a_k\neq 0$ \hfill($\dag$)
-\end{itemize}
-Then $\beta:=\{\vect{\vu}{n}\}$ is an orthogonal basis of $\Span S$.
+	Suppose $S=\{\vect{\vs}{n}\}$ is a \textbf{finite} linearly independent subset of an inner product space $V$. Inductively construct a sequence of vectors $\vect{\vu}{n}$:
+	\[
+		\vu_k:=\vs_k-\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vu_j}}{\Nm{\vu_j}^2}\vu_j
+		\tag{$\vu_k=\pi^\perp_{U_{k-1}}(\vs_k)$ where $U_{k-1}=\Span\{\vect u{k-1}\}$}
+	\]
+	Then $\beta:=\{\vect{\vu}{n}\}$ is an orthogonal basis of $\Span S$.
 \end{thm}
 
-The purpose of the scalars $a_k$ is to give you some freedom; choose them to avoid unpleasant fractions! If you want a set of \emph{orthonormal} vectors, it is easier to scale everything after the algorithm is complete. Indeed, by taking $S$ to be a basis of $V$ and normalizing the resulting $\beta$, we conclude:
-
-\begin{cor}{}{orthbasis}
-Every finite-dimensional inner product space has an orthonormal basis.
-\end{cor}
+In examples, we often choose non-zero multiples $\vu_k=a_k\pi^\perp_{U_{k-1}}(\vs_k)$ so as to avoid fractions. If you want an \emph{orthonormal} basis, it is usually easier to scale everything after the algorithm is complete.
 
 \begin{example}{}{gs1}
-$S=\{\vs_1,\vs_2,\vs_3\}=\left\{\sthreevec 100,\sthreevec 2{-1}3,\sthreevec 111\right\}$ is a linearly independent subset of $\R^3$.
-\begin{enumerate}
-  \item Choose $\vu_1=\vs_1=\sthreevec 100\implies \Nm{\vu_1}^2=1$
-  \item $\vs_2-\frac{\ip{\vs_2,\vu_1}}{\Nm{\vu_1}^2}\vu_1=\sthreevec 2{-1}3-\frac{2}{1}\sthreevec 100 =\sthreevec 0{-1}3:\text{ choose }\vu_2=\sthreevec 0{-1}3\implies \Nm{\vu_2}^2=10$
-  \item $\vs_3-\frac{\ip{\vs_3,\vu_1}}{\Nm{\vu_1}^2}\vu_1 -\frac{\ip{\vs_3,\vu_2}}{\Nm{\vu_2}^2}\vu_2=\sthreevec 111-\frac{1}{1}\sthreevec 100 -\frac{2}{10}\sthreevec 0{-1}3 =\frac 25\sthreevec 0{3}{1}:\text{ choose }\vu_3=\sthreevec 03{1}$
-\end{enumerate}
-% 	\begin{gather*}
-% \vu_1=\vs_1=\sthreevec 100\implies \Nm{\vu_1}^2=1\\
-% \vs_2-\frac{\ip{\vs_2,\vu_1}}{\Nm{\vu_1}^2}\vu_1=\sthreevec 2{-1}3-\frac{2}{1}\sthreevec 100 =\sthreevec 0{-1}3:\text{ choose }\vu_2=\sthreevec 0{-1}3\implies \Nm{\vu_2}^2=10\\
-% \vs_3-\frac{\ip{\vs_3,\vu_1}}{\Nm{\vu_1}^2}\vu_1 -\frac{\ip{\vs_3,\vu_2}}{\Nm{\vu_2}^2}\vu_2=\sthreevec 111-\frac{1}{1}\sthreevec 100 -\frac{2}{10}\sthreevec 0{-1}3 =\frac 25\sthreevec 0{3}{1}:\text{ choose }\vu_3=\sthreevec 03{1}
-% 	\end{gather*}
-The orthogonality of $\beta=\{\vu_1,\vu_2,\vu_3\}$ is clear. It is now trivial to observe that $\left\{\vu_1,\frac 1{\sqrt{10}}\vu_2,\frac 1{\sqrt{10}}\vu_3\right\}$ is an orthonormal basis of $\R^3$.
+	$S=\{\vs_1,\vs_2,\vs_3\}=\left\{\sthreevec 100,\sthreevec 2{-1}3,\sthreevec 111\right\}$ is a linearly independent subset of $\R^3$.
+	\begin{enumerate}
+	  \item Choose $\vu_1=\vs_1=\sthreevec 100$. Observe that $\Nm{\vu_1}^2=1$
+	  \item Choose $\vu_2=\vs_2-\frac{\ip{\vs_2,\vu_1}}{\Nm{\vu_1}^2}\vu_1=\sthreevec 2{-1}3-\frac{2}{1}\sthreevec 100 =\sthreevec 0{-1}3$. Observe that $\Nm{\vu_2}^2=10$.
+	  \item $\pi_{U_2}^\perp(\vs_3)=\vs_3-\frac{\ip{\vs_3,\vu_1}}{\Nm{\vu_1}^2}\vu_1 -\frac{\ip{\vs_3,\vu_2}}{\Nm{\vu_2}^2}\vu_2=\sthreevec 111-\frac{1}{1}\sthreevec 100 -\frac{2}{10}\sthreevec 0{-1}3 =\frac 25\sthreevec 0{3}{1}$. We choose $\vu_3=\sthreevec 03{1}$.
+	\end{enumerate}
+	Plainly $\beta=\left\{\sthreevec 100,\sthreevec 0{-1}3,\sthreevec 031\right\}$ is an orthogonal basis of $\R^3$.
 \end{example}
 
 
-\begin{proof}[Proof of Theorem \ref{thm:gs}]
-For each $k\le n$, define $S_k=\{\vect{\vs}{k}\}$ and $\beta_k=\{\vect{\vu}{k}\}$. We prove by induction that each $\beta_k$  is an orthogonal set of non-zero vectors and that $\Span\beta_k=\Span S_k$. The Theorem is then the terminal case $k=n$.\smallbreak
-(Base case $k=1$)\quad Certainly $\beta_1=\{a_1\vs_1\}$ is an orthogonal set and $\Span\beta_1=\Span S_1$.\\[5pt]
-(Induction step)\quad Fix $k\ge 2$, assume $\beta_{k-1}$ is an orthogonal non-zero set and that $\Span \beta_{k-1}=\Span S_{k-1}$. By Theorem \ref{thm:orthcalc}, $\vu_k\in(\Span\beta_{k-1})^\perp$. We also see that $\vu_k\neq \V0$, for if not,
-\[(\dag)\implies\vs_k\in\Span \beta_{k-1}=\Span S_{k-1}\]
-and $S$ would be linearly dependent. It follows that $\beta_k$ is an orthogonal set of non-zero vectors.\smallbreak
-Moreover, $\vs_k\in\Span \beta_k\implies \Span S_k\le\Span \beta_k$. Since these spaces have the same (finite) dimension $k$, we conclude that $\Span \beta_k=\Span S_k$.\smallbreak
-By induction, $\beta$ is an orthogonal, non-zero spanning set for $\Span S$; by Theorem \ref{thm:orthcalc}, it is a basis.
+\begin{proof}
+	For each $k\le n$, define $S_k=\{\vect{\vs}{k}\}$ and $\beta_k=\{\vect{\vu}{k}\}$. We prove by induction that each $\beta_k$ is an orthogonal basis of $U_k:=\Span\beta_k=\Span S_k$. The Theorem is the terminal case $k=n$.
+	\begin{description}
+		\item[\normalfont (Base case $k=1$)] Certainly $\beta_1=\{a_1\vs_1\}$ is an orthogonal set and $U_1=\Span\beta_1=\Span S_1$.
+		\item[\normalfont	(Induction step)] Fix $k\ge 2$ and assume $\beta_{k-1}$ is an orthogonal basis of $U_{k-1}=\Span S_{k-1}$. By Theorem \ref{thm:orthcalc}, $\vu_k=\pi_{U_{k-1}}^\perp(\vs_k)\in U_{k-1}^\perp$. We also see that $\vu_k\neq \V0$, for if not,
+		\[
+			\vs_k =\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vu_j}}{\Nm{\vu_j}^2}\vu_j\in U_{k-1}=\Span S_{k-1}
+		\]
+		and $S$ would be linearly dependent. It follows that $\beta_k$ is an orthogonal set of non-zero vectors, and thus (Theorem \ref{thm:orthcalc}) a basis for $U_k=\Span\beta_k$. Moreover,
+		\[
+			\vs_k=\vu_k+\sum_{j=1}^{k-1}\frac{\ip{\vs_k,\vu_j}}{\Nm{\vu_j}^2}\vu_j\in U_k \implies \Span S_k\le U_k
+		\]
+		Since these spaces have the same (finite) dimension $k$, we conclude that $U_k=\Span S_k$.\qedhere
+	\end{description}
 \end{proof}
-\goodbreak
+
+
+
+\pagebreak[3]
+
 
 \begin{example}{}{ell201}
-This time we work in the space of polynomials $P(\R)$ equipped with the $L^2$ inner product $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$ on the interval $[0,1]$. Let $S=\{1,x,x^2\}$ and apply the algorithm:
-\begin{enumerate}
-	\item Choose $f_1(x)=1 \implies \Nm{f_1}^2=\int_0^11\,\dx=1$
-	\item $x-\frac{\ip{x,f_1}}{\Nm{f_1}^2}f_1=x-\int_0^1x\,\dx =x-\frac 12$\smallbreak
-	We choose $f_2(x)=2x-1$, with $\Nm{f_2}^2=\int_0^1\left(2x-1\right)^2\,\dx=\frac 1{3}$
-	\item	$x^2-\frac{\ip{x^2,f_1}}{\Nm{f_1}^2}f_1-\frac{\ip{x^2,f_2}}{\Nm{f_2}^2}=
-	x^2-\int_0^1x^2\,\dx-\frac{\int_0^1x^2\left(2x-1\right)\,\dx}{1/3}\left(2x-1\right)=x^2-x+\frac 16$\smallbreak
-	We choose $f_3(x)=6x^2-6x+1$ with $\Nm{f_3}^2=\int_0^1\left(6x^2-6x+1\right)^2\,\dx=\frac 1{5}$
+	We work in the space of real polynomials $P(\R)$ equipped with the $L^2$ inner product $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$. Let $S=\{1,x,x^2\}$ and apply the algorithm (we write $\beta=\{f_1,f_2,f_3\}$):
+	\begin{enumerate}
+		\item Choose $f_1(x)=1$. We have $\Nm{f_1}^2=\int_0^11\,\dx=1$.
+		\item We project the second polynomial $x$ away from $\Span f_1$:
+		\[
+			\pi_{\Span f_1}^\perp(x)
+			=x-\frac{\ip{x,f_1}}{\Nm{f_1}^2}f_1
+			=x-\int_0^1x\,\dx 
+			=x-\frac 12
+		\]
+		For simplicity, choose $f_2(x)=2x-1$ with $\Nm{f_2}^2=\int_0^1\left(2x-1\right)^2\,\dx=\frac 13$.
+		\item	Repeat, projecting the third supplied polynomial $x^2$ away from $\Span\{ f_1,f_2\}$:
+		\begin{align*}
+			\pi_{\Span\{f_1,f_2\}}^\perp(x^2) 
+			&=x^2-\frac{\ip{x^2,f_1}}{\Nm{f_1}^2}f_1-\frac{\ip{x^2,f_2}}{\Nm{f_2}^2}\\
+			&=x^2-\int_0^1x^2\,\dx-\frac{\int_0^1x^2\left(2x-1\right)\,\dx}{1/3}\left(2x-1\right)\\
+			&=x^2-x+\frac 16
+		\end{align*}
+		We choose $f_3(x)=6x^2-6x+1$ with $\Nm{f_3}^2=\int_0^1\left(6x^2-6x+1\right)^2\,\dx=\frac 1{5}$
 	\end{enumerate}
 	It follows that $\Span S$ has an orthonormal basis
-	\[\beta=\left\{1,\sqrt 3(2x-1),\sqrt 5(6x^2-6x+1)\right\}\]
-	This example can be extended to arbitrary degree since the countable set $\{1,x,x^2,\ldots\}$ is basis of $P(\R)$. Indeed this shows that $(P(\R),\ip{\ ,\ })$ has an orthonormal basis. 
+	\[
+		\beta=\left\{1,\sqrt 3(2x-1),\sqrt 5(6x^2-6x+1)\right\}
+	\]
+	This example can be extended to arbitrary degree since the countable set $\{1,x,x^2,\ldots\}$ is a basis of $P(\R)$. Indeed this shows that $\big(P(\R),\ip{\ ,\ }\big)$ has an orthonormal basis.\bigbreak
+	For a taste of how Gram--Schmidt and orthogonal projections may be applied, we use this example to find  a \textcolor{Green}{straight-line approximation} to the \textcolor{blue}{parabola} $x^2$ on the interval $[0,1]$.\par
+	\begin{minipage}[t]{0.67\linewidth}\vspace{0pt}
+		Let $U=\Span\{1,x\}$. As we've just seen, this has orthonormal basis $\big\{1,\sqrt 3(2x-1)\big\}$. Now compute:
+		\begin{align*}
+		 	\pi_U(x^2)
+		 	&=\ip{x^2,1} +\ip{x^2,\sqrt 3(2x-1)}\sqrt 3(2x-1)\\
+		 	&=\int_0^1x^2\,\dx +3\left(\int_0^12x^3-x^2\,\dx\right)(2x-1)\\
+		 	&=x-\frac 16
+		\end{align*}
+	\end{minipage}
+	\hfill
+ 	\begin{minipage}[t]{0.3\linewidth}\vspace{0pt}
+ 		\hfill\includegraphics[alt={A linear approximation to y equals x squared on the interval 0 to 1}]{gram-xsquaredapprox}
+ 	\end{minipage}\smallbreak
+	As we'll see later, $u(x)=x-\frac 16$ is the unique linear polynomial which minimizes the function $\Nm{x^2-u(x)}^2=\int_0^1(x^2-u(x))^2\,\dx$. This is a different criteria to what you would be used to in calculus, though $u(x)$ plainly approximates the parabola better than any tangent line would.
 \end{example}
 
 
+\pagebreak[3]
 
 
+We finish with a book-keeping corollary.
 
-
-
-
-
-Gram--Schmidt also shows that our earlier discussion of orthogonal projections is generic.
-  
-\begin{cor}{}{}
-If $U$ is a finite-dimensional subspace of an inner product space $V$, then $V=U\oplus U^\perp$ and the orthogonal projections may be computed as in Theorem \ref{thm:orthcalc}.
+\begin{cor}{}{orthbasis}
+	\exstart Every finite-dimensional inner product space has an orthonormal basis.
+ 	\begin{enumerate}\setcounter{enumi}{1}
+ 	  \item If $U$ is a finite-dimensional subspace of an inner product space $V$, then $V=U\oplus U^\perp$ and the orthogonal projections may be computed as in Theorem \ref{thm:orthcalc}.
+ 	\end{enumerate}
 \end{cor}
 
-If $U$ is an infinite-dimensional subspace of $V$, then we need not have $V=U\oplus U^\perp$ and the orthogonal projections might not be well-defined (see, for example, Exercises \ref{ex:ell2ex} and \ref{ex:fourierx}). Instead, if $\beta$ is an orthonormal basis of $U$, it is common to describe the coefficients $\ip{\vx,\vu}$ for each $\vu\in\beta$ as the \emph{Fourier coefficients}, and the infinite sum
-\[\sum_{\vu\in\beta}\ip{\vx,\vu}\vu\]
-as the \emph{Fourier series} of $\vx$, provided the sum converges.
+  
+\begin{proof}
+	\exstart If $V$ is finite-dimensional, take any basis $S=\{\vect sn\}$, apply Gram--Schmidt and normalize the result.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item By part 1, $U$ has an orthonormal basis. Theorem \ref{thm:orthcalc} therefore applies. \qedhere
+	\end{enumerate}
+\end{proof}
 
-% We finally check that everything goes through in a general inner product space.
-% 
-% \begin{thm}{}{projcleanup}
-% The functions $\pi_U$ and $\pi^\perp_U$ are linear maps satisfying
-% \[\pi_U(\vx)=\begin{cases}
-%   \vx&\text{if }\vx\in U\\
-%   \V0&\text{if }\vx\in U^\perp
-%   \end{cases}\qquad \pi_U^\perp(\vx)=\begin{cases}
-%   \vx&\text{if }\vx\in U^\perp\\
-%   \V0&\text{if }\vx\in U
-%   \end{cases}\]
-%   Moreover $\pi_U^\perp(\vw) \in U^\perp$ for any $\vw\in V$ and $U\oplus U^\perp=V$.\\[5pt]
-%   Finally, $\pi_U(\vx)$ is the \emph{closest} vector in the subspace $U$ to $\vx$, in that
-%   \[\forall\vw\in U,\ \Nm{\pi_U(\vx)-\vx}\le\Nm{\vw-\vx}\]
-% \end{thm}
-% 
-% \begin{proof}
-% $\pi_U$ is linear by property (a) of Definition \ref{defn:innerproduct}. The linearity of $\pi_U^\perp=\I-\pi_U$ is then immediate.\\[5pt]
-% The values for $\pi_U(\vx)$ and $\pi^\perp_U(\vx)$ follow trivially from Definition \ref{defn:orthproj} and ($\ast$) in Theorem \ref{thm:orthproj}.\\[5pt]
-% Finally, let $\vw\in V$, and let $U=\Span\{\vect{\vw}{n}\}$ be spanned by orthonormal vectors: then we have a calculation very like part of the proof of Gram--Schmidt:
-% \begin{align*}
-% \pi_U^\perp(\vw)=\vw-\sum_{j=1}^n\ip{\vw,\vw_j}\vw_j \implies \ip{\vw_i,\pi_U^\perp(\vw)} &= \ip{\vw_i,\vw}-\sum_{j=1}^n\cl{\ip{\vw,\vw_j}}\ip{\vw_i,\vw_j}\\
-% &=\ip{\vw_i,\vw}-\cl{\ip{\vw,\vw_i}}\ip{\vw_i,\vw_i} =0
-% \end{align*}
-% Since $\pi_U^\perp(\vw)$ is orthogonal to a basis of $U$, it must lie in $U^\perp$.\\[5pt]
-% We can now decompose any vector into $U$- and $U^\perp$-parts: $\vx=\pi_U(\vx)+\pi_U^\perp(\vx)$. Since $U\cap U^\perp=\{\V0\}$, we see that $U\oplus U^\perp=V$.\\[5pt]
-% Finally, use Pythagoras' (Exercise \ref{ex:pythag}) to observe that
-% \[\Nm{\vw-\vx}^2=\Nm{\vw-\pi_U(\vx)-\pi_U^\perp(\vx)}^2=\Nm{\vw-\pi_U(\vx)}^2+\Nm{\pi_U^\perp(\vx)}^2\]
-% whence
-% \[\Nm{\vw-\vx}\ge \Nm{\vw-\pi_U(\vx)}\tag*{\qedhere}\]
-% \end{proof}
-% 
-% 
-% \emph{Warning}: the Theorem \emph{only} applies when $\dim U<\infty$ since the proof depends crucially on being able to define $\pi_U$ for which we require a \emph{finite} orthogonal basis. Indeed there are examples where $V\neq U\oplus U^\perp$.\\[-5pt]
-% 
-% The final property is often known as the \emph{least-squares} property of projections since one is minimizing distance: for the standard inner product on $\R^n$, this amounts to minimizing the distance squared, which is itself a sum of squares. The method of least-squares curve-fitting in statistics can be rephrased as a linear algebra problem involving projections.
+If $U$ is an \emph{infinite-dimensional subspace} of $V$, then we need not have $V=U\oplus U^\perp$ and the orthogonal projections might not be well-defined (see, for example, Exercises \ref{ex:ell2ex} and \ref{ex:fourierx}). Instead, if $\beta$ is an orthonormal basis of $U$, it is common to describe the coefficients $\ip{\vx,\vu}$ for each $\vu\in\beta$ as the \emph{Fourier coefficients}, and the infinite sum
+\[
+	\sum_{\vu\in\beta}\ip{\vx,\vu}\vu
+\]
+as the \emph{Fourier series} of $\vx$, provided this sum converges.
+
   
 \bigskip
+
+TIDY EXERCISES!
 
 \begin{exercises}{}{}
 \exstart Apply Gram--Schmidt to obtain an orthogonal basis $\beta$ for $\Span S$. Then obtain the co-ordinate representation (Fourier coefficients) of the given vector with respect to $\beta$.
@@ -754,15 +837,10 @@ as the \emph{Fourier series} of $\vx$, provided the sum converges.
   
   \item Suppose that $\beta$ is an orthonormal basis of an $n$-dimensional inner product space $V$. Prove that,
 	\[\forall\vx,\vy\in V,\ \ip{\vx,\vy}=[\vy]_\beta^*[\vx]_\beta\]
-	\emph{Otherwise said, the co-ordinate isomorphism $\phi_\beta:V\to \F^n$ defined by $\phi_\beta(\vx)=[\vx]_\beta$ is an isomorphism of inner product spaces where we use the standard inner product on $\F^n$}
+	\emph{Otherwise said, the co-ordinate isomorphism $\phi_\beta:V\to \F^n$ defined by $\phi_\beta(\vx)=[\vx]_\beta$ is an isomorphism of inner product spaces where we use the standard inner product on $\F^n$. Informally, ``every inner product on a finite dimensional vector space looks like the dot or hermitian product.''}
  	
-  \item\label{ex:uperpperp} Let $U$ be a subspace of an inner product space $V$. Prove the following:
-  \begin{enumerate}
-    \item $U^\perp$ is a subspace of $V$.
-    \item $U\cap U^\perp=\{\V0\}$
-    \item $U\subseteq (U^\perp)^\perp$
-    \item If $V=U\oplus U^\perp$, then $U=(U^\perp)^\perp$ (this is always the case when $\dim U<\infty$)
-  \end{enumerate}
+ 	
+  \item\label{exs:uperpperp} Prove all four parts of Lemma \ref{lemm:uperpperp}.
   
   
   
@@ -800,6 +878,9 @@ as the \emph{Fourier series} of $\vx$, provided the sum converges.
 \end{exercises}
 
 \clearpage
+
+
+\iffalse
 
 
 \subsection{The Adjoint of a Linear Operator}
