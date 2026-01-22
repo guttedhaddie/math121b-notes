@@ -856,7 +856,7 @@ as the \emph{Fourier series} of $\vx$, provided this sum converges.
 		\emph{In other words, the function $\phi_\beta:\big(V,\ip{\ ,\ }\big)\to \big(\F^n,\widetilde{\ip{\ ,\ }}\big):\vx\mapsto [\vx]_\beta$ is an isomorphism of inner product spaces where $\widetilde{\ip{\ ,\ }}$ is the standard (dot/Hermitian) inner product on $\F^n$.}
 	    
 	    
-	  \item\label{ex:fdipsmatrix} Suppose $V,W$ are finite dimensional inner product spaces with orthonormal bases $\beta=\{\vect{\vv}{n}\}$ and $\gamma=\{\vect wm\}$ respectively. Suppose also that $\rT\in\cL(V,W)$.\par
+	  \item\label{exs:fdipsmatrix} Suppose $V,W$ are finite dimensional inner product spaces with orthonormal bases $\beta=\{\vect{\vv}{n}\}$ and $\gamma=\{\vect wm\}$ respectively. Suppose also that $\rT\in\cL(V,W)$.\par
 	  Prove that the matrix $A=[\rT]_\beta^\gamma \in M_{m\times n}(\F)$ of $\rT$ with respect to these bases has $jk^\th$ entry
 	  \[
 	  	A_{jk}=\ip{\rT(\vv_k),\vw_j}
@@ -915,42 +915,56 @@ as the \emph{Fourier series} of $\vx$, provided this sum converges.
 \clearpage
 
 
-\iffalse
-
-
 \subsection{The Adjoint of a Linear Operator}
 
-Recall how the standard inner product on $\F^n$ may be written in terms of the conjugate-transpose%\footnote{Remember you can delete the complex conjugate and work in $\R^n$ at a first read. The example should help!}
-\[\ip{\vx,\vy}=\vy^*\vx =\cl{\vy}^T\vx\]
+Recall how the standard inner product on $\F^n$ may be written in terms of the conjugate-transpose
+\[
+	\ip{\vx,\vy}=\vy^*\vx =\cl{\vy}^T\vx
+\]
 We start by inserting a matrix into this expression and interpreting in two different ways. Suppose $A\in M_{m\times n}(\F)$, $\vv\in\F^n$ and $\vw\in\F^m$, then
-\[\underbrace{\ip{A^*\vw,\vv}}_{\text{in }\F^n}=\vv^*(A^*\vw)= (\vv^*A^*)\vw =(A\vv)^*\vw=\underbrace{\ip{\vw,A\vv}}_{\text{in }\F^m} \tag{$\dag$}\]
+\[
+	\underbrace{\ip{A^*\vw,\vv}}_{\text{in }\F^n}=\vv^*(A^*\vw)= (\vv^*A^*)\vw =(A\vv)^*\vw=\underbrace{\ip{\vw,A\vv}}_{\text{in }\F^m} \tag{$\dag$}
+\]
 
 \begin{example}{}{adjointeasy}
-As a sanity check, let $A=\begin{smatrix}
-1&2\\0&3
-\end{smatrix}\in M_2(\R)$, $\vw=\stwovec xy$ and $\vv=\stwovec pq$. Then,
-\begin{gather*}
-\ip{A^T\twovec xy,\twovec pq}
-=\ip{\begin{pmatrix}
-1&0\\2&3
-\end{pmatrix}\twovec xy,\twovec pq}
-=\ip{\twovec x{2x+3y},\twovec pq}
-=xp+(2x+3y)q\\[5pt]
-\ip{\twovec xy,A\twovec pq}
-=\ip{\twovec xy,\begin{pmatrix}
-1&2\\0&3
-\end{pmatrix}\twovec pq}
-=\ip{\twovec xy,\twovec{p+2q}{3q}}
-=x(p+2q)+3yq
-\end{gather*}
+	As a sanity check in $\R^2$, let $A=
+	\begin{smatrix}
+		1&2\\
+		0&3
+	\end{smatrix}$,
+	$\vw=\stwovec xy$ and $\vv=\stwovec pq$. Then ($A^*=A^T$ here!),
+	\begin{gather*}
+		\ip{A^T\twovec xy,\twovec pq}
+		=\ip{
+			\begin{pmatrix}
+				1&0\\
+				2&3
+			\end{pmatrix}
+			\twovec xy,\twovec pq
+		}
+		=\ip{\twovec x{2x+3y},\twovec pq}
+		=xp+(2x+3y)q\\[5pt]
+		\ip{\twovec xy,A\twovec pq}
+		=\ip{\twovec xy,
+			\begin{pmatrix}
+				1&2\\
+				0&3
+			\end{pmatrix}
+			\twovec pq
+		}
+		=\ip{\twovec xy,\twovec{p+2q}{3q}}
+		=x(p+2q)+3yq
+	\end{gather*}
 \end{example}
 
 Note how the inner products are evaluated on \emph{different spaces.} At the level of linear maps this is a relationship between $\rL_A\in\cL(\F^n,\F^m)$ and $\rL_{A^*}\in\cL(\F^m,\F^n)$, one that is easily generalizable.
 
 \begin{defn}{}{adjoint}
-Let $\rT\in\cL(V,W)$ where $V,W$ are inner product spaces over the same field $\F$. The \emph{adjoint} of $\rT$ is a function $\rT^*:W\to V$ (read `$\rT$-star') satisfying
-\[\forall \vv\in V,\vw\in W,\quad \ip{\rT^*(\vw),\vv}=\ip{\vw,\rT(\vv)}\]
-Note that the first inner product is computed within $V$ and the second within $W$.
+	Let $\rT\in\cL(V,W)$ where $V,W$ are inner product spaces over the same field $\F$. The \emph{adjoint} of $\rT$ is a function $\rT^*:W\to V$ (read `$\rT$-star') satisfying
+	\[
+		\forall \vv\in V,\vw\in W,\quad \big\langle\rT^*(\vw),\vv\big\rangle=\big\langle\vw,\rT(\vv)\big\rangle
+	\]
+	Note that the first inner product is computed within $V$ and the second within $W$.
 \end{defn}
 
 The adjoint effectively extends the conjugate-transpose to linear maps. We now use the same notation for three objects, so be careful!
@@ -962,26 +976,37 @@ The adjoint effectively extends the conjugate-transpose to linear maps. We now u
 Thankfully the two notations line up nicely, as part 3 of our first result shows.
 
 \begin{thm}{Basic Properties}{matrixip}
-\exstart If an adjoint exists,\footnotemark then it is unique and linear.
-\begin{enumerate}\setcounter{enumi}{1}
-  \item If $\rT$ and $\rS$ have adjoints, then
-  \[(\rT^*)^*=\rT,\quad (\rT\rS)^*=\rS^*\rT^*,\quad(\lambda\rT+\rS)^*=\cl\lambda\rT^*+\rS^*\]
-  \item Suppose $V,W$ are finite-dimensional with orthonormal bases $\beta,\gamma$ respectively. Then the matrix of the adjoint of $\rT\in\cL(V,W)$ is the conjugate-transpose of the original: $[\rT^*]_\gamma^\beta=([\rT]_\beta^\gamma)^*$.
-\end{enumerate}
+	\exstart If an adjoint exists,\footnotemark{} then it is unique and linear.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item If $\rT$ and $\rS$ have adjoints, then
+	  \[
+	  	(\rT^*)^*=\rT,\quad 
+	  	(\rT\rS)^*=\rS^*\rT^*,\quad
+	  	(\lambda\rT+\rS)^*=\cl\lambda\rT^*+\rS^*
+	  \]
+	  \item Suppose $V,W$ are finite-dimensional with orthonormal bases $\beta,\gamma$ respectively. Then the matrix of the adjoint of $\rT\in\cL(V,W)$ is the conjugate-transpose of the original: $[\rT^*]_\gamma^\beta =([\rT]_\beta^\gamma)^*$.
+	\end{enumerate}
 \end{thm}
 
-\footnotetext{Existence of adjoints is trickier, so we postpone this a little: see Corollary \ref{cor:adjexist} and Exercise \ref{exs:adjnonexist}.}
-\goodbreak
+\footnotetext{%
+	Existence of adjoints is trickier, so we postpone this a little: see Corollary \ref{cor:adjexist} and Exercise \ref{exs:adjnonexist}.%
+}
+
+\pagebreak[3]
+
 
 \begin{proof}
 \begin{enumerate}
   \item (\emph{Uniqueness})\quad Suppose $\rT^*$ and $\rS^*$ are adjoints of $\rT$. Then
-	\[\ip{\rT^*(\vx),\vy}=\ip{\vx,\rT(\vy)}=\ip{\rS^*(\vx),\vy}\]
-	Since this holds for all $\vy$, Lemma \ref{lemm:ipbasic} part 4 says that $\forall\vx,\ \rT^*(\vx)=\rS^*(\vx)$, whence $\rT^*=\rS^*$.\smallbreak
+	\[
+		\ip{\rT^*(\vx),\vy}=\ip{\vx,\rT(\vy)}=\ip{\rS^*(\vx),\vy}
+	\]
+	Since this holds for all $\vy$, Lemma \ref{lemm:ipbasic} (part 4) says that $\forall\vx,\ \rT^*(\vx)=\rS^*(\vx)$, whence $\rT^*=\rS^*$.\smallbreak
 	(\emph{Linearity})\quad Simply translate across, use the linearity of $\rT$, and again appeal to Lemma \ref{lemm:ipbasic}:
 	\begin{gather*}
 		\begin{aligned}
-		\forall\vz,\ \ip{\rT^*(\lambda\vx+\vy),\vz} &=\ip{\lambda\vx+\vy,\rT(\vz)} =\lambda\ip{\vx,\rT(\vz)} +\ip{\vy,\rT(\vz)} =\lambda\ip{\rT^*(\vx),\vz} +\ip{\rT^*(\vy),\vz}\\
+		\forall\vz,\ \ip{\rT^*(\lambda\vx+\vy),\vz} &=\ip{\lambda\vx+\vy,\rT(\vz)} =\lambda\ip{\vx,\rT(\vz)} +\ip{\vy,\rT(\vz)}\\
+		&=\lambda\ip{\rT^*(\vx),\vz} +\ip{\rT^*(\vy),\vz}\\
 		&=\ip{\lambda \rT^*(\vx)+\rT^*(\vy),\vz}
 		\end{aligned}\\
 	\implies \rT^*(\lambda\vx+\vy)=\lambda \rT^*(\vx)+\rT^*(\vy)
@@ -989,8 +1014,11 @@ Thankfully the two notations line up nicely, as part 3 of our first result shows
 
 	\item These may be proved similarly to part 1 and are left as an exercise.
   
-  \item By Exercise \hyperref[ex:fdipsmatrix]{\ref*{sec:gs}.\ref*{ex:fdipsmatrix}}, the $jk^\text{th}$ entry of $[\rT^*]_\gamma^\beta$ is 
-	\[\ip{\rT^*(\vw_k),\vv_j}=\ip{\vw_k,\rT(\vv_j)}=\cl{\ip{\rT(\vv_j),\vw_k}}=\cl{A_{kj}}\tag*{\qedhere}\]
+  \item By Exercise \ref*{sec:gs}.\ref{exs:fdipsmatrix}, the $jk\th$ entry of $[\rT^*]_\gamma^\beta$ is 
+	\[
+		\ip{\rT^*(\vw_k),\vv_j}=\ip{\vw_k,\rT(\vv_j)}
+		=\cl{\ip{\rT(\vv_j),\vw_k}}=\cl{A_{kj}}\tag*{\qedhere}
+	\]
 \end{enumerate}
 \end{proof}
 
@@ -999,10 +1027,11 @@ We revisit our motivating set-up ($\dag$) in the language of part 3. Suppose:
   \item $V=\F^n$ and $W=\F^m$ have standard orthonormal bases $\beta=\{\vect en\}$ and $\gamma=\{\vect em\}$.
   \item $\rT=\rL_A\in\cL(\F^n,\F^m)$. 
 \end{itemize} Since the matrix of $\rT$ with respect to the standard bases is simply $A$ itself, the theorem confirms our earlier observation that the adjoint of $\rL_A$ is left multiplication by the conjugate-transpose $A^*$:
-\[[\rT^*]_\gamma^\beta=([\rT]_\beta^\gamma)^*=A^*=[\rL_{A^*}]_\gamma^\beta\implies \rT^*=(\rL_A)^*=\rL_{A^*}\]
+\[
+	[\rT^*]_\gamma^\beta=([\rT]_\beta^\gamma)^*=A^*=[\rL_{A^*}]_\gamma^\beta
+	\implies \rT^*=(\rL_A)^*=\rL_{A^*}
+\]
 
-Here is another straightforward example, this time using the standard inner products on $\C^2$ and $\C^3$.
- 
 \begin{example}{}{}
 Let $\rT=\rL_A\in\cL(\C^3,\C^2)$ where $A=\begin{smatrix}
   -i&1&-3\\
@@ -1017,73 +1046,86 @@ Plainly $A=[\rT]_\beta^\gamma$ with respect to $\beta=\{\ve_1,\ve_2,\ve_3\}$ and
   As a sanity check, multiply out a few examples of $\ip{A^*\vw,\vv}=\ip{\vw,A\vv}$; make sure you're comfortable with the fact that the left inner product is on $\C^2$ and the right on $\C^3$!
 \end{example}
 
-The Theorem tells us that every linear map $\rT\in\cL(V,W)$ between finite-dimensional spaces has an adjoint and moreover how to compute it:
-\begin{enumerate} 
-  \item Choose orthonormal bases (exist by Corollary \ref{cor:orthbasis}) and find the matrix $[\rT]_\beta^\gamma$.
-  \item Take the conjugate-transpose $\bigl([\rT]_\beta^\gamma\bigr)^*$ and translate back to find $\rT^*\in\cL(W,V)$.
-\end{enumerate}
-The prospect of twice applying Gram--Schmidt and translating between linear maps and their matrices is unappealing; calculating this way can quickly become an enormous mess! In practice, it is often better to try a modified approach; see for instance part 2(b) of the next Example.
-\goodbreak
+Part 3 or the Theorem says that every linear map $\rT\in\cL(V,W)$ between finite-dimensional spaces has an adjoint and moreover tells us how to compute it:
+\begin{quote} 
+  Find orthonormal bases $\beta,\gamma$; compute the matrix $[\rT]_\beta^\gamma$ and its conjugate-transpose $\bigl([\rT]_\beta^\gamma\bigr)^*$; translate back to find $\rT^*\in\cL(W,V)$.
+\end{quote}
+The prospect of twice applying Gram--Schmidt and translating between linear maps and their matrices is unappealing! In practice, it is often better to try a modified approach; see for instance part 2(b) of the next Example.
 
+
+\pagebreak[3]
 
 
 \begin{examples}{}{deriv2d}
-Let $\rT=\diff x\in\cL(P_1(\R))$ be the derivative operator; $\rT(a+bx)=b$. We treat $P_1(\R)$ as an inner product space in two ways.
+Let $\rT=\diff x\in\cL(P_1(\R))$ be the derivative operator; $\rT(a+bx)=b$. For variety, we treat $P_1(\R)$ as an inner product space in two ways.
 \begin{enumerate}
-  \item Equip the inner product for which the standard basis $\epsilon=\{1,x\}$ is orthonormal. Then
-  \[[\rT]_\epsilon=
-  \begin{pmatrix}
-  0&1\\0&0
-  \end{pmatrix}
-  \implies [\rT^*]_\epsilon=
-  \begin{pmatrix}
-  0&0\\1&0
-  \end{pmatrix}
-  \implies \rT^*(a+bx)=ax\]
+  \item First equip the inner product for which the standard basis $\epsilon=\{1,x\}$ is orthonormal. Then
+  \[
+  	[\rT]_\epsilon=
+	  \begin{pmatrix}
+	  	0&1\\
+	  	0&0
+	  \end{pmatrix}
+	  \implies [\rT^*]_\epsilon=
+	  \begin{pmatrix}
+	  	0&0\\
+	  	1&0
+	  \end{pmatrix}
+	  \implies \rT^*(a+bx)=ax
+	\]
   
   \item Equip the $L^2$ inner product $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$. As we saw in Example \ref{ex:ell201}, the basis $\beta=\{f_1,f_2\}=\{1,2x-1\}$ is orthogonal with $\Nm{f_1}=1$ and $\Nm{f_2}=\frac 1{\sqrt 3}$. We compute the adjoint of $\rT=\diff x$ in two different ways.
   \begin{enumerate}
     \item The basis $\gamma=\{g_1,g_2\}=\left\{f_1,\sqrt 3f_2\right\}=\left\{1,\sqrt 3(2x-1)\right\}$ is orthonormal. Observe that
     \begin{gather*}
-    \rT(g_1)=0,\quad \rT(g_2)=2\sqrt 3\implies [\rT]_\gamma=\begin{pmatrix}
-    0&2\sqrt 3\\
-    0&0
-    \end{pmatrix}\implies [\rT^*]_\gamma=\begin{pmatrix}
-    0&0\\
-    2\sqrt 3&0
-    \end{pmatrix}\\
-    \begin{aligned}
-    \implies \rT^*(a+bx)&=\rT^*\left(a+\frac b2+\frac b{2\sqrt 3}\sqrt 3(2x-1)\right) =\left(a+\frac b2\right)\cdot 2\sqrt 3g_2\\
-    &=3(2a+b)(2x-1)
-    \end{aligned}
+	    \rT(g_1)=0,\quad \rT(g_2)=2\sqrt 3
+	    \implies [\rT]_\gamma=
+	    \begin{pmatrix}
+		    0&2\sqrt 3\\
+		    0&0
+	    \end{pmatrix}
+	    \implies [\rT^*]_\gamma=
+	    \begin{pmatrix}
+		    0&0\\
+		    2\sqrt 3&0
+	    \end{pmatrix}\\
+	    \begin{aligned}
+	    	\implies \rT^*(a+bx)
+	    	&=\rT^*\left(a+\frac b2+\frac b{2\sqrt 3}\sqrt 3(2x-1)\right) 
+	    		=\left(a+\frac b2\right)\cdot 2\sqrt 3g_2\\
+	    	&=3(2a+b)(2x-1)
+	    \end{aligned}
     \end{gather*}
     \item Use the orthogonal basis $\beta$ and the projection formula (Theorem \ref{thm:orthcalc}). With $p(x)=a+bx$,
 		\begin{align*}
-		\rT^*(p)&=\frac{\ip{\rT^*(p),f_1}}{\Nm{f_1}^2}f_1 +\frac{\ip{\rT^*(p),f_2}}{\Nm{f_2}^2}f_2 =\ip{p,\rT(1)} +\ip{p,\rT(2x-1)}\cdot 3(2x-1)\\
-		&=\ip{p,0} +3\ip{p,2}(2x-1) =3\left(\int_0^12(a+bx)\,\dx\right)(2x-1) \\
-		&=3(2a+b)(2x-1)
+			\rT^*(p)
+			&=\frac{\ip{\rT^*(p),f_1}}{\Nm{f_1}^2}f_1 +\frac{\ip{\rT^*(p),f_2}}{\Nm{f_2}^2}f_2 
+			=\ip{p,\rT(1)} +\ip{p,\rT(2x-1)}\cdot 3(2x-1)\\
+			&=\ip{p,0} +3\ip{p,2}(2x-1) 
+				=3\left(\int_0^12(a+bx)\,\dx\right)(2x-1) \\
+			&=3(2a+b)(2x-1)
 		\end{align*}
-		Note the advantages here: no square roots and no need to change basis at the end!
+		Note the advantage here: no square roots and no need to change basis at the end!
   \end{enumerate}
 \end{enumerate}
-  The calculations for the second example were much nastier, even though we were already in possession of an orthogonal basis. The crucial point is that the two examples produce \emph{different maps} $\rT^*$: the adjoint depends on the inner product! 
+  The calculations for the second example were much nastier, even though we were already in possession of an orthogonal basis. The crucial observation however is that the two examples produce \emph{different maps} $\rT^*$: the adjoint of $\rT$ depends on the inner product! 
 \end{examples}
-
 
 
 
 \boldsubsubsection{Why should we care about adjoints?}
 
-Adjoints might seem merely to be an abstraction of something simple (transposes) for its own sake. A convincing explanation of why adjoints are useful takes a lot of work; here is a short version.\smallbreak
+Adjoints might seem merely to be an abstraction for its own sake. A convincing explanation of why adjoints are useful takes a lot of work, but here is a short version.\smallbreak
 
 Given a linear map $\rT\in\cL(V)$ on an inner product space, we now have \emph{two desirable types of basis.}
 \begin{enumerate}
   \item Eigenbasis: diagonalizes $\rT$.
-  \item Orthonormal basis: recall (Theorem \ref{thm:orthcalc}) how these simplify computations.
+  \item Orthonormal basis: recall (Lemma \ref{lemm:orthcalc}) how these simplify computations.
 \end{enumerate}
-The capstone result of this course is the famous \emph{spectral theorem} (Theorem \ref{thm:spec}) which says, in short, that \emph{\href{https://en.wikipedia.org/wiki/self-adjoint_operator}{self-adjoint operators}} ($\rT^*=\rT$) have an \emph{orthonormal eigenbasis,} the holy grail of easy computation! Such operators are important both theoretically and in applications such as quantum mechanics.
-\goodbreak
+The upcoming \emph{spectral theorem} says, in short, that \emph{\href{https://en.wikipedia.org/wiki/self-adjoint_operator}{self-adjoint operators}} ($\rT^*=\rT$) have an \emph{orthonormal eigenbasis,} the holy grail of easy computation! Such operators are important both theoretically and in applications such as quantum mechanics.
 
+
+\pagebreak[3]
 
 
 \boldsubsubsection{The Fundamental Subspaces Theorem}
@@ -1091,7 +1133,7 @@ The capstone result of this course is the famous \emph{spectral theorem} (Theore
 To every linear map are associated its range and nullspace. These interact nicely with the adjoint\ldots
 
 \begin{thm}{}{fundssthm}
-If $\rT\in\cL(V,W)$ has adjoint $\rT^*$, then,
+	If $\rT\in\cL(V,W)$ has adjoint $\rT^*$, then,
   \begin{enumerate}
     \item $\cR(\rT^*)^\perp=\cN(\rT)$
     \item If $V$ is finite dimensional, then $\cR(\rT^*)=\cN(\rT)^\perp$
@@ -1099,16 +1141,20 @@ If $\rT\in\cL(V,W)$ has adjoint $\rT^*$, then,
   The corresponding results hold if we swap $V\leftrightarrow W$ and $\rT\leftrightarrow \rT^*$.
 \end{thm}
 
-The proof is left to Exercise \ref{ex:fundssthm}. You've likely observed this with transposes of small matrices.
+The proof is left to Exercise \ref{exs:fundssthm}. You've likely observed this with transposes of small matrices.
 
 \begin{example}{}{}
-Let $A=\begin{smatrix}
-1&2&-1\\
-0&3&-2
-\end{smatrix}$. Viewed as a linear map between Euclidean spaces, $\rT=\rL_A$ has adjoint $\rT^*=\rL_{A^T}$. It is easy to compute the relevant subspaces:
-\begin{gather*}
-\cR(A)=\R^2,\quad \cN(A^T)=\{\V0\},\qquad \cR(A^T)=\Span\left\{\sthreevec 12{-1},\sthreevec 03{-2}\right\},\quad \cN(A)=\Span\sthreevec{-1}23
-\end{gather*}
+	Let $A=
+	\begin{smatrix}
+		1&2&-1\\
+		0&3&-2
+	\end{smatrix}$.
+	Viewed as a linear map between Euclidean spaces, $\rT=\rL_A$ has adjoint $\rT^*=\rL_{A^T}$. It is easy to compute the relevant subspaces:
+	\begin{gather*}
+		\cR(A)=\R^2,\quad \cN(A^T)=\{\V0\},\qquad 
+		\cR(A^T)=\Span\left\{\sthreevec 12{-1},\sthreevec 03{-2}\right\},\quad 
+		\cN(A)=\Span\sthreevec{-1}23
+	\end{gather*}
 \end{example}
 
 
@@ -1119,205 +1165,161 @@ Let $A=\begin{smatrix}
 
 \boldsubsubsection{The Riesz Representation Theorem}
 
-This powerful result demonstrates a natural relation between an inner product space and its \emph{dual-space} $V^*=\cL(V,\F)$.
+This powerful result demonstrates a natural relationship between an inner product space and its \emph{dual} $V^*=\cL(V,\F)$: every linear map $V\to\F$ arises by taking the inner product with a fixed vector.
 
-%When $V$ is finite-dimensional, we've seen how orthonormal bases convert calculations with adjoints to matrices, though this is often ugly and obscures the forest for the trees. To help remedy this, we observe a natural relation between $V$ and its \emph{dual-space} $V^*=\cL(V,\F)$.
 
 \begin{thm}{}{riesz}
-If $V$ is finite-dimensional and $g:V\to\F$ is linear, then there exists a unique $\vy\in V$ such that $g(\vx)=\ip{\vx,\vy}$.
+	If $V$ is finite-dimensional and $g:V\to\F$ is linear, then there exists a unique $\vy\in V$ such that $g(\vx)=\ip{\vx,\vy}$.
 \end{thm}
 
 \begin{example}{}{}
-$g(p):=\int_0^1p(x)\,\dx$ is a linear map $g:P_2(\R)\to \R$. Equip $P_2(\R)$ with the inner product for which the standard basis $\{1,x,x^2\}$ is orthonormal. Then
-\[g(a+bx+cx^2)=a+\tfrac 12b+\tfrac 13c=\ip{a+bx+cx^2,1+\tfrac 12x+\tfrac 13x^2}\]
-We conclude that $g(p)=\ip{p,q}$, where $q(x)=1+\frac 12x+\frac 13x^2$.
+	$g(p):=\int_0^1p(x)\,\dx$ is a linear map $g:P_2(\R)\to \R$. Equip $P_2(\R)$ with the inner product for which the standard basis $\{1,x,x^2\}$ is orthonormal. Then
+	\[g(a+bx+cx^2)=a+\tfrac 12b+\tfrac 13c=\ip{a+bx+cx^2,1+\tfrac 12x+\tfrac 13x^2}\]
+	We conclude that $g(p)=\ip{p,q}$, where $q(x)=1+\frac 12x+\frac 13x^2$.
 \end{example}
-
-
-% By Corollary \ref{cor:orthbasis}, such a $V$ has an orthonormal basis $\beta=\{\vect{\vv}{n}\}$. Let $g:V\to \F$ be linear and define
-% \[\vy:=\sum_{j=1}^n\cl{g(\vv_j)}\vv_j\]
-% Certainly $\vx\mapsto \ip{\vx,\vy}$ is a linear map. Moreover,
-% \[\ip{\vv_k,\vy} =\ip{\vv_k,\sum_{j=1}^n\cl{g(\vv_j)}\vv_j} =\sum_{j=1}^ng(\vv_j)\ip{\vv_k,\vv_j} =g(\vv_k)\]
-% Since these linear maps are equal on a basis, they are identical. We conclude:
 
 The idea of the proof is very simple: if $g(\vx)=\ip{\vx,\vy}$ then the nullspace of $g$ must equal $\Span\{\vy\}^\perp$\ldots
 
 \begin{proof}
-If $g$ is the zero map, take $\vy=\V0$. Otherwise, $\Rank g=1$ and
-\[V=\cN(g)\oplus \cN(g)^\perp\quad\text{where}\quad\dim\cN(g)^\perp=1\hfill (\text{rank--nullity theorem and Exercise \hyperref[ex:uperpperp]{\ref*{sec:gs}.\ref*{ex:uperpperp}}})\]
-Let $\vu\in \cN(g)^\perp$ be either of the two unit vectors and define, independently of $\vu$,
-\[\vy:=\cl{g(\vu)}\vu\in V\]
-Following the decomposition, write $\vx=\vn+\alpha\vu$ where $\vn\in\cN(g)$ and observe that
-\begin{align*}
-\ip{\vx,\vy}&=\ip{\vn+\alpha\vu,\cl{g(\vu)}\vu} =g(\vu)\alpha =0+g(\alpha\vu) =g(\vn+\alpha\vu) =g(\vx)
-\end{align*}
-The uniqueness of $\vy$ follows from the cancellation property (Lemma \ref{lemm:ipbasic}, part 4).
+	If $g$ is the zero map, take $\vy=\V0$. Otherwise, $\Rank g=1$ and
+	\[
+		V=\cN(g)\oplus \cN(g)^\perp\quad\text{where}\quad\dim\cN(g)^\perp=1\hfill (\text{rank--nullity theorem and Corollary \ref{cor:orthbasis}})
+	\]
+	Let $\vu\in \cN(g)^\perp$ be a unit vector and define (independently of $\vu$!),
+	\[
+		\vy:=\cl{g(\vu)}\vu\in V
+	\]
+	Following the decomposition, write $\vx=\vn+\alpha\vu$ where $\vn\in\cN(g)$ and observe that
+	\[
+		\ip{\vx,\vy} =\ip{\vn+\alpha\vu,\cl{g(\vu)}\vu} 
+		=g(\vu)\alpha =0+g(\alpha\vu) 
+		=g(\vn+\alpha\vu) =g(\vx)
+	\]
+	The uniqueness of $\vy$ follows from the cancellation property (Lemma \ref{lemm:ipbasic}, part 4).
 \end{proof}
 
-\goodbreak
-
-
-
-Due to the tight correspondence, the map is often decorated as $g_\vy$. Riesz's theorem indeed says that $\vy\mapsto g_\vy$ is an isomorphism $V\cong V^*$. While there are infinitely many isomorphisms between these spaces, the inner product structure identifies a \emph{canonical} or preferred choice.
+Due to this tight correspondence, the map is often decorated as $g_\vy$. Riesz's theorem indeed says that $\vy\mapsto g_\vy$ is an isomorphism $V\cong V^*$. While there are infinitely many isomorphisms between these spaces, the inner product structure identifies a \emph{canonical} or preferred choice.
 
 \begin{cor}{}{adjexist}
-Every linear map on a finite-dimensional inner product space has an adjoint.
+	Every linear map on a finite-dimensional inner product space has an adjoint.
 \end{cor}
 
 
 
-Note how only the domain is required to be finite-dimensional! Riesz's Theorem and the Corollary also apply to continuous linear operators on (infinite-dimensional) Hilbert spaces, though the proof is a little trickier.
+Note how only the \emph{domain} must be finite-dimensional! Riesz's Theorem and the Corollary also apply to continuous linear operators on (infinite-dimensional) Hilbert spaces, though the proof is trickier.
 
 
 \begin{proof}
-Let $\rT\in\cL(V,W)$ where $\dim V<\infty$, and suppose $\vz\in W$ is given. Simply \emph{define} $\rT^*(\vz):=\vy$ where $\vy\in V$ is the unique vector in Riesz's Theorem arising from the linear map
-\[g:V\to\F,\quad g(\vx)=\ip{\rT(\vx),\vz}\]
-and check the required property:
-\[\ip{\rT^*(\vz),\vx}=\ip{\vy,\vx}=\cl{g(\vx)} =\ip{\vz,\rT(\vx)}\tag*{\qedhere}\]
+	Let $\rT\in\cL(V,W)$ where $\dim V<\infty$, and suppose $\vz\in W$ is given. \emph{Define} $\rT^*(\vz):=\vy$ where $\vy\in V$ is the unique vector in Riesz's Theorem arising from the linear map
+	\[
+		g:V\to\F,\quad g(\vx)=\ip{\rT(\vx),\vz}
+	\]
+	To finish, we simply check that $\rT^*$ really is the adjoint:
+	\[
+		\forall\vx,\vz,\ \ip{\rT^*(\vz),\vx}=\ip{\vy,\vx}=\cl{g(\vx)} =\ip{\vz,\rT(\vx)}\tag*{\qedhere}
+	\]
 \end{proof}
-
-\goodbreak
 
 
 \begin{exercises}
-\exstart For each inner product space $V$ and linear operator $\rT\in\cL(V)$, evaluate $\rT^*$ on the given vector.
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[]\begin{enumerate}
-    \item $V=\R^2$ with the standard inner product, $\rT\stwovec xy=\stwovec{2x+y}{x-3y}$ and $\vx=\stwovec 35$
-    \item $V=\C^2$ with the standard inner product, $\rT\stwovec zw=\stwovec{2z+iw}{(1-i)z}$ and $\vx=\stwovec{3-i}{1+2i}$
-    \item $V=P_1(\R)$ with $\ip{f,g}=\int_0^1 f(t)g(t)\,\dt$, $\rT(f)=f'+3f$ and $f(t)=4-2t$
-  \end{enumerate}
-  
-	\item Suppose $A=\begin{smatrix}
-	1&1\\4&3
-	\end{smatrix}$ and consider the linear map $\rT=\rL_A\in\cL(\R^2)$ where $\R^2$ is equipped with the weighted inner product
-	\[\ip{\vx,\vy}=4x_1y_1+x_2y_2\]
-	\begin{enumerate}
-	  \item Find the matrix of $\rT$ with respect to the orthonormal basis $\beta=\{\vv_1,\vv_2\}=\{\frac 12\ve_1,\ve_2\}$.
-	  \item	Find the adjoint $\rT^*$ and its matrix with respect to the standard basis $\epsilon=\{\ve_1,\ve_2\}$.\smallbreak
-		(\emph{Hint: the answer isn't $A^T$!})
+	\exstart For each inner product space $V$ and linear operator $\rT\in\cL(V)$, evaluate $\rT^*$ on the given vector.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]\begin{enumerate}
+	    \item $V=\R^2$ with the standard dot product, $\rT\stwovec xy=\stwovec{2x+y}{x-3y}$ and $\vx=\stwovec 35$
+	    \item $V=\C^2$ with the standard inner product, $\rT\stwovec zw=\stwovec{2z+iw}{(1-i)z}$ and $\vx=\stwovec{3-i}{1+2i}$
+	    \item $V=P_1(\R)$ with $\ip{f,g}=\int_0^1 f(t)g(t)\,\dt$, $\rT(f)=f'+3f$ and $f(t)=4-2t$
+	  \end{enumerate}
+	  
+	  
+		\item Suppose $A=
+		\begin{smatrix}
+			1&1\\
+			4&3
+		\end{smatrix}$
+		and consider the linear map $\rT=\rL_A\in\cL(\R^2)$ where $\R^2$ is equipped with the weighted inner product
+		\[
+			\ip{\vx,\vy}=4x_1y_1+x_2y_2
+		\]
+		\begin{enumerate}
+		  \item Find the matrix of $\rT$ with respect to the orthonormal basis $\beta=\{\vv_1,\vv_2\}=\{\frac 12\ve_1,\ve_2\}$.
+		  \item	Find the adjoint $\rT^*$ and its matrix with respect to the standard basis $\epsilon=\{\ve_1,\ve_2\}$.\par
+			(\emph{Hint: the answer \textbf{isn't} $A^T$!})
+		\end{enumerate}
+		
+		
+		\item Extending Examples \ref{ex:deriv2d}, find the adjoint of $\rT=\diff x\in\cL(P_2(\R))$ with respect to:
+		\begin{enumerate}
+		  \item The inner product where the standard basis $\epsilon=\{1,x,x^2\}$ is orthonormal.
+		  \item (Hard!) \ The $L^2$ inner product $\int_0^1f(x)g(x)\,\dx$.
+		\end{enumerate}
+	  
+	  
+	  \item Let $\rT(f)=f''$ be a linear transformation of $P_2(\R)$ and let $\epsilon=\{1,x,x^2\}$ be the standard basis. Find $\rT^*(a+bx+cx^2)$:
+	  \begin{enumerate}
+	    \item With respect to the inner product where $\epsilon$ is orthonormal;
+	    \item With respect to the $L^2$ inner product $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$.\par
+	    (\emph{Hint: $\{1,x,3x^2-1\}$ is orthogonal})
+	  \end{enumerate}
+	  
+	
+		\item Prove part 2 of Theorem \ref{thm:matrixip}.
+	
+	
+	  \item\label{exs:fundssthm} Prove the Fundamental Subspaces Theorem \ref{thm:fundssthm}.
+	  
+	  
+	  \item Recall Riesz's Theorem (\ref{thm:riesz}). For each inner product space $V$ and linear transformation $g:V\to\F$, find the vector $\vy\in V$ such that $g(\vx)=\ip{\vx,\vy}$ for all $\vx\in V$.
+	  \begin{enumerate}
+	    \item $V=\R^3$ with the standard inner product, and $g\sthreevec xyz=x-2y+4z$
+	    \item $V=\C^2$ with the standard inner product, and $g\stwovec zw=iz-2w$
+	    \item $V=P_2(\R)$ with the $L^2$ inner product $\ip{f,h}=\int_0^1 f(x)h(x)\,\dx$, and $g(f)=f'(1)$
+	  \end{enumerate}
+		
+	  
+	  \item\begin{enumerate}
+	    \item In the proof of Riesz's Theorem \ref{thm:riesz}, explain why $\vy$ depends only on $g$, not $\vu$.\par
+	    (\emph{Hint: what freedom do you have with regard to the unit vector $\vu$?})
+	    \item In the proof of Corollary \ref{cor:adjexist}, check that $g(\vx):=\ip{\rT(\vx),\vz}$ is a linear map.
+	  \end{enumerate}
+	  
+	  
+	  \item Let $\vy,\vz\in V$ be fixed vectors and define $\rT\in\cL(V)$ by $\rT(\vx)=\ip{\vx,\vy}\vz$. Show that $\rT^*$ exists and find an explicit expression.
+	  
+	  
+	  \item Suppose $A\in M_{m\times n}(\F)$. Prove that $A^*A$ is diagonal if and only if the columns of $A$ are orthogonal. What additionally would it mean if $A^*A=I$?
+	  
+	  
+	 	\item Suppose $\rT\in\cL(V)$ where $V$ is a finite-dimensional inner product space.
+	 	\begin{enumerate}
+	 	  \item Prove that the eigenvalues of $\rT^*$ are the complex conjugates of those of $\rT$.\par
+	 	  (\emph{Hint: relate the characteristic polynomial $p^*(t)=\det(\rT^*-t\I)$ to that of $\rT$})
+	 	  \item Prove that $\rT^*$ is diagonalizable if and only if $\rT$ is.
+	 	\end{enumerate}
+	
+				
+		\item\label{exs:adjnonexist} (Hard) \ Here are two linear maps which do not have an adjoint!
+		\begin{enumerate}
+		  \item Since $\epsilon=\{1,x,x^2,\ldots\}$ is a basis of $P(\R)$, we may define a linear map $\rT\in\cL\big(P(\R)\big)$ via $\rT(x^n)=1$ for all $n$; for instance
+			\[
+				\rT(4+3x+2x^5)=4+3+5=9
+			\]
+			Let $\ip{\ ,\ }$ be the inner product for which $\epsilon$ is orthonormal. If $\rT^*$ existed, show that
+			\[
+				\rT^*(1)=\sum_{n=0}^\infty x^n
+			\]
+			would be an \emph{infinite series}, not a polynomial: $\rT^*$ therefore does not exist.
+			
+			\item For a related challenge, recall the space $\ell^2$ of square-summable real sequences. For any sequence $(x_n)\in\ell^2$, define $\rT\in\cL(\ell^2)$ via
+			\[
+				\rT(x_n)=\left(\sum_{n=1}^\infty\frac 1nx_n,0,0,0,0,0,\ldots\right)
+			\]
+			Find the adjoint $\rT^*$. If $U\le\ell^2$ is the subspace whose elements have only finitely many non-zero terms, show that the restriction $\at\rT U$ does not have an adjoint.
+		\end{enumerate}
 	\end{enumerate}
-	
-	\item Extending Examples \ref{ex:deriv2d}, find the adjoint of $\rT=\diff x\in\cL(P_2(\R))$ with respect to:
-	\begin{enumerate}
-	  \item The inner product where the standard basis $\epsilon=\{1,x,x^2\}$ is orthonormal.
-	  \item (Hard!)\quad The $L^2$ inner product $\int_0^1f(x)g(x)\,\dx$.
-	\end{enumerate}
-  
-  
-  \item Let $\rT(f)=f''$ be a linear transformation of $P_2(\R)$ and let $\epsilon=\{1,x,x^2\}$ be the standard basis. Find $\rT^*(a+bx+cx^2)$:
-  \begin{enumerate}
-    \item With respect to the inner product where $\epsilon$ is orthonormal;
-    \item With respect to the $L^2$ inner product $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$.\smallbreak
-    (\emph{Hint: $\{1,x,3x^2-1\}$ is orthogonal})
-  \end{enumerate}
-  
-  \goodbreak
-
-	\item Prove part 2 of Theorem \ref{thm:matrixip}.
-
-  \item\label{ex:fundssthm} Prove the Fundamental Subspaces Theorem \ref{thm:fundssthm}.
-  
-  \item For each inner product space $V$ and linear transformation $g:V\to\F$, find a vector $\vy\in V$ such that $g(\vx)=\ip{\vx,\vy}$ for all $\vx\in V$.
-  \begin{enumerate}
-    \item $V=\R^3$ with the standard inner product, and $g\sthreevec xyz=x-2y+4z$
-    \item $V=\C^2$ with the standard inner product, and $g\stwovec zw=iz-2w$
-    \item $V=P_2(\R)$ with the $L^2$ inner product $\ip{f,h}=\int_0^1 f(x)h(x)\,\dx$, and $g(f)=f'(1)$
-  \end{enumerate}
-	
-	\goodbreak
-  
-  
-  \item\begin{enumerate}
-    \item In the proof of Theorem \ref{thm:riesz}, explain why $\vy$ depends only on $g$ (not $\vu$).
-    \item In the proof of Corollary \ref{cor:adjexist}, check that $g(\vx):=\ip{\rT(\vx),\vz}$ is linear.
-  \end{enumerate}
-  
-  \item Let $\vy,\vz\in V$ be fixed vectors and define $\rT\in\cL(V)$ by $\rT(\vx)=\ip{\vx,\vy}\vz$. Show that $\rT^*$ exists and find an explicit expression.
-  
-  \item Suppose $A\in M_{m\times n}(\F)$. Prove that $A^*A$ is diagonal if and only if the columns of $A$ are orthogonal. What additionally would it mean if $A^*A=I$?
-  
- 	\item Suppose $\rT\in\cL(V)$ where $V$ is a finite-dimensional inner product space.
- 	\begin{enumerate}
- 	  \item Prove that the eigenvalues of $\rT^*$ are the complex conjugates of those of $\rT$.\smallbreak
- 	  (\emph{Hint: relate the characteristic polynomial $p^*(t)=\det(\rT^*-t\I)$ to that of $\rT$})
- 	  \item Prove that $\rT^*$ is diagonalizable if and only if $\rT$ is.
- 	\end{enumerate}
-
-	
-% 	\item (\emph{Hard})\quad Let $\vu_n=(0,\ldots,0,1,0,\ldots)$ be the sequence with exactly one non-zero term in the $n\th$ position, and define $V=\Span_\R\{\vu_n\}$ as a subspace of $\ell^2$. Now define $\rT\in\cL(V)$ by
-% 	\[\rT(\vx)=\left(\sum_{n=1}^\infty\frac 1nx_n\right)\vu_1\]
-% 	Since $\vx\in V$, the sum only has \emph{finitely many non-zero terms} and we don't need to care about convergence; $\rT$ is therefore well-defined. If $\rT^*$ existed, show that it would have to have the formula
-% 	\[\rT^*(\vy)=y_1\left(1,\frac 12,\frac 13,\ldots\right)=y_1\left(\frac 1n\right)\]
-% 	Why does this \emph{not} define a map $V\to V$?\smallbreak
-% 	\emph{$\rT$ is therefore a linear map without an adjoint. If we extend $\rT\in\cL(\ell^2)$ to the full space $\ell^2$, then $\rT^*$ makes perfect sense.}
-	
-	\item\label{exs:adjnonexist} (Hard)\quad We present two linear maps which do not have an adjoint!
-	\begin{enumerate}
-	  \item Since $\epsilon=\{1,x,x^2,\ldots\}$ is a basis of $P(\R)$, we may define a linear map $\rT\in\cL(P(\R))$ via $\rT(x^n)=1$ for all $n$; for instance
-		\[\rT(4+3x+2x^5)=9\]
-		Let $\ip{\ ,\ }$ be the inner product for which $\epsilon$ is orthonormal. If $\rT^*$ existed, show that
-		\[\rT^*(1)=\sum_{n=0}^\infty x^n\]
-		would be an \emph{infinite series}: $\rT^*$ therefore does not exist.
-		\item For a related challenge, recall the space $\ell^2$ of square-summable real sequences. For any sequence $(x_n)_{n=1}^\infty\in\ell^2$), define $\rT\in\cL(\ell^2)$ via
-		\[\rT(x_n)=\left(\sum_{n=1}^\infty\frac 1nx_n,0,0,0,0,0,\ldots\right)\]
-		Find the adjoint $\rT^*$. If $V\le\ell^2$ is the subspace whose elements have only finitely many non-zero terms, show that the restriction $\at\rT V$ does not have an adjoint.
-	\end{enumerate}
-\end{enumerate}
 \end{exercises}
 
 
 \iffalse
-
-\begin{tcolorbox}[exstyle, title={Example \ref{ex:adjointeasy}, ver.II.\quad}]
-Take the same linear map $\rT=\rL_A$ as before, but this time we work with a new inner product on $\R^2$:
-\[\ip{\vw,\vv}:=2xp+yq\]
-Now we have a problem:
-\begin{align*}
-\ip{A^T\vw,\vv}
-&=\ip{\begin{smatrix}
-1&0\\2&3
-\end{smatrix}\stwovec xy,\stwovec pq}
-=2xp+(2x+3y)q\\
-&\neq 2x(p+2q)+3yq
-=\ip{\stwovec xy,\begin{smatrix}
-1&2\\0&3
-\end{smatrix}\stwovec pq}
-=\ip{\vw,A\vv}
-\end{align*}
-The adjoint of $\rL_A$ is \emph{not} $\rL_{A^T}$. This is crucial; \emph{the adjoint of $\rT$ depends on the inner product!}\smallbreak
-We can fix this via the theorem: the basis $\beta=\{\frac 1{\sqrt 2}\ve_1,\ve_2\}$ is orthonormal for the new inner product and it is easy to compute the matrix of $\rT$ with respect to $\beta$: we still have to convert back to the standard basis,
-\[\left.\begin{array}{ll}
-\rT(\tfrac 1{\sqrt 2}\ve_1) = \tfrac 1{\sqrt 2}\ve_1\\
-\rT(\ve_2) = 2\ve_1+3\ve_2=\tfrac{2\sqrt 2}{\sqrt 2}\ve_1 +3\ve_2
-\end{array}\right\}
-\implies [\rT]_\beta=\begin{pmatrix}
-1&2\sqrt 2\\0&3
-\end{pmatrix}
-\implies [\rT^*]_\beta=\begin{pmatrix}
-1&0\\2\sqrt 2&3
-\end{pmatrix}\]
-Remember that this is with respect to $\beta$:
-\[\left.\begin{array}{ll}
-\rT^*(\tfrac 1{\sqrt 2}\ve_1) = \tfrac 1{\sqrt 2}\ve_1+2\sqrt 2\ve_2\\
-\rT^*(\ve_2) = 3\ve_2
-\end{array}\right\}
-\implies [\rT^*]_\epsilon=\begin{pmatrix}
-1&0\\
-4&3
-\end{pmatrix}
-\]
-As a sanity check, we repeat part of our first calculation:
-\[\ip{[\rT^*]_\epsilon\vw,\vv}
-=\ip{\begin{smatrix}
-1&0\\4&3
-\end{smatrix}\stwovec xy,\stwovec pq}
-=2xp+(4x+3y)q = 2x(p+2q)+3yq
-=\ip{\vw,A\vv}\]
-Whew! Unfortunately the computation of adjoints is in general a gargantuan mess!
-\end{tcolorbox}
-
-
 
 
 \begin{example}{}{}
@@ -1389,180 +1391,259 @@ The moral is that adjoints are easy once you have an orthonormal basis and reall
 
 \clearpage
 
+
+
 \subsection{Normal \& Self-Adjoint Operators and the Spectral Theorem}
 
-We now come to the fundamental question of this chapter: for which linear operators $\rT\in\cL(V)$ can we find an orthonormal eigenbasis? Many linear maps are, of course, not even diagonalizable, so in general this is far too much to hope for! Let's see what happens if such a basis exists\ldots\medbreak
+We now come to the fundamental question: for which linear operators $\rT\in\cL(V)$ does there exist an orthonormal eigenbasis? Many linear maps are not even diagonalizable, so in general this is far too much to hope for! Let's see what happens if such a basis exists (in finite dimensions)\ldots\medbreak
 
 If $\beta$ is an orthonormal basis of eigenvectors of $\rT$, then
-\[[\rT]_\beta=\diag(\lambda_1,\cdots,\lambda_n)\implies [\rT^*]_\beta=\diag(\cl{\lambda_1},\cdots,\cl{\lambda_n})\]
-If $V$ is a \emph{real} inner product space, then these matrices are identical and so $\rT^*=\rT$. In the complex case, we instead observe that
-\[[\rT\rT^*]_\beta=\diag(\nm{\lambda_1}^2,\cdots,\nm{\lambda_n}^2)=[\rT^*\rT]_\beta \implies \rT\rT^*=\rT^*\rT\]
+\[
+	[\rT]_\beta=\diag(\lambda_1,\cdots,\lambda_n)
+	\implies [\rT^*]_\beta=\diag(\cl{\lambda_1},\cdots,\cl{\lambda_n})
+\]
+If $V$ is a \emph{real} space, then these matrices are identical: $\rT^*=\rT$. In the complex case, we instead have
+\[
+	[\rT\rT^*]_\beta=\diag(\nm{\lambda_1}^2,\cdots,\nm{\lambda_n}^2)=[\rT^*\rT]_\beta 
+	\implies \rT\rT^*=\rT^*\rT
+\]
+Operators this special deserve to be named\ldots
 
 \begin{defn}{}{selfadj}
-Suppose $\rT$ is a linear operator on an inner product space $V$ and assume $\rT$ has an adjoint. We say that $\rT$ is,
-\begin{itemize}
-	\item[]\emph{Normal} if $\rT\rT^*=\rT^*\rT$,
-	\item[]\emph{Self-adjoint} if $\rT^*=\rT$.
-\end{itemize}
-The definitions for square matrices over $\R$ and $\C$ are identical, where $^*$ now denotes the conjugate-transpose.
+	Suppose $\rT\in\cL(V)$ is a linear operator for which an adjoint exists. We say that $\rT$ is:
+	\begin{itemize}
+		\item[]\emph{Normal} if $\rT\rT^*=\rT^*\rT$
+		\item[]\emph{Self-adjoint} if $\rT^*=\rT$
+	\end{itemize}
+	The definitions for square matrices over $\R$ and $\C$ are identical, where $^*$ now denotes the conjugate-transpose.
 \end{defn}
 
-A real self-adjoint matrix $A\in M_n(\R)$ is plainly \emph{symmetric}: $A^T=A$. A complex self-adjoint matrix is also called \emph{Hermitian}: $A^*=A$.\smallbreak
-If $\rT$ is self-adjoint then it is certainly normal, but the converse is false as the next example shows.
+A real self-adjoint matrix $A\in M_n(\R)$ is \emph{symmetric}: $A^T=A$. A complex self-adjoint matrix is \emph{conjugate-symmetric} (\emph{Hermitian}): $A^*=A$.\smallbreak
+If $\rT$ is self-adjoint then it is certainly normal, but the converse is \emph{false}.
 
 \begin{example}{}{rotatenotselfadj}
-The (non-symmetric) real matrix $A=\begin{smatrix}
-2&-1\\
-1&2
-\end{smatrix}$ is normal but not self-adjoint:
-\[AA^T=\begin{pmatrix}
-2&-1\\
-1&2
-\end{pmatrix}\begin{pmatrix}
-2&1\\
--1&2
-\end{pmatrix}=\begin{pmatrix}
-5&0\\
-0&5
-\end{pmatrix}=\begin{pmatrix}
-2&1\\
--1&2
-\end{pmatrix}\begin{pmatrix}
-2&-1\\
-1&2
-\end{pmatrix}=A^TA\]
+	The (non-symmetric) real matrix $A=
+	\begin{smatrix}
+		2&-1\\
+		1&2
+	\end{smatrix}$ is normal but not self-adjoint:
+	\[
+		AA^T=
+		\begin{pmatrix}
+			2&-1\\
+			1&2
+		\end{pmatrix}
+		\begin{pmatrix}
+			2&1\\
+			-1&2
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			5&0\\
+			0&5
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			2&1\\
+			-1&2
+		\end{pmatrix}
+		\begin{pmatrix}
+			2&-1\\
+			1&2
+		\end{pmatrix}
+		=A^TA
+	\]
 \end{example}
 
 More generally, every non-zero \emph{skew-hermitian} matrix $A^*=-A$ is normal but \emph{not} self-adjoint:
-\[A^*=-A\implies AA^*=-A^2=A^*A\]
+\[
+	A^*=-A\implies AA^*=-A^2=A^*A
+\]
 
-We saw above that linear maps with an orthonormal eigenbasis are either self-adjoint or normal depending whether the inner product space is real or complex. Amazingly, this provides a complete characterisation of such maps!
+In finite dimensions, we saw above that linear maps with an orthonormal eigenbasis are either self-adjoint or normal depending whether the inner product space is real or complex. Amazingly, this provides a complete characterisation of such maps!
 
 
 \begin{thm}{Spectral Theorem, version 1}{spec}
-Let $\rT$ be a linear operator on a finite-dimensional inner product space $V$.
-\begin{description}
-  \item[\normalfont\emph{Complex case}:] $V$ has an orthonormal basis of eigenvectors of $\rT$ if and only if $\rT$ is normal.
-  \item[\normalfont\emph{Real case}:] $V$ has an orthonormal basis of eigenvectors of $\rT$ if and only if $\rT$ is self-adjoint.
-\end{description}
+	Let $\rT$ be a linear operator on a finite-dimensional inner product space $V$.
+	\begin{description}
+	  \item[\normalfont\emph{Complex case}:] $V$ has an orthonormal basis of eigenvectors of $\rT$ if and only if $\rT$ is normal.
+	  \item[\normalfont\emph{Real case}:] $V$ has an orthonormal basis of eigenvectors of $\rT$ if and only if $\rT$ is self-adjoint.
+	\end{description}
 \end{thm}
 
 The theorem gets is name from the \emph{spectrum} (set of eigenvalues) of $\rT$.
 
 
-\goodbreak
+\pagebreak[3]
+
 
 \begin{examples}{}{specthm}
-\exstart We diagonalize the self-adjoint linear map $\rT=\rL_A\in\cL(\R^2)$ where $A=\begin{smatrix}
-	6&3\\3&-2
+	\exstart We diagonalize the self-adjoint linear map $\rT=\rL_A\in\cL(\R^2)$ where $A=
+	\begin{smatrix}
+		6&3\\
+		3&-2
 	\end{smatrix}$.
-	\[\def\arraystretch{1.2}\begin{array}{@{}ll}
-		\text{\emph{Characteristic polynomial}} &p(t)=(6-t)(-2-t)-9=t^2-4t-21=(t-7)(t+3)\\
-		\text{\emph{Eigenvalues}} &\lambda_1=7,\quad \lambda_2=-3\\
-		\text{\emph{Eigenvectors (normalized)}} &\vw_1=\frac 1{\sqrt{10}}\stwovec{3}{1},\quad \vw_2=\frac 1{\sqrt{10}}\stwovec{-1}{3}
-	\end{array}\]
-\begin{enumerate}\setcounter{enumi}{1}
-	\item[]	The basis $\beta=\{\vw_1,\vw_2\}$ is orthonormal, with respect to which $[\rT]_\beta=\begin{smatrix}
-	7&0\\0&-3
-	\end{smatrix}$ is diagonal.
-	
-  \item\label{ex:schur1} The map $\rT=\rL_A\in\cL(\R^2)$ where $A=\begin{smatrix}
-	1&3\\0&-2
-	\end{smatrix}$ is neither self-adjoint nor normal:
-	\[AA^*=\begin{pmatrix}
-	1&3\\0&-2
-	\end{pmatrix}\begin{pmatrix}
-	1&0\\3&-2
-	\end{pmatrix}
-	=
-	\begin{pmatrix}
-	10&-6\\-6&4
-	\end{pmatrix}
-	\neq \begin{pmatrix}
-	1&3\\3&13
-	\end{pmatrix}
-	=
-	\begin{pmatrix}
-	1&0\\3&-2
-	\end{pmatrix}\begin{pmatrix}
-	1&3\\0&-2
-	\end{pmatrix}
-	=A^*A\]
-	It is diagonalizable, indeed
-	\[\gamma=\left\{\twovec 10,\twovec 3{-1}\right\} \rightsquigarrow [\rT]_\gamma=\begin{pmatrix}
-	1&0\\0&-2
-	\end{pmatrix}\]
-	In accordance with the spectral theorem, $\gamma$ is not orthogonal.
-	
-	\item Let $A=\begin{smatrix}0&-1\\1&0\end{smatrix}$ and consider $\rT=\rL_A$ acting on both $\C^2$ and $\R^2$. Since $\rT$ is normal but not self-adjoint, we'll see how the field really matters in the spectral theorem.\smallbreak
-	First the complex case: $\rT\in\cL(\C^2)$ is normal and thus diagonalizable with respect to an orthonormal basis of eigenvectors. Here are the details.
-	\[\def\arraystretch{1.2}\begin{array}{@{}ll}
-		\text{\emph{Characteristic polynomial}} &p(t)=t^2+1=(t-i)(t+i)\\
-		\text{\emph{Eigenvalues}} &\lambda_1=i,\quad \lambda_2=-i\\
-		\text{\emph{Eigenvectors (normalized)}} &\vw_1=\frac 1{\sqrt{2}}\stwovec{i}{1},\quad \vw_2=\frac 1{\sqrt{2}}\stwovec{-i}{1}
-	\end{array}\]
-	Certainly $\ip{\vw_1,\vw_2}=0$, $\beta=\{\vw_1,\vw_2\}$ is orthonormal, and $[\rT]_\beta=\begin{smatrix}
-	i&0\\0&-i
-	\end{smatrix}$ is diagonal.\smallbreak	
-	Now for the real case: $\rT\in\cL(\R^2)$ is not self-adjoint and thus should not be diagonalizable with respect to an orthonormal basis of eigenvectors. Indeed this is trivial; the characteristic polynomial has no roots in $\R$ and so there are no real eigenvalues! It is also clear geometrically: $\rT$ is rotation by \ang{90} counter-clockwise around the origin, so it has no eigenvectors.
-	
-	\item Let $A=\begin{smatrix}3&i\\-i&3\end{smatrix}$ and consider the self-adjoint operator $\rT=\rL_A\in\cL(\C^2)$.
-	\[\def\arraystretch{1.2}\begin{array}{@{}ll}
-		\text{\emph{Characteristic polynomial}} &p(t)=t^2-6t+9-1=(t-2)(t-4)\\
-		\text{\emph{Eigenvalues}} &\lambda_1=2,\quad \lambda_2=4\\
-		\text{\emph{Eigenvectors (normalized)}} &\vw_1=\frac 1{\sqrt{2}}\stwovec{1}{i},\quad \vw_2=\frac 1{\sqrt{2}}\stwovec{1}{-i}
-	\end{array}\]
-	With respect to the orthonormal basis $\beta=\{\vw_1,\vw_2\}$, we have $[\rT]_\beta=\begin{smatrix}
-	2&0\\0&4
-	\end{smatrix}$.
-\end{enumerate}
+	\[
+		\def\arraystretch{1.2}
+		\begin{array}{@{}ll}
+			\text{\emph{Characteristic polynomial}} &p(t)=(6-t)(-2-t)-9=t^2-4t-21=(t-7)(t+3)\\
+			\text{\emph{Eigenvalues}} &\lambda_1=7,\quad \lambda_2=-3\\
+			\text{\emph{Eigenvectors (normalized)}} &\vw_1=\frac 1{\sqrt{10}}\stwovec{3}{1},\quad \vw_2=\frac 1{\sqrt{10}}\stwovec{-1}{3}
+		\end{array}
+	\]
+	\begin{enumerate}\setcounter{enumi}{1}
+		\item[]	The basis $\beta=\{\vw_1,\vw_2\}$ is orthonormal, with respect to which $[\rT]_\beta=
+		\begin{smatrix}
+			7&0\\
+			0&-3
+		\end{smatrix}$
+		is diagonal.
+		
+	  \item\label{ex:schur1} The map $\rT=\rL_A\in\cL(\R^2)$ where $A=
+	  \begin{smatrix}
+			1&3\\
+			0&-2
+		\end{smatrix}$
+		is neither self-adjoint nor normal:
+		\[
+			AA^*=
+			\begin{pmatrix}
+				1&3\\
+				0&-2
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&0\\
+				3&-2
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				10&-6\\
+				-6&4
+			\end{pmatrix}
+			\neq
+			\begin{pmatrix}
+				1&3\\
+				3&13
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				1&0\\
+				3&-2
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&3\\
+				0&-2
+			\end{pmatrix}
+			=A^*A
+		\]
+		It is diagonalizable, indeed
+		\[
+		\gamma=\left\{\twovec 10,\twovec 3{-1}\right\} \rightsquigarrow [\rT]_\gamma=
+		\begin{pmatrix}
+			1&0\\
+			0&-2
+		\end{pmatrix}
+		\]
+		In accordance with the spectral theorem, $\gamma$ is not orthogonal.
+		
+		\item Let $A=\begin{smatrix}0&-1\\1&0\end{smatrix}$ and consider $\rT=\rL_A$ acting on both $\C^2$ and $\R^2$. Since $\rT$ is normal but not self-adjoint, we'll see how the field really matters in the spectral theorem.\smallbreak
+		First the complex case: $\rT\in\cL(\C^2)$ is normal and thus diagonalizable with respect to an orthonormal basis of eigenvectors. Here are the details.
+		\[
+			\def\arraystretch{1.2}
+			\begin{array}{@{}ll}
+				\text{\emph{Characteristic polynomial}} &p(t)=t^2+1=(t-i)(t+i)\\
+				\text{\emph{Eigenvalues}} &\lambda_1=i,\quad \lambda_2=-i\\
+				\text{\emph{Eigenvectors (normalized)}} &\vw_1=\frac 1{\sqrt{2}}\stwovec{i}{1},\quad \vw_2=\frac 1{\sqrt{2}}\stwovec{-i}{1}
+			\end{array}
+		\]
+		Certainly $\ip{\vw_1,\vw_2}=0$, $\beta=\{\vw_1,\vw_2\}$ is orthonormal, and $[\rT]_\beta=
+		\begin{smatrix}
+			i&0\\
+			0&-i
+		\end{smatrix}$
+		is diagonal.\smallbreak	
+		Now for the real case: $\rT\in\cL(\R^2)$ is not self-adjoint and thus should not be diagonalizable with respect to an orthonormal basis of eigenvectors. Indeed this is trivial; the characteristic polynomial has no roots in $\R$ and so there are no real eigenvalues! It is also clear geometrically: $\rT$ is rotation by \ang{90} counter-clockwise around the origin, so it has no eigenvectors.
+		
+		\item Let $A=
+		\begin{smatrix}
+			3&i\\
+			-i&3
+		\end{smatrix}$ and consider the self-adjoint operator $\rT=\rL_A\in\cL(\C^2)$.
+		\[
+			\def\arraystretch{1.2}
+			\begin{array}{@{}ll}
+				\text{\emph{Characteristic polynomial}} &p(t)=t^2-6t+9-1=(t-2)(t-4)\\
+				\text{\emph{Eigenvalues}} &\lambda_1=2,\quad \lambda_2=4\\
+				\text{\emph{Eigenvectors (normalized)}} &\vw_1=\frac 1{\sqrt{2}}\stwovec{1}{i},\quad \vw_2=\frac 1{\sqrt{2}}\stwovec{1}{-i}
+			\end{array}
+		\]
+		With respect to the orthonormal basis $\beta=\{\vw_1,\vw_2\}$, we have $[\rT]_\beta=
+		\begin{smatrix}
+			2&0\\
+			0&4
+		\end{smatrix}$.
+	\end{enumerate}
 \end{examples}
-\goodbreak
+
+
+\pagebreak[3]
+
 
 \boldsubsubsection{Proving the Spectral Theorem for Self-Adjoint Operators}
 
-
 \begin{lemm}{Basic properties of self-adjoint operators}{selfadjbasic}
-Let $\rT\in\cL(V)$ be self-adjoint.
-\begin{enumerate}\itemsep2pt
-  \item If $W\le V$ is $\rT$-invariant then the restriction $\at\rT W$ is self-adjoint;
-  \item Every eigenvalue of $\rT$ is real;
-  \item If $\dim V$ is finite then $\rT$ has an eigenvalue.
-\end{enumerate}
+	Let $\rT\in\cL(V)$ be self-adjoint. Then:
+	\begin{enumerate}
+	  \item If $W\le V$ is $\rT$-invariant then the restriction $\at\rT W$ is self-adjoint.
+	  \item Every eigenvalue of $\rT$ is real.
+	  \item If $\dim V$ is finite then $\rT$ has an eigenvalue.
+	\end{enumerate}
 \end{lemm}
 
 It is irrelevant whether $V$ is real or complex. The previous example demonstrates part 2; even when $V=\C^2$ is a complex inner product space, the eigenvalues of a self-adjoint matrix are real.
 
 \begin{proof}
-\begin{enumerate}\itemsep2pt
-  \item Let $\vw_1,\vw_2\in W$. Then
-  \[\ip{\at\rT W(\vw_1),\vw_2}= \ip{\rT(\vw_1),\vw_2}= \ip{\vw_1,\rT(\vw_2)} =\ip{\vw_1,\at\rT W(\vw_2)}\]
-  \item Suppose $(\lambda,\vx)$ is an eigenpair. Then
-  \[\lambda\Nm{\vx}^2=\ip{\rT(\vx),\vx}=\ip{\vx,\rT(\vx)}=\cl\lambda\Nm{\vx}^2\implies \lambda\in\R\]
-  \item This is trivial if $V$ is complex since every characteristic polynomial splits over $\C$. We therefore assume $V$ is real. Choose any orthonormal basis $\gamma$ of $V$, let $A=[\rT]_\gamma\in M_n(\R)$, and define $\rS:=\rL_A\in\cL(\C^{n})$. Then;
-	\begin{itemize}\itemsep2pt
-	  \item The characteristic polynomial of $\rS$ splits over $\C$, whence there exists an eigenvalue $\lambda\in\C$.
-  	\item The characteristic polynomials of $\rS$ and $\rT$ are \emph{identical} (to that of $A$).
-  	\item $\rS$ is self-adjoint and thus (part 2) $\lambda\in\R$.
-	\end{itemize}
-  It follows that $\rT$ has the same \emph{real} eigenvalue $\lambda$.\qedhere
-\end{enumerate}
+	\begin{enumerate}
+	  \item Let $\vw_1,\vw_2\in W$. Then
+	  \[
+	  	\ip{\at\rT W(\vw_1),\vw_2}= \ip{\rT(\vw_1),\vw_2}
+	  	= \ip{\vw_1,\rT(\vw_2)} =\ip{\vw_1,\at\rT W(\vw_2)}
+	  \]
+	  \item Suppose $(\lambda,\vx)$ is an eigenpair. Then
+	  \[
+	  	\lambda\Nm{\vx}^2 =\ip{\rT(\vx),\vx}
+	  	=\ip{\vx,\rT(\vx)} =\cl\lambda\Nm{\vx}^2
+	  	\implies \lambda\in\R
+	  \]
+	  \item This is trivial if $V$ is complex since every characteristic polynomial splits over $\C$. We therefore assume $V$ is real. Choose any orthonormal basis $\gamma$ of $V$, let $A=[\rT]_\gamma\in M_n(\R)$, and define $\rS:=\rL_A\in\cL(\C^{n})$. Then;
+		\begin{itemize}
+		  \item The characteristic polynomial of $\rS$ splits over $\C$, whence there exists an eigenvalue $\lambda\in\C$.
+	  	\item The characteristic polynomials of $\rS$ and $\rT$ are \emph{identical} (to that of $A$).
+	  	\item $\rS$ is self-adjoint and thus (part 2) $\lambda\in\R$.
+		\end{itemize}
+	  It follows that $\rT$ has the same \emph{real} eigenvalue $\lambda$.\qedhere
+	\end{enumerate}
 \end{proof}
 
 We are now able to prove the spectral theorem for self-adjoint operators on a finite-dimensional inner product space $V$. The argument applies regardless of whether $V$ is real or complex.
 
 \begin{proof}[Proof of the Spectral Theorem (self-adjoint case)]
-We prove by induction on $\dim V$.\smallbreak
-(Base case)\quad If $\dim V=1$, then $V=\Span\{\vx\}$ and $\rT(\vx)=\lambda\vx$ for some unit vector $\vx$ and scalar $\lambda\in\R$; plainly $\{\vx\}$ is an orthonormal eigenbasis for $\rT$.\smallbreak
-(Induction step)\quad Fix $n\in\N$ and assume that \emph{every} self-adjoint operator on \emph{every} inner product space of dimension $n$ satisfies the spectral theorem. Let $\dim V=n+1$ and $\rT\in\cL(V)$ be self-adjoint.\smallbreak
-By part 3 of the Lemma, $\rT$ has an eigenpair $(\lambda,\vx)$ where we may assume $\vx$ has unit length. Let $W=\Span\{\vx\}^\perp$. If $\vw\in W$, then
-\[\ip{\vx,\rT(\vw)}=\ip{\rT(\vx),\vw}=\lambda\ip{\vx,\vw}=0\tag{$\ast$}\]
-whence $W$ is $\rT$-invariant. Plainly $\dim W=n$. By part 1 of the Lemma, $\at\rT W$ is self-adjoint. By the induction hypothesis, $\at\rT{W}$ is diagonalized by some orthonormal basis $\gamma$ of $W$. But then  $\rT$ is diagonalized by the orthonormal basis $\beta=\gamma\cup\{\vx\}$ of $V$.
+	We prove by induction on $\dim V$.
+	\begin{description}
+		\item[\normalfont(Base case)] If $\dim V=1$, then $V=\Span\{\vx\}$ and $\rT(\vx)=\lambda\vx$ for some unit vector $\vx$ and scalar $\lambda\in\R$. Plainly $\{\vx\}$ is an orthonormal eigenbasis for $\rT$.
+		\item[\normalfont(Induction step)] Fix $n\in\N$ and assume that \emph{every} self-adjoint operator on \emph{every} inner product space of dimension $n$ satisfies the spectral theorem. Let $\dim V=n+1$ and $\rT\in\cL(V)$ be self-adjoint.	By part 3 of the Lemma, $\rT$ has an eigenpair $(\lambda,\vx)$ where we may assume $\vx$ has unit length. Let $W=\Span\{\vx\}^\perp$. If $\vw\in W$, then
+	\[
+		\ip{\vx,\rT(\vw)}=\ip{\rT(\vx),\vw}=\lambda\ip{\vx,\vw}=0\tag{$\ast$}
+	\]
+	whence $W$ is $\rT$-invariant. Plainly $\dim W=n$. By part 1 of the Lemma, $\at\rT W$ is self-adjoint. By the induction hypothesis, $\at\rT{W}$ is diagonalized by some orthonormal basis $\gamma$ of $W$. But then  $\rT$ is diagonalized by the orthonormal basis $\beta=\gamma\cup\{\vx\}$ of $V$. \qedhere
+	\end{description}
 \end{proof}
 
-\goodbreak
 
-\subsubsection*{Proving the Spectral Theorem for Normal Operators}
+\pagebreak[3]
+
+
+\boldsubsubsection{Proving the Spectral Theorem for Normal Operators}
 
 What changes for normal operators on complex inner product spaces? Not much! Indeed the proof is almost identical when $\rT$ is merely normal.
 \begin{itemize}
@@ -1574,94 +1655,94 @@ What changes for normal operators on complex inner product spaces? Not much! Ind
 	\end{itemize}
 \end{itemize}
 
-Rather than write out all the details, we leave this to Exercises \ref{ex:normalspec1} and \ref{ex:normalspec2}.\smallbreak
+Rather than write out all the details, we leave this to Exercises \ref{exs:normalspec1} and \ref{exs:normalspec2}.\smallbreak
 
 For completeness, and as an analogue/extension of Lemma \ref{lemm:selfadjbasic}, we summarize some of the basic properties of normal operators. These also apply to self-adjoint operators as a special case.
 
 \begin{lemm}{Basic properties of normal operators}{normalbasic}
-Let $\rT$ be normal on $V$. Then:
-\begin{enumerate}
-  \item $\forall \vx\in V$, $\Nm{\rT(\vx)}=\Nm{\rT^*(\vx)}$.
-  \item $\rT-t\I$ is normal for any scalar $t$.
-  \item $\rT(\vx)=\lambda\vx\iff \rT^*(\vx)=\cl\lambda\vx$ so that $\rT$ and $\rT^*$ have the same eigenvectors and conjugate eigenvalues. This recovers the previously established fact that $\lambda\in\R$ if $\rT$ is self-adjoint.
-  \item Distinct eigenvalues of $\rT$ have orthogonal eigenvectors.
-\end{enumerate}
+	Let $\rT$ be normal on $V$. Then:
+	\begin{enumerate}
+	  \item $\forall \vx\in V$, $\Nm{\rT(\vx)}=\Nm{\rT^*(\vx)}$.
+	  \item $\rT-t\I$ is normal for any scalar $t$.
+	  \item $\rT(\vx)=\lambda\vx\iff \rT^*(\vx)=\cl\lambda\vx$ so that $\rT$ and $\rT^*$ have the same eigenvectors and conjugate eigenvalues. This recovers the previously established fact that $\lambda\in\R$ if $\rT$ is self-adjoint.
+	  \item Distinct eigenvalues of $\rT$ have orthogonal eigenvectors.
+	\end{enumerate}
 \end{lemm}
 
 
 \begin{proof}
-\begin{enumerate}
-  \item $\Nm{\rT(\vx)}^2=\ip{\rT(\vx),\rT(\vx)}=\ip{\rT^*\rT(\vx),\vx} =\ip{\rT\rT^*(\vx),\vx}=\ip{\rT^*(\vx),\rT^*(\vx)}=\Nm{\rT^*(\vx)}^2$.
-  \item $\ip{\vx,(\rT-t\I)(\vy)}=\ip{\vx,\rT(\vy)}-\cl t\ip{\vx,\vy} =\ip{\rT^*(\vx),\vy}-\ip{\cl t\vx,\vy} =\ip{(\rT^*-\cl t\I)(\vx),\vy}$ shows that $\rT-t\I$ has adjoint $\rT^*-\cl t\I$. It is trivial to check that these commute.
-  \item $\rT(\vx)=\lambda\vx\iff \Nm{(\rT-\lambda \I)(\vx)}=0\underset{1 \& 2}{\overset{\text{parts}}{\iff}} \Nm{(\rT^*-\cl\lambda \I)(\vx)}=0 \iff \rT^*(\vx)=\cl\lambda\vx$.
-  \item In part this follows from the spectral theorem, but we can also prove more straightforwardly. Suppose $\rT(\vx)=\lambda\vx$ and $\rT(\vy)=\mu\vy$ where $\lambda\neq \mu$. By part 3,
-  \begin{align*}
-  \lambda\ip{\vx,\vy} &=\ip{\lambda\vx,\vy} =\ip{\rT(\vx),\vy} =\ip{\vx,\rT^*(\vy)} = \ip{\vx,\cl\mu\vy}\\
-    & =\mu\ip{\vx,\vy}
-  \end{align*}
-  This is a contradiction unless $\ip{\vx,\vy}=0$.\hfill\qedhere
-\end{enumerate}
+	\exstart $\Nm{\rT(\vx)}^2=\ip{\rT(\vx),\rT(\vx)}=\ip{\rT^*\rT(\vx),\vx} =\ip{\rT\rT^*(\vx),\vx}=\ip{\rT^*(\vx),\rT^*(\vx)}=\Nm{\rT^*(\vx)}^2$.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item $\ip{\vx,(\rT-t\I)(\vy)}=\ip{\vx,\rT(\vy)}-\cl t\ip{\vx,\vy} =\ip{\rT^*(\vx),\vy}-\ip{\cl t\vx,\vy} =\ip{(\rT^*-\cl t\I)(\vx),\vy}$ shows that $\rT-t\I$ has adjoint $\rT^*-\cl t\I$. It is trivial to check that these commute.
+	  \item $\rT(\vx)=\lambda\vx\iff \Nm{(\rT-\lambda \I)(\vx)}=0\underset{1 \& 2}{\overset{\text{parts}}{\iff}} \Nm{(\rT^*-\cl\lambda \I)(\vx)}=0 \iff \rT^*(\vx)=\cl\lambda\vx$.
+	  \item In part this follows from the spectral theorem, but we can also prove more straightforwardly. Suppose $\rT(\vx)=\lambda\vx$ and $\rT(\vy)=\mu\vy$ where $\lambda\neq \mu$. By part 3,
+	  \begin{align*}
+	  \lambda\ip{\vx,\vy} 
+	  	&=\ip{\lambda\vx,\vy} =\ip{\rT(\vx),\vy} =\ip{\vx,\rT^*(\vy)} = \ip{\vx,\cl\mu\vy}\\
+	    &=\mu\ip{\vx,\vy}
+	  \end{align*}
+	  This is a contradiction unless $\ip{\vx,\vy}=0$.\hfill\qedhere
+	\end{enumerate}
 \end{proof}
 \vfil\vfil
-\goodbreak
+
+\pagebreak[3]
+
 
 \boldsubsubsection{Schur's Lemma}
 
 It is reasonable to ask how useful an orthonormal basis can be in general. Here is one answer.
 
-% \begin{example}[breakable]{}{}
-% Consider $T=L_A$ where $A=\begin{smatrix}
-% 0&3+4i\\-3+4i&0
-% \end{smatrix}$. This is skew-hermitian ($A^*=-A$) and thus normal but not self-adjoint. To find its eigenpairs, we solve
-% \[p(t)=t^2-(3+4i)(-3+4i)=t^2+25=0\implies t=\pm 5i\]
-% The eigenvectors can then be found:
-% \[\lambda=5i\implies \begin{pmatrix}
-%   -5i&3+4i\\
-%   -3+4i&-5i
-%   \end{pmatrix}\vw=\V0\implies \text{choose }\vw_1=\twovec{3+4i}{5i}\]
-%   while the other eigenpair is seen to be $\cl\lambda,\vw_2=\stwovec{3+4i}{-5i}$. Observe that these eigenvectors are orthogonal:
-% \[\ip{\vw_1,\vw_2}=\vw_2^*\vw_1=(\cl{3+4i})(3+4i)+(\cl{-5i})(5i)= 25-25=0\]
-% Note also that the adjoint $A^*=-A$ has the same eigenvectors but with conjugate eigenvalues:
-% \[A^*\vw=-A\vw=-\lambda\vw=\cl\lambda\vw\]
-% \end{example}
-% 
-% As a consequence of Lemma \ref{lemm:normalbasic}, any \emph{diagonalizable} normal or self-adjoint operators necessarily have an orthogonal eigenbasis. The hard part of the spectral theorem is proving that such operators are diagonalizable in the first place! This can be done in one shot, but first we develop a useful and interesting result.
-
 \begin{lemm}{Schur}{schur}
-Suppose $\rT$ is a linear operator on a finite-dimensional inner product space $V$. If the characteristic polynomial of $\rT$ splits, then there exists an orthonormal basis $\beta$ of $V$ such that $[\rT]_\beta$ is upper-triangular.
+	Suppose $\rT$ is a linear operator on a finite-dimensional inner product space $V$. If the characteristic polynomial of $\rT$ splits, then there exists an orthonormal basis $\beta$ of $V$ such that $[\rT]_\beta$ is \textbf{upper-triangular}.
 \end{lemm}
 
-The spectral theorem is a special case; since the proof is similar, we leave it to the exercises.\smallbreak
+The spectral theorem is a special case. Since the proof is similar, we leave it to the exercises.\smallbreak
 
-The conclusion of Schur's lemma is weaker than the spectral theorem, though it applies to more operators: indeed if $V$ is complex, it applies to \emph{any} $\rT$! Every example of the spectral theorem is also an example of Schur's lemma. Example \hyperref[ex:schur1]{\ref*{ex:specthm}.\ref*{ex:schur1}} provides another, since the matrix $A$ is already upper triangular with respect to the standard orthonormal basis. Here is a another example.
+The conclusion of Schur's lemma is weaker than the spectral theorem, though it applies to more operators: indeed if $V$ is complex, it applies to \emph{any} $\rT$! Every example of the spectral theorem is also an example of Schur's lemma. Example \ref*{ex:specthm}.\ref{ex:schur1} provides a second, since the matrix $A$ is already upper triangular with respect to the standard orthonormal basis. Here is a another example.
 
 \begin{example}{}{}
-Consider $\rT(f)=2f'(x)+xf(1)$ as a linear map $\rT\in\cL(P_1(\R))$ with respect to the $L^2$ inner product $\ip{f,g}=\int_0^1f(t)g(t)\,\dt$. We have
-\[\rT(a+bx)=2b+(a+b)x\]
-If $[\rT]_\beta$ is to be upper-triangular, the first vector in $\beta$ must be an eigenvector of $\rT$.
-It is easily checked that $f_1=1+x$ is such with eigenvalue 2. To find a basis satisfying Schur's lemma, we need only find $f_2$ orthogonal to this and then normalize. This can be done by brute force since the problem is small, but for the sake of practice we apply Gram--Schmidt to the polynomial 1:
-\[1-\frac{\ip{1,1+x}}{\Nm{1+x}^2}(1+x)= 1-\frac{1+\frac 12}{1+1+\frac 13}(1+x)=\frac 1{14}(5-9x) \implies f_2=5-9x\]
-Indeed we obtain an upper-triangular matrix for $\rT$:
-\[\rT(f_2)=-18-4x =-13(1+x)-(5-9x) =-13f_1-f_2\implies [\rT]_{\{f_1,f_2\}}=\begin{pmatrix}
-2&-13\\
-0&-1
-\end{pmatrix}\]
-We can also work with the corresponding orthonormal basis as posited in the theorem, though the matrix is messier:
-\[\beta=\{g_1,g_2\}=\left\{\sqrt{\frac 37}(1+x),\frac 1{\sqrt 7}(5-9x)\right\} \implies [\rT]_\beta=\begin{pmatrix}
-2&-\frac{13}{\sqrt 3}\\
-0&-1
-\end{pmatrix}\]
-Alternatively, we could have started with the other eigenvector $h_1=2-x$: an orthogonal vector to this is $h_2=4-9x$, with respect to which
-\[[\rT]_{\{h_1,h_2\}}=\begin{pmatrix}
--1&-13\\
-0&2
-\end{pmatrix}\]
-In both cases the eigenvalues are down the diagonal, as must be for an upper-triangular matrix.
+	Consider $\rT(f)=2f'(x)+xf(1)$ as a linear map $\rT\in\cL(P_1(\R))$ with respect to the $L^2$ inner product $\ip{f,g}=\int_0^1f(t)g(t)\,\dt$. We have
+	\[
+		\rT(a+bx)=2b+(a+b)x
+	\]
+	If $[\rT]_\beta$ is to be upper-triangular, the first vector in $\beta$ must be an eigenvector of $\rT$.
+	It is easily checked that $f_1=1+x$ is such with eigenvalue 2. To find a basis satisfying Schur's lemma, we need only find $f_2$ orthogonal to this and then normalize. This can be done by brute force since the problem is small, but for the sake of practice we apply Gram--Schmidt to the polynomial 1:
+	\[
+		1-\frac{\ip{1,1+x}}{\Nm{1+x}^2}(1+x)= 1-\frac{1+\frac 12}{1+1+\frac 13}(1+x)=\frac 1{14}(5-9x) \implies f_2=5-9x
+	\]
+	Indeed we obtain an upper-triangular matrix for $\rT$:
+	\[
+		\rT(f_2)=-18-4x =-13(1+x)-(5-9x) =-13f_1-f_2
+		\implies [\rT]_{\{f_1,f_2\}}=
+		\begin{pmatrix}
+			2&-13\\
+			0&-1
+		\end{pmatrix}
+	\]
+	We can also work with the corresponding orthonormal basis as posited in the theorem, though the matrix is messier:
+	\[
+		\beta=\{g_1,g_2\}=\left\{\sqrt{\frac 37}(1+x),\frac 1{\sqrt 7}(5-9x)\right\} 
+		\implies [\rT]_\beta=
+		\begin{pmatrix}
+			2&-\frac{13}{\sqrt 3}\\
+			0&-1
+		\end{pmatrix}
+	\]
+	Alternatively, we could have started with the other eigenvector $h_1=2-x$: an orthogonal vector to this is $h_2=4-9x$, with respect to which
+	\[
+		[\rT]_{\{h_1,h_2\}}=
+		\begin{pmatrix}
+			-1&-13\\
+			0&2
+		\end{pmatrix}
+	\]
+	In both cases the eigenvalues are down the diagonal, as must be for an upper-triangular matrix.
 \end{example}
 
 In general, it is difficult to quickly find a suitable basis satisfying Schur's lemma. After trying the proof in the exercises, you should be able to describe a method, though it is impractically slow!
 
-\goodbreak
+
 
 % \parbox{\linewidth}{Unfortunately the tactic of extending a single eigenvector to a basis doesn't work so well when $\dim V\ge 3$. Instead we appeal to the more general idea of an invariant subspace. Recall that $U\le V$ being $T$-invariant means that $T(U)\le U$: moreover, if $\gamma$ is a basis of $U$ extended to a basis $\beta=\gamma\cup\eta$ of $V$, then the matrix of $T$ with respect to $\beta$ has block form
 % \[[T]_\beta=\left(\begin{array}{c|c}
@@ -1718,58 +1799,69 @@ In general, it is difficult to quickly find a suitable basis satisfying Schur's 
 
 
 
- 
-
 \begin{exercises}
-\exstart For each linear operator $\rT$ on an inner product space $V$, decide whether $\rT$ is normal, self-adjoint, or neither. If the spectral theorem permits, find an orthonormal eigenbasis.
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[]\begin{enumerate}
-    \item $V=\R^2$ and $\rT\stwovec xy=\stwovec{2a-b}{-2a+5b}$
-    \item $V=\R^3$ and $\rT\sthreevec xyz=\sthreevec{-a-b}{5b}{4a-2b+5c}$
-    \item $V=\C^2$ and $\rT\stwovec zw=\stwovec{2z+iw}{z+2w}$
-    \item $V=\R^4$ with $\rT:(\ve_1,\ve_2,\ve_3,\ve_4)\mapsto (\ve_3,\ve_4,\ve_1,\ve_2)$
-    \item $V=P_2(\R)$ with $\ip{f,g}=\int_0^1f(t)g(t)\,\dt$ and $\rT(f)=f'$\\[2pt]
-    (\emph{Hint: Don't compute $\rT^*$! Instead assume $\rT$ is normal and aim for a contradiction\ldots})
-  \end{enumerate}
-  
-  \item Let $\rT(f(x))=f'(x)+4xf(0)$ where $\rT\in\cL(P_1(\R))$ and $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$. Find an orthonormal basis of $P_1(\R)$ with respect to which the matrix of $\rT$ is upper-triangular.
-  
-  \item Suppose $\rS,\rT$ are self-adjoint operators on an inner product space $V$. Prove that $\rS\rT$ is self-adjoint if and only if $\rS\rT=\rT\rS$.\\[2pt]
-  (\emph{Hint: recall Theorem \ref{thm:matrixip}})
-  
-  
-  %\item Let $T$ be a normal operator on a finite-dimensional inner product space $V$ and let $W\le V$. Prove that if $W$ is $T$-invariant then $W$ is also $T^*$-invariant.
-  
-  \item Let $\rT$ be normal on a finite-dimensional inner product space $V$. Prove that $\cN(\rT^*)=\cN(\rT)$ and that $\cR(\rT^*)=\cR(\rT)$.\\[2pt]
-  (\emph{Hint: Use Lemma \ref{lemm:normalbasic} and the Fundamental Subspaces Theorem \ref{thm:fundssthm}})
-  
-  \item Let $\rT$ be self-adjoint on a finite-dimensional inner product space $V$. Prove that
-  \[\forall\vx\in V,\quad \Nm{\rT(\vx)\pm i\vx}^2=\Nm{\rT(\vx)}^2+\Nm{\vx}^2\]
-  Hence prove that $\rT-i\I$ is invertible and that $[(\rT-i\I)^{-1}]^*=(\rT+i\I)^{-1}$.
-  
-    
-  \item\label{ex:normalspec1} Let $W$ be a $\rT$-invariant subspace of an inner product space $V$ and let $\at\rT W\in\cL(W)$ be the restriction of $\rT$ to $W$. Prove:
-  \begin{enumerate}
-    %\item $T$ self-adjoint $\implies \at TW$ is self-adjoint.
-    \item $W^\perp$ is $\rT^*$-invariant.
-    \item If $W$ is both $\rT$- and $\rT^*$-invariant, then $(\at\rT W)^*=\at{(\rT^*)}W$.
-    \item If $W$ is both $\rT$- and $\rT^*$-invariant and $\rT$ is normal, then $\at\rT W$ is normal.
-  \end{enumerate}
-  
-  \item\label{ex:normalspec2} Use the previous question to complete the proof of the spectral theorem for a normal operator on a finite-dimensional complex inner product space.
-  
-  \item\begin{enumerate}
-    \item Suppose $\rS$ is a normal operator on a finite-dimensional \emph{complex} inner product space, all of whose eigenvalues are \emph{real.} Prove that $\rS$ is self-adjoint.
-    \item Let $\rT$ be a normal operator on a finite-dimensional \emph{real} inner product space $V$ whose characteristic polynomial splits. Prove that $\rT$ is self-adjoint and that there exists an orthonormal basis of $V$ of eigenvectors of $\rT$.\\[2pt]
-    (\emph{Hint: Mimic the proof of Lemma \ref{lemm:selfadjbasic} part 3 and use part (a)})
-  \end{enumerate}
-  
-  \item Prove Schur's lemma by induction, similarly to the proof of the spectral theorem.\\[2pt]
-  (\emph{Hint: $\rT^*$ has an eigenvector $\vx$; why? Now show that $W=\Span\{\vx\}^\perp$ is $\rT$-invariant\ldots})
-\end{enumerate}
+	\exstart For each linear operator $\rT$ on an inner product space $V$, decide whether $\rT$ is normal, self-adjoint, or neither. If the spectral theorem permits, find an orthonormal eigenbasis.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]\begin{enumerate}
+	    \item $V=\R^2$ and $\rT\stwovec xy=\stwovec{2a-b}{-2a+5b}$
+	    \item $V=\R^3$ and $\rT\sthreevec xyz=\sthreevec{-a-b}{5b}{4a-2b+5c}$
+	    \item $V=\C^2$ and $\rT\stwovec zw=\stwovec{2z+iw}{z+2w}$
+	    \item $V=\R^4$ with $\rT:(\ve_1,\ve_2,\ve_3,\ve_4)\mapsto (\ve_3,\ve_4,\ve_1,\ve_2)$
+	    \item $V=P_2(\R)$ with $\ip{f,g}=\int_0^1f(t)g(t)\,\dt$ and $\rT(f)=f'$\par
+	    (\emph{Hint: Don't compute $\rT^*$! Instead assume $\rT$ is normal and aim for a contradiction\ldots})
+	  \end{enumerate}
+	  
+	  
+	  \item Let $\rT(f(x))=f'(x)+4xf(0)$ where $\rT\in\cL(P_1(\R))$ and $\ip{f,g}=\int_{-1}^1f(t)g(t)\,\dt$. Find an orthonormal basis of $P_1(\R)$ with respect to which the matrix of $\rT$ is upper-triangular.
+	  
+	  
+	  \item Suppose $\rS,\rT$ are self-adjoint operators on an inner product space $V$. Prove that $\rS\rT$ is self-adjoint if and only if $\rS\rT=\rT\rS$.\par
+	  (\emph{Hint: recall Theorem \ref{thm:matrixip}})
+	  	  
+	  
+	  \item Let $\rT$ be normal on a finite-dimensional inner product space $V$. Prove that $\cN(\rT^*)=\cN(\rT)$ and that $\cR(\rT^*)=\cR(\rT)$.\par
+	  (\emph{Hint: Use Lemma \ref{lemm:normalbasic} and the Fundamental Subspaces Theorem \ref{thm:fundssthm}})
+	  
+	  
+	  \item Let $\rT$ be self-adjoint on a finite-dimensional inner product space $V$. Prove that
+	  \[
+	  	\forall\vx\in V,\quad 
+	  	\Nm{\rT(\vx)\pm i\vx}^2=\Nm{\rT(\vx)}^2+\Nm{\vx}^2
+	  \]
+	  Hence prove that $\rT-i\I$ is invertible and that $[(\rT-i\I)^{-1}]^*=(\rT+i\I)^{-1}$.
+	  
+	    
+	  \item\label{exs:normalspec1} Let $W$ be a $\rT$-invariant subspace of an inner product space $V$ and $\at\rT W\in\cL(W)$ the restriction. Prove:
+	  \begin{enumerate}
+	    \item $W^\perp$ is $\rT^*$-invariant.
+	    \item If $W$ is both $\rT$- and $\rT^*$-invariant, then $(\at\rT W)^*=\at{(\rT^*)}W$.
+	    \item If $W$ is both $\rT$- and $\rT^*$-invariant and $\rT$ is normal, then $\at\rT W$ is normal.
+	  \end{enumerate}
+	  
+	  
+	  \item\label{exs:normalspec2} Use the previous question to complete the proof of the spectral theorem for a normal operator on a finite-dimensional complex inner product space.
+	  
+	  
+	  \item\begin{enumerate}
+	    \item Suppose $\rS$ is a normal operator on a finite-dimensional \emph{complex} inner product space, all of whose eigenvalues are \emph{real.} Prove that $\rS$ is self-adjoint.
+	    \item Let $\rT$ be a normal operator on a finite-dimensional \emph{real} inner product space $V$ whose characteristic polynomial splits. Prove that $\rT$ is self-adjoint and that there exists an orthonormal basis of $V$ of eigenvectors of $\rT$.\par
+	    (\emph{Hint: Mimic the proof of Lemma \ref{lemm:selfadjbasic} part 3 and use part (a)})
+	  \end{enumerate}
+	  
+	  
+	  \item (Hard) \ Prove Schur's lemma by induction, similarly to the proof of the spectral theorem.\par
+	  (\emph{Hint: $\rT^*$ has an eigenvector $\vx$; why? Now show that $W=\Span\{\vx\}^\perp$ is $\rT$-invariant\ldots})
+	\end{enumerate}
 \end{exercises}
 
 \clearpage
+
+
+
+
+
+
+\iffalse
 
 \subsection{Unitary and Orthogonal Operators and their Matrices}
 
