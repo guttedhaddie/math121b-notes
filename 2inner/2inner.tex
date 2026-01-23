@@ -1192,7 +1192,7 @@ The idea of the proof is very simple: if $g(\vx)=\ip{\vx,\vy}$ then the nullspac
 	Following the decomposition, write $\vx=\vn+\alpha\vu$ where $\vn\in\cN(g)$ and observe that
 	\[
 		\ip{\vx,\vy} =\ip{\vn+\alpha\vu,\cl{g(\vu)}\vu} 
-		=g(\vu)\alpha =0+g(\alpha\vu) 
+		=\alpha g(\vu) =0+g(\alpha\vu) 
 		=g(\vn+\alpha\vu) =g(\vx)
 	\]
 	The uniqueness of $\vy$ follows from the cancellation property (Lemma \ref{lemm:ipbasic}, part 4).
@@ -1412,8 +1412,8 @@ Operators this special deserve to be named\ldots
 \begin{defn}{}{selfadj}
 	Suppose $\rT\in\cL(V)$ is a linear operator for which an adjoint exists. We say that $\rT$ is:
 	\begin{itemize}
-		\item[]\emph{Normal} if $\rT\rT^*=\rT^*\rT$
-		\item[]\emph{Self-adjoint} if $\rT^*=\rT$
+		\item[]\emph{Self-adjoint} \ if $\rT^*=\rT$
+		\item[]\emph{Normal} \ if $\rT\rT^*=\rT^*\rT$
 	\end{itemize}
 	The definitions for square matrices over $\R$ and $\C$ are identical, where $^*$ now denotes the conjugate-transpose.
 \end{defn}
@@ -1464,14 +1464,14 @@ In finite dimensions, we saw above that linear maps with an orthonormal eigenbas
 
 
 \begin{thm}{Spectral Theorem, version 1}{spec}
-	Let $\rT$ be a linear operator on a finite-dimensional inner product space $V$.
-	\begin{description}
-	  \item[\normalfont\emph{Complex case}:] $V$ has an orthonormal basis of eigenvectors of $\rT$ if and only if $\rT$ is normal.
-	  \item[\normalfont\emph{Real case}:] $V$ has an orthonormal basis of eigenvectors of $\rT$ if and only if $\rT$ is self-adjoint.
-	\end{description}
+	Let $\rT$ be a linear operator on a finite-dimensional inner product space $V$ over a field $\F$. There are two cases:
+	\begin{enumerate}
+		\item $\F=\R$. \ $\rT$ has an orthonormal basis of eigenvectors if and only it is \textbf{self-adjoint}.
+		\item $\F=\C$. \ $\rT$ has an orthonormal basis of eigenvectors if and only if it is \textbf{normal}.
+	\end{enumerate}
 \end{thm}
 
-The theorem gets is name from the \emph{spectrum} (set of eigenvalues) of $\rT$.
+The theorem gets is name from the \emph{spectrum} (set of eigenvalues) of $\rT$. Versions of the spectral theorem also apply in certain infinite dimensional settings: such a discussion is beyond these notes.
 
 
 \pagebreak[3]
