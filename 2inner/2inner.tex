@@ -1859,10 +1859,6 @@ In general, it is difficult to quickly find a suitable basis satisfying Schur's 
 
 
 
-
-
-\iffalse
-
 \subsection{Unitary and Orthogonal Operators and their Matrices}
 
 % In this section considering the diagonalization of a normal or self-adjoint matrix in accordance with the spectral theorem. Here is an example:
@@ -1911,105 +1907,148 @@ In general, it is difficult to quickly find a suitable basis satisfying Schur's 
 In this section we focus on length-preserving transformations of an inner product space.
 
 \begin{defn}{}{}
-A \emph{linear\footnotemark isometry} of an inner product space $V$ is a linear map $\rT$ satisfying
-\[\forall \vx\in V,\ \Nm{\rT(\vx)}=\Nm{\vx}\]
+	A \emph{linear\footnotemark{} isometry} of an inner product space $V$ is a linear map $\rT$ satisfying
+	\[
+		\forall \vx\in V,\ \Nm{\rT(\vx)}=\Nm{\vx}
+	\]
 \end{defn}
 
-\footnotetext{There also exist \emph{non-linear} isometries: for instance \emph{translations} ($\rT(\vx)=\vx+\va$ for any constant $\va$) and \emph{complex conjugation} ($\rT(\vx)=\cl\vx$) on $\C^n$. Together with linear isometries, these essentially comprise all isometries in finite dimensions.}
+\footnotetext{%
+	There also exist \emph{non-linear} isometries: for instance \emph{translations} ($\rT(\vx)=\vx+\va$ for any constant $\va$) and \emph{complex conjugation} ($\rT(\vx)=\cl\vx$) on $\C^n$. Together with linear isometries, these essentially comprise all isometries in finite dimensions.%
+}
 
 Every eigenvalue of an isometry must have modulus 1: if $\rT(\vw)=\lambda\vw$, then
-\[\Nm{\vw}^2=\Nm{\rT(\vw)}^2=\Nm{\lambda\vw}^2=\nm\lambda^2\Nm{\vw}^2\]
+\[
+	\Nm{\vw}^2 =\Nm{\rT(\vw)}^2
+	=\Nm{\lambda\vw}^2 =\nm\lambda^2\Nm{\vw}^2
+\]
 
 \begin{example}{}{easyrotate}
-Let $\rT=\rL_A\in\cL(\R^2)$, where $A=\frac 15\begin{smatrix}
-4&-3\\3&4
-\end{smatrix}$. Then
-\[\Nm{\rT\twovec xy}^2=\Nm{\frac 15\twovec{4x-3y}{3x+4y}}^2=\frac 1{25}\left((4x-3y)^2+(3x+4y)^2\right)=x^2+y^2=\Nm{\twovec xy}^2\]
-This matrix is very special in that its inverse equals its transpose:
-\[A^{-1}=\frac 1{\frac{16}{25}+\frac 9{25}}\begin{pmatrix}
-4&3\\-3&4
-\end{pmatrix} =\frac 1{5}\begin{pmatrix}
-4&3\\-3&4
-\end{pmatrix}=A^T\]
+	Let $\rT=\rL_A\in\cL(\R^2)$, where $A=\frac 15
+	\begin{smatrix}
+		4&-3\\
+		3&4
+	\end{smatrix}$. Then
+	\[
+		\Nm{\rT\twovec xy}^2 =\Nm{\frac 15\twovec{4x-3y}{3x+4y}}^2
+		=\frac 1{25}\left((4x-3y)^2+(3x+4y)^2\right)
+		=x^2+y^2 =\Nm{\twovec xy}^2
+	\]
+	This matrix is very special in that its inverse equals its transpose:
+	\[
+		A^{-1}=\frac 1{\frac{16}{25}+\frac 9{25}}
+		\begin{pmatrix}
+			4&3\\
+			-3&4
+		\end{pmatrix}
+		=\frac 1{5}
+		\begin{pmatrix}
+			4&3\\
+			-3&4
+		\end{pmatrix}
+		=A^T
+	\]
+	We call such matrices \emph{orthogonal.} The simple version of what follows is that every linear isometry on $\R^n$ is multiplication by an orthogonal matrix.
 \end{example}
 
-We call such matrices \emph{orthogonal.} The simple version of what follows is that every linear isometry on $\R^n$ is multiplication by an orthogonal matrix.
 
 \begin{defn}{}{unitary}
-A \emph{unitary operator} $\rT$ on an inner product space $V$ is an invertible linear map satisfying $\rT^*\rT=\I=\rT\rT^*$. A \emph{unitary matrix} is a (real or complex) matrix satisfying $A^*A=I$.\smallbreak
-If $V$ is real, we usually call these \emph{orthogonal operators/matrices}; this isn't necessary, since \emph{unitary} encompasses both real and complex spaces. An orthogonal matrix satisfies $A^TA=I$.
+	A \emph{unitary operator} $\rT$ on an inner product space $V$ is an invertible linear map satisfying $\rT^*\rT=\I=\rT\rT^*$. A \emph{unitary matrix} is a (real or complex) matrix satisfying $A^*A=I$.\smallbreak
+	If $V$ is real, these are often called \emph{orthogonal operators/matrices}; this isn't necessary since \emph{unitary} encompasses both real and complex spaces. An orthogonal matrix satisfies $A^TA=I$.
 \end{defn}
 
 \begin{example}{}{}
-The matrix $A=\frac 13\begin{smatrix}
-i&2+2i\\2-2i&i
-\end{smatrix}$ is unitary:
-\[A^*A=\frac 19\begin{pmatrix}
--i&2+2i\\2-2i&-i
-\end{pmatrix}\begin{pmatrix}
-i&2+2i\\2-2i&i
-\end{pmatrix}
-=\frac 19\begin{pmatrix}
--i^2+4+4&(-i+i)(2+2i)\\(i-i)(2-2i)&4+4-i^2
-\end{pmatrix}
-=I\]
+	The matrix $A=\frac 13
+	\begin{smatrix}
+		i&2+2i\\
+		2-2i&i
+	\end{smatrix}$ is unitary:
+	\[
+		A^*A=\frac 19
+		\begin{pmatrix}
+			-i&2+2i\\
+			2-2i&-i
+		\end{pmatrix}
+		\begin{pmatrix}
+			i&2+2i\\
+			2-2i&i
+		\end{pmatrix}
+		=\frac 19
+		\begin{pmatrix}
+			-i^2+4+4&(-i+i)(2+2i)\\
+			(i-i)(2-2i)&4+4-i^2
+		\end{pmatrix}
+		=I
+	\]
 \end{example}
 
-If $V$ is finite-dimensional, the operator/matrix notions correspond straightforwardly. By Theorem \ref{thm:matrixip}, if we choose any orthonormal basis $\beta$ of $V$, then
-\[\rT\in\cL(V)\text{ is unitary/orthogonal } \iff [\rT]_\beta \text{ is unitary/orthogonal}\]
-Moreover, we need only assume $\rT^*\rT=\I$ (or $\rT\rT^*=\I$) if $V$ is finite-dimensional: if $\beta$ is an orthonormal basis, then
+If $V$ is finite-dimensional, the operator/matrix notions correspond straightforwardly: by Theorem \ref{thm:matrixip}, if we choose any orthonormal basis $\beta$ of $V$, then
+\[
+	\rT\in\cL(V)\text{ is unitary/orthogonal } 
+	\iff [\rT]_\beta \text{ is unitary/orthogonal}
+\]
+We need only assume $\rT^*\rT=\I$ (or $\rT\rT^*=\I$) if $V$ is finite-dimensional: if $\beta$ is an orthonormal basis, then
 \[\rT^*\rT=\I\iff[\rT^*]_\beta[\rT]_\beta=I\iff [\rT]_\beta[\rT^*]_\beta=I\iff \rT\rT^*=\I\]
-In infinite dimensions, we need $\rT^*$ to be both the left- and right-inverse of $\rT$. This isn't an empty requirement (see Exercise \ref{ex:isometrynotunitary}).
+In infinite dimensions, we need $\rT^*$ to be both the left- and right-inverse of $\rT$. As Exercise \ref{ex:isometrynotunitary} shows, this isn't an empty requirement\ldots
 
 
-\goodbreak
+\pagebreak[3]
 
-We now tackle the correspondence between unitary operators and isometries.
+
+We now tackle the promised correspondence between unitary operators and isometries.
 
 \begin{thm}{}{}
-Let $\rT$ be a linear operator on an inner product space $V$.
-\begin{enumerate}
-  \item If $\rT$ is a unitary/orthogonal operator, then it is a linear isometry.
-  \item If $\rT$ is a linear isometry and $V$ is finite-dimensional, then $\rT$ is unitary/orthogonal.
-\end{enumerate}
+	Let $\rT$ be a linear operator on an inner product space $V$.
+	\begin{enumerate}
+	  \item If $\rT$ is a unitary/orthogonal operator, then it is a linear isometry.
+	  \item If $\rT$ is a linear isometry and $V$ is finite-dimensional, then $\rT$ is unitary/orthogonal.
+	\end{enumerate}
 \end{thm}
 
 \begin{proof}
-\begin{enumerate}
-  \item If $\rT$ is unitary, then
-	\[\forall\vx,\vy\in V,\quad\ip{\vx,\vy}=\ip{\rT^*\rT(\vx),\vy}=\ip{\rT(\vx),\rT(\vy)}\tag{$\dag$}\]
-	In particular taking $\vx=\vy$ shows that $\rT$ is an isometry.
-	\item $(\I-\rT^*\rT)^*=\I^*-(\rT^*\rT)^*=\I-\rT^*\rT$ is self-adjoint. By the spectral theorem, there exists an orthonormal basis of $V$ of eigenvectors of $\I-\rT^*\rT$. For any such $\vx$ with (real) eigenvalue $\lambda$,
-	\begin{align*}
-		0=&\Nm{\vx}^2-\Nm{\rT(\vx)}^2=\ip{\vx,\vx}-\ip{\rT(\vx),\rT(\vx)}=\ip{\vx,(\I-\rT^*\rT)\vx}=\lambda\Nm{\vx}^2\\
-		&\implies\lambda=0
-	\end{align*}
-	Since $\I-\rT^*\rT=0$ on a basis, $\rT^*\rT=\I$. Since $V$ is finite-dimensional, we also have $\rT\rT^*=\I$ whence $\rT$ is unitary.\qedhere
-\end{enumerate} 
+	\exstart If $\rT$ is unitary, then\vspace{-23pt}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]\[
+			\forall\vx,\vy\in V, \quad
+			\ip{\vx,\vy} =\ip{\rT^*\rT(\vx),\vy}
+			=\ip{\rT(\vx),\rT(\vy)} \tag{$\dag$}
+		\]
+		In particular, taking $\vx=\vy$ shows that $\rT$ is an isometry.
+		\item $(\I-\rT^*\rT)^*=\I^*-(\rT^*\rT)^*=\I-\rT^*\rT$ is self-adjoint. By the spectral theorem, there exists an orthonormal basis of $V$ of eigenvectors of $\I-\rT^*\rT$. For any such $\vx$ with (real) eigenvalue $\lambda$,
+		\begin{align*}
+			0=
+			&\Nm{\vx}^2-\Nm{\rT(\vx)}^2
+			=\ip{\vx,\vx}-\ip{\rT(\vx),\rT(\vx)}
+			=\ip{\vx,(\I-\rT^*\rT)\vx}
+			=\lambda\Nm{\vx}^2\\
+			&\implies\lambda=0
+		\end{align*}
+		Since $\I-\rT^*\rT=0$ on a basis, $\rT^*\rT=\I$. Since $V$ is finite-dimensional, we also have $\rT\rT^*=\I$ whence $\rT$ is unitary.\qedhere
+	\end{enumerate} 
 \end{proof}
 
 The finite-dimensional restriction is important in part 2: we use the existence of adjoints, the spectral theorem, and that a left-inverse is also a right-inverse. See Exercise \ref{ex:isometrynotunitary} for an example of a \emph{non-unitary} isometry in infinite dimensions.\smallbreak
 The proof shows a little more:
 
 \begin{cor}{}{unitaryextra}
-On a finite-dimensional space, being unitary is equivalent to each of the following:
-\begin{enumeratea}\itemsep0pt
-	\item Preservation of the inner product\footnotemark $(\dag)$. 
- 	\item The existence of an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ such that $\rT(\beta)=\{\rT(\vw_1),\ldots,\rT(\vw_n)\}$ is also orthonormal.
- 	\item That \emph{every} orthonormal basis $\beta$ of $V$ is mapped to an orthonormal basis $\rT(\beta)$.
-\end{enumeratea} 
+	In finite dimensions, being unitary is equivalent to each of the following:
+	\begin{enumeratea}
+		\item Preservation of the inner product\footnotemark{} $(\dag)$. 
+	 	\item The existence of an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ such that $\rT(\beta)=\big\{\rT(\vw_1),\ldots,\rT(\vw_n)\big\}$ is also orthonormal.
+	 	\item That \emph{every} orthonormal basis $\beta$ of $V$ is mapped to an orthonormal basis $\rT(\beta)$.
+	\end{enumeratea} 
 \end{cor}
 
-\footnotetext{In particular, in a real inner product space isometries also preserve the \emph{angle} $\theta$ between vectors since $\cos\theta=\frac{\ip{\vx,\vy}}{\Nm\vx\Nm\vy}$. %$(\dag)$ is in fact equivalent to being an isometry in infinite dimensions: recall the \emph{polarization identity\ldots}
+\footnotetext{%
+	In a real inner product space, isometries also preserve the \emph{angle} $\theta$ between vectors since $\cos\theta=\frac{\ip{\vx,\vy}}{\Nm\vx\Nm\vy}$. %$(\dag)$ is in fact equivalent to being an isometry in infinite dimensions: recall the \emph{polarization identity\ldots}
 }
 
-While (a) is simply $(\dag)$, claims (b) and (c) are also worth proving explicitly: see Exercise \ref{ex:orthbasis}. If $\beta$ is the standard orthonormal basis of $\F^n$ and $\rT=\rL_A$, then the columns of $A$ form the orthonormal set $\rT(\beta)$. This makes identifying unitary/orthogonal matrices easy:
+Exercise \ref{ex:orthbasis} establishes claims (b) and (c). If $\beta$ is the standard orthonormal basis of $\F^n$ and $\rT=\rL_A$, then the columns of $A$ form the orthonormal set $\rT(\beta)$. This makes identifying unitary/orthogonal matrices easy\ldots
 
-%Before seeing some examples, we state a result which makes identifying these matrices very easy.
 
 \begin{cor}{}{}
-A matrix $A\in M_n(\R)$ is orthogonal if and only if its columns form an orthonormal basis of $\R^n$ with respect to the standard (dot) inner product.\\[5pt]
-A matrix $A\in M_n(\C)$ is unitary if and only if its columns form an orthonormal basis of $\C^n$ with respect to the standard (Hermitian) inner product.
+	A matrix $A\in M_n(\R)$ is orthogonal if and only if its columns form an orthonormal basis of $\R^n$ with respect to the standard (dot) inner product.\par
+	A matrix $A\in M_n(\C)$ is unitary if and only if its columns form an orthonormal basis of $\C^n$ with respect to the standard (Hermitian) inner product.
 \end{cor}
 
 % \begin{proof}
@@ -2021,58 +2060,89 @@ A matrix $A\in M_n(\C)$ is unitary if and only if its columns form an orthonorma
 % If $T$ is unitary and $\beta$ is any orthonormal basis, $(\dag)$ immediately says that $T(\beta)$ is orthonormal. 
 % \end{proof}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{examples}{}{orthomatrix}
-\exstart The matrix $A_\theta=\begin{smatrix}
-	\cos\theta&-\sin\theta\\
-	\sin\theta&\cos\theta
-  \end{smatrix}\in M_2(\R)$ is orthogonal for any $\theta$. Example \ref{ex:easyrotate} is this with $\theta=\tan^{-1}\frac 34=\sin^{-1}\frac 35=\cos^{-1}\frac 45$. More generally (Exercise \ref{ex:rotrefmatrix}), it can be seen that every real orthogonal $2\times 2$ matrix has the form $A_\theta$ or \[B_\theta=\begin{pmatrix}
-	\cos\theta&\sin\theta\\
-	\sin\theta&-\cos\theta
-	\end{pmatrix}\]
-	for some angle $\theta$. The effect of the $\rL_{A_\theta}$ is to rotate counter-clockwise by $\theta$, while that of $\rL_{B_\theta}$ is to reflect across the line making angle $\frac 12\theta$ with the positive $x$-axis.
-
-\begin{enumerate}\setcounter{enumi}{1}
-	\item $A=\frac 1{\sqrt 6}\begin{smatrix}
-	\sqrt 2&\sqrt 3&1\\
-	\sqrt 2&0&-2\\
-	-\sqrt 2&\sqrt 3&-1
-	\end{smatrix}\in M_3(\R)$ is orthogonal: check the columns!.
+	\exstart The matrix $A_\theta=
+	\begin{smatrix}
+		\cos\theta&-\sin\theta\\
+		\sin\theta&\cos\theta
+	\end{smatrix}
+	\in M_2(\R)$ is orthogonal for any $\theta$. Example \ref{ex:easyrotate} is this with $\theta=\tan^{-1}\frac 34=\sin^{-1}\frac 35=\cos^{-1}\frac 45$. More generally (Exercise \ref{ex:rotrefmatrix}), it can be seen that every real orthogonal $2\times 2$ matrix has the form $A_\theta$ or
+	\[
+		B_\theta=
+		\begin{pmatrix}
+			\cos\theta&\sin\theta\\
+			\sin\theta&-\cos\theta
+		\end{pmatrix}
+	\]
+	\vspace{-12pt}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]	for some angle $\theta$. The effect of $\rL_{A_\theta}$ is to \emph{rotate} counter-clockwise by $\theta$, while that of $\rL_{B_\theta}$ is to \emph{reflect} across the line making angle $\frac 12\theta$ with the positive $x$-axis.
+	  
+		\item $A=\frac 1{\sqrt 6}
+		\begin{smatrix}
+			\sqrt 2&\sqrt 3&1\\
+			\sqrt 2&0&-2\\
+			-\sqrt 2&\sqrt 3&-1
+		\end{smatrix}
+		\in M_3(\R)$ is orthogonal: check the columns!
+		
+		\item $A=\frac 1{\sqrt 2}
+		\begin{smatrix}
+			1&i\\
+			i&1
+		\end{smatrix}
+		\in M_2(\C)$ is unitary: it maps the standard basis to the orthonormal basis 
+	  \[
+	  	\rT(\beta) =\left\{\frac 1{\sqrt 2}\twovec 1i, \frac 1{\sqrt 2}\twovec i1\right\}
+	  \]
+	  It is also easy to check that the characteristic polynomial is
+	  \[
+		  p(t)=\det
+		  \begin{pmatrix}
+			  \frac 1{\sqrt 2}-t&\frac i{\sqrt 2}\\
+			  \frac i{\sqrt 2}&\frac 1{\sqrt 2}-t
+		  \end{pmatrix} 
+		  =\left(t-\frac 1{\sqrt 2}\right)^2+\frac 12\implies t
+		  =\frac 1{\sqrt 2}(1\pm i) 
+		  =e^{\pm\pi i/4}
+	  \]
+	  whence the eigenvalues of $\rT$ both have modulus 1.
+	%   \item Consider $\beta=\{\cos x,\sin x\}$ and $V=\Span\beta$ with $\ip{f,g}=\frac 1\pi\int_{-\pi}^\pi f(t)g(t)\,\dt$. Then $\beta$ is an orthonormal basis. Define $T\in\cL(V)$ by
+	% \[T(a\cos x+b\sin x)=-b\cos x+a\sin x\]
+	% This is an orthogonal operator: indeed, writing $c=\cos x$ and $s=\sin x$, we see that
+	% \begin{gather*}
+	% \begin{aligned}
+	% \ip{T^*(ac+bs),pc+qs}&=\ip{ac+bs,T(pc+qs)}=\ip{ac+bs,-qc+ps}\\
+	% &=-aq+bp=\ip{bc-as,pc+qs}
+	% \end{aligned}\\
+	% \implies T^*(a\cos x+b\sin x)=b\cos x-a\sin x\\
+	% \implies TT^*(a\cos x+b\sin x)=T(b\cos x-a\sin x)=a\cos x+b\sin x
+	% \end{gather*}
+	% so that $TT^*=I$. The orthonormal basis $\beta=\{\cos x,\sin x\}$ is mapped to $T(\beta)=\{-\sin x,\cos x\}$, which is clearly also orthonormal. It is easy to check however, that $T$ has no eigenvalues. This example is really just multiplication by $[T]_\beta=\begin{smatrix}0&-1\\1&0\end{smatrix}$ in disguise!
 	
-	\item $A=\frac 1{\sqrt 2}\begin{smatrix}1&i\\i&1\end{smatrix}\in M_2(\C)$ is unitary: indeed it maps the standard basis to the orthonormal basis 
-  \[\rT(\beta)=\left\{\frac 1{\sqrt 2}\twovec 1i, \frac 1{\sqrt 2}\twovec i1\right\}\]
-  It is also easy to check that the characteristic polynomial is
-  \[p(t)=\det\begin{pmatrix}
-  \frac 1{\sqrt 2}-t&\frac i{\sqrt 2}\\
-  \frac i{\sqrt 2}&\frac 1{\sqrt 2}-t
-  \end{pmatrix} =\left(t-\frac 1{\sqrt 2}\right)^2+\frac 12\implies t=\frac 1{\sqrt 2}(1\pm i) =e^{\pm\pi i/4}\]
-  whence the eigenvalues of $\rT$ both have modulus 1.
-%   \item Consider $\beta=\{\cos x,\sin x\}$ and $V=\Span\beta$ with $\ip{f,g}=\frac 1\pi\int_{-\pi}^\pi f(t)g(t)\,\dt$. Then $\beta$ is an orthonormal basis. Define $T\in\cL(V)$ by
-% \[T(a\cos x+b\sin x)=-b\cos x+a\sin x\]
-% This is an orthogonal operator: indeed, writing $c=\cos x$ and $s=\sin x$, we see that
-% \begin{gather*}
-% \begin{aligned}
-% \ip{T^*(ac+bs),pc+qs}&=\ip{ac+bs,T(pc+qs)}=\ip{ac+bs,-qc+ps}\\
-% &=-aq+bp=\ip{bc-as,pc+qs}
-% \end{aligned}\\
-% \implies T^*(a\cos x+b\sin x)=b\cos x-a\sin x\\
-% \implies TT^*(a\cos x+b\sin x)=T(b\cos x-a\sin x)=a\cos x+b\sin x
-% \end{gather*}
-% so that $TT^*=I$. The orthonormal basis $\beta=\{\cos x,\sin x\}$ is mapped to $T(\beta)=\{-\sin x,\cos x\}$, which is clearly also orthonormal. It is easy to check however, that $T$ has no eigenvalues. This example is really just multiplication by $[T]_\beta=\begin{smatrix}0&-1\\1&0\end{smatrix}$ in disguise!
-
-\item\label{ex:infdimunitary} Here is an example of an infinite-dimensional unitary operator. On the space $C[-\pi,\pi]$, the function $\rT(f(x))=e^{ix}f(x)$ is linear. Moreover
-\[\ip{e^{ix}f(x),g(x)}=\frac 1{2\pi}\int_{-\pi}^\pi e^{ix}f(x)\cl{g(x)}\,\dx =\frac 1{2\pi}\int_{-\pi}^\pi f(x)\cl{e^{-ix}g(x)}\,\dx =\ip{f(x),e^{-ix}g(x)}\]
-whence $\rT^*(f(x))=e^{-ix}f(x)$. Indeed $\rT^*=\rT^{-1}$ and so $\rT$ is a unitary operator.\smallbreak
-Since $C[-\pi,\pi]$ is infinite-dimensional, we don't expect all parts of the Corollary to hold:
-\begin{itemize}
-  \item[(a)] $\rT$ does preserve the inner product.
-  \item[(b), (c)] $C[-\pi,\pi]$ doesn't have an orthonormal basis; there is no orthonormal set $\beta=\{f_k\}$ so that every continuous function is a \emph{finite} linear combination.\footnotemark We cannot therefore claim that $\rT$ maps orthonormal bases to orthonormal bases!
-\end{itemize}
-\end{enumerate}
+		\item\label{ex:infdimunitary} Here is an example of an infinite-dimensional unitary operator. On the space $C[-\pi,\pi]$, the function $\rT(f(x))=e^{ix}f(x)$ is linear. Moreover
+		\[
+			\ip{e^{ix}f(x),g(x)}
+			=\frac 1{2\pi}\int_{-\pi}^\pi e^{ix}f(x)\cl{g(x)}\,\dx 
+			=\frac 1{2\pi}\int_{-\pi}^\pi f(x)\cl{e^{-ix}g(x)}\,\dx 
+			=\ip{f(x),e^{-ix}g(x)}
+		\]
+		whence $\rT^*(f(x))=e^{-ix}f(x)$. Indeed $\rT^*=\rT^{-1}$ and so $\rT$ is a unitary operator.\smallbreak
+		Since $C[-\pi,\pi]$ is infinite-dimensional, we don't expect all parts of the Corollary to hold:
+		\begin{itemize}
+		  \item[(a)] $\rT$ does preserve the inner product.
+		  \item[(b), (c)] $C[-\pi,\pi]$ doesn't have an orthonormal basis; there is no orthonormal set $\beta=\{f_k\}$ so that every continuous function is a \emph{finite} linear combination.\footnotemark{} We cannot therefore claim that $\rT$ maps orthonormal bases to orthonormal bases!
+		\end{itemize}
+	\end{enumerate}
 \end{examples}
 
-\footnotetext{An \emph{infinite} orthonormal set $\beta=\{f_k:k\in\Z\}$ can be found so that every function $f$ `equals' an \emph{infinite series} in the sense that $\Nm{f-\sum a_kf_k}=0$. Since these are not finite sums, $\beta$ isn't strictly a basis, though it isn't uncommon for it to be so described. Moreover, given that the norm is defined by an integral, this also isn't a claim that $f$ and $\sum a_kf_k$ are equal as functions. Indeed the infinite series need not be continuous! For these reasons, when working with Fourier series, one tends to consider a broader class than the continuous functions.}
+\footnotetext{%
+	An \emph{infinite} orthonormal set $\beta=\{f_k:k\in\Z\}$ can be found so that every continuous function $f$ `equals' an \emph{infinite series} in the sense that $\Nm{f-\sum a_kf_k}=0$. Since these are not finite sums, $\beta$ isn't strictly a basis. Moreover, given that the norm is defined by an integral, this also isn't a claim that $f$ and $\sum a_kf_k$ are equal \emph{as functions}, indeed the infinite series need not be continuous! %For these reasons, when working with Fourier series, one tends to consider a broader class than the continuous functions.%
+}
 
 % \subsubsection*{Unitary and Orthogonal Matrices}
 % 
@@ -2267,6 +2337,10 @@ In the special case where $A$ is real and $U$ is orthogonal, then $A$ is symmetr
 \end{enumerate}
 \end{exercises}
 
+
+
+
+\iffalse
 
 \subsection{Orthogonal Projections}
 
