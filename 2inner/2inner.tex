@@ -2047,7 +2047,7 @@ Exercise \ref{ex:orthbasis} establishes claims (b) and (c). If $\beta$ is the st
 
 
 \begin{cor}{}{}
-	A matrix $A\in M_n(\R)$ is orthogonal if and only if its columns form an orthonormal basis of $\R^n$ with respect to the standard (dot) inner product.\par
+	A matrix $A\in M_n(\R)$ is orthogonal if and only if its columns form an orthonormal basis of $\R^n$ with respect to the standard (dot) inner product.\smallbreak
 	A matrix $A\in M_n(\C)$ is unitary if and only if its columns form an orthonormal basis of $\C^n$ with respect to the standard (Hermitian) inner product.
 \end{cor}
 
@@ -2099,18 +2099,17 @@ Exercise \ref{ex:orthbasis} establishes claims (b) and (c). If $\beta$ is the st
 	  \[
 	  	\rT(\beta) =\left\{\frac 1{\sqrt 2}\twovec 1i, \frac 1{\sqrt 2}\twovec i1\right\}
 	  \]
-	  It is also easy to check that the characteristic polynomial is
+	  It is also easy to compute the characteristic polynomial and the eigenvalues:
 	  \[
 		  p(t)=\det
 		  \begin{pmatrix}
 			  \frac 1{\sqrt 2}-t&\frac i{\sqrt 2}\\
 			  \frac i{\sqrt 2}&\frac 1{\sqrt 2}-t
 		  \end{pmatrix} 
-		  =\left(t-\frac 1{\sqrt 2}\right)^2+\frac 12\implies t
-		  =\frac 1{\sqrt 2}(1\pm i) 
+		  =\left(t-\frac 1{\sqrt 2}\right)^2+\frac 12
+		  \implies \lambda=\frac 1{\sqrt 2}(1\pm i) \tag{modulus 1!}
 		  =e^{\pm\pi i/4}
 	  \]
-	  whence the eigenvalues of $\rT$ both have modulus 1.
 	%   \item Consider $\beta=\{\cos x,\sin x\}$ and $V=\Span\beta$ with $\ip{f,g}=\frac 1\pi\int_{-\pi}^\pi f(t)g(t)\,\dt$. Then $\beta$ is an orthonormal basis. Define $T\in\cL(V)$ by
 	% \[T(a\cos x+b\sin x)=-b\cos x+a\sin x\]
 	% This is an orthogonal operator: indeed, writing $c=\cos x$ and $s=\sin x$, we see that
@@ -2124,217 +2123,257 @@ Exercise \ref{ex:orthbasis} establishes claims (b) and (c). If $\beta$ is the st
 	% \end{gather*}
 	% so that $TT^*=I$. The orthonormal basis $\beta=\{\cos x,\sin x\}$ is mapped to $T(\beta)=\{-\sin x,\cos x\}$, which is clearly also orthonormal. It is easy to check however, that $T$ has no eigenvalues. This example is really just multiplication by $[T]_\beta=\begin{smatrix}0&-1\\1&0\end{smatrix}$ in disguise!
 	
-		\item\label{ex:infdimunitary} Here is an example of an infinite-dimensional unitary operator. On the space $C[-\pi,\pi]$, the function $\rT(f(x))=e^{ix}f(x)$ is linear. Moreover
+		\item\label{ex:infdimunitary} Here is an example of an infinite-dimensional unitary operator. On the space $C[-\pi,\pi]$, the function $\rT\big(f(x)\big)=e^{ix}f(x)$ is linear. Moreover
 		\[
 			\ip{e^{ix}f(x),g(x)}
 			=\frac 1{2\pi}\int_{-\pi}^\pi e^{ix}f(x)\cl{g(x)}\,\dx 
 			=\frac 1{2\pi}\int_{-\pi}^\pi f(x)\cl{e^{-ix}g(x)}\,\dx 
 			=\ip{f(x),e^{-ix}g(x)}
 		\]
-		whence $\rT^*(f(x))=e^{-ix}f(x)$. Indeed $\rT^*=\rT^{-1}$ and so $\rT$ is a unitary operator.\smallbreak
+		whence $\rT^*\big(f(x)\big)=e^{-ix}f(x)$. Indeed $\rT^*=\rT^{-1}$ and so $\rT$ is a unitary operator.\par
 		Since $C[-\pi,\pi]$ is infinite-dimensional, we don't expect all parts of the Corollary to hold:
-		\begin{itemize}
-		  \item[(a)] $\rT$ does preserve the inner product.
-		  \item[(b), (c)] $C[-\pi,\pi]$ doesn't have an orthonormal basis; there is no orthonormal set $\beta=\{f_k\}$ so that every continuous function is a \emph{finite} linear combination.\footnotemark{} We cannot therefore claim that $\rT$ maps orthonormal bases to orthonormal bases!
-		\end{itemize}
+		\begin{enumerate}
+		  \item $\rT$ does preserve the inner product:
+		  \begin{align*}
+		  	\ip{\rT\big(f(x)\big),\rT\big(g(x)\big)}
+		  	&=\ip{e^{ix}f(x),e^{ix}g(x)}
+		  	=\frac 1{2\pi}\int_{-\pi}^\pi e^{ix}f(x)\cl{e^{ix}g(x)}\,\dx\\
+		  	&=\frac 1{2\pi}\int_{-\pi}^\pi e^{ix}e^{-ix}f(x)\cl{g(x)}\,\dx
+		  	=\ip{f(x),g(x)}
+		  \end{align*}
+		  \item[(b), (c)] $C[-\pi,\pi]$ doesn't have an orthonormal basis: indeed there is no orthonormal set $\beta=\{f_k\}$ of which every continuous function is a (\emph{finite}) linear combination.\footnotemark{} We cannot therefore claim that $\rT$ maps orthonormal bases to orthonormal bases!
+		\end{enumerate}
 	\end{enumerate}
 \end{examples}
 
 \footnotetext{%
-	An \emph{infinite} orthonormal set $\beta=\{f_k:k\in\Z\}$ can be found so that every continuous function $f$ `equals' an \emph{infinite series} in the sense that $\Nm{f-\sum a_kf_k}=0$. Since these are not finite sums, $\beta$ isn't strictly a basis. Moreover, given that the norm is defined by an integral, this also isn't a claim that $f$ and $\sum a_kf_k$ are equal \emph{as functions}, indeed the infinite series need not be continuous! %For these reasons, when working with Fourier series, one tends to consider a broader class than the continuous functions.%
+	An \emph{infinite} orthonormal set $\beta=\{f_k:k\in\Z\}$ can be found so that every continuous function $f$ `equals' an \emph{infinite series} in the sense that $\Nm{f-\sum a_kf_k}=0$. Since these are not finite sums, $\beta$ isn't a basis. Moreover, given that the norm is defined by an integral, this also isn't a claim that $f$ and $\sum a_kf_k$ are equal \emph{as functions}, indeed the infinite series need not be continuous!
 }
 
-% \subsubsection*{Unitary and Orthogonal Matrices}
-% 
-% Suppose $\beta$ is an orthonormal basis of a finite-dimensional $V$ and that $\rT\in\cL(V)$ is unitary. If $A=[\rT]_\beta$, then
-% \[A^*A=I=AA^*\]
-% It therefore makes sense to extend Definition \ref{defn:unitary} to matrices.
-% 
-% \begin{defn}{}{unitarymatrix}
-% A \emph{unitary matrix} is a matrix $A\in M_n(\C)$ satisfying $A^*A=I$.\\
-% An \emph{orthogonal matrix} satisfies $A^TA=I$.
-% \end{defn}
-% 
-% Real unitary matrices are always referred to as orthogonal.\footnote{Complex orthogonal matrices exist (see Exercise \ref{ex:comporth}), though these do not have the same relationship to complex inner products as do unitary matrices.} Note that we don't need the condition $AA^*=I$ for matrices: $A^*A=I$ forces $A$ to be invertible with $A^{-1}=A^*$. %Both conditions are required only for unitary/orthogonal operators on \emph{infinite-dimensional} spaces.
-% 
-% Before seeing some examples, we state a result which makes identifying these matrices very easy.
-% 
-% \begin{cor}{}{}
-% A matrix $A\in M_n(\R)$ is orthogonal if and only if its columns form an orthonormal basis of $\R^n$ with respect to the standard (dot) inner product.\\[5pt]
-% A matrix $A\in M_n(\C)$ is unitary if and only if its columns form an orthonormal basis of $\C^n$ with respect to the standard (hermitian) inner product.
-% \end{cor}
-% 
-% The result follows immediately from Corollary \ref{cor:unitaryextra}: let $\beta=\{\vect{\ve}{n}\}$ be the standard (orthonormal) basis and $\rT=L_A$, then the columns of $A$ are precisely the orthonormal vectors $\rT(\ve_j)$. We can also check this directly by observing that
-% \[A=(\vw_1\cdots\vw_n)\implies A^*A=\threevec{\vw_1^*}{\vdots}{\vw_n^*}(\vw_1\ \cdots \vw_n) \implies (A^*A)_{jk}=\vw_j^*\vw_k=\ip{\vw_k,\vw_j}\]
-% Clearly $A^*A=I$ if and only if $\{\vect{\vw}{n}\}$ is orthonormal.
+
+\pagebreak[3]
 
 
+\boldsubsubsection{Unitary and Orthogonal Equivalence}
 
-\clearpage
-
-\subsubsection*{Unitary and Orthogonal Equivalence}
-
-Suppose $A\in M_n(\R)$ is symmetric (self-adjoint) $A^T=A$. By the spectral theorem, $A$ has an orthonormal eigenbasis $\beta=\{\vect{\vw}{n}\}$: $A\vw_j=\lambda_j\vw_j$. Arranging the eigenbasis as the columns of a matrix, we see that the columns of $U=(\vw_1\cdots \vw_n)$ are orthonormal and so $U$ is an orthogonal matrix. We can therefore write
-\[A=UDU^{-1}=U\begin{pmatrix}
-\lambda_1&\cdots&0\\
-%0&e^{i\theta_2}&&0\\
-\vdots&\ddots&\vdots\\
-0&\cdots&\lambda_n
-\end{pmatrix}U^T\]
+Suppose $A\in M_n(\R)$ is symmetric (self-adjoint) $A^T=A$. By the spectral theorem, it has an orthonormal eigenbasis $\beta=\{\vect{\vw}{n}\}$: $A\vw_j=\lambda_j\vw_j$. Arranging the eigenbasis as the columns of a matrix, we see that the columns of $U=(\vw_1\cdots \vw_n)$ are orthonormal, and so $U$ is an orthogonal matrix. We can therefore write
+\[
+	A=UDU^{-1}=U
+	\begin{pmatrix}
+		\lambda_1&\cdots&0\\
+		%0&e^{i\theta_2}&&0\\
+		\vdots&\ddots&\vdots\\
+		0&\cdots&\lambda_n
+	\end{pmatrix}
+	U^T
+\]
 A similar approach works if $A\in M_n(\C)$ is normal: we now have $A=UDU^*$ where $U$ is unitary.
 
 \begin{example}{}{easynormal}
-The matrix $A=\begin{smatrix}
-1+i&1+i\\
--1-i&1+i
-\end{smatrix}$ is normal as can easily be checked. Its characteristic polynomial is
-\[p(t)=t^2-2(1+i)t+4i=(t-2i)(t-2)\]
-with corresponding orthonormal eigenvectors
-\[\vw_2=\frac 1{\sqrt 2}\twovec 1{-i},\qquad \vw_{2i}=\frac 1{\sqrt 2}\twovec 1i\]
-We conclude that
-\[A=\frac 1{\sqrt 2}\begin{pmatrix}
-1&1\\
--i&i
-\end{pmatrix}
-\begin{pmatrix}
-2&0\\
-0&2i
-\end{pmatrix}
-\left[\frac 1{\sqrt 2}\begin{pmatrix}
-1&1\\
--i&i
-\end{pmatrix}\right]^{-1}
-=\begin{pmatrix}
-1&1\\
--i&i
-\end{pmatrix}
-\begin{pmatrix}
-1&0\\
-0&i
-\end{pmatrix}
-\begin{pmatrix}
-1&i\\
-1&-i
-\end{pmatrix}\]
+	The matrix $A=
+	\begin{smatrix}
+		1+i&1+i\\
+		-1-i&1+i
+	\end{smatrix}$
+	is normal as can easily be checked. Its characteristic polynomial is
+	\[
+		p(t)=t^2-2(1+i)t+4i=(t-2i)(t-2)
+	\]
+	with corresponding orthonormal eigenvectors
+	\[
+		\vw_2=\frac 1{\sqrt 2}\twovec 1{-i},\qquad \vw_{2i}=\frac 1{\sqrt 2}\twovec 1i
+	\]
+	We conclude that
+	\[
+		A=\frac 1{\sqrt 2}
+		\begin{pmatrix}
+			1&1\\
+			-i&i
+		\end{pmatrix}
+		\begin{pmatrix}
+			2&0\\
+			0&2i
+		\end{pmatrix}
+		\left[\frac 1{\sqrt 2}
+		\begin{pmatrix}
+			1&1\\
+			-i&i
+		\end{pmatrix}
+		\right]^{-1}
+		=
+		\begin{pmatrix}
+			1&1\\
+			-i&i
+		\end{pmatrix}
+		\begin{pmatrix}
+			1&0\\
+			0&i
+		\end{pmatrix}
+		\begin{pmatrix}
+			1&i\\
+			1&-i
+		\end{pmatrix}
+	\]
 \end{example}
 
-This is an example of unitary equivalence.
+This is an example of a general phenomenon\ldots
 
 \begin{defn}{}{}
-Square matrices $A,B$ are \emph{unitarily equivalent} if there exists a unitary matrix $U$ such that $B=U^*AU$. \emph{Orthogonal equivalence} is similar: $B=U^TAU$.
+	Square matrices $A,B$ are \emph{unitarily equivalent} if there exists a unitary matrix $U$ such that $B=U^*AU$. \emph{Orthogonal equivalence} is similar: $B=U^TAU$.
 \end{defn}
 
-The above discussion proves half the following:
+As suggested by the name, this is indeed an equivalence relation (Exercise \ref{exs:unitaryequiv}). The above discussion proves half the following:
 
 \begin{thm}{}{}
-$A\in M_n(\C)$ is normal if and only if it is unitarily equivalent to a diagonal matrix (the matrix of its eigenvalues).\smallbreak
-$A\in M_n(\R)$ is self-adjoint (symmetric) if and only if it is orthogonally equivalent to a diagonal matrix. 
+	$A\in M_n(\C)$ is normal if and only if it is unitarily equivalent to a diagonal matrix (the matrix of its eigenvalues).\smallbreak
+	$A\in M_n(\R)$ is self-adjoint (symmetric) if and only if it is orthogonally equivalent to a diagonal matrix. 
 \end{thm}
 
 \begin{proof}
-We've already observed the $(\Rightarrow)$ direction.\smallbreak
-For the converse, let $D$ be diagonal, $U$ unitary, and $A=U^*DU$. Then
-\begin{align*}
-A^*A&=(U^*DU)^*U^*DU=U^*D^*UU^*DU=U^*\cl DDU=U^*D\cl DU =U^*DUU^*\cl DU\\
-&=U^*DU(U^*DU)^* =AA^*
-\end{align*}
-since $U^*=U^{-1}$ and because diagonal matrices commute: $\cl DD=D\cl D$.\smallbreak
-In the special case where $A$ is real and $U$ is orthogonal, then $A$ is symmetric:
-\[A^T=(U^TDU)^T=U^TD^TU=U^TDU=A\tag*{\qedhere}\]
+	We've already observed the $(\Rightarrow)$ direction.\smallbreak
+	For the converse, let $D$ be diagonal, $U$ unitary, and $A=U^*DU$. Then
+	\begin{align*}
+		A^*A
+		&=(U^*DU)^*U^*DU =U^*D^*UU^*DU =U^*\cl DDU
+		=U^*D\cl DU =U^*DUU^*\cl DU\\
+		&=U^*DU(U^*DU)^* =AA^*
+	\end{align*}
+	since $U^*=U^{-1}$ and because diagonal matrices commute: $\cl DD=D\cl D$.\smallbreak
+	In the special case where $A$ is real and $U$ is orthogonal, then $A$ is symmetric:
+	\[
+		A^T =(U^TDU)^T =U^TD^TU =U^TDU =A 
+		\tag*{\qedhere}
+	\]
 \end{proof}
 
-\goodbreak
 
+\pagebreak[3]
 
 
 \begin{exercises}
-\exstart\label{ex:orthequiv1} For each matrix $A$ find an orthogonal or unitary $U$ and a diagonal $D=U^*AU$.
+	\exstart\label{ex:orthequiv1} For each matrix $A$, find an orthogonal or unitary $U$ and a diagonal $D=U^*AU$.
 
-\begin{enumerate}\setcounter{enumi}{1}  
-  \item[]\begin{enumerate}
-    \item $\begin{smatrix}
-    1&2\\2&1
-    \end{smatrix}$
-    \qquad
-    (b)\ \ $\begin{smatrix}
-    0&-1\\1&0
-    \end{smatrix}$
-    \qquad
-    (c)\ \ $\begin{smatrix}
-    2&3-3i\\3+3i&5
-    \end{smatrix}$
-    \qquad
-    (d)\ \ $\begin{smatrix}
-    2&1&1\\1&2&1\\1&1&2
-    \end{smatrix}$
-  \end{enumerate}
-  
-  \item Which of the following pairs are unitarily/orthogonally equivalent? Explain your answers.
-  \begin{enumerate}
-    \item $A=\begin{smatrix}
-    0&1\\1&0
-    \end{smatrix}$ and $B=\begin{smatrix}
-    0&2\\2&0
-    \end{smatrix}$\qquad\quad (b)\ \ $A=\begin{smatrix}
-    0&-1&0\\1&0&0\\0&0&1
-    \end{smatrix}$ and $B=\begin{smatrix}
-    2&0&0\\0&-1&0\\0&0&0
-    \end{smatrix}$
-    \item[(c)] $A=\begin{smatrix}
-    0&-1&0\\1&0&0\\0&0&1
-    \end{smatrix}$ and $B=\begin{smatrix}
-    1&0&0\\0&i&0\\0&0&-i
-    \end{smatrix}$
-  \end{enumerate}
-	
-	\item Let $a,b\in\C$ be such that $\nm a^2+\nm b^2=1$. Prove that every $2\times 2$ matrix of the form $\begin{smatrix}
-	a&-e^{i\theta}\cl b\\
-	b&e^{i\theta}\cl a
-	\end{smatrix}$ is unitary. Are these all the unitary $2\times 2$ matrices? Prove or disprove.
-	
-	
-	\item If $A,B$ are orthogonal/unitary, prove that $AB$ and $A^{-1}$ are also orthogonal/unitary.\\[2pt]
-	(\emph{This proves that orthogonal/unitary matrices are groups under matrix multiplication})
-  
-  \item\label{ex:comporth} Check that $A=\frac 13\begin{smatrix}
-	5&-4i\\
-	4i&5
-  \end{smatrix}\in M_2(\C)$ satisfies $A^TA=I$ (it is a \emph{complex orthogonal} matrix).\\[2pt]
-  (\emph{These don't have the same nice relationship with inner products, and are thus less useful to us}) 
-  
-  \item\label{ex:rotrefmatrix} Supply the details of Exercise \hyperref[ex:orthomatrix]{\ref*{ex:orthomatrix}.1}.\\[2pt]
-  (\emph{Hints: $\beta=\{\vi,\vj\}$ is orthonormal, whence $\{A\vi,A\vj\}$ must be orthonormal. Now draw pictures to compute the result of rotating and reflecting the vectors $\vi$ and $\vj$.})
-  
-	
-	\item Show that the linear map in Example \hyperref[ex:infdimunitary]{\ref*{ex:orthomatrix}.\ref*{ex:infdimunitary}} has no eigenvectors.
-	
-% 	However, in contrast to a unitary operator on a finite-dimensional complex space, $\rT$ has no eigenvalues/eigenvectors, since
-% 	\[\rT(f)=\lambda f\iff \forall x,\ e^{ix}f(x)=\lambda f(x) \iff f(x)\equiv 0\]
-  
-  \item\label{ex:unitarymatrix} Prove that $A\in M_n(\C)$ has an orthonormal basis of eigenvectors whose eigenvalues have modulus 1, if and only if $A$ is unitary.
-  
-  
-  \item\label{ex:orthbasis} Prove parts (b) and (c) of Corollary \ref{cor:unitaryextra} for a finite-dimensional inner product space:
-  \begin{enumerate}
-    \item If $\beta$ is an orthonormal basis such that $\rT(\beta)$ is orthonormal, then $\rT$ is unitary.
-    \item If $\rT$ is unitary, and $\eta$ is an orthonormal basis, then $\rT(\eta)$ is an orthonormal basis.
-  \end{enumerate}
-  
-  \item Let $\rT$ be a linear operator on a finite-dimensional inner product space $V$. If $\Nm{\rT(\vx)}=\Nm{\vx}$ for all $\vx$ in some orthonormal basis of $V$, must $\rT$ be unitary? Prove or disprove.
-  
-  \item Let $\rT$ be a unitary operator on an inner product space $V$ and let $W$ be a finite-dimensional $\rT$-invariant subspace of $V$. Prove:
-  \begin{enumerate}
-    \item $\rT(W)=W$\quad (\emph{Hint: show that $\at\rT W$ is injective});
-    \item $W^\perp$ is $\rT$-invariant.
+	\begin{enumerate}\setcounter{enumi}{1}  
+	  \item[]\begin{enumerate}
+	    \item $\begin{smatrix}
+	    	1&2\\
+	    	2&1
+	    \end{smatrix}$
+	    \qquad
+	    (b)\ \ $\begin{smatrix}
+	    	0&-1\\
+	    	1&0
+	    \end{smatrix}$
+	    \qquad
+	    (c)\ \ $\begin{smatrix}
+	    	2&3-3i\\
+	    	3+3i&5
+	    \end{smatrix}$
+	    \qquad
+	    (d)\ \ $\begin{smatrix}
+	    	2&1&1\\
+	    	1&2&1\\
+	    	1&1&2
+	    \end{smatrix}$
+	  \end{enumerate}
+	  
+	  
+	  \item Which of the following pairs are unitarily/orthogonally equivalent? Explain your answers.
+	  \begin{enumerate}
+	    \item $A=
+	    \begin{smatrix}
+	    	0&1\\
+	    	1&0
+	    \end{smatrix}$
+	    and $B=
+	    \begin{smatrix}
+	    	0&2\\
+	    	2&0
+	    \end{smatrix}$
+	    \qquad\quad (b)\ \ $A=
+	    \begin{smatrix}
+	    	0&-1&0\\
+	    	1&0&0\\
+	    	0&0&1
+	    \end{smatrix}$
+	    and $B=
+	    \begin{smatrix}
+	    	2&0&0\\
+	    	0&-1&0\\
+	    	0&0&0
+	    \end{smatrix}$
+	    \item[(c)] $A=
+	    \begin{smatrix}
+	    	0&-1&0\\
+	    	1&0&0\\
+	    	0&0&1
+	    \end{smatrix}$ 
+	    and $B=
+	    \begin{smatrix}
+	    	1&0&0\\
+	    	0&i&0\\
+	    	0&0&-i
+	    \end{smatrix}$
+	  \end{enumerate}
+		
+		
+		\item Let $a,b\in\C$ be such that $\nm a^2+\nm b^2=1$. Prove that every $2\times 2$ matrix of the form 
+		$\begin{smatrix}
+			a&-e^{i\theta}\cl b\\
+			b&e^{i\theta}\cl a
+		\end{smatrix}$ 
+		is unitary. Are these all the unitary $2\times 2$ matrices? Prove or disprove.
+		
+		
+		\item\label{exs:unitaryequiv} If $A,B$ are orthogonal/unitary, prove that $AB$ and $A^{-1}$ are also orthogonal/unitary. Hence conclude that unitary equivalence is an equivalence relation on the set $M_n(\C)$.\par
+		(\emph{This proves that orthogonal/unitary matrices are groups under matrix multiplication})
+	  
+	  
+	  \item\label{ex:comporth} Check that $A=\frac 13
+	  \begin{smatrix}
+			5&-4i\\
+			4i&5
+	  \end{smatrix}
+	  \in M_2(\C)$ satisfies $A^TA=I$.\par
+	  (\emph{Such \textbf{complex} orthogonal matrices don't have the same nice relationship with inner products}) 
+	  
+	  
+	  \item\label{ex:rotrefmatrix} Supply the details of Exercise \ref{ex:orthomatrix}.1.\par
+	  (\emph{Hints: $\beta=\{\vi,\vj\}$ is orthonormal, whence $\{A\vi,A\vj\}$ must be orthonormal. Draw pictures to compute the result of rotating and reflecting the vectors $\vi$ and $\vj$.})
+	  
+		
+		\item Show that the linear map in Example \ref*{ex:orthomatrix}.\ref{ex:infdimunitary} has no eigenvectors.
+		
+	  
+	  \item\label{ex:unitarymatrix} Prove that $A\in M_n(\C)$ has an orthonormal basis of eigenvectors whose eigenvalues have modulus 1, if and only if $A$ is unitary.
+	  
+	  
+	  \item\label{ex:orthbasis} Prove parts (b) and (c) of Corollary \ref{cor:unitaryextra} for a finite-dimensional inner product space:
+	  \begin{enumerate}
+	    \item If $\beta$ is an orthonormal basis such that $\rT(\beta)$ is orthonormal, then $\rT$ is unitary.
+	    \item If $\rT$ is unitary, and $\eta$ is an orthonormal basis, then $\rT(\eta)$ is an orthonormal basis.
+	  \end{enumerate}
+	  
+	  
+	  \item Let $\rT$ be a linear operator on a finite-dimensional inner product space $V$. If $\Nm{\rT(\vx)}=\Nm{\vx}$ for all $\vx$ in some orthonormal basis of $V$, must $\rT$ be unitary? Prove or disprove.
+	  
+	  
+	  \item Let $\rT$ be a unitary operator on an inner product space $V$ and let $W$ be a finite-dimensional $\rT$-invariant subspace of $V$. Prove:
+	  \begin{enumerate}
+	    \item $\rT(W)=W$\quad (\emph{Hint: show that $\at\rT W$ is injective});
+	    \item $W^\perp$ is $\rT$-invariant.
+		\end{enumerate}
+		
+		
+		\item Let $W$ a subspace of an inner product space $V$ such that $V=W\oplus W^\perp$. Define $\rT\in\cL(V)$ by $\rT(\vu+\vw)=\vu-\vw$ where $\vu\in W$ and $\vw\in W^\perp$. Prove that $\rT$ is unitary and self-adjoint.
+		
+		
+		\item\label{ex:isometrynotunitary} In the inner product space $\ell^2$ of square-summable sequences, consider the linear operator
+		$\rT(x_1,x_2,\ldots)=(0,x_1,x_2,\ldots)$. Prove that $\rT$ is an isometry and compute its adjoint. Check that $\rT$ is non-invertible and non-unitary.
+		
+		
+		\item Prove Schur's Lemma for matrices. Every $A\in M_n(\R)$ is orthogonally equivalent and every $A\in M_n(\C)$ is unitarily equivalent to an upper triangular matrix. 
 	\end{enumerate}
-	
-	\item Let $W$ a subspace of an inner product space $V$ such that $V=W\oplus W^\perp$. Define $\rT\in\cL(V)$ by $\rT(\vu+\vw)=\vu-\vw$ where $\vu\in W$ and $\vw\in W^\perp$. Prove that $\rT$ is unitary and self-adjoint.
-	
-	\item\label{ex:isometrynotunitary} In the inner product space $\ell^2$ of square-summable sequences, consider the linear operator
-	$\rT(x_1,x_2,\ldots)=(0,x_1,x_2,\ldots)$. Prove that $\rT$ is an isometry and compute its adjoint. Check that $\rT$ is non-invertible and non-unitary.
-	
-	\item Prove Schur's Lemma for matrices. Every $A\in M_n(\R)$ is orthogonally equivalent and every $A\in M_n(\C)$ is unitarily equivalent to an upper triangular matrix. 
-\end{enumerate}
 \end{exercises}
 
 
