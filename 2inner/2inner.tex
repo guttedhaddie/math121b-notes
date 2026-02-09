@@ -2014,7 +2014,7 @@ We now tackle the promised correspondence between unitary operators and isometri
 			=\ip{\rT(\vx),\rT(\vy)} \tag{$\dag$}
 		\]
 		In particular, taking $\vx=\vy$ shows that $\rT$ is an isometry.
-		\item $(\I-\rT^*\rT)^*=\I^*-(\rT^*\rT)^*=\I-\rT^*\rT$ is self-adjoint. By the spectral theorem, there exists an orthonormal basis of $V$ of eigenvectors of $\I-\rT^*\rT$. For any such $\vx$ with (real) eigenvalue $\lambda$,
+		\item For the converse we show that $\I-\rT^*\rT=0$ by evaluating it on a basis. Observe that $(\I-\rT^*\rT)^*=\I^*-(\rT^*\rT)^*=\I-\rT^*\rT$ is self-adjoint. By the spectral theorem, there exists an orthonormal basis of $V$ of eigenvectors of $\I-\rT^*\rT$. For any such $\vx$ with (real) eigenvalue $\lambda$,
 		\begin{align*}
 			0=
 			&\Nm{\vx}^2-\Nm{\rT(\vx)}^2
@@ -2034,8 +2034,8 @@ The proof shows a little more:
 	In finite dimensions, being unitary is equivalent to each of the following:
 	\begin{enumeratea}
 		\item Preservation of the inner product\footnotemark{} $(\dag)$. 
-	 	\item The existence of an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ such that $\rT(\beta)=\big\{\rT(\vw_1),\ldots,\rT(\vw_n)\big\}$ is also orthonormal.
-	 	\item That \emph{every} orthonormal basis $\beta$ of $V$ is mapped to an orthonormal basis $\rT(\beta)$.
+	 	\item The \textbf{existence} of an orthonormal basis $\beta=\{\vect{\vw}{n}\}$ such that $\rT(\beta)=\big\{\rT(\vw_1),\ldots,\rT(\vw_n)\big\}$ is also orthonormal.
+	 	\item That \textbf{every} orthonormal basis $\beta$ of $V$ is mapped to an orthonormal basis $\rT(\beta)$.
 	\end{enumeratea} 
 \end{cor}
 
