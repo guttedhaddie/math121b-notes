@@ -1859,7 +1859,7 @@ In general, it is difficult to quickly find a suitable basis satisfying Schur's 
 
 
 
-\subsection{Unitary and Orthogonal Operators and their Matrices}
+\subsection{Unitary and Orthogonal Operators and their Matrices}\label{sec:unitary}
 
 % In this section considering the diagonalization of a normal or self-adjoint matrix in accordance with the spectral theorem. Here is an example:
 % 
@@ -2251,9 +2251,9 @@ As suggested by the name, this is indeed an equivalence relation (Exercise \ref{
 
 
 \begin{exercises}
-	\exstart\label{ex:orthequiv1} For each matrix $A$, find an orthogonal or unitary $U$ and a diagonal $D=U^*AU$.
+	\exstart For each matrix $A$, find an orthogonal or unitary $U$ and a diagonal $D=U^*AU$.
 
-	\begin{enumerate}\setcounter{enumi}{1}  
+	\begin{enumerate}\setcounter{enumi}{1}\phantomsection\label{exs:orthequiv1}
 	  \item[]\begin{enumerate}
 	    \item $\begin{smatrix}
 	    	1&2\\
@@ -2377,42 +2377,68 @@ As suggested by the name, this is indeed an equivalence relation (Exercise \ref{
 \end{exercises}
 
 
+\clearpage
 
-
-\iffalse
 
 \subsection{Orthogonal Projections}
 
 Recall the discussion of the Gram-Schmidt process, where we saw that any finite-dimensional subspace $W$ of an inner product space $V$ has an orthonormal basis $\beta_W=\{\vect{\vw}{n}\}$. In such a situation, we can define the \emph{orthogonal projections} onto $W$ and $W^\perp$ via
-\[\pi_W:V\to W:\vx\mapsto \sum_{j=1}^n\ip{\vx,\vw_j}\vw_j,\qquad \pi_W^\perp:V\to W^\perp:\vx\mapsto \vx-\pi_W(\vx)\]
+\[
+	\pi_W:V\to W:\vx\mapsto \sum_{j=1}^n\ip{\vx,\vw_j}\vw_j,\qquad 
+	\pi_W^\perp:V\to W^\perp:\vx\mapsto \vx-\pi_W(\vx)
+\]
 Our previous goal was to use orthonormal bases to ease \emph{computation.} In this section we develop projections more generally. First recall the notion of a direct sum within a vector space $V$:
-\[V=X\oplus Y \iff \forall \vv\in V,\ \exists \text{ unique }\vx\in X,\ \vy\in Y\text{ such that }\vv=\vx+\vy\]
+\[
+	V=X\oplus Y 
+	\iff \forall \vv\in V,\ \exists \text{ unique }\vx\in X,\ \vy\in Y
+	\text{ such that }\vv=\vx+\vy
+\]
 
-\begin{defn}[lower separated=false, sidebyside, sidebyside align=top seam, sidebyside gap=0pt, righthand width=0.25\linewidth]{}{}
-A linear map $\rT\in\cL(V)$ is a \emph{projection} if:
-\[V=\cR(\rT)\oplus\cN(\rT)\quad\text{and}\quad \at\rT{\cR(\rT)}=\at\I{\cR(\rT)}\]
-Otherwise said, $\rT(\vr+\vn)=\vr$ whenever $\vr\in\cR(\rT)$ and $\vn\in\cN(\rT)$.\medbreak
-Alternatively, given $V=X\oplus Y$, the \emph{projection along $Y$ onto $X$} is the map $\vv=\vx+\vy\mapsto\vx$.\medbreak
-We call a $A\in M_n(\F)$ a \emph{projection matrix} if $\rL_A\in\cL(\F^n)$ is a projection.
-\tcblower
-\flushright\includegraphics{orth-nonproj}
+
+\begin{defn}{}{}%[lower separated=false, sidebyside, sidebyside align=top seam, sidebyside gap=0pt, righthand width=0.25\linewidth]{}{}
+	A linear map $\rT\in\cL(V)$ is a \emph{projection} if:\par
+	\begin{minipage}[t]{0.7\linewidth}\vspace{-12pt}
+		\[
+			V=\cR(\rT)\oplus\cN(\rT)
+			\quad\text{and}\quad 
+			\at\rT{\cR(\rT)}=\at\I{\cR(\rT)}
+		\]
+		Otherwise said, $\rT(\vr+\vn)=\vr$ whenever $\vr\in\cR(\rT)$ and $\vn\in\cN(\rT)$.\medbreak
+		Alternatively, given $V=X\oplus Y$, the \emph{projection along $Y$ onto $X$} is the map $\vx+\vy\mapsto\vx$.\medbreak
+		We call a $A\in M_n(\F)$ a \emph{projection matrix} if $\rL_A\in\cL(\F^n)$ is a projection.
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.24\linewidth}\vspace{-18pt}
+		\hfill\includegraphics[alt={projection away from Y onto X}]{orth-nonproj}
+	\end{minipage}
+	%\tcblower
+	%\hfill\includegraphics[alt={projection away from Y onto X}]{orth-nonproj}
 \end{defn}
 
+
 \begin{example}{}{proj}
-$A=\frac 15\begin{smatrix}
-6&-2\\3&-1
-\end{smatrix}$ is a projection matrix with $\cR(A)=\Span\stwovec 21$ and $\cN(A)=\Span\stwovec 13$.\smallbreak
-Indeed, it is straightforward to describe all projection matrices in $M_2(\R)$. There are three cases:
-\begin{enumerate}
-  \item $A=I$ is the identity matrix: $\cR(A)=\R^2$ and $\cN(A)=\{\V0\}$;
-  \item $A=0$ is the zero matrix: $\cR(A)=\{\V0\}$ and $\cN(A)=\R^2$;
-  \item Choose \emph{distinct} subspaces $\cR(A)=\Span\stwovec ab$ and $\cN(A)=\Span\stwovec cd$, then
-  \[A=\frac 1{ad-bc}\twovec ab(d\ -c)=\frac 1{ad-bc}\begin{pmatrix}
-  ad&-ac\\bd&-bc
-  \end{pmatrix}\]
-  Think about why this last does what we claim.
-\end{enumerate}
+	$A=\frac 15
+	\begin{smatrix}
+		6&-2\\
+		3&-1
+	\end{smatrix}$ is a projection matrix with $\cR(A)=\Span\stwovec 21$ and $\cN(A)=\Span\stwovec 13$.\smallbreak
+	Indeed, it is straightforward to describe all projection matrices in $M_2(\R)$. There are three cases:
+	\begin{enumerate}
+	  \item $A=I$ is the identity matrix: $\cR(A)=\R^2$ and $\cN(A)=\{\V0\}$;
+	  \item $A=0$ is the zero matrix: $\cR(A)=\{\V0\}$ and $\cN(A)=\R^2$;
+	  \item Choose \emph{distinct} subspaces $\cR(A)=\Span\stwovec ab$ and $\cN(A)=\Span\stwovec cd$, then
+	  \[
+	  	A=\frac 1{ad-bc}\twovec ab(d\ -c)
+	  	=\frac 1{ad-bc}
+	  	\begin{pmatrix}
+	  		ad&-ac\\
+	  		bd&-bc
+	  	\end{pmatrix}
+	  \]
+	  Think about why this last does what we claim.
+	\end{enumerate}
 \end{example}
+
 
 It should be clear that every projection $\rT$ has (at most) two eigenspaces:
 \begin{itemize}
@@ -2420,189 +2446,299 @@ It should be clear that every projection $\rT$ has (at most) two eigenspaces:
   \item $\cN(\rT)$ is an eigenspace with eigenvalue 0
 \end{itemize}
 If $V$ is finite-dimensional and $\rho,\eta$ are bases of $\cR(T)$, $\cN(T)$ respectively, then the matrix of $\rT$ with respect to $\rho\cup\eta$ has block form
-\[[\rT]_{\rho\cup\eta} =\left(\begin{array}{c|c}
-I&0\\\hline
-0&0
-\end{array}\right)\]
+\[
+	[\rT]_{\rho\cup\eta} =\left(
+	\begin{array}{c|c}
+		I&0\\\hline
+		0&0
+	\end{array}
+	\right)
+\]
 where $\Rank I=\Rank\rT$. In particular, every finite-dimensional projection is diagonalizable.
-\goodbreak
+
+
+\pagebreak[3]
+
 
 \begin{lemm}{}{projnotorth}
-$\rT\in\cL(V)$ is a projection if and only if $\rT^2=\rT$.
+	$\rT\in\cL(V)$ is a projection if and only if $\rT^2=\rT$.
 \end{lemm}
 
 \begin{proof}
-Throughout, assume $\vr\in\cR(\rT)$ and $\vn\in\cN(\rT)$.\smallbreak
-$(\Rightarrow)$\quad Since every vector in $V$ has a unique representation $\vv=\vr+\vn$, simply compute
-\[\rT^2(\vv)=\rT\bigl(\rT(\vr+\vn)\bigr)=\rT(\vr)=\vr=\rT(\vv)\]
-$(\Leftarrow)$\quad Suppose $\rT^2=\rT$. Note first that if $\vr\in\cR(\rT)$, then $\vr=\rT(\vv)$ for some $\vv\in V$, whence
-\[\rT(\vr)=\rT^2(\vv)=\rT(\vv)=\vr\tag{$\dag$}\]
-Thus $\rT$ is the identity on $\cR(\rT)$. Moreover, if $\vx\in\cR(\rT)\cap\cN(\rT)$, ($\dag$) says that $\vx=\rT(\vx)=\V0$, whence
-\[\cR(\rT)\cap\cN(\rT)=\{\V0\}\]
-and so $\cR(\rT)\oplus\cN(\rT)$ is a well-defined \emph{subspace} of $V$.\footnotemark To finish things off, let $\vv\in V$ and observe that
-\[\rT\bigl(\vv-\rT(\vv)\bigr)=\rT(\vv)-\rT^2(\vv)=\V0\implies \vv-\rT(\vv)\in\cN(\rT)\]
-so that $\vv=\rT(\vv)+\bigl(\vv-\rT(\vv)\bigr)$ is a decomposition into $\cR(\rT)$- and $\cN(\rT)$-parts. We conclude that $V=\cR(\rT)\oplus\cN(\rT)$ and that $\rT$ is a projection.
+	Throughout, assume $\vr\in\cR(\rT)$ and $\vn\in\cN(\rT)$.
+	\begin{description}
+		\item[$(\Rightarrow)$] Since every vector in $V$ has a unique representation $\vv=\vr+\vn$, simply compute
+		\[
+			\rT^2(\vv) =\rT\bigl(\rT(\vr+\vn)\bigr)
+			=\rT(\vr)=\vr=\rT(\vv)
+		\]
+		\item[$(\Leftarrow)$] Suppose $\rT^2=\rT$. Note first that if $\vr\in\cR(\rT)$, then $\vr=\rT(\vv)$ for some $\vv\in V$, whence
+		\[
+			\rT(\vr)=\rT^2(\vv)=\rT(\vv)=\vr\tag{$\dag$}
+		\]
+		Thus $\rT$ is the identity on $\cR(\rT)$. Moreover, if $\vx\in\cR(\rT)\cap\cN(\rT)$, ($\dag$) says that $\vx=\rT(\vx)=\V0$, whence
+		\[
+			\cR(\rT)\cap\cN(\rT)=\{\V0\}
+		\]
+		and so $\cR(\rT)\oplus\cN(\rT)$ is a well-defined \emph{subspace} of $V$.\footnotemark To finish things off, let $\vv\in V$ and observe that
+		\[
+			\rT\bigl(\vv-\rT(\vv)\bigr)=\rT(\vv)-\rT^2(\vv)=\V0\implies \vv-\rT(\vv)\in\cN(\rT)
+		\]
+		so that $\vv=\rT(\vv)+\bigl(\vv-\rT(\vv)\bigr)$ is a decomposition into $\cR(\rT)$- and $\cN(\rT)$-parts. We conclude that $V=\cR(\rT)\oplus\cN(\rT)$ and that $\rT$ is a projection.\qedhere
+	\end{description}
 \end{proof}
 
-\footnotetext{In finite dimensions, the rank--nullity theorem and dimension counting finishes the proof here without having to proceed further:
-\[\dim(\cR(\rT)\oplus \cN(\rT))=\Rank\rT+\Null\rT=\dim V\implies \cR(\rT)\oplus \cN(\rT)=V\]}
-
-\goodbreak
-
-
+\footnotetext{%
+	In finite dimensions, the rank--nullity theorem and dimension counting finishes the proof here:
+	\[
+		\dim(\cR(\rT)\oplus \cN(\rT))=\Rank\rT+\Null\rT=\dim V\implies \cR(\rT)\oplus \cN(\rT)=V
+	\]
+}
 
 
 Thus far the discussion hasn't had anything to do with inner products\ldots
 
 \begin{defn}{}{}
-An \emph{orthogonal projection} is a projection $\rT\in\cL(V)$ on an inner product space for which we additionally have
-\[\cN(\rT)=\cR(\rT)^\perp\quad\text{and}\quad \cR(\rT)=\cN(\rT)^\perp\]
-Alternatively, given $V=W\oplus W^\perp$, the \emph{orthogonal projection $\pi_W$} is the projection along $W^\perp$ onto $W$: that is
-\[\cR(\pi_W)=W\quad\text{and}\quad \cN(\pi_W)=W^\perp\]
-The complementary orthogonal projection $\pi_W^\perp=\I-\pi_W$ has $\cR(\pi_W^\perp)=W^\perp$ and $\cN(\pi_W^\perp)=W$.
+	An \emph{orthogonal projection} is a projection $\rT\in\cL(V)$ on an inner product space for which
+	\[
+		\cN(\rT)=\cR(\rT)^\perp
+		\quad\text{and}\quad 
+		\cR(\rT)=\cN(\rT)^\perp
+	\]
+	Alternatively, given $V=W\oplus W^\perp$, the \emph{orthogonal projection $\pi_W$} is the projection along $W^\perp$ onto $W$:
+	\[
+		\cR(\pi_W)=W
+		\quad\text{and}\quad 
+		\cN(\pi_W)=W^\perp
+	\]
+	The complementary orthogonal projection $\pi_W^\perp=\I-\pi_W$ has $\cR(\pi_W^\perp)=W^\perp$ and $\cN(\pi_W^\perp)=W$.
 \end{defn}
 
+
 \begin{example*}{\ref{ex:proj} continued}{}
-The identity and zero matrices are both $2\times 2$ orthogonal projection matrices, while those of type 3 are orthogonal if $\stwovec ab\cdot\stwovec cd=0$: we obtain
-\[A=\frac 1{a^2+b^2}\twovec ab(a\ b)=\frac 1{a^2+b^2}\begin{pmatrix}
-a^2&ab\\ab&b^2
-\end{pmatrix}\]
-More generally, if $W\le\F^n$ has orthonormal basis $\{\vect{\vw}{k}\}$, then the matrix of $\pi_W$ is $\sum_{j=1}^k\vw_j\vw_j^*$.
+	The identity and zero matrices are both $2\times 2$ orthogonal projection matrices, while those of type 3 are orthogonal if $\stwovec ab\cdot\stwovec cd=0$: we obtain
+	\[
+		A=\frac 1{a^2+b^2}\twovec ab(a\ b)
+		=\frac 1{a^2+b^2}
+		\begin{pmatrix}
+			a^2&ab\\
+			ab&b^2
+		\end{pmatrix}
+	\]
+	More generally, if $W\le\F^n$ has orthonormal basis $\{\vect{\vw}{k}\}$, then the matrix of $\pi_W$ is $\sum_{j=1}^k\vw_j\vw_j^*$.
 \end{example*}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{thm}{}{}
-A projection $\rT\in\cL(V)$ is orthogonal if and only if it is self-adjoint $\rT=\rT^*$. 
+	A projection $\rT\in\cL(V)$ is orthogonal if and only if it is self-adjoint $\rT=\rT^*$. 
 \end{thm}
   
+
 \begin{proof}
-($\Rightarrow$)\quad By assumption, $\cR(\rT)$ and $\cN(\rT)$ are orthogonal subspaces. Letting $\vx,\vy\in V$ and using subscripts to denote $\cR(\rT)$- and $\cN(\rT)$-parts, we see that
-\[\ip{\vx,\rT(\vy)}=\ip{\vx_r+\vx_n,\vy_r}=\ip{\vx_r,\vy_r+\vy_n}=\ip{\rT(\vx),\vy} \implies \rT^*=\rT\]
-($\Leftarrow$)\quad Suppose $\rT$ is a self-adjoint projection. By the fundamental subspaces theorem,
-\[\cN(\rT)=\cN(\rT^*)=\cR(\rT)^\perp\]
-Since $\rT$ is a projection already, we have $V=\cR(\rT)\oplus\cN(\rT)= \cR(\rT)\oplus \cR(\rT)^\perp$, from which 
-\[\cR(\rT)=\bigl(\cR(\rT)^\perp\bigr)^\perp=\cN(\rT)^\perp\tag*{\qedhere}\]
+	We prove the two directions separately.
+	\begin{description}
+		\item[$(\Rightarrow)$] By assumption, $\cR(\rT)$ and $\cN(\rT)$ are orthogonal subspaces. Letting $\vx,\vy\in V$ and using subscripts to denote $\cR(\rT)$- and $\cN(\rT)$-parts, we see that
+		\[
+			\ip{\vx,\rT(\vy)}=\ip{\vx_r+\vx_n,\vy_r}
+			=\ip{\vx_r,\vy_r+\vy_n}=\ip{\rT(\vx),\vy} 
+			\implies \rT^*=\rT
+		\]
+		\item[$(\Leftarrow)$] Suppose $\rT$ is a self-adjoint projection. By the fundamental subspaces theorem,
+		\[
+			\cN(\rT)=\cN(\rT^*)=\cR(\rT)^\perp
+		\]
+		Since $\rT$ is a projection already, we have $V=\cR(\rT)\oplus\cN(\rT)= \cR(\rT)\oplus \cR(\rT)^\perp$, from which 
+		\[
+			\cR(\rT)=\bigl(\cR(\rT)^\perp\bigr)^\perp=\cN(\rT)^\perp\tag*{\qedhere}
+		\]\vspace{-10pt}
+	\end{description}
 \end{proof}
  
 
 The language of projections allows us to rephrase the Spectral Theorem.
   
 \begin{thm}{Spectral Theorem, mk.\,II}{}
-Let $V$ be a finite-dimensional complex/real inner product space and $\rT\in\cL(V)$ be normal/self-adjoint with spectrum $\{\lambda_1,\ldots,\lambda_k\}$ and corresponding eigenspaces $E_1,\ldots,E_k$. Let $\pi_j\in\cL(V)$ be the orthogonal projection onto $E_j$. Then:
-\begin{enumerate}
-  \item $V=E_1\oplus \cdots\oplus E_k$ is a direct sum of orthogonal subspaces, in particular, $E_j^\perp$ is the direct sum of the remaining eigenspaces.
-  \item $\pi_i\pi_j=0$ if $i\neq j$.
-  \item (Resolution of the identity)\quad $\I_V=\pi_1+\cdots+\pi_k$
-  \item (Spectral decomposition)\quad $\rT=\lambda_1\pi_1+\cdots+\lambda_k\pi_k$
-\end{enumerate}
+	Let $V$ be a finite-dimensional complex/real inner product space and $\rT\in\cL(V)$ be normal/self-adjoint with spectrum $\{\lambda_1,\ldots,\lambda_k\}$ and corresponding eigenspaces $E_1,\ldots,E_k$. Let $\pi_j\in\cL(V)$ be the orthogonal projection onto $E_j$. Then:
+	\begin{enumerate}
+	  \item $V=E_1\oplus \cdots\oplus E_k$ is a direct sum of orthogonal subspaces, in particular, $E_j^\perp$ is the direct sum of the remaining eigenspaces.
+	  \item $\pi_i\pi_j=0$ if $i\neq j$.
+	  \item (Resolution of the identity)\quad $\I_V=\pi_1+\cdots+\pi_k$
+	  \item (Spectral decomposition)\quad $\rT=\lambda_1\pi_1+\cdots+\lambda_k\pi_k$
+	\end{enumerate}
 \end{thm}
 
 \begin{proof}
-\begin{enumerate}
-  \item $\rT$ is diagonalizable and so $V$ is the direct sum of the eigenspaces of $\rT$. Since $\rT$ is normal, the eigenvectors corresponding to distinct eigenvalues are orthogonal, whence the eigenspaces are mutually orthogonal. In particular, this says that
-  \[\hat E_j:=\bigoplus_{i\neq j}E_i\le E_j^\perp\]
-  Since $V$ is finite-dimensional, we have $V=E_j\oplus E_j^\perp$, whence
-  \[\dim \hat{E_j}=\sum\limits_{i\neq j}\dim E_i=\dim V-\dim E_j=\dim E_j^\perp \implies \hat E_j=E_j^\perp\]
-  \item This is clear by part 1, since $\cN(\pi_j)=E_j^\perp=\hat E_j$.
-  \item Write $\vx=\sum_{j=1}^k\vx_j$ where each $\vx_j\in E_j$. Then $\pi_j(\vx)=\vx_j$: now add\ldots
-  \item $\rT(\vx)=\sum_{j=1}^k\rT(\vx_j)=\sum_{j=1}^k\lambda_j\vx_j=\sum_{j=1}^k\lambda_j\pi_j(\vx)$.\qedhere
-\end{enumerate}
+	\begin{enumerate}
+	  \item $\rT$ is diagonalizable and so $V$ is the direct sum of the eigenspaces of $\rT$. Since $\rT$ is normal, the eigenvectors corresponding to distinct eigenvalues are orthogonal, whence the eigenspaces are mutually orthogonal. In particular, this says that
+	  \[
+	  	\hat E_j:=\bigoplus_{i\neq j}E_i\le E_j^\perp
+	  \]
+	  Since $V$ is finite-dimensional, we have $V=E_j\oplus E_j^\perp$, whence
+	  \[
+	  	\dim \hat{E_j}=\sum\limits_{i\neq j}\dim E_i
+	  	=\dim V-\dim E_j=\dim E_j^\perp 
+	  	\implies \hat E_j=E_j^\perp
+	  \]
+	  \item This is clear by part 1, since $\cN(\pi_j)=E_j^\perp=\hat E_j$.
+	  \item Write $\vx=\sum_{j=1}^k\vx_j$ where each $\vx_j\in E_j$. Then $\pi_j(\vx)=\vx_j$: now add\ldots
+	  \item $\rT(\vx)=\sum_{j=1}^k\rT(\vx_j)=\sum_{j=1}^k\lambda_j\vx_j=\sum_{j=1}^k\lambda_j\pi_j(\vx)$.\qedhere
+	\end{enumerate}
 \end{proof}
 
-\goodbreak
+
+\pagebreak[3]
 
 
 \begin{examples}{}{}
-We verify the resolution of the identity and the spectral decomposition; for clarity, we index projections and eigenspaces by eigenvalue rather than the natural numbers.
-\begin{enumerate}
-  \item The symmetric matrix $A=\begin{smatrix}
-  10&2\\2&7
-  \end{smatrix}$ has spectrum $\{6,11\}$ and orthonormal eigenvectors
-  \[\vw_6=\frac 1{\sqrt 5}\twovec 1{-2},\qquad \vw_{11}=\frac 1{\sqrt 5}\twovec 21\]
-  The corresponding projections therefore have matrices
-  \[\pi_6=\vw_6\vw_6^T=\frac 15\twovec 1{-2}(1\ \ -2)
-  =\frac 15\begin{pmatrix}
-  1&-2\\-2&4
-  \end{pmatrix},\qquad
-  \pi_{11}=\vw_{11}\vw_{11}^T
-  =\frac 15\begin{pmatrix}
-  4&2\\2&1
-  \end{pmatrix}\]
-  from which the resolution of the identity and the spectral decomposition are readily verified:
-  \[\pi_6+\pi_{11}=\begin{pmatrix}
-1&0\\0&1
-  \end{pmatrix}
-  \quad\text{and}\quad
-  6\pi_6+11\pi_{11}= \frac 15\begin{pmatrix}
-  6+44&-12+22\\
-  -12+22&24+11
-  \end{pmatrix}=A\]
-  
-  \item The normal matrix $B=\begin{smatrix}
-		1+i&1+i\\
-		-1-i&1+i
-  \end{smatrix}\in M_2(\C)$ has spectrum $\{2,2i\}$ and corresponding
-orthonormal eigenvectors
-	\[\vw_2=\frac 1{\sqrt 2}\twovec i1,\qquad \vw_{2i}=\frac 1{\sqrt 2}\twovec 1i\]
-	The orthogonal projection matrices are therefore
-	\[\pi_2=\vw_2\vw_2^*=\frac 12\twovec i1(-i\ \ 1)=\frac 12\begin{pmatrix}
-1&i\\-i&1
-	\end{pmatrix}
-	\qquad \pi_{2i}=\vw_{2i}\vw_{2i}^*=\frac 12\begin{pmatrix}
-	1&-i\\i&1
-	\end{pmatrix}\]
-	from which
-	\begin{gather*}
-		\pi_2+\pi_{2i}=\begin{pmatrix}
-		1&0\\0&1
-		\end{pmatrix}\quad\text{and}\quad
-		2\pi_2+2i\pi_{2i}=\begin{pmatrix}
-		1&i\\-i&1
-		\end{pmatrix}+\begin{pmatrix}
-		i&1\\-1&i
-		\end{pmatrix}=B
-	\end{gather*}
-
-	\item The matrix $C=\begin{smatrix}
-		0&1&1\\
-		1&0&1\\
-		1&1&0
-	\end{smatrix}$ has spectrum $\{-1,2\}$, an orthonormal eigenbasis
-	\[\{\vu,\vv,\vw\} =\left\{\frac 1{\sqrt 3}\threevec 111, \frac 1{\sqrt 2}\threevec 1{-1}0,\frac 1{\sqrt 6}\threevec 11{-2} \right\}\]
-	and eigenspaces $E_2=\Span\{\vu\}$ and $E_{-1}=\Span\{\vv,\vw\}$. The orthogonal projections have matrices
-	\begin{gather*}
-		\pi_2=\vu\vu^T=\frac 13\threevec 111(1\ \ 1\ \ 1)
-		=\frac 13\begin{pmatrix}
-			1&1&1\\
-			1&1&1\\
-			1&1&1
-		\end{pmatrix}\\
-		\begin{aligned}
-			\pi_{-1}&=\vv\vv^T+\vw\vw^T
-			=\frac 12\threevec 1{-1}0(1\ \ -1\ \ 0)+\frac 16\threevec 11{-2}(1\ \ 1\ \ -2)\\
-			&=\frac 12\begin{pmatrix}
-				1&-1&0\\
-				-1&1&0\\
-				0&0&0
-			\end{pmatrix}+\frac 16\begin{pmatrix}
-				1&1&-2\\
-				1&1&-2\\
-				-2&-2&4
+	We verify the resolution of the identity and the spectral decomposition; for clarity, we index projections and eigenspaces by eigenvalue rather than the natural numbers.
+	\begin{enumerate}
+	  \item The symmetric matrix $A=
+	  \begin{smatrix}
+	  	10&2\\
+	  	2&7
+	  \end{smatrix}$ has spectrum $\{6,11\}$ and orthonormal eigenvectors
+	  \[
+		  \vw_6=\frac 1{\sqrt 5}\twovec 1{-2},\qquad 
+		  \vw_{11}=\frac 1{\sqrt 5}\twovec 21
+	  \]
+	  The corresponding projections therefore have matrices
+	  \[
+	  	\pi_6=\vw_6\vw_6^T
+	  	=\frac 15\twovec 1{-2}(1\ \ -2)
+	  	=\frac 15
+	  	\begin{pmatrix}
+	  		1&-2\\
+	  		-2&4
+	  	\end{pmatrix}
+	  	,\qquad
+	  	\pi_{11}=\vw_{11}\vw_{11}^T
+	  	=\frac 15
+	  	\begin{pmatrix}
+	  		4&2\\
+	  		2&1
+	 		\end{pmatrix}
+	 	\]
+	  from which the resolution of the identity and the spectral decomposition are readily verified:
+	  \[
+	  	\pi_6+\pi_{11}=
+	  	\begin{pmatrix}
+				1&0\\
+				0&1
+	  	\end{pmatrix}
+	  	\quad\text{and}\quad
+	  	6\pi_6+11\pi_{11}= \frac 15
+	  	\begin{pmatrix}
+	  		6+44&-12+22\\
+	  		-12+22&24+11
+	  	\end{pmatrix}
+	  	=A
+	  \]
+	  
+	  \item The normal matrix $B=
+	  \begin{smatrix}
+			1+i&1+i\\
+			-1-i&1+i
+	  \end{smatrix}
+	  \in M_2(\C)$ has spectrum $\{2,2i\}$ and corresponding orthonormal eigenvectors
+		\[
+			\vw_2=\frac 1{\sqrt 2}\twovec i1,\qquad 
+			\vw_{2i}=\frac 1{\sqrt 2}\twovec 1i
+		\]
+		The orthogonal projection matrices are therefore
+		\[
+			\pi_2=\vw_2\vw_2^*=\frac 12\twovec i1(-i\ \ 1)=\frac 12
+			\begin{pmatrix}
+				1&i\\
+				-i&1
 			\end{pmatrix}
-			=\frac 13\begin{pmatrix}
-				2&-1&-1\\
-				-1&2&-1\\
-				-1&-1&2
+			\qquad 
+			\pi_{2i}=\vw_{2i}\vw_{2i}^*=\frac 12
+			\begin{pmatrix}
+				1&-i\\
+				i&1
 			\end{pmatrix}
-		\end{aligned}
-	\end{gather*}
-	It is now easy to check the resolution of the identity and the spectral decomposition:
-	\[\pi_2+\pi_{-1}=I\quad\text{and}\quad 2\pi_2-\pi_{-1}=C\]
-\end{enumerate}
+		\]
+		from which
+		\begin{gather*}
+			\pi_2+\pi_{2i}=
+			\begin{pmatrix}
+				1&0\\
+				0&1
+			\end{pmatrix}
+			\quad\text{and}\quad
+			2\pi_2+2i\pi_{2i}=
+			\begin{pmatrix}
+				1&i\\
+				-i&1
+			\end{pmatrix}
+			+
+			\begin{pmatrix}
+				i&1\\
+				-1&i
+			\end{pmatrix}
+			=B
+		\end{gather*}
+	
+		\item The matrix $C=
+		\begin{smatrix}
+			0&1&1\\
+			1&0&1\\
+			1&1&0
+		\end{smatrix}$ 
+		has spectrum $\{-1,2\}$, an orthonormal eigenbasis
+		\[
+			\{\vu,\vv,\vw\} 
+			=\left\{\frac 1{\sqrt 3}\threevec 111, \frac 1{\sqrt 2}\threevec 1{-1}0,\frac 1{\sqrt 6}\threevec 11{-2} \right\}
+		\]
+		and eigenspaces $E_2=\Span\{\vu\}$ and $E_{-1}=\Span\{\vv,\vw\}$. The orthogonal projections have matrices
+		\begin{gather*}
+			\pi_2=\vu\vu^T=\frac 13\threevec 111(1\ \ 1\ \ 1)
+			=\frac 13
+			\begin{pmatrix}
+				1&1&1\\
+				1&1&1\\
+				1&1&1
+			\end{pmatrix}
+			\\
+			\begin{aligned}
+				\pi_{-1}&=\vv\vv^T+\vw\vw^T
+				=\frac 12\threevec 1{-1}0(1\ \ -1\ \ 0)
+				+\frac 16\threevec 11{-2}(1\ \ 1\ \ -2)\\
+				&=\frac 12
+				\begin{pmatrix}
+					1&-1&0\\
+					-1&1&0\\
+					0&0&0
+				\end{pmatrix}
+				+\frac 16
+				\begin{pmatrix}
+					1&1&-2\\
+					1&1&-2\\
+					-2&-2&4
+				\end{pmatrix}
+				=\frac 13
+				\begin{pmatrix}
+					2&-1&-1\\
+					-1&2&-1\\
+					-1&-1&2
+				\end{pmatrix}
+			\end{aligned}
+		\end{gather*}
+		It is now easy to check the resolution of the identity and the spectral decomposition:
+		\[
+			\pi_2+\pi_{-1}=I
+			\quad\text{and}\quad 
+			2\pi_2-\pi_{-1}=C
+		\]
+	\end{enumerate}
 \end{examples}
 
-\vfil\goodbreak
+
+\pagebreak[3]
+
 
 \boldsubsubsection{Orthogonal Projections and Minimization Problems}\phantomsection\label{sec:leastsq}
 
@@ -2610,167 +2746,210 @@ We finish this section with an important observation that drives much of the app
 
 
 \begin{thm}{}{minthm}
-Suppose $Y=W\oplus W^\perp$. For any $\vy\in Y$, the orthogonal projection $\pi_W(\vy)$ is the unique element of $W$ which minimizes the distance to $\vy$:
-\[\forall\vw\in W,\ \Nm{\vy-\pi_W(\vy)}\le\Nm{\vy-\vw}\]
+	Suppose $Y=W\oplus W^\perp$. For any $\vy\in Y$, the orthogonal projection $\pi_W(\vy)$ is the unique element of $W$ which minimizes the distance to $\vy$:
+	\[
+		\forall\vw\in W,\ \Nm{\vy-\pi_W(\vy)}\le\Nm{\vy-\vw}
+	\]
 \end{thm}
 
 \begin{proof}
-Apply Pythagoras' Theorem: since $\pi^\perp_W(\vy)=\vy-\pi_W(\vy)\in W^\perp$,\smallbreak
-
-\begin{minipage}[t]{0.7\linewidth}\vspace{-15pt}
+Apply the Pythagorean Theorem: since $\pi^\perp_W(\vy)=\vy-\pi_W(\vy)\in W^\perp$,\par
+\begin{minipage}[t]{0.7\linewidth}\vspace{-10pt}
 	\begin{align*}
-	\Nm{\vy-\vw}^2&=\Nm{\vy-\pi_W(\vy)+\pi_W(\vy)-\vw}^2\\
-	&=\Nm{\vy-\pi_W(\vy)}^2+\Nm{\pi_W(\vy)-\vw}^2\\
-	&\ge \Nm{\vy-\pi_W(\vy)}^2
+		\Nm{\vy-\vw}^2
+		&=\Nm{\vy-\pi_W(\vy)+\pi_W(\vy)-\vw}^2\\
+		&=\Nm{\vy-\pi_W(\vy)}^2+\Nm{\pi_W(\vy)-\vw}^2\\
+		&\ge \Nm{\vy-\pi_W(\vy)}^2
 	\end{align*}
 with equality if and only if $\vw =\pi_W(\vy)$.
 	\end{minipage}
-	\hfill\begin{minipage}[t]{0.29\linewidth}\vspace{-30pt}
-	\flushright\href{http://www.math.uci.edu/~ndonalds/math121b/orth-orthproj4.html}{\includegraphics{orth-orthproj4}}
-	\end{minipage}\smallbreak
+	\hfill
+	\begin{minipage}[t]{0.29\linewidth}\vspace{-30pt}
+		\hfill\href{%
+				http://www.math.uci.edu/~ndonalds/math121b/orth-orthproj4.html%
+			}{%
+				\includegraphics[alt={orthogonal projection onto W}]{orth-orthproj4}%
+			}
+	\end{minipage}\par
 \end{proof}
 
-This set up can be used to compute accurate approximations in many contexts.
+
+This set-up can be used to compute accurate approximations in many contexts.
 
 \begin{examples}{}{minproj}
-\exstart To obtain a quadratic polynomial approximation $p(x)=a+bx+cx^2$ to $e^x$ on the interval $[-1,1]$ we choose to minimize the integral $\int_{-1}^1\nm{e^x-p(x)}^2\,\dx$, namely the squared $L^2$-norm $\Nm{e^x-p(x)}^2$ on $C[-1,1]$. If we let $W=\Span\{1,x,x^2\}$, then the finite-dimensionality of $W$ means that $C[-1,1]=W\oplus W^\perp$. By the Theorem, the solution is $p(x)=\pi_W(e^x)$.
-\begin{enumerate}\setcounter{enumi}{1}
-    \item[]	To compute this, recall that we have an orthonormal basis for $W$, namely\smallbreak
-	
-	\begin{minipage}[t]{0.65\linewidth}\vspace{-15pt}
-	\[\left\{\tfrac 1{\sqrt 2},\sqrt{\tfrac 32}x,\sqrt{\tfrac 58}(3x^2-1)\right\}\]
-		from which
-	\begin{align*}
-	\textcolor{Green}{p(x)}&=\frac 12\ip{1,e^x}+\frac 32\ip{x,e^x}x+\frac 58(3x^2-1)\ip{3x^2-1,e^x}\\
-	&=\frac 12\int_{-1}^1e^x\,\dx +\frac 32x\int_{-1}^1xe^x\,\dx\\
-	&\qquad\qquad\qquad+\frac 58(3x^2-1)\int_{-1}^1(3x^2-1)e^x\,\dx\\
-	&=\frac 12(e-e^{-1}) +3e^{-1}x +\frac 54(e-7e^{-1})(3x^2-1)\\
-	&\approx \textcolor{purple}{1.18+1.10x}+0.179(3x^2-1)\\
-	&\approx \textcolor{Green}{1+1.1x+0.537x^2}
-	\end{align*}
-	\end{minipage}\begin{minipage}[t]{0.35\linewidth}\vspace{0pt}
-	\flushright\includegraphics[scale=0.9]{orth-expapprox}
-	\end{minipage}\smallbreak	
-	The \textcolor{purple}{linear} and \textcolor{Green}{quadratic} approximations to $\textcolor{blue}{y=e^x}$ are drawn. Compare this with the Maclaurin polynomial $e^x\approx 1+x+\frac 12x^2$ from calculus.
+	\exstart To obtain a quadratic polynomial approximation $p(x)=a+bx+cx^2$ to $e^x$ on the interval $[-1,1]$ we choose to minimize the integral $\int_{-1}^1\nm{e^x-p(x)}^2\,\dx$, namely the squared $L^2$-norm $\Nm{e^x-p(x)}^2$ on $C[-1,1]$. If we let $W=\Span\{1,x,x^2\}$, then the finite-dimensionality of $W$ means that $C[-1,1]=W\oplus W^\perp$. By the Theorem, the solution is $p(x)=\pi_W(e^x)$.\vspace{-4pt}
+	\begin{enumerate}\setcounter{enumi}{1}
+    \item[]	To compute this, recall that we have an orthonormal basis for $W$, namely\par
+		\begin{minipage}[t]{0.65\linewidth}\vspace{-10pt}
+			\[
+				\left\{\tfrac 1{\sqrt 2},\sqrt{\tfrac 32}x,\sqrt{\tfrac 58}(3x^2-1)\right\}
+			\]
+			from which
+			\begin{align*}
+				\textcolor{Green}{p(x)}
+				&=\frac 12\ip{1,e^x}+\frac 32\ip{x,e^x}x+\frac 58(3x^2-1)\ip{3x^2-1,e^x}\\
+				&=\frac 12\int_{-1}^1e^x\,\dx +\frac 32x\int_{-1}^1xe^x\,\dx\\
+				&\qquad\qquad\qquad+\frac 58(3x^2-1)\int_{-1}^1(3x^2-1)e^x\,\dx\\
+				&=\frac 12(e-e^{-1}) +3e^{-1}x +\frac 54(e-7e^{-1})(3x^2-1)\\
+				&\approx \textcolor{purple}{1.18+1.10x}+0.179(3x^2-1)\\
+				&\approx \textcolor{Green}{1+1.1x+0.537x^2}
+			\end{align*}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.34\linewidth}\vspace{0pt}
+			\hfill\includegraphics[alt={approximating an exponential}]{orth-expapprox}
+		\end{minipage}\smallbreak	
+		The \textcolor{purple}{linear} and \textcolor{Green}{quadratic} approximations to $\textcolor{blue}{y=e^x}$ are drawn. Compare this with the Maclaurin polynomial $e^x\approx 1+x+\frac 12x^2$ from calculus.
 
+	\pagebreak[3]
 	
-	\goodbreak
-	\item\label{ex:minproj2} The $n\th$ Fourier approximation of a function $f(x)$ is its orthogonal projection onto the finite-dimensional subspace
-	\begin{align*}
-	W_n&=\Span\{1,e^{ix},e^{-ix},\ldots,e^{inx},e^{-inx}\}\\
-	&=\Span\{1,\cos x,\sin x,\cos 2x,\sin 2x,\ldots,\cos nx,\sin nx\}
-	\end{align*}
-	within $L^2[-\pi,\pi]$, namely
-	\begin{align*}
-	\mathcal F_n(x)&=\frac 1{2\pi}\sum_{k=-n}^n\ip{f(x),e^{ikx}}e^{ikx}\\
-	 &=\frac 1{2\pi}\ip{f(x),1}+\frac 1{\pi}\sum_{k=1}^n\ip{f(x),\cos kx}\cos kx+\ip{f(x),\sin kx}\sin kx
-	\end{align*}
-	According to the Theorem, this is the unique function in $\mathcal F_n(x)\in W_n$ minimizing the integral
-	\[\Nm{f(x)-\mathcal F_n(x)}^2=\int_{-\pi}^\pi\nm{f(x)-\mathcal F_n(x)}^2\,\dx\]
-	For example, if $f(x)=\begin{cases}
-	1&\text{if }0<x\le\pi\\
-	-1&\text{if }-\pi<x\le 0
-	\end{cases}$ \space is extended periodically, then
-	\[\mathcal F_{2n-1}(x)=\frac 4\pi\sum_{j=1}^n\frac{\sin(2j-1)x}{2j-1}=\frac 4\pi\left(\sin x+\frac{\sin 3x}3+\frac{\sin 5x}5+\cdots+\frac{\sin(2n-1)x}{2n-1} \right)\]
-	\begin{center}
-	\href{http://www.math.uci.edu/~ndonalds/math121b/orth-fourier.html}{\includegraphics{orth-fourier2}}\\
-	\textcolor{blue}{$y=f(x)$} and its eleventh Fourier approximation \textcolor{Green}{$y=\mathcal F_{11}(x)$}
-	\end{center}
+		\item\label{ex:minproj2} The $n\th$ Fourier approximation of a function $f(x)$ is its orthogonal projection onto the finite-dimensional space
+		\begin{align*}
+			W_n &=\Span\big\{1,e^{ix},e^{-ix},\ldots,e^{i nx},e^{-i nx}\big\}\\
+			&=\Span\big\{1,\cos x,\sin x,\cos 2x,\sin 2x,\ldots,\cos nx,\sin nx\big\}
+		\end{align*}
+		with respect to the $L^2$ inner product on $[-\pi,\pi]$:
+		\begin{align*}
+			\mathcal F_n(x)
+			&=\frac 1{2\pi}\sum_{k=-n}^n\ip{f(x),e^{i kx}}e^{i kx}\\
+			&=\frac 1{2\pi}\ip{f(x),1}
+			+\frac 1{\pi}\sum_{k=1}^n\ip{f(x),\cos kx}\cos kx+\ip{f(x),\sin kx}\sin kx
+		\end{align*}
+		By Theorem \ref{thm:minthm}, this is the unique function in $\mathcal F_n(x)\in W_n$ minimizing the integral
+		\[
+			\Nm{f(x)-\mathcal F_n(x)}^2=\int_{-\pi}^\pi\nm{f(x)-\mathcal F_n(x)}^2\,\dx
+		\]
+		For example, given $f(x)=
+		\begin{cases}
+			1&\text{if }0<x\le\pi,\\
+			-1&\text{if }-\pi<x\le 0,
+		\end{cases}$
+		\[
+			\mathcal F_{2n-1}(x)
+			=\frac 4\pi\sum_{j=1}^n\frac{\sin(2j-1)x}{2j-1}
+			=\frac 4\pi\left(\sin x+\frac{\sin 3x}3+\frac{\sin 5x}5+\cdots+\frac{\sin(2n-1)x}{2n-1} \right)
+		\]\vspace{-15pt}
+		\begin{center}
+			\href{http://www.math.uci.edu/~ndonalds/math121b/orth-fourier.html}{\includegraphics[alt={fourier approximations to a square wave}]{orth-fourier2}}\par
+			\textcolor{blue}{$y=f(x)$} and its eleventh Fourier approximation \textcolor{Green}{$y=\mathcal F_{11}(x)$} extended periodically
+		\end{center}
   
-%   \item To obtain a quadratic polynomial approximation $p(x)$ to $e^x$ on the interval $[0,1]$ we might wish to minimize the integral $\int_0^1\nm{e^x-p(x)}^2\,\dx$.\smallbreak
-%   
-%   The integral is the norm-squared $\Nm{e^x-p(x)}^2$ in the space $C[0,1]$ equipped with the $L^2$ inner product! If we let $W=\Span\{1,x,x^2\}$, then the finite-dimensionality of $W$ means that $C[0,1]=W\oplus W^\perp$. By the theorem, the solution is that $p(x)=\pi_W(e^x)$.\smallbreak
-% 	To compute this, recall that we have an orthonormal basis for $W$
-% 	\[\beta=\left\{1,\sqrt 3(2x-1),\sqrt{5}(6x^2-6x+1)\right\}\]
-% 	from which
-% 	\begin{align*}
-% 	p(x)&=\ip{1,e^x}+3\ip{2x-1,e^x}(2x-1)+5\ip{6x^2-6x+1,e^x}(6x^2-6x+1)\\
-% 	&=\int_0^1e^x\,\dx +3(2x-1)\int_0^1(2x-1)e^x\,\dx+5(6x^2-6x+1)\int_0^1(6x^2-6x+1)e^x\,\dx\\
-% 	&=e-1 +3(3-e)(2x-1) +5(7e-19)(6x^2-6x+1)\\
-% 	&\approx 1.72+0.84(2x-1)+0.2(6x^2-6x+1)=1.2x^2+0.48x+1.08
-% 	\end{align*}
-\end{enumerate}
+	%   \item To obtain a quadratic polynomial approximation $p(x)$ to $e^x$ on the interval $[0,1]$ we might wish to minimize the integral $\int_0^1\nm{e^x-p(x)}^2\,\dx$.\smallbreak
+	%   
+	%   The integral is the norm-squared $\Nm{e^x-p(x)}^2$ in the space $C[0,1]$ equipped with the $L^2$ inner product! If we let $W=\Span\{1,x,x^2\}$, then the finite-dimensionality of $W$ means that $C[0,1]=W\oplus W^\perp$. By the theorem, the solution is that $p(x)=\pi_W(e^x)$.\smallbreak
+	% 	To compute this, recall that we have an orthonormal basis for $W$
+	% 	\[\beta=\left\{1,\sqrt 3(2x-1),\sqrt{5}(6x^2-6x+1)\right\}\]
+	% 	from which
+	% 	\begin{align*}
+	% 	p(x)&=\ip{1,e^x}+3\ip{2x-1,e^x}(2x-1)+5\ip{6x^2-6x+1,e^x}(6x^2-6x+1)\\
+	% 	&=\int_0^1e^x\,\dx +3(2x-1)\int_0^1(2x-1)e^x\,\dx+5(6x^2-6x+1)\int_0^1(6x^2-6x+1)e^x\,\dx\\
+	% 	&=e-1 +3(3-e)(2x-1) +5(7e-19)(6x^2-6x+1)\\
+	% 	&\approx 1.72+0.84(2x-1)+0.2(6x^2-6x+1)=1.2x^2+0.48x+1.08
+	% 	\end{align*}
+	\end{enumerate}
 \end{examples}
 
-We'll return to related minimization problems in the next section.
+%We'll return to related minimization problems in the next section.
 
 \vfil
 
+
 \begin{exercises}
-\exstart Compute the matrices of the orthogonal projections onto $W$ viewed as subspaces of the standard inner product spaces $\R^n$ or $\C^n$.
+	\exstart Compute the matrices of the orthogonal projection onto $W$ viewed as a subspace of the standard inner product spaces $\R^n$ or $\C^n$.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]\begin{enumerate}
+	    \item $W=\Span\stwovec 4{-1}$\hfill \text{(b) }\ $W=\Span\left\{\sthreevec 121,\sthreevec 10{-1}\right\}$ \hfill \text{(c) }\space
+	    $W=\Span\left\{\sthreevec i10,\sthreevec 1i1\right\}$\hfill
+	    \item[(d)] $W=\Span\left\{\sthreevec 110,\sthreevec 121\right\}$\quad (\emph{watch out, these vectors aren't orthogonal!})
+		\end{enumerate}
+		
+		
+		\pagebreak[3]
 
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[]\begin{enumerate}
-    \item $W=\Span\twovec 4{-1}$\hfill \text{(b) }\space $W=\Span\left\{\threevec 121,\threevec 10{-1}\right\}$ \hfill \text{(c) }\space
-    $W=\Span\left\{\threevec i10,\threevec 1i1\right\}$
-    \item[(d)] $W=\Span\left\{\threevec 110,\threevec 121\right\}$\quad (\emph{watch out, these vectors aren't orthogonal!})
+	  
+		\item For each matrix, compute the projections onto each eigenspace, verify the resolution of the identity and the spectral decomposition.
+		\begin{enumerate}
+	    \item $\begin{smatrix}
+	    	1&2\\
+	    	2&1
+	    \end{smatrix}$
+	    \qquad
+	    (b)\ \ $\begin{smatrix}
+	    	0&-1\\
+	    	1&0
+	    \end{smatrix}$
+	    \qquad
+	    (c)\ \ $\begin{smatrix}
+	    	2&3-3i\\
+	    	3+3i&5
+	    \end{smatrix}$
+	    \qquad
+	    (d)\ \ $\begin{smatrix}
+	    	2&1&1\\
+	    	1&2&1\\
+	    	1&1&2
+	    \end{smatrix}$
+	  \end{enumerate}
+	  (\emph{You should already have orthonormal eigenbases from Exercise \ref*{sec:unitary}.1})
+		
+		
+		\pagebreak[3]
+		
+		
+		\item If $W$ be a finite-dimensional subspace of an inner product space $V$. If $\rT=\pi_W$ is the orthogonal projection onto $W$, prove that $\I-\rT$ is the orthogonal projection onto $W^\perp$.
+		
+		
+		\item Let $\rT\in\cL(V)$ where $V$ is finite-dimensional.
+		\begin{enumerate}
+		  \item If $\rT$ is an orthogonal projection, prove that $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$.
+		 	\item Give an example of a projection for which the inequality in (a) is \emph{false.}
+		 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}=\Nm{\vx}$ for all $\vx\in V$, what is $\rT$?
+		 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$, prove that $\rT$ is an \emph{orthogonal} projection.
+		\end{enumerate}
+		
+		
+		\item Let $\rT$ be a normal operator on a finite-dimensional inner product space. If $\rT$ is a projection, prove that it must be an orthogonal projection.
+		
+		
+		\item\label{exs:lastqn} Let $\rT$ be a normal operator on a finite-dimensional complex inner product space $V$. Use the spectral decomposition $\rT=\lambda_1\pi_1+\cdots+\lambda_k\pi_k$ to prove the following.
+		\begin{enumerate}
+		  \item If $\rT^n$ is the zero map for some $n\in\N$, then $\rT$ is the zero map.
+		  \item $\rU\in\cL(V)$ commutes with $\rT$ if and only if $\rU$ commutes with each $\pi_j$.
+		  \item There exists a normal $\rU\in\cL(V)$ such that $\rU^2=\rT$.
+		  \item $\rT$ is invertible if and only if $\lambda_j\neq 0$ for all $j$.
+		  \item $\rT$ is a projection if and only if every $\lambda_j=0$ or 1.
+		  \item $\rT=-\rT^*$ if and only if every $\lambda_j$ is imaginary.
+		\end{enumerate}
+		
+		
+		\item Find a linear approximation to $f(x)=e^x$ on $[0,1]$ using the $L^2$ inner product.
+		
+		
+		\item Consider the $L^2$ inner product on $C[-\pi,\pi]$ inner product.
+		\begin{enumerate}
+		  \item Explain why $\ip{\sin x,x^{2n}}=0$ for all $n$.
+		  \item Find linear and \emph{cubic} approximations to $f(x)=\sin x$.\par
+		  (\emph{Feel free to use a computer algebra package to evaluate the integrals}!)
+		\end{enumerate}
+		
+		
+		\item Revisit Example \ref*{ex:minproj}.\ref{ex:minproj2}
+		\begin{enumerate}
+		  \item Verify that the general complex ($e^{ikx}$) and real ($\cos kx,\sin kx$) expressions for the Fourier approximation are correct.\par
+		  (\emph{Hint: use Euler's formula $e^{ikx}=\cos kx+i\sin kx$})
+		  \item Verify the explicit expression for $\mathcal F_{2n-1}(x)$ when $f(x)$ is the given step-function. What is $\mathcal F_{2n}(x)$ in this case?
+	% 	  \item Find the $n\th$ Fourier approximation using the interval $[-T,T]$ and the subspace
+	% 	  \[W_n=\Span\left\{e^{\frac{i\pi kx}T}:-n\le k\le n\right\}=\Span\left\{\cos\frac{k\pi x}T,\sin\frac{k\pi x}T:0\le k\le n\right\}\]
+		\end{enumerate}
 	\end{enumerate}
-	\goodbreak
-
-	\item For each of the following matrices, compute the projections onto each eigenspace, verify the resolution of the identity and the spectral decomposition.\vspace{-5pt}
-	\[\text{(a)}\ \ \begin{pmatrix}
-    1&2\\2&1
-    \end{pmatrix}
-    \qquad
-    \text{(b)}\ \ \begin{pmatrix}
-    0&-1\\1&0
-    \end{pmatrix}
-    \qquad
-    \text{(c)}\ \ \begin{pmatrix}
-    2&3-3i\\3+3i&5
-    \end{pmatrix}
-    \qquad
-    \text{(d)}\ \ \begin{pmatrix}
-    2&1&1\\1&2&1\\1&1&2
-    \end{pmatrix}
-    \]
-    \vspace{-5pt}
-    (\emph{You should have orthonormal eigenbases from the previous section})
-	
-	\item If $W$ be a finite-dimensional subspace of an inner product space $V$. If $\rT=\pi_W$ is the orthogonal projection onto $W$, prove that $\I-\rT$ is the orthogonal projection onto $W^\perp$.
-	
-	\item Let $\rT\in\cL(V)$ where $V$ is finite-dimensional.
-	\begin{enumerate}
-	  \item If $\rT$ is an orthogonal projection, prove that $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$.
-	 	\item Give an example of a projection for which the inequality in (a) is \emph{false.}
-	 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}=\Nm{\vx}$ for all $\vx\in V$, what is $\rT$?
-	 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$, prove that $\rT$ is an \emph{orthogonal} projection.
-	\end{enumerate}
-	
-	\item Let $\rT$ be a normal operator on a finite-dimensional inner product space. If $\rT$ is a projection, prove that it must be an orthogonal projection.
-	
-	\item\label{exs:lastqn} Let $\rT$ be a normal operator on a finite-dimensional complex inner product space $V$. Use the spectral decomposition $\rT=\lambda_1\pi_1+\cdots+\lambda_k\pi_k$ to prove:
-	\begin{enumerate}
-	  \item If $\rT^n$ is the zero map for some $n\in\N$, then $\rT$ is the zero map.
-	  \item $\rU\in\cL(V)$ commutes with $\rT$ if and only if $\rU$ commutes with each $\pi_j$.
-	  \item There exists a normal $\rU\in\cL(V)$ such that $\rU^2=\rT$.
-	  \item $\rT$ is invertible if and only if $\lambda_j\neq 0$ for all $j$.
-	  \item $\rT$ is a projection if and only if every $\lambda_j=0$ or 1.
-	  \item $\rT=-\rT^*$ if and only if every $\lambda_j$ is imaginary.
-	\end{enumerate}
-	
-	\item Find a linear approximation to $f(x)=e^x$ on $[0,1]$ using the $L^2$ inner product.
-	
-	\item Consider the $L^2$ inner product on $C[-\pi,\pi]$ inner product.
-	\begin{enumerate}
-	  \item Explain why $\ip{\sin x,x^{2n}}=0$ for all $n$.
-	  \item Find linear and \emph{cubic} approximations to $f(x)=\sin x$.\smallbreak
-	  (\emph{Feel free to use a computer algebra package to evaluate the integrals}!)
-	\end{enumerate}
-	
-	
-	\item Revisit Example \hyperref[ex:minproj2]{\ref*{ex:minproj}.\ref*{ex:minproj2}}
-	\begin{enumerate}
-	  \item Verify that the general complex ($e^{ikx}$) and real ($\cos kx,\sin kx$) expressions for the Fourier approximation are correct.\smallbreak
-	  (\emph{Hint: use Euler's formula $e^{ikx}=\cos kx+i\sin kx$})
-	  \item Verify the explicit expression for $\mathcal F_{2n-1}(x)$ when $f(x)$ is the given step-function. What is $\mathcal F_{2n}(x)$ in this case?
-% 	  \item Find the $n\th$ Fourier approximation using the interval $[-T,T]$ and the subspace
-% 	  \[W_n=\Span\left\{e^{\frac{i\pi kx}T}:-n\le k\le n\right\}=\Span\left\{\cos\frac{k\pi x}T,\sin\frac{k\pi x}T:0\le k\le n\right\}\]
-	\end{enumerate}
-\end{enumerate}
 \end{exercises}
 	
-	\clearpage
+
+\clearpage
+	
+	
+
+\iffalse
 
 
 \subsection{The Singular Value Decomposition and the Pseudoinverse}

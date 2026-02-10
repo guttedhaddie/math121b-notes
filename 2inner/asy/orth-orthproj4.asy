@@ -1,8 +1,18 @@
-//comment out 1st line if want webgl
-if(!settings.multipleView) settings.batchView=false;
 settings.tex="pdflatex";
-if(settings.render < 0) settings.render=4;
+defaultpen(fontsize(11pt));
+
+//OpenGL (default)
+
+//PNG
+//if(!settings.multipleView) settings.batchView=false;
+//settings.render=4;settings.outformat="png";
+
+//HTML
 settings.outformat="html";
+
+//PDF
+//if(!settings.multipleView) settings.batchView=false;
+//settings.render=4;settings.outformat="pdf";
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
@@ -15,7 +25,7 @@ texpreamble("\usepackage{amsmath}
 import graph;
 import graph3;
 
-size(0,110);
+size(0,100);
 
 triple a=(1,0,0);
 triple b=(0,2,1);

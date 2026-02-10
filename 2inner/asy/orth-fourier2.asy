@@ -1,11 +1,13 @@
 settings.tex="pdflatex";
 
+defaultpen(fontsize(11pt));
+
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
 \usepackage{mathpazo}
 \usepackage[svgnames]{xcolor}
-
 ");
+
 import graph;
 
 size(400,110,IgnoreAspect);

@@ -1,20 +1,21 @@
-settings.prc=false;
-settings.outformat="pdf";
+settings.tex="pdflatex";
+defaultpen(fontsize(11pt));
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
 \usepackage{mathpazo}
 \usepackage[svgnames]{xcolor}
+
 ");
 import graph;
 
-size(120);
+size(110);
 
-pair x=(2,1);
+pair x=(3,1);
 pair y=(1,3);
 
 draw(Label("$X$",Relative(0.9)),-0.3x--1.5x);
-draw(Label("$Y$",align=NW,Relative(0.9)),-0.3y--1.5y);
+draw(Label("$Y$",align=NW,Relative(0.9)),-0.3y--1.4y);
 
 draw("$\mathbf v$",(0,0)--x+y,Arrow);
 draw(x--x+y,heavygreen+dashed);

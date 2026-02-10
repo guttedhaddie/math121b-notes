@@ -1,14 +1,14 @@
 settings.tex="pdflatex";
+defaultpen(fontsize(11pt));
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
 \usepackage{mathpazo}
 \usepackage[svgnames]{xcolor}
-
 ");
 import graph;
 
-size(220);
+size(200);
 
 path p=graph(exp,-1,1);
 draw(p,blue);
