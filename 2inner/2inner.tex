@@ -2480,7 +2480,7 @@ where $\Rank I=\Rank\rT$. In particular, every finite-dimensional projection is 
 		\[
 			\cR(\rT)\cap\cN(\rT)=\{\V0\}
 		\]
-		and so $\cR(\rT)\oplus\cN(\rT)$ is a well-defined \emph{subspace} of $V$.\footnotemark To finish things off, let $\vv\in V$ and observe that
+		and so $\cR(\rT)\oplus\cN(\rT)$ is a well-defined \emph{subspace} of $V$.\footnotemark{} To finish things off, let $\vv\in V$ and observe that
 		\[
 			\rT\bigl(\vv-\rT(\vv)\bigr)=\rT(\vv)-\rT^2(\vv)=\V0\implies \vv-\rT(\vv)\in\cN(\rT)
 		\]
@@ -2491,7 +2491,7 @@ where $\Rank I=\Rank\rT$. In particular, every finite-dimensional projection is 
 \footnotetext{%
 	In finite dimensions, the rank--nullity theorem and dimension counting finishes the proof here:
 	\[
-		\dim(\cR(\rT)\oplus \cN(\rT))=\Rank\rT+\Null\rT=\dim V\implies \cR(\rT)\oplus \cN(\rT)=V
+		\dim\big(\cR(\rT)\oplus \cN(\rT)\big)=\Rank\rT+\Null\rT=\dim V\implies \cR(\rT)\oplus \cN(\rT)=V
 	\]
 }
 
@@ -2546,11 +2546,11 @@ Thus far the discussion hasn't had anything to do with inner products\ldots
 			=\ip{\vx_r,\vy_r+\vy_n}=\ip{\rT(\vx),\vy} 
 			\implies \rT^*=\rT
 		\]
-		\item[$(\Leftarrow)$] Suppose $\rT$ is a self-adjoint projection. By the fundamental subspaces theorem,
+		\item[$(\Leftarrow)$] Suppose $\rT$ is a self-adjoint projection. By the Fundamental Subspaces Theorem (\ref{thm:fundssthm}),
 		\[
 			\cN(\rT)=\cN(\rT^*)=\cR(\rT)^\perp
 		\]
-		Since $\rT$ is a projection already, we have $V=\cR(\rT)\oplus\cN(\rT)= \cR(\rT)\oplus \cR(\rT)^\perp$, from which 
+		Since $\rT$ is a projection, $V=\cR(\rT)\oplus\cN(\rT)= \cR(\rT)\oplus \cR(\rT)^\perp$, from which (Lemma \ref{lemm:uperpperp})
 		\[
 			\cR(\rT)=\bigl(\cR(\rT)^\perp\bigr)^\perp=\cN(\rT)^\perp\tag*{\qedhere}
 		\]\vspace{-10pt}
@@ -2563,7 +2563,7 @@ The language of projections allows us to rephrase the Spectral Theorem.
 \begin{thm}{Spectral Theorem, mk.\,II}{}
 	Let $V$ be a finite-dimensional complex/real inner product space and $\rT\in\cL(V)$ be normal/self-adjoint with spectrum $\{\lambda_1,\ldots,\lambda_k\}$ and corresponding eigenspaces $E_1,\ldots,E_k$. Let $\pi_j\in\cL(V)$ be the orthogonal projection onto $E_j$. Then:
 	\begin{enumerate}
-	  \item $V=E_1\oplus \cdots\oplus E_k$ is a direct sum of orthogonal subspaces, in particular, $E_j^\perp$ is the direct sum of the remaining eigenspaces.
+	  \item $V=E_1\oplus \cdots\oplus E_k$ where each $E_j^\perp$ is the direct sum of the remaining eigenspaces.
 	  \item $\pi_i\pi_j=0$ if $i\neq j$.
 	  \item (Resolution of the identity)\quad $\I_V=\pi_1+\cdots+\pi_k$
 	  \item (Spectral decomposition)\quad $\rT=\lambda_1\pi_1+\cdots+\lambda_k\pi_k$
@@ -2584,8 +2584,9 @@ The language of projections allows us to rephrase the Spectral Theorem.
 	  \]
 	  \item This is clear by part 1, since $\cN(\pi_j)=E_j^\perp=\hat E_j$.
 	  \item Write $\vx=\sum_{j=1}^k\vx_j$ where each $\vx_j\in E_j$. Then $\pi_j(\vx)=\vx_j$: now add\ldots
-	  \item $\rT(\vx)=\sum_{j=1}^k\rT(\vx_j)=\sum_{j=1}^k\lambda_j\vx_j=\sum_{j=1}^k\lambda_j\pi_j(\vx)$.\qedhere
+	  \item $\rT(\vx)=\sum_{j=1}^k\rT(\vx_j)=\sum_{j=1}^k\lambda_j\vx_j=\sum_{j=1}^k\lambda_j\pi_j(\vx)$.
 	\end{enumerate}
+	Alternatively, for 2, 3 and 4 one can simply evaluate both sides on an orthonormal eigenbasis.
 \end{proof}
 
 
@@ -2904,7 +2905,8 @@ This set-up can be used to compute accurate approximations in many contexts.
 		  \item If $\rT$ is an orthogonal projection, prove that $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$.
 		 	\item Give an example of a projection for which the inequality in (a) is \emph{false.}
 		 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}=\Nm{\vx}$ for all $\vx\in V$, what is $\rT$?
-		 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$, prove that $\rT$ is an \emph{orthogonal} projection.
+		 	\item If $\rT$ is a projection for which $\Nm{\rT(\vx)}\le\Nm{\vx}$ for all $\vx\in V$, prove that $\rT$ is an \emph{orthogonal} projection.\par
+		 	(\emph{Hint: evaluate $\Nm{\rT(\vr-\lambda\vn)}^2$ where $\vr\in \cR(\rT)$ and $\vn\in\cN(\rT)$ are unit vectors\ldots})
 		\end{enumerate}
 		
 		
@@ -2953,6 +2955,8 @@ This set-up can be used to compute accurate approximations in many contexts.
 
 
 \subsection{The Singular Value Decomposition and the Pseudoinverse}
+
+INCLUDE more clearly the $P=A(A^*A)^{-1}A^*$ formula when $A$ has linearly indep columns (is injective).
 
 Given $\rT\in\cL(V,W)$ between finite-dimensional inner product spaces, the overarching concern of this chapter is the existence and computation of bases $\beta,\gamma$ of $V,W$ with two properties:
 \begin{itemize}
