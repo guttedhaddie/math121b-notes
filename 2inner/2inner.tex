@@ -1,4 +1,4 @@
-\graphicspath{{2inner/asy/}}
+\graphicspath{{2inner/asy/},{2inner/xy/}}
 
 \setcounter{section}{1}
 
@@ -2952,16 +2952,16 @@ This set-up can be used to compute accurate approximations in many contexts.
 \end{exercises}
 	
 
+
 \clearpage
 	
 
-\iffalse
 
 \subsection{The Singular Value Decomposition and the Pseudoinverse}
 
-INCLUDE more clearly the $P=A(A^*A)^{-1}A^*$ formula when $A$ has linearly indep columns (is injective).
+%INCLUDE more clearly the $P=A(A^*A)^{-1}A^*$ formula when $A$ has linearly indep columns (is injective).
 
-Given $\rT\in\cL(V,W)$ between finite-dimensional inner product spaces, the overarching concern of this chapter is the existence and computation of bases $\beta,\gamma$ of $V,W$ with two properties:
+Given a linear map $\rT\in\cL(V,W)$ between finite-dimensional inner product spaces, the overarching concern of this chapter is the existence and computation of bases $\beta,\gamma$ of $V,W$ with two properties:
 \begin{itemize}
   \item That $\beta,\gamma$ be \emph{orthonormal,} thus facilitating easy calculation within $V,W$;
   \item That the matrix $[\rT]_\beta^\gamma$ be as simple as possible.
@@ -2970,229 +2970,307 @@ Given $\rT\in\cL(V,W)$ between finite-dimensional inner product spaces, the over
 We have already addressed two special cases:
 \begin{description}
 	\item[Spectral Theorem] When $V=W$ and $\rT$ is normal/self-adjoint, $\exists\beta=\gamma$ such that $[\rT]_\beta$ is diagonal.
-	\item[Schur's Lemma] When $V=W$ and $p(t)$ splits, $\exists\beta=\gamma$ such that $[\rT]_\beta$ is upper triangular.	
+	\item[Schur's Lemma] When $V=W$ and $p(t)$ splits, $\exists\beta=\gamma$ such that $[\rT]_\beta$ is upper-triangular.	
 \end{description}
 
-In this section we allow $V\neq W$ and $\beta\neq\gamma$, and obtain a result that applies to any linear map between finite-dimensional inner product spaces.
+In this section we see what can be done when $V\neq W$ and allow $\beta\neq\gamma$. The result is an approach that applies to \emph{any} linear map between finite-dimensional inner product spaces.
 
 \begin{example}{}{svd1}
-Let $A=\begin{smatrix}
-3&1\\
-2&-2\\
-1&3
-\end{smatrix}$ and consider orthonormal bases $\beta=\{\vv_1,\vv_2\}$ of $\R^2$ and $\gamma=\{\vw_1,\vw_2,\vw_3\}$ of $\R^3$ respectively:
-\[\beta=\left\{\frac 1{\sqrt 2}\twovec 11,\frac 1{\sqrt 2}\twovec{-1}1\right\},\quad \smash{\gamma=\left\{\frac 1{\sqrt 2}\threevec 101,\frac 1{\sqrt 6}\threevec{-1}{-2}1, \frac 1{\sqrt 3}\threevec 1{-1}{-1}\right\}}\]
-Since $A\vv_1=4\vw_1$ and $A\vv_2=2\sqrt 3\vw_2$, whence $[\rL_A]_\beta^\gamma=\begin{smatrix}
-4&0\\
-0&2\sqrt 3\\
-0&0
-\end{smatrix}$ is almost diagonal.
+	Let $A=
+	\smash[b]{\begin{smatrix}
+		3&1\\
+		2&-2\\
+		1&3
+	\end{smatrix}}$
+	and consider the orthonormal bases $\beta=\{\vv_1,\vv_2\}$ of $\R^2$ and $\gamma=\{\vw_1,\vw_2,\vw_3\}$ of $\R^3$ respectively:
+	\[
+		\beta
+		=\left\{\frac 1{\sqrt 2}\twovec 11,\frac 1{\sqrt 2}\twovec{-1}1\right\},\quad 
+		\gamma
+		=\left\{\frac 1{\sqrt 2}\threevec 101,\frac 1{\sqrt 6}\threevec{-1}{-2}1, \frac 1{\sqrt 3}\threevec 1{-1}{-1}\right\}
+	\]
+	Since $A\vv_1=4\vw_1$ and $A\vv_2=2\sqrt 3\vw_2$, we see that $\smash[b]{[\rL_A]_\beta^\gamma=
+	\begin{smatrix}
+		4&0\\
+		0&2\sqrt 3\\
+		0&0
+	\end{smatrix}}$
+	is almost diagonal.
 \end{example}
 
-Our main result says that such bases always exist.
+Our main result says that such bases always exist!
+
 
 \begin{thm}{Singular Value Decomposition}{}
-Suppose $V,W$ are finite-dimensional inner product spaces and that $\rT\in\cL(V,W)$ has rank $r$. Then:
-
-\begin{enumerate}
-  \item There exist orthonormal bases $\beta=\{\vect{\vv}{n}\}$ of $V$ and $\gamma=\{\vect{\vw}{m}\}$ of $W$, and positive scalars $\sigma_1\ge\sigma_2\ge\cdots\ge \sigma_r$ such that
-\[\rT(\vv_j)=\begin{cases}
-	\sigma_j\vw_j&\text{if }j\le r\\
-	\V0&\text{otherwise}
-	\end{cases}
-	\qquad\text{equivalently}\quad [\rT]_\beta^\gamma=\begin{pmatrix}
-	\diag(\sigma_1,\ldots,\sigma_r)&O\\
-	O&O
-	\end{pmatrix}\]
-	\item Any such $\beta$ is an eigenbasis of $\rT^*\rT$, whence the scalars $\sigma_j$ are uniquely determined by $\rT$: indeed
-  \[\rT^*\rT(\vv_j)=\begin{cases}
-  \sigma_j^2\vv_j&\text{if }j\le r\\
-  \V0&\text{otherwise}
-  \end{cases}
-  \qquad\text{and}\qquad
-  \rT^*(\vw_j)=\begin{cases}
-  \sigma_j\vv_j&\text{if }j\le r\\
-  \V0&\text{otherwise}
-  \end{cases}\]
-  
-	\item If $A\in M_{m\times n}(\F)$ with $\Rank A=r$, then $A=P\Sigma Q^*$ where
-  \[\Sigma=[\rL_A]_\beta^\gamma=\begin{pmatrix}
-	\diag(\sigma_1,\ldots,\sigma_r)&O\\
-	O&O
-	\end{pmatrix},\quad P=(\vect{\vw}{m}),\quad Q=(\vect{\vv}{n})\]
-	Since the columns of $P,Q$ are orthonormal, these matrices are \emph{unitary.}
-\end{enumerate}
+	Suppose $V,W$ are finite-dimensional inner product spaces and that $\rT\in\cL(V,W)$ has rank $r$. Then:
+	\begin{enumerate}
+	  \item There exist orthonormal bases $\beta=\{\vect{\vv}{n}\}$ of $V$ and $\gamma=\{\vect{\vw}{m}\}$ of $W$, and positive scalars $\sigma_1\ge\sigma_2\ge\cdots\ge \sigma_r$ such that
+		\[
+			\rT(\vv_j)=
+			\begin{cases}
+				\sigma_j\vw_j&\text{if }j\le r\\
+				\V0&\text{otherwise}
+			\end{cases}
+			\qquad\text{equivalently}\quad 
+			[\rT]_\beta^\gamma=
+			\begin{pmatrix}
+				\diag(\sigma_1,\ldots,\sigma_r)&O\\
+				O&O
+			\end{pmatrix}
+		\]
+		\item Any such $\beta$ is an eigenbasis of $\rT^*\rT$, whence the scalars $\sigma_j$ are uniquely determined by $\rT$. Indeed
+	  \[
+	  	\rT^*\rT(\vv_j)=
+	  	\begin{cases}
+	  		\sigma_j^2\vv_j&\text{if }j\le r\\
+	  		\V0&\text{otherwise}
+	  	\end{cases}
+	  	\qquad\text{and}\qquad
+	  	\rT^*(\vw_j)=
+	  	\begin{cases}
+	  		\sigma_j\vv_j&\text{if }j\le r\\
+	  		\V0&\text{otherwise}
+	  	\end{cases}
+	  \]
+		\item If $A\in M_{m\times n}(\F)$ has $\Rank A=r$, then $A=P\Sigma Q^*$ where
+	  \[
+	  	\Sigma=[\rL_A]_\beta^\gamma=
+	  	\begin{pmatrix}
+				\diag(\sigma_1,\ldots,\sigma_r)&O\\
+				O&O
+			\end{pmatrix}
+			,\quad P=(\vect{\vw}{m}),\quad Q=(\vect{\vv}{n})
+		\]
+		Since the columns of $P,Q$ are orthonormal, both matrices are \emph{unitary.}
+	\end{enumerate}
 \end{thm}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{defn}{}{}
-The numbers $\sigma_1,\ldots,\sigma_r$ are the \emph{singular values} of $\rT$. If $\rT$ is not maximum rank, we have additional zero singular values $\sigma_{r+1}=\cdots=\sigma_{\min(m,n)}=0$.
+	The numbers $\sigma_1,\ldots,\sigma_r$ are the \emph{singular values} of $\rT$. If $\rT$ is not maximum rank, we have additional zero singular values $\sigma_{r+1}=\cdots=\sigma_{\min(m,n)}=0$.
 \end{defn}
 
 
-
 \begin{description}
-  \item[\normalfont\emph{Freedom of Choice}\quad] While the singular values are uniquely determined, there is often significant freedom regarding the bases $\beta$ and $\gamma$, particularly if any eigenspace of $\rT^*\rT$ has dimension $\ge 2$.
-  
-  \item[\normalfont\emph{Special Case (Spectral Theorem)}\quad] If $V=W$ and $\rT$ is normal/self-adjoint, we may \emph{choose} $\beta$ to be an eigenbasis of $\rT$, then $\sigma_j$ is the \emph{modulus} of the corresponding eigenvalue (see Exercise \ref{exs:specsingular}).
-  
-  \item[\normalfont\emph{Rank-one decomposition}\quad] If we write $g_j:V\to\F$ for the linear map $g_j:\vv\mapsto \ip{\vv,\vv_j}$ (recall Riesz's Theorem), then the singular value decomposition says
-  \[\rT=\sum_{j=1}^r \sigma_j\vw_jg_j\quad \text{that is}\quad \rT(\vv)=\sum_{j=1}^r \sigma_j\ip{\vv,\vv_j}\vw_j\]
-  thus rewriting $\rT$ as a linear combination of rank-one maps ($\vw_jg_j:V\to W$).\\
-  For matrices, $g_j$ is simply multiplication by the row vector $\vv_j^*$ and we may write\footnote{Since $\beta$ is orthonormal, it is common to write $\vv_j^*$ for the map $g_j=\langle\quad,\vv_j\rangle$ in general contexts. To those familiar with the \emph{dual space} $V^*=\cL(V,\F)$, the set $\{g_1,\ldots,g_n\}=\{\vv_1^*,\ldots,\vv_n^*\}$ is the \emph{dual basis} to $\beta$. In this course $\vv_j^*$ will only ever mean the \emph{conjugate-transpose} of a \emph{column vector} in $\F^n$. This discussion is part of why physicists write inner products differently!}
-	\[A=\sum_{j=1}^r\sigma_j\vw_j\vv_j^*\]
+  \item[Special Case (Spectral Theorem)] If $V=W$ and $\rT$ is normal/self-adjoint, we may \emph{choose} $\beta$ to be an eigenbasis of $\rT$, then $\sigma_j$ is the \emph{modulus} of the corresponding eigenvalue (Exercise \ref{exs:specsingular}).
+  \item[Rank-one Decomposition] If we write $g_j:V\to\F$ for the linear map $g_j:\vv\mapsto \ip{\vv,\vv_j}$ (Theorem \ref{thm:riesz}), then the singular value decomposition says
+  \[
+  	\rT=\sum_{j=1}^r \sigma_j\vw_jg_j
+  	\quad \text{that is}\quad 
+  	\rT(\vv)=\sum_{j=1}^r \sigma_j\ip{\vv,\vv_j}\vw_j
+  \]
+  thus rewriting $\rT$ as a linear combination of rank-one maps ($\vw_jg_j:V\to W$). For matrices, $g_j$ is just multiplication by the row vector $\vv_j^*$ and we may write\footnote{%
+  	Since $\beta$ is orthonormal, it is common to write $\vv_j^*$ for the map $g_j=\langle\quad,\vv_j\rangle$ in general contexts. To those familiar with the \emph{dual space} $V^*=\cL(V,\F)$, the set $\{g_1,\ldots,g_n\}=\{\vv_1^*,\ldots,\vv_n^*\}$ is the \emph{dual basis} to $\beta$. In this course $\vv_j^*$ will only ever mean the \emph{conjugate-transpose} of a \emph{column vector} in $\F^n$. This discussion is part of why physicists write inner products differently!%
+ 	}
+	\[
+		A=\sum_{j=1}^r\sigma_j\vw_j\vv_j^*
+	\]
+  \item[Freedom of Choice] While the singular values are uniquely determined, there is often some freedom regarding $\beta$ and $\gamma$, particularly if an eigenspace of $\rT^*\rT$ has dimension $\ge 2$. The block-diagonal matrix $[\rT]_\beta^\gamma$ remains independent of the bases chosen.
 \end{description}
 
 \begin{example*}{\ref{ex:svd1} cont}
-We apply the method in the Theorem to $A=\begin{smatrix}
-3&1\\
-2&-2\\
-1&3
-\end{smatrix}$.\smallbreak
-The symmetric(!) matrix $A^TA=\begin{smatrix}
-	14&2\\2&14
-  \end{smatrix}$ has eigenvalues $\sigma_1^2=16$, $\sigma_2^2=12$ and orthonormal eigenvectors $\vv_1=\frac 1{\sqrt 2}\stwovec 11$, $\vv_2=\frac 1{\sqrt 2}\stwovec{-1}1$. The singular values are therefore $\sigma_1=4,\sigma_2=2\sqrt 3$. Now compute
-  \[\vw_1=\frac 1{\sigma_1}A\vv_1=\frac 1{4\sqrt 2}A\twovec 11=\frac 1{\sqrt 2}\threevec 101,\quad \vw_2=\frac 1{\sigma_2}A\vv_2 =\frac 1{2\sqrt 6}A\twovec{-1}1=\frac 1{\sqrt 6}\threevec{-1}{-2}1\]
-  and observe that these are orthonormal. Finally choose $\vw_3=\frac 1{\sqrt 3}\sthreevec 1{-1}{-1}$ to complete the orthonormal basis $\gamma$ of $\R^3$. A singular value decomposition is therefore
+	We apply the method in the Theorem to the matrix $A$.\smallbreak
+	The symmetric(!) matrix $A^TA=
+	\begin{smatrix}
+		14&2\\
+		2&14
+  \end{smatrix}$ 
+  has eigenvalues $\sigma_1^2=16$, $\sigma_2^2=12$ and orthonormal eigenvectors $\vv_1=\frac 1{\sqrt 2}\stwovec 11$, $\vv_2=\frac 1{\sqrt 2}\stwovec{-1}1$. The singular values are therefore $\sigma_1=4,\sigma_2=2\sqrt 3$. Moreover
   \[
-  A=\begin{pmatrix}
-  3&1\\2&-2\\1&3
-  \end{pmatrix}=P\Sigma Q^*
-  =\begin{pmatrix}
-  \frac 1{\sqrt 2}&\frac{-1}{\sqrt 6}&\frac 1{\sqrt 3}\\
-  0&\frac{-2}{\sqrt 6}&\frac{-1}{\sqrt 3}\\
-  \frac 1{\sqrt 2}&\frac{1}{\sqrt 6}&\frac{-1}{\sqrt 3}  
-  \end{pmatrix}
-  \begin{pmatrix}
-  4&0\\0&2\sqrt 3\\0&0
-  \end{pmatrix}
-  \begin{pmatrix}
-  \frac 1{\sqrt 2}&\frac 1{\sqrt 2}\\\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
-  \end{pmatrix}
-	\]
-	By expanding the decomposition, $A$ is expressed as the sum of rank-one matrices:
-	\[\sigma_1\vw_1\vv_1^T+\sigma_2\vw_2\vv_2^T =4\threevec{\frac 1{\sqrt 2}}0{\frac 1{\sqrt 2}}
-	\begin{pmatrix}
-	\frac 1{\sqrt 2}&\frac 1{\sqrt 2}
-	\end{pmatrix}
-	+
-	2\sqrt 3\threevec{\frac{-1}{\sqrt 6}}{\frac{-2}{\sqrt 6}}{\frac{1}{\sqrt 6}}
-	\begin{pmatrix}
-	\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
-	\end{pmatrix}
-  =\begin{pmatrix}
-  2&2\\0&0\\2&2
-  \end{pmatrix}
-  +
-  \begin{pmatrix}
-  1&-1\\2&-2\\-1&1
-  \end{pmatrix}\]
+  	\vw_1=\frac 1{\sigma_1}A\vv_1=\frac 1{4\sqrt 2}A\twovec 11=\frac 1{\sqrt 2}\threevec 101,\quad 
+  	\vw_2=\frac 1{\sigma_2}A\vv_2 =\frac 1{2\sqrt 6}A\twovec{-1}1=\frac 1{\sqrt 6}\threevec{-1}{-2}1
+  \]
+  are orthonormal; choose $\smash[b]{\vw_3=\frac 1{\sqrt 3}\sthreevec 1{-1}{-1}}$ to complete the orthonormal basis $\gamma$ of $\R^3$. A singular value decomposition is therefore
+	\[
+	  A=
+	  \begin{pmatrix}
+	  	3&1\\
+	  	2&-2\\
+	  	1&3
+	  \end{pmatrix}
+	  =P\Sigma Q^*
+	  =\begin{pmatrix}
+		  \frac 1{\sqrt 2}&\frac{-1}{\sqrt 6}&\frac 1{\sqrt 3}\\
+		  0&\frac{-2}{\sqrt 6}&\frac{-1}{\sqrt 3}\\
+		  \frac 1{\sqrt 2}&\frac{1}{\sqrt 6}&\frac{-1}{\sqrt 3}  
+	  \end{pmatrix}
+	  \begin{pmatrix}
+	  	4&0\\
+	  	0&2\sqrt 3\\
+	  	0&0
+	  \end{pmatrix}
+	  \begin{pmatrix}
+	  	\frac 1{\sqrt 2}&\frac 1{\sqrt 2}\\
+	  	\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
+	  \end{pmatrix}
+		\]
+		By expanding the decomposition, $A$ is expressed as a sum of rank-one matrices:
+		\[
+			A=\sigma_1\vw_1\vv_1^T+\sigma_2\vw_2\vv_2^T 
+			=4\threevec{\frac 1{\sqrt 2}}0{\frac 1{\sqrt 2}}
+			\begin{pmatrix}
+				\frac 1{\sqrt 2}&\frac 1{\sqrt 2}
+			\end{pmatrix}
+			+
+			2\sqrt 3\threevec{\frac{-1}{\sqrt 6}}{\frac{-2}{\sqrt 6}}{\frac{1}{\sqrt 6}}
+			\begin{pmatrix}
+				\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
+			\end{pmatrix}
+		  =\begin{pmatrix}
+		  	2&2\\
+		  	0&0\\
+		  	2&2
+		  \end{pmatrix}
+		  +
+		  \begin{pmatrix}
+		  	1&-1\\
+		  	2&-2\\
+		  	-1&1
+		  \end{pmatrix}
+	  \]
 \end{example*}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{proof}
-\begin{enumerate}
-  \item Since $\rT^*\rT$ is self-adjoint, the spectral theorem says it has an orthonormal basis of eigenvectors $\beta=\{\vect{\vv}{n}\}$. If $\rT^*\rT(\vv_j)=\lambda_j\vv_j$, then
-	\[\ip{\rT(\vv_j),\rT(\vv_k)}=\ip{\rT^*\rT(\vv_j),\vv_k} =\lambda_j\ip{\vv_j,\vv_k} =\begin{cases}
-	\lambda_j&\text{if }j=k\\
-	0&\text{if }j\neq k
-	\end{cases} \tag{$\ast$}\]
-	whence every eigenvalue is a non-negative real number: $\lambda_j=\Nm{\rT(\vv_j)}^2\ge 0$.\\
-	Since $\Rank\rT^*\rT=\Rank\rT=r$ (Exercise \ref{exs:ranktstart}), exactly $r$ eigenvalues are non-zero; by reordering basis vectors if necessary, we may assume
-	\[\lambda_1\ge\cdots\ge\lambda_r>0\]
-	If $j\le r$, define $\sigma_j:=\sqrt{\lambda_j}>0$ and $\vw_j:=\frac 1{\sigma_j}\rT(\vv_j)$, then the set $\{\vect{\vw}{r}\}$ is orthonormal ($\ast$). If necessary, extend this to an orthonormal basis $\gamma$ of $W$.
-	\item If orthonormal bases $\beta$ and $\gamma$ exist such that $[\rT]_\beta^\gamma=\begin{smatrix}
-	\diag(\sigma_1,\ldots,\sigma_r)&O\\
-	O&O
-	\end{smatrix}$, then $[\rT^*]_\gamma^\beta$ is \emph{essentially the same matrix} just that its dimensions have been reversed:
-	\[[\rT^*]_\gamma^\beta=\begin{pmatrix}
-	\diag(\sigma_1,\ldots,\sigma_r)&O\\
-	O&O
-	\end{pmatrix} \implies \rT^*\rT=\begin{pmatrix}
-	\diag(\sigma_1^2,\ldots,\sigma_r^2)&O\\
-	O&O
-	\end{pmatrix}\]
-	whence $\rT^*$ and $\rT^*\rT$ are as claimed.
-	
-% 	\item This is straightforward given part 1.	Observe that
-% 	\[\ip{\rT^*(\vw_j),\vv_k}=\ip{\vw_j,\rT(\vv_k)}=\begin{cases}
-% 	\sigma_j&\text{if $j=k$ and $k\le r$}\\
-% 	0&\text{otherwise}
-% 	\end{cases}\]
-% 	Since $\beta$ is a basis, it follows that
-% 	\[
-% 	\rT^*(\vw_j)=\begin{cases}
-% 	\sigma_j\vv_j&\text{if $j\le r$}\\
-% 	\V0&\text{otherwise}
-% 	\end{cases}
-% 	\]
-% 	We conclude that $\rT^*\rT(\vv_j)=\sigma^2_j\vv_j$.
-	\item This is merely part 1 in the context of $\rT=\rL_A\in\cL(\F^n,\F^m)$. The orthonormal bases $\beta,\gamma$ consist of \emph{column vectors} and so the (change of co-ordinate) matrices $P,Q$ are unitary.\qedhere
-\end{enumerate}
+	Everything depends on the Spectral Theorem (\ref{thm:spec})!
+	\begin{enumerate}
+	  \item $\rT^*\rT$ is self-adjoint and therefore has an orthonormal basis of eigenvectors $\beta=\{\vect{\vv}{n}\}$. If $\rT^*\rT(\vv_j)=\lambda_j\vv_j$, then
+		\[
+			\ip{\rT(\vv_j),\rT(\vv_k)}=\ip{\rT^*\rT(\vv_j),\vv_k} =\lambda_j\ip{\vv_j,\vv_k} =
+			\begin{cases}
+				\lambda_j&\text{if }j=k\\
+				0&\text{if }j\neq k
+			\end{cases} 
+			\tag{$\ast$}
+		\]
+		In particular, every eigenvalue is a \emph{non-negative real number}: $\lambda_j=\Nm{\rT(\vv_j)}^2\ge 0$.\par
+		Since $\Rank\rT^*\rT=\Rank\rT=r$ (Exercise \ref{exs:ranktstart}), exactly $r$ eigenvalues are non-zero. By reordering the eigenbasis if necessary, we may assume
+		\[
+			\lambda_1\ge\cdots\ge\lambda_r>0
+		\]
+		If $j\le r$, define $\sigma_j:=\sqrt{\lambda_j}>0$ and $\vw_j:=\frac 1{\sigma_j}\rT(\vv_j)$, then the set $\{\vect{\vw}{r}\}$ is orthonormal ($\ast$). If necessary, extend this to an orthonormal basis $\gamma$ of $W$.
+		
+		\item If orthonormal bases $\beta$ and $\gamma$ exist such that $[\rT]_\beta^\gamma=
+		\begin{smatrix}
+			\diag(\sigma_1,\ldots,\sigma_r)&O\\
+			O&O
+		\end{smatrix}$,
+		then $[\rT^*]_\gamma^\beta$ is \emph{essentially the same matrix} just that its dimensions have been reversed $(m\times n\to n\times m$). But then
+		\[
+			[\rT^*]_\gamma^\beta=
+			\begin{pmatrix}
+				\diag(\sigma_1,\ldots,\sigma_r)&O\\
+				O&O
+			\end{pmatrix}
+			\implies \rT^*\rT=
+			\begin{pmatrix}
+				\diag(\sigma_1^2,\ldots,\sigma_r^2)&O\\
+				O&O
+			\end{pmatrix}
+		\]
+		whence $\rT^*$ and $\rT^*\rT$ are as claimed.
+		
+		\item This is merely part 1 in the context of $\rT=\rL_A\in\cL(\F^n,\F^m)$. The orthonormal bases $\beta,\gamma$ are column vectors and so the (change of co-ordinate) matrices $P,Q$ are unitary.\qedhere
+	\end{enumerate}
 \end{proof}
 
 
-
-
 \begin{examples}{}{derivpseudo}
-\exstart The matrix $A=\begin{smatrix}2&3\\0&2\end{smatrix}$ has $A^TA=\begin{smatrix}
-  4&6\\6&13
-  \end{smatrix}$ with eigenvalues $\sigma_1^2=16$ and $\sigma_2^2=1$ and orthonormal eigenbasis
-	\[\beta=\left\{\frac 1{\sqrt 5}\twovec 1{2},\frac 1{\sqrt 5}\twovec{-2}1\right\}\]
-	The singular values are therefore $\sigma_1=4$ and $\sigma_2=1$, from which we obtain
-	\[\gamma=\left\{\frac 1{\sigma_1}A\vv_1,\frac 1{\sigma_2}A\vv_2\right\}=\left\{\frac 1{\sqrt 5}\twovec 2{1},\frac 1{\sqrt 5}\twovec{-1}2\right\}\]
-	and the decomposition
-	\[A=P\Sigma Q^*=
-	\begin{pmatrix}
-  \frac 2{\sqrt 5}&\frac{-1}{\sqrt 5}\\
-  \frac 1{\sqrt 5}&\frac 2{\sqrt 5}  
-  \end{pmatrix}
-  \begin{pmatrix}
-  4&0\\0&1
-  \end{pmatrix}
-  \begin{pmatrix}
-  \frac 1{\sqrt 5}&\frac 2{\sqrt 5}\\
-  \frac{-2}{\sqrt 5}&\frac 1{\sqrt 5}  
-  \end{pmatrix}\]
-  Multiplying out, we may write $A$ as a sum of rank-one matrices
-  \[A=\frac 45\twovec 21\begin{pmatrix}
-  1&2
-  \end{pmatrix}
-  +
-  \frac 15\twovec{-1}2\begin{pmatrix}
-  -2&1
-  \end{pmatrix}
-  =\frac 45\begin{pmatrix}
-  2&4\\
-  1&2
-  \end{pmatrix}
-  +
-  \frac 15\begin{pmatrix}
-  2&-1\\-4&2
-  \end{pmatrix}\]
+	\exstart The matrix $A=
+	\begin{smatrix}
+		2&3\\
+		0&2
+	\end{smatrix}$ has $A^TA=
+	\begin{smatrix}
+  	4&6\\
+  	6&13
+  \end{smatrix}$
+  with eigenvalues $\sigma_1^2=16$ and $\sigma_2^2=1$ and orthonormal eigenbasis\vspace{-15pt}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[]\[
+			\beta=\left\{\frac 1{\sqrt 5}\twovec 1{2},\frac 1{\sqrt 5}\twovec{-2}1\right\}
+		\]
+		The singular values are therefore $\sigma_1=4$ and $\sigma_2=1$, from which we obtain
+		\[
+			\gamma=\left\{\frac 1{\sigma_1}A\vv_1,\frac 1{\sigma_2}A\vv_2\right\}
+			=\left\{\frac 1{\sqrt 5}\twovec 2{1},\frac 1{\sqrt 5}\twovec{-1}2\right\}
+		\]
+		and the singular value decomposition
+		\[
+			A=P\Sigma Q^*=
+			\begin{pmatrix}
+			  \frac 2{\sqrt 5}&\frac{-1}{\sqrt 5}\\
+			  \frac 1{\sqrt 5}&\frac 2{\sqrt 5}  
+		  \end{pmatrix}
+		  \begin{pmatrix}
+		  	4&0\\
+		  	0&1
+		  \end{pmatrix}
+		  \begin{pmatrix}
+		  	\frac 1{\sqrt 5}&\frac 2{\sqrt 5}\\
+		  	\frac{-2}{\sqrt 5}&\frac 1{\sqrt 5}  
+		  \end{pmatrix}
+		\]
+	  Multiply this out to express $A$ as a sum of rank-one matrices
+	  \[
+	  	A=\frac 45\twovec 21
+	  	\begin{pmatrix}
+	  		1&2
+	  	\end{pmatrix}
+	  	+
+	  	\frac 15\twovec{-1}2
+	  	\begin{pmatrix}
+	  		-2&1
+	  	\end{pmatrix}
+	  	=\frac 45
+	  	\begin{pmatrix}
+			  2&4\\
+			  1&2
+	  	\end{pmatrix}
+	  	+
+	  	\frac 15
+	  	\begin{pmatrix}
+	  		2&-1\\
+	  		-4&2
+	  	\end{pmatrix}
+	  \]
   
-  \goodbreak
   
-\begin{enumerate}\setcounter{enumi}{1}
-  \item\label{ex:derivpseudo2} The decomposition can be very messy to find in non-matrix situations. Here is a classic example where we simply observe the structure directly.\smallbreak
-  The $L^2$ inner product $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$ on $P_2(\R)$ and $P_1(\R)$ admits orthonormal bases
-\[\beta=\left\{\sqrt 5(6x^2-6x+1),\sqrt 3(2x-1),1\right\},\qquad \gamma=\left\{\sqrt 3(2x-1),1\right\}\]
-Let $\rT=\diff x$ be the derivative operator. The matrix of $\rT$ is already in the required form!
-\[[\rT]_\beta^\gamma=\begin{pmatrix}
-2\sqrt{15}&0&0\\
-0&2\sqrt 3&0
-\end{pmatrix}\]
-thus $\beta,\gamma$ are suitable bases and the singular values of $\rT$ are $\sigma_1=2\sqrt{15}$ and $\sigma_2=2\sqrt 3$.\smallbreak
-Since $\beta,\gamma$ are orthonormal, we could have used the adjoint method to evaluate this directly,
-\[[\rT^*\rT]_\beta=([\rT]_\beta^\gamma)^T[\rT]_\beta^\gamma=\begin{pmatrix}
-60&0&0\\
-0&12&0\\
-0&0&0
-\end{pmatrix}\implies \sigma_1^2=60,\ \sigma_2^2=12\]
-Up to sign, $\{[\vv_1]_\beta,[\vv_2]_\beta,[\vv_3]_\beta\}$ is therefore forced to be the standard ordered basis of $\R^3$, confirming that $\beta$ was the correct basis of $P_2(\R)$ all along! %Of course, both approaches were contingent on having orthonormal bases in the first place\ldots
-\end{enumerate}
+  \pagebreak[3]
+  
+	  \item\label{ex:derivpseudo2} A decomposition can be very messy to find in non-matrix situations. Here is a classic example where we simply observe the structure directly.\smallbreak
+	  The $L^2$ inner product $\ip{f,g}=\int_0^1f(x)g(x)\,\dx$ on $P_2(\R)$ and $P_1(\R)$ admits orthonormal bases
+		\[
+			\beta=\left\{\sqrt 5(6x^2-6x+1),\sqrt 3(2x-1),1\right\},\qquad 
+			\gamma=\left\{\sqrt 3(2x-1),1\right\}
+		\]
+		If $\rT=\diff x$ is the derivative operator, then the matrix of $\rT$ is already in the required form!
+		\[
+			[\rT]_\beta^\gamma=
+			\begin{pmatrix}
+				2\sqrt{15}&0&0\\
+				0&2\sqrt 3&0
+			\end{pmatrix}
+		\]
+		Thus $\beta,\gamma$ are suitable bases and the singular values of $\rT$ are $\sigma_1=2\sqrt{15}$ and $\sigma_2=2\sqrt 3$.\smallbreak
+		Since $\beta,\gamma$ are orthonormal, we could have used the adjoint method to evaluate this directly,
+		\[
+			[\rT^*\rT]_\beta=([\rT]_\beta^\gamma)^T[\rT]_\beta^\gamma=
+			\begin{pmatrix}
+				60&0&0\\
+				0&12&0\\
+				0&0&0
+			\end{pmatrix}
+			\implies \sigma_1^2=60,\ \sigma_2^2=12
+		\]
+		Up to sign, $\{[\vv_1]_\beta,[\vv_2]_\beta,[\vv_3]_\beta\}$ is therefore forced to be the standard ordered basis of $\R^3$, confirming that $\beta$ was the correct basis of $P_2(\R)$ all along! %Of course, both approaches were contingent on having orthonormal bases in the first place\ldots
+	\end{enumerate}
 \end{examples}
 
 
@@ -3237,112 +3315,137 @@ Up to sign, $\{[\vv_1]_\beta,[\vv_2]_\beta,[\vv_3]_\beta\}$ is therefore forced 
 
 \boldsubsubsection{The Pseudoinverse}
 
-The singular value decomposition of a map $\rT\in\cL(V,W)$ gives rise to a natural map from $W$ back to $V$. This map behaves somewhat like an inverse even when the operator is non-invertible!
+The singular value decomposition of $\rT\in\cL(V,W)$ gives rise to a natural function from $W$ back to $V$. This map behaves somewhat like an inverse even when $\rT$ is non-invertible!
 
 \begin{defn}{}{}
-Given the singular value decomposition of a rank $r$ map $\rT\in\cL(V,W)$, the \emph{pseudoinverse} of $\rT$ is the linear map $\rT^\dag\in\cL(W,V)$ defined by
-  \[\rT^\dag(\vw_j)=\begin{cases}
-  \frac 1{\sigma_j}\vv_j&\text{if }j\le r\\
-  \V0&\text{otherwise}
-  \end{cases}\]
+	Given the singular value decomposition of a rank $r$ map $\rT\in\cL(V,W)$, the \emph{pseudoinverse} of $\rT$ is the linear map $\rT^\dag\in\cL(W,V)$ defined by
+	\[
+		\rT^\dag(\vw_j)=
+	  \begin{cases}
+	  	\frac 1{\sigma_j}\vv_j&\text{if }j\le r\\
+	  	\V0&\text{otherwise}
+	  \end{cases}
+	\]
 \end{defn}
 
 Restricted to $\Span\{\vect vr\}\to\Span\{\vect wr\}$, the pseudoinverse really does invert $\rT$:
 
 \begin{minipage}[t]{0.34\linewidth}\vspace{0pt}
-\begin{gather*}
-\rT^\dag\rT(\vv_j)=\begin{cases}
-  \vv_j&\text{if }j\le r\\
-  \V0&\text{otherwise}
-  \end{cases}\\[10pt]
-  \rT\rT^\dag(\vw_j)=\begin{cases}
-   \vw_j&\text{if }j\le r\\
-   \V0&\text{otherwise}
-   \end{cases}
-\end{gather*}
-\end{minipage}\begin{minipage}[t]{0.65\linewidth}\vspace{-2pt}
-\flushright$\xymatrix @C0pt @R23pt{
-	V \ar@<-0.4ex>@[red][dd]_{\textcolor{red}{\rT}}
-		& = 
-		& \underbrace{\Span\{\vect vr\}}_{\cN(\rT)^\perp=\cR(\rT^\dag)} \ar@<-0.4ex>@[red]@{-}[d]
-		& \oplus
-		& \underbrace{\Span\{\vv_{r+1},\ldots,\vv_n\}}_{\cN(\rT)=\cR(\rT^\dag)^\perp} \ar@[red][ddrr]
-		&& \{\V0_V\} 
-		\\
-&&\text{bijection} \ar@<-0.4ex>@[blue][u] \ar@<-0.4ex>@[red][d]&&&\\
-	W \ar@<-0.4ex>@[blue][uu]_{\textcolor{blue}{\rT^\dag}}
-		& =
-		& \overbrace{\Span\{\vect wr\}}^{\cR(\rT)=\cN(\rT^\dag)^\perp} \ar@<-0.4ex>@[blue]@{-}[u]
-		& \oplus
-		& \overbrace{\Span\{\vw_{r+1},\ldots,\vw_m\}}^{\cR(\rT)^\perp=\cN(\rT^\dag)} \ar@[blue][uurr]
-		&& \{\V0_W\}
-	}
-$
+	\begin{gather*}
+		\rT^\dag\rT(\vv_j)=
+		\begin{cases}
+		  \vv_j&\text{if }j\le r\\
+		  \V0&\text{otherwise}
+		\end{cases}
+		\\[10pt]
+		\rT\rT^\dag(\vw_j)=
+		\begin{cases}
+		  \vw_j&\text{if }j\le r\\
+		  \V0&\text{otherwise}
+		\end{cases}
+	\end{gather*}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.65\linewidth}\vspace{-2pt}
+	\hfill\includegraphics{svd}
+% 	$\xymatrix @C0pt @R23pt{
+% 	V \ar@<-0.4ex>@[red][dd]_{\textcolor{red}{\rT}}
+% 		& = 
+% 		& \underbrace{\Span\{\vect vr\}}_{\cN(\rT)^\perp=\cR(\rT^\dag)} \ar@<-0.4ex>@[red]@{-}[d]
+% 		& \oplus
+% 		& \underbrace{\Span\{\vv_{r+1},\ldots,\vv_n\}}_{\cN(\rT)=\cR(\rT^\dag)^\perp} \ar@[red][ddrr]
+% 		&& \{\V0_V\} 
+% 		\\
+% &&\text{bijection} \ar@<-0.4ex>@[blue][u] \ar@<-0.4ex>@[red][d]&&&\\
+% 	W \ar@<-0.4ex>@[blue][uu]_{\textcolor{blue}{\rT^\dag}}
+% 		& =
+% 		& \overbrace{\Span\{\vect wr\}}^{\cR(\rT)=\cN(\rT^\dag)^\perp} \ar@<-0.4ex>@[blue]@{-}[u]
+% 		& \oplus
+% 		& \overbrace{\Span\{\vw_{r+1},\ldots,\vw_m\}}^{\cR(\rT)^\perp=\cN(\rT^\dag)} \ar@[blue][uurr]
+% 		&& \{\V0_W\}
+% 	}
+% $
 \end{minipage}\smallbreak
-Otherwise said, the combinations are \emph{orthogonal projections}: $\rT^\dag\rT=\pi^\perp_{\cN(\rT)}$ and $\rT\rT^\dag=\pi_{\cR(\rT)}$\smallbreak
+Otherwise said, the combinations are \emph{orthogonal projections}: $\rT^\dag\rT=\pi^\perp_{\cN(\rT)}$ and $\rT\rT^\dag=\pi_{\cR(\rT)}$
 
-\pagebreak
-Given the singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinverse is that of matrix of $(\rL_A)^\dag$, namely%\footnote{This \emph{isn't} the singular value decomposition of $A^\dag$ since the values $\sigma_1^{-1}\le\sigma_2^{-1}\le\cdots\le\sigma_r^{-1}$ are in the wrong order!}
-\[A^\dag=\sum_{j=1}^r\frac 1{\sigma_j}\vv_j\vw_j^*=Q\Sigma^\dag P^* \quad\text{where}\quad\Sigma^\dag=\begin{pmatrix}
-	\diag(\sigma_1^{-1},\ldots,\sigma_r^{-1})&O\\
-	O&O
-	\end{pmatrix}\]
-	
-% 	Restricted to $\cN(\rT)^\perp=\Span\{\vect{\vv}{r}\}$ we obtain an isomorphism\\[-5pt]
-% 	\begin{minipage}[t]{0.55\linewidth}\vspace{-8pt}
-% 	\[\at{\rT}{\cN(\rT)^\perp}:\cN(\rT)^\perp\to\cR(\rT)=\Span\{\vect{\vw}{r}\} \]
-% 	with inverse $\at{\rT^\dag}{\cR(\rT)}:\cR(\rT)\to\cN(\rT)^\perp$.
-% 	Moreover, in terms of orthogonal projections,
-% 	\[\rT\rT^\dag=\pi_{\cR(\rT)}\quad\text{and}\quad \rT^\dag \rT=\pi^\perp_{\cN(\rT)}\]
-% 	\end{minipage}\begin{minipage}[t]{0.45\linewidth}\vspace{0pt}
-% 	\flushright\includegraphics{pseudo-commd}
-% 	\end{minipage}
+
+\pagebreak[3]
+
+
+Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinverse is%\footnote{This \emph{isn't} the singular value decomposition of $A^\dag$ since the values $\sigma_1^{-1}\le\sigma_2^{-1}\le\cdots\le\sigma_r^{-1}$ are in the wrong order!}
+\[
+	A^\dag=\sum_{j=1}^r\frac 1{\sigma_j}\vv_j\vw_j^*
+	=Q\Sigma^\dag P^* 
+	\quad\text{where}\quad
+	\Sigma^\dag=
+	\begin{pmatrix}
+		\diag(\sigma_1^{-1},\ldots,\sigma_r^{-1})&O\\
+		O&O
+	\end{pmatrix}
+\]
+
 
 \begin{examples}{}{}
-\exstart Again continuing Example \ref{ex:svd1}, $A=\begin{smatrix}
-  3&1\\2&-2\\1&3
-\end{smatrix}$ has pseudoinverse
+	\exstart (Example \ref{ex:svd1}) \ The matrix $A=
+	\smash[b]{\begin{smatrix}
+	  3&1\\
+	  2&-2\\
+	  1&3
+	\end{smatrix}}$
+	has pseudoinverse
   \begin{align*}
-  A^\dag&=\frac 1{\sigma_1}\vv_1\vw_1^*+\frac 1{\sigma_2}\vv_2\vw_2^*\\
-  &=\frac 1{4\sqrt 2\sqrt 2}\twovec 11(1\ 0\ 1) +\frac 1{2\sqrt 3\sqrt 2\sqrt 6}\twovec{-1}1(-1\ -2\ 1)\\
-  &=\frac 18\begin{pmatrix}
-  1&0&1\\1&0&1
-  \end{pmatrix}+\frac 1{12}\begin{pmatrix}
-  1&2&-1\\-1&-2&1
-  \end{pmatrix}
-  =\frac 1{24}
-  \begin{pmatrix}
-  5&4&1\\1&-4&5
-  \end{pmatrix}
+	  A^\dag
+	  &=\frac 1{\sigma_1}\vv_1\vw_1^*+\frac 1{\sigma_2}\vv_2\vw_2^*\\
+	  &=\frac 1{4\sqrt 2\sqrt 2}\twovec 11(1\ 0\ 1) 
+	  	+\frac 1{2\sqrt 3\sqrt 2\sqrt 6}\twovec{-1}1(-1\ -2\ 1)\\
+	  &=\frac 18
+	  \begin{pmatrix}
+	  	1&0&1\\
+	  	1&0&1
+	  \end{pmatrix}
+	  +\frac 1{12}
+	  \begin{pmatrix}
+	  	1&2&-1\\
+	  	-1&-2&1
+	  \end{pmatrix}
+	  =\frac 1{24}
+	  \begin{pmatrix}
+	  	5&4&1\\
+	  	1&-4&5
+	  \end{pmatrix}
   \end{align*}
-  which is exactly what we would have found by computing $A^\dag=Q\Sigma^\dag P^*$. Observe that
-  \[A^\dag A=
-  \begin{pmatrix}
-  1&0\\0&1
-  \end{pmatrix}\quad\text{and}\quad
-  AA^\dag=\frac 13
-  \begin{pmatrix}
-  2&1&1\\1&2&1\\1&1&2
-  \end{pmatrix}\]
-  are the orthogonal projection matrices onto the spaces $\cN(A)^\perp=\Span\{\vv_1,\vv_2\}=\R^2$ and $\cR(A)=\Span\{\vw_1,\vw_2\}\le\R^3$ respectively. Both spaces have dimension 2, since $\Rank A=2$.
-%    It also easy to check that
-%   \[A(A^TA)^{-1}A^T=AA^\dag\]
-% 	in accordance with our discussion of least-squares problems.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[] which is exactly what we would have found by computing $A^\dag=Q\Sigma^\dag P^*$. Observe also that
+	  \[
+	  	A^\dag A=
+	  	\begin{pmatrix}
+	  		1&0\\
+	  		0&1
+	  	\end{pmatrix}
+	  	\quad\text{and}\quad
+	  	AA^\dag=\frac 13
+	  	\begin{pmatrix}
+	  		2&1&1\\
+	  		1&2&1\\
+	  		1&1&2
+	  	\end{pmatrix}
+	  \]
+	  are the orthogonal projection matrices onto $\cN(A)^\perp=\Span\{\vv_1,\vv_2\}=\R^2$ and $\cR(A)=\Span\{\vw_1,\vw_2\}\le\R^3$ respectively. Both spaces have dimension two since $\Rank A=2$.
 	
-\begin{enumerate}\setcounter{enumi}{1}	
-	\item %Finally we check that the pseudoinverse of the derivative behaves roughly as expected.\smallbreak
-The pseudoinverse of $\rT=\diff x:P_2(\R)\to P_1(\R)$, as seen in Example \hyperref[ex:derivpseudo2]{\ref*{ex:derivpseudo}.\ref*{ex:derivpseudo2}}, maps
-\begin{gather*}
-\rT^\dag(\sqrt 3(2x-1))=\frac 1{2\sqrt{15}}\sqrt 5(6x^2-6x+1) =\frac 1{2\sqrt 3}(6x^2-6x+1)\\
-\rT^\dag(1)=\frac 1{2\sqrt 3}\sqrt 3(2x-1)=x-\frac 12\\
-\begin{aligned}
-\implies \rT^\dag(a+bx)&=\rT^\dag\left(a+\frac b2+\frac b{2\sqrt 3}\sqrt 3(2x-1)\right)\\
-&=\left(a+\frac b2\right)\left(x-\frac 12\right)+\frac b{12}(6x^2-6x+1)\\
-&=\frac b2x^2+ax-\frac a2-\frac b6
-\end{aligned}
-\end{gather*}
-The pseudoinverse of `differentiation' therefore returns a particular choice of anti-derivative, namely the unique anti-derivative of $a+bx$ lying in $\Span\{\sqrt 5(6x^2-6x+1),\sqrt 3(2x-1)\}$.
-\end{enumerate}
+		\item %Finally we check that the pseudoinverse of the derivative behaves roughly as expected.\smallbreak
+		(Example \ref*{ex:derivpseudo}.\ref{ex:derivpseudo2}) \ The pseudoinverse of $\rT=\diff x:P_2(\R)\to P_1(\R)$,
+		\begin{gather*}
+			\rT^\dag\big(\sqrt 3(2x-1)\big)=\frac 1{2\sqrt{15}}\sqrt 5(6x^2-6x+1) =\frac 1{2\sqrt 3}(6x^2-6x+1)\\
+			\rT^\dag(1)=\frac 1{2\sqrt 3}\sqrt 3(2x-1)=x-\frac 12\\
+			\begin{aligned}
+				\rT^\dag(a+bx)
+				&=\rT^\dag\left(a+\frac b2+\frac b{2\sqrt 3}\sqrt 3(2x-1)\right)
+				=\left(a+\frac b2\right)\left(x-\frac 12\right)+\frac b{12}(6x^2-6x+1)\\
+				&=\frac b2x^2+ax-\frac a2-\frac b6
+			\end{aligned}
+		\end{gather*}
+		The pseudoinverse of `differentiation' therefore returns a particular choice of anti-derivative, namely the unique anti-derivative of $a+bx$ lying in $\Span\big\{\sqrt 5(6x^2-6x+1),\sqrt 3(2x-1)\big\}$.
+	\end{enumerate}
 	
 \end{examples}
 
@@ -3393,10 +3496,12 @@ The pseudoinverse of `differentiation' therefore returns a particular choice of 
 %   -6&6&18\\17&8&-1
 %   \end{pmatrix}\threevec 100 =\frac 1{150}\twovec{-6}{17} \implies A\vx=\threevec{5/6}{2/6}{-1/6}\]
 
+
 \vfil\vfil
 
+
 \begin{exercises}
-\exstart\label{exs:pseudo1} Find the ingredients $\beta,\gamma$ and the singular values for each of the following:
+	\exstart\label{exs:pseudo1} Find the ingredients ($\beta,\gamma,\sigma_j$\ldots) of the singular value decompositions:
 \begin{enumerate}\setcounter{enumi}{1}
   \item[]\begin{enumerate}
     \item $\rT\in\cL(\R^2,\R^3)$ where $\rT\stwovec xy=\sthreevec x{x+y}{x-y}$
@@ -3404,24 +3509,35 @@ The pseudoinverse of `differentiation' therefore returns a particular choice of 
     \item $V=W=\Span\{1,\sin x,\cos x\}$ and $\ip{f,g}=\int_0^{2\pi}f(x)g(x)\,\dx$, with $\rT(f)=f'+2f$
   \end{enumerate}
   
-  \goodbreak
   
-  \item\label{exs:pseudo2} Find a singular value decomposition of each of the matrices:
+  \pagebreak[3]
+  
+  
+  \item\label{exs:pseudo2} Find a singular value decomposition of each matrix:
   \begin{enumerate}
-    \item $\begin{pmatrix}
-    1&1\\1&1\\-1&-1
-    \end{pmatrix}$\qquad
-    (b)\ \ $\begin{pmatrix}
-    1&0&1\\1&0&-1
-    \end{pmatrix}$\qquad
-    (c)\ \ $\begin{pmatrix}
-    1&1&1\\1&-1&0\\1&0&-1
-    \end{pmatrix}$
+    \item $\begin{smatrix}
+    	1&1\\
+    	1&1\\
+    	-1&-1
+    \end{smatrix}$\qquad
+    (b)\ \ $\begin{smatrix}
+    	1&0&1\\
+    	1&0&-1
+    \end{smatrix}$\qquad
+    (c)\ \ 
+    $\begin{smatrix}
+    	1&1&1\\
+    	1&-1&0\\
+    	1&0&-1
+    \end{smatrix}$
   \end{enumerate}
+  
   
   \item Find an explicit formula for $\rT^\dag$ for each map in Exercise \hyperref[exs:pseudo1]{1}.
   
-  \item Find the pseudoinverse of each of the matrix in Exercise \ref{exs:pseudo2}.
+  
+  \item Find the pseudoinverse of each matrix in Exercise \ref{exs:pseudo2}.
+  
   
   \item Suppose $A=P\Sigma Q^*$ is a singular value decomposition.
   \begin{enumerate}
@@ -3429,33 +3545,37 @@ The pseudoinverse of `differentiation' therefore returns a particular choice of 
     \item Explain why $A^\dag=Q\Sigma^\dag P^*$ \emph{isn't} a singular value decomposition of $A^\dag$; what would be the correct decomposition?   	(\emph{Hint: what is wrong with $\Sigma^\dag$?})
   \end{enumerate}
   
+  
   \item Suppose $\rT:V\to W$ is written according to the singular value theorem. Prove that $\gamma$ is a basis of eigenvectors of $\rT\rT^*$ with the \emph{same} non-zero eigenvalues as $\rT^*\rT$, including repetitions.
+  
   
   \item\label{exs:specsingular}\begin{enumerate}
     \item Suppose $\rT=\cL(V)$ is normal. Prove that each $\vv_j$ in the singular value theorem may be chosen to be an eigenvector of $\rT$ and that $\sigma_j$ is the \emph{modulus} of the corresponding eigenvalue.
-    \item Let $A=\begin{smatrix}
-    0&1\\1&0
-    \end{smatrix}$. Show that \emph{any} orthonormal basis $\beta$ of $\R^2$ satisfies the singular value theorem. What is $\gamma$ here? What is it about the \emph{eigenvalues} of $A$ that make this possible?\smallbreak
+    \item Let $A=
+    \begin{smatrix}
+    	0&1\\
+    	1&0
+    \end{smatrix}$. Show that \emph{any} orthonormal basis $\beta$ of $\R^2$ satisfies the singular value theorem. What is $\gamma$ here? What is it about the \emph{eigenvalues} of $A$ that make this possible?\par
     (\emph{Even when $\rT$ is self-adjoint, the vectors in $\beta$ need not also be eigenvectors of $\rT$!})
   \end{enumerate}
   
-  \item\label{exs:ranktstart} In the proof of the singular value theorem we claimed that $\Rank \rT^*\rT=\Rank\rT$. Verify this by checking explicitly that $\cN(\rT^*\rT)=\cN(\rT)$.\smallbreak
+  
+  \item\label{exs:ranktstart} In the proof of the singular value theorem we claimed that $\Rank \rT^*\rT=\Rank\rT$. Verify this by checking explicitly that $\cN(\rT^*\rT)=\cN(\rT)$.\par
   (\emph{This is circular logic if you use the decomposition, so you must do without!})
   
 
-  
- 
   \item Let $V,W$ be finite-dimensional inner product spaces and $\rT\in\cL(V,W)$. Prove:
   \begin{enumerate}
-    \item $\rT^*\rT\rT^\dag=\rT^\dag\rT\rT^*=\rT^*$.\\
+    \item $\rT^*\rT\rT^\dag=\rT^\dag\rT\rT^*=\rT^*$.\par
     (\emph{Hint: evaluate on the basis $\gamma=\{\vect wm\}$ in the singular value theorem})
     \item If $\rT$ is injective, then $\rT^*\rT$ is invertible and $\rT^\dag=(\rT^*\rT)^{-1}\rT^*$.
     \item If $\rT$ is surjective, then $\rT\rT^*$ is invertible and $\rT^\dag=\rT^*(\rT\rT^*)^{-1}$.
   \end{enumerate}
   
+  
   \item Consider the equation $\rT(\vx)=\vb$, where $\rT$ is a linear map between finite-dimensional inner product spaces. A \emph{least-squares solution} is a vector $\vx$ which minimizes $\Nm{\rT(\vx)-\vb}$.
   \begin{enumerate}
-    \item Prove that $\vx_0=\rT^\dag(\vb)$ is a least-squares solution and that any other has the form $\vx_0+\vn$ for some $\vn\in\cN(\rT)$.\\
+    \item Prove that $\vx_0=\rT^\dag(\vb)$ is a least-squares solution and that any other has the form $\vx_0+\vn$ for some $\vn\in\cN(\rT)$.\par
 		(\emph{Hint: Theorem \ref{thm:minthm} says that $\vx_0$ is a least-squares solution if and only if $\rT(\vx_0)=\pi_{\cR(\rT)}(\vb)$})
     \item Prove that $\vx_0=\rT^\dag(\vb)$ has smaller norm than any other least-squares solution.
 		\item If $\rT$ is injective, prove that $\vx_0=\rT^\dag(\vb)$ is the unique least-squares solution.
@@ -3475,18 +3595,20 @@ The pseudoinverse of `differentiation' therefore returns a particular choice of 
 % 		7x+y=0
 % 		\end{cases}\]
 		
-	\item Find the minimal norm solution to the first system, and the least-squares solution to the second:
-	\[\begin{cases}
-		3x+2y+z=9\\
-		x-2y+3z=3
-		\end{cases}
-		\qquad\qquad
-		\begin{cases}
-		3x+y=1\\
-		2x-2y=0\\
-		x+3y=0
-		\end{cases}\]
-\end{enumerate}
+		\item Find the minimal norm solution to the first system, and the least-squares solution to the second:
+		\[
+			\begin{cases}
+				3x+2y+z=9\\
+				x-2y+3z=3
+			\end{cases}
+			\qquad\qquad
+			\begin{cases}
+				3x+y=1\\
+				2x-2y=0\\
+				x+3y=0
+			\end{cases}
+		\]
+	\end{enumerate}
 \end{exercises}
 
 \clearpage
@@ -3633,7 +3755,7 @@ The pseudoinverse of `differentiation' therefore returns a particular choice of 
 % which may be verified directly by first finding an orthonormal basis $\left\{\frac 1{\sqrt 2}\sthreevec 101,\frac 1{\sqrt 6}\sthreevec 12{-1}\right\}$ of $\cR(A)$.
 % \end{example}
 
-\boldsubsubsection{Linear Regression (non-examinable)}
+\boldsubsubsection{Least-Squares Regression (non-examinable)}
 
 Given a data set $\{(t_j,y_j):1\le j\le m\}$, we may employ the least-squares method to find a \emph{best-fitting line} $y=c_0+c_1t$; often used to predict $y$ given a value of $t$.\smallbreak
 The trick is to minimize the sum of the squares of the \textcolor{Green}{vertical deviations} of the line from the data set.
@@ -3717,6 +3839,7 @@ Use a computer to invert any $3\times 3$ matrices!
 \end{tcolorbox}
 
 \clearpage
+\iffalse
 
 \subsection{Bilinear and Quadratic Forms}
 
