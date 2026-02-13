@@ -2496,6 +2496,8 @@ where $\Rank I=\Rank\rT$. In particular, every finite-dimensional projection is 
 }
 
 
+	
+
 Thus far the discussion hasn't had anything to do with inner products\ldots
 
 \begin{defn}{}{}
@@ -2570,9 +2572,10 @@ The language of projections allows us to rephrase the Spectral Theorem.
 	\end{enumerate}
 \end{thm}
 
-\begin{proof}
-	\begin{enumerate}
-	  \item $\rT$ is diagonalizable and so $V$ is the direct sum of the eigenspaces of $\rT$. Since $\rT$ is normal, the eigenvectors corresponding to distinct eigenvalues are orthogonal, whence the eigenspaces are mutually orthogonal. In particular, this says that
+\begin{tcolorbox}[proofstyle]
+%\begin{proof}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[\emph{Proof}. 1.] $V$ certainly equals the direct sum since $\rT$ is diagonalizable. Since $\rT$ is normal, the eigenvectors corresponding to distinct eigenvalues are orthogonal, whence the eigenspaces are mutually orthogonal. In particular, this says that
 	  \[
 	  	\hat E_j:=\bigoplus_{i\neq j}E_i\le E_j^\perp
 	  \]
@@ -2586,11 +2589,13 @@ The language of projections allows us to rephrase the Spectral Theorem.
 	  \item Write $\vx=\sum_{j=1}^k\vx_j$ where each $\vx_j\in E_j$. Then $\pi_j(\vx)=\vx_j$: now add\ldots
 	  \item $\rT(\vx)=\sum_{j=1}^k\rT(\vx_j)=\sum_{j=1}^k\lambda_j\vx_j=\sum_{j=1}^k\lambda_j\pi_j(\vx)$.
 	\end{enumerate}
-	Alternatively, for 2, 3 and 4 one can simply evaluate both sides on an orthonormal eigenbasis.
-\end{proof}
+	Alternatively, for 2, 3 and 4 one can simply evaluate both sides on an orthonormal eigenbasis.\hfill\qedsymbol
+%\end{proof}
+\end{tcolorbox}
 
 
 \pagebreak[3]
+
 
 
 \begin{examples}{}{}
@@ -2949,10 +2954,8 @@ This set-up can be used to compute accurate approximations in many contexts.
 
 \clearpage
 	
-	
 
 \iffalse
-
 
 \subsection{The Singular Value Decomposition and the Pseudoinverse}
 
