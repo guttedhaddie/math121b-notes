@@ -1,5 +1,5 @@
-settings.prc=false;
-settings.outformat="pdf";
+settings.tex="pdflatex";
+defaultpen(fontsize(11pt));
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}

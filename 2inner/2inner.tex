@@ -1,4 +1,4 @@
-\graphicspath{{2inner/asy/},{2inner/xy/}}
+\graphicspath{{2inner/asy/}}
 
 \setcounter{section}{1}
 
@@ -2957,9 +2957,8 @@ This set-up can be used to compute accurate approximations in many contexts.
 	
 
 
-\subsection{The Singular Value Decomposition and the Pseudoinverse}
+\subsection{The Singular Value Decomposition and the Pseudoinverse}\label{sec:svd}
 
-%INCLUDE more clearly the $P=A(A^*A)^{-1}A^*$ formula when $A$ has linearly indep columns (is injective).
 
 Given a linear map $\rT\in\cL(V,W)$ between finite-dimensional inner product spaces, the overarching concern of this chapter is the existence and computation of bases $\beta,\gamma$ of $V,W$ with two properties:
 \begin{itemize}
@@ -3106,31 +3105,31 @@ Our main result says that such bases always exist!
 	  	\frac 1{\sqrt 2}&\frac 1{\sqrt 2}\\
 	  	\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
 	  \end{pmatrix}
-		\]
-		By expanding the decomposition, $A$ is expressed as a sum of rank-one matrices:
-		\[
-			A=\sigma_1\vw_1\vv_1^T+\sigma_2\vw_2\vv_2^T 
-			=4\threevec{\frac 1{\sqrt 2}}0{\frac 1{\sqrt 2}}
-			\begin{pmatrix}
-				\frac 1{\sqrt 2}&\frac 1{\sqrt 2}
-			\end{pmatrix}
-			+
-			2\sqrt 3\threevec{\frac{-1}{\sqrt 6}}{\frac{-2}{\sqrt 6}}{\frac{1}{\sqrt 6}}
-			\begin{pmatrix}
-				\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
-			\end{pmatrix}
-		  =\begin{pmatrix}
-		  	2&2\\
-		  	0&0\\
-		  	2&2
-		  \end{pmatrix}
-		  +
-		  \begin{pmatrix}
-		  	1&-1\\
-		  	2&-2\\
-		  	-1&1
-		  \end{pmatrix}
-	  \]
+	\]
+	By expanding the decomposition, $A$ is expressed as a sum of rank-one matrices:
+	\[
+		A=\sigma_1\vw_1\vv_1^T+\sigma_2\vw_2\vv_2^T 
+		=4\threevec{\frac 1{\sqrt 2}}0{\frac 1{\sqrt 2}}
+		\begin{pmatrix}
+			\frac 1{\sqrt 2}&\frac 1{\sqrt 2}
+		\end{pmatrix}
+		+
+		2\sqrt 3\threevec{\frac{-1}{\sqrt 6}}{\frac{-2}{\sqrt 6}}{\frac{1}{\sqrt 6}}
+		\begin{pmatrix}
+			\frac{-1}{\sqrt 2}&\frac 1{\sqrt 2}
+		\end{pmatrix}
+		=\begin{pmatrix}
+		  2&2\\
+		  0&0\\
+		  2&2
+		\end{pmatrix}
+		+
+		\begin{pmatrix}
+		  1&-1\\
+		  2&-2\\
+		  -1&1
+		\end{pmatrix}
+	\]
 \end{example*}
 
 
@@ -3261,7 +3260,7 @@ Our main result says that such bases always exist!
 		Thus $\beta,\gamma$ are suitable bases and the singular values of $\rT$ are $\sigma_1=2\sqrt{15}$ and $\sigma_2=2\sqrt 3$.\smallbreak
 		Since $\beta,\gamma$ are orthonormal, we could have used the adjoint method to evaluate this directly,
 		\[
-			[\rT^*\rT]_\beta=([\rT]_\beta^\gamma)^T[\rT]_\beta^\gamma=
+			[\rT^*\rT]_\beta =\big([\rT]_\beta^\gamma\big)^T[\rT]_\beta^\gamma=
 			\begin{pmatrix}
 				60&0&0\\
 				0&12&0\\
@@ -3269,7 +3268,7 @@ Our main result says that such bases always exist!
 			\end{pmatrix}
 			\implies \sigma_1^2=60,\ \sigma_2^2=12
 		\]
-		Up to sign, $\{[\vv_1]_\beta,[\vv_2]_\beta,[\vv_3]_\beta\}$ is therefore forced to be the standard ordered basis of $\R^3$, confirming that $\beta$ was the correct basis of $P_2(\R)$ all along! %Of course, both approaches were contingent on having orthonormal bases in the first place\ldots
+		Up to sign, $\big\{[\vv_1]_\beta,[\vv_2]_\beta,[\vv_3]_\beta\big\}$ is forced to be the standard ordered basis of $\R^3$, confirming that $\beta$ was the correct basis of $P_2(\R)$ all along!
 	\end{enumerate}
 \end{examples}
 
@@ -3315,9 +3314,9 @@ Our main result says that such bases always exist!
 
 \boldsubsubsection{The Pseudoinverse}
 
-The singular value decomposition of $\rT\in\cL(V,W)$ gives rise to a natural function from $W$ back to $V$. This map behaves somewhat like an inverse even when $\rT$ is non-invertible!
+The singular value decomposition of $\rT\in\cL(V,W)$ gives rise to a natural function from $W$ back to $V$ which behaves somewhat like an inverse even when $\rT$ is non-invertible!
 
-\begin{defn}{}{}
+\begin{defn}{}{pseudoinverse}
 	Given the singular value decomposition of a rank $r$ map $\rT\in\cL(V,W)$, the \emph{pseudoinverse} of $\rT$ is the linear map $\rT^\dag\in\cL(W,V)$ defined by
 	\[
 		\rT^\dag(\vw_j)=
@@ -3372,12 +3371,12 @@ Otherwise said, the combinations are \emph{orthogonal projections}: $\rT^\dag\rT
 \pagebreak[3]
 
 
-Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinverse is%\footnote{This \emph{isn't} the singular value decomposition of $A^\dag$ since the values $\sigma_1^{-1}\le\sigma_2^{-1}\le\cdots\le\sigma_r^{-1}$ are in the wrong order!}
+Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinverse is
 \[
 	A^\dag=\sum_{j=1}^r\frac 1{\sigma_j}\vv_j\vw_j^*
-	=Q\Sigma^\dag P^* 
+	=Q\widetilde\Sigma P^* 
 	\quad\text{where}\quad
-	\Sigma^\dag=
+	\widetilde\Sigma=
 	\begin{pmatrix}
 		\diag(\sigma_1^{-1},\ldots,\sigma_r^{-1})&O\\
 		O&O
@@ -3387,7 +3386,7 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 
 \begin{examples}{}{}
 	\exstart (Example \ref{ex:svd1}) \ The matrix $A=
-	\smash[b]{\begin{smatrix}
+	\smash{\begin{smatrix}
 	  3&1\\
 	  2&-2\\
 	  1&3
@@ -3396,8 +3395,14 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
   \begin{align*}
 	  A^\dag
 	  &=\frac 1{\sigma_1}\vv_1\vw_1^*+\frac 1{\sigma_2}\vv_2\vw_2^*\\
-	  &=\frac 1{4\sqrt 2\sqrt 2}\twovec 11(1\ 0\ 1) 
-	  	+\frac 1{2\sqrt 3\sqrt 2\sqrt 6}\twovec{-1}1(-1\ -2\ 1)\\
+	  &=\frac 1{4\sqrt 2\sqrt 2}\twovec 11
+	  	\begin{pmatrix}
+				1&0&1
+			\end{pmatrix}
+	  	+\frac 1{2\sqrt 3\sqrt 2\sqrt 6}\twovec{-1}1
+	  	\begin{pmatrix}
+				-1&-2&1
+			\end{pmatrix}\\
 	  &=\frac 18
 	  \begin{pmatrix}
 	  	1&0&1\\
@@ -3413,9 +3418,9 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 	  	5&4&1\\
 	  	1&-4&5
 	  \end{pmatrix}
-  \end{align*}
+  \end{align*}\vspace{-8pt}
 	\begin{enumerate}\setcounter{enumi}{1}
-	  \item[] which is exactly what we would have found by computing $A^\dag=Q\Sigma^\dag P^*$. Observe also that
+	  \item[] which is exactly what we would have found by computing $A^\dag=Q\widetilde\Sigma P^T$. Observe also that
 	  \[
 	  	A^\dag A=
 	  	\begin{pmatrix}
@@ -3430,10 +3435,9 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 	  		1&1&2
 	  	\end{pmatrix}
 	  \]
-	  are the orthogonal projection matrices onto $\cN(A)^\perp=\Span\{\vv_1,\vv_2\}=\R^2$ and $\cR(A)=\Span\{\vw_1,\vw_2\}\le\R^3$ respectively. Both spaces have dimension two since $\Rank A=2$.
+	  are the projections onto $\cN(A)^\perp=\Span\{\vv_1,\vv_2\}=\R^2$ and $\cR(A)=\Span\{\vw_1,\vw_2\}\le\R^3$ respectively. Both spaces have dimension two since $\Rank A=2$.
 	
-		\item %Finally we check that the pseudoinverse of the derivative behaves roughly as expected.\smallbreak
-		(Example \ref*{ex:derivpseudo}.\ref{ex:derivpseudo2}) \ The pseudoinverse of $\rT=\diff x:P_2(\R)\to P_1(\R)$,
+		\item (Example \ref*{ex:derivpseudo}.\ref{ex:derivpseudo2}) \ The pseudoinverse of $\rT=\diff x:P_2(\R)\to P_1(\R)$,
 		\begin{gather*}
 			\rT^\dag\big(\sqrt 3(2x-1)\big)=\frac 1{2\sqrt{15}}\sqrt 5(6x^2-6x+1) =\frac 1{2\sqrt 3}(6x^2-6x+1)\\
 			\rT^\dag(1)=\frac 1{2\sqrt 3}\sqrt 3(2x-1)=x-\frac 12\\
@@ -3477,13 +3481,6 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 % \end{example}
 
 
-% \begin{itemize}
-%   \item : the closest vector $\vr\in\cR(T)$ to a given $\vu\in U$ is $\vr:=TT^\dag(\vu)$.
-%   \item In matrix language, if $A\in M_{m\times n}(\F)$ has rank $n$, then,
-%   \[A^\dag=(A^*A)^{-1}A^*\]
-%   In particular, if $A\vx=\vb$ is an overdetermined system of linear equations, then $A^\dag A=I_n$ and $AA^\dag=\pi_{R(A)}$, whence $\vx=A^\dag\vb$ is the unique least-squares solution to $A\vx=\vb$: it is the unique vector minimizing the distance $\Nm{A\vx-\vb}$.
-% \end{itemize}
-% 
 % In the above example, for instance, take $\vb=\sthreevec 100$ and consider the overdetermined system
 % \[\begin{cases}
 % -x+7y=1\\
@@ -3497,52 +3494,47 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 %   \end{pmatrix}\threevec 100 =\frac 1{150}\twovec{-6}{17} \implies A\vx=\threevec{5/6}{2/6}{-1/6}\]
 
 
-\vfil\vfil
 
 
 \begin{exercises}
-	\exstart\label{exs:pseudo1} Find the ingredients ($\beta,\gamma,\sigma_j$\ldots) of the singular value decompositions:
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[]\begin{enumerate}
-    \item $\rT\in\cL(\R^2,\R^3)$ where $\rT\stwovec xy=\sthreevec x{x+y}{x-y}$
-    \item $\rT:P_2(\R)\to P_1(\R)$ and $\rT(f)=f''$ where $\ip{f,g}:=\int_0^1f(x)g(x)\,\dx$
-    \item $V=W=\Span\{1,\sin x,\cos x\}$ and $\ip{f,g}=\int_0^{2\pi}f(x)g(x)\,\dx$, with $\rT(f)=f'+2f$
-  \end{enumerate}
+	\exstart Find a singular value decomposition of each matrix and compute its pseudoinverse.
+	\begin{enumerate}\setcounter{enumi}{1}
+  	\item[]\begin{enumerate}
+    	\item $\begin{smatrix}
+    		1&1\\
+    		1&1\\
+    		-1&-1
+    	\end{smatrix}$\qquad
+    	(b)\ \ 
+    	$\begin{smatrix}
+    		1&0&1\\
+    		1&0&-1
+    	\end{smatrix}$\qquad
+    	(c)\ \ 
+    	$\begin{smatrix}
+    		1&1&1\\
+    		1&-1&0\\
+    		1&0&-1
+    	\end{smatrix}$
+  	\end{enumerate}
   
   
-  \pagebreak[3]
+  	\pagebreak[3]
   
   
-  \item\label{exs:pseudo2} Find a singular value decomposition of each matrix:
-  \begin{enumerate}
-    \item $\begin{smatrix}
-    	1&1\\
-    	1&1\\
-    	-1&-1
-    \end{smatrix}$\qquad
-    (b)\ \ $\begin{smatrix}
-    	1&0&1\\
-    	1&0&-1
-    \end{smatrix}$\qquad
-    (c)\ \ 
-    $\begin{smatrix}
-    	1&1&1\\
-    	1&-1&0\\
-    	1&0&-1
-    \end{smatrix}$
-  \end{enumerate}
+	  \item For each map, describe the singular value decomposition and compute the pseudoinverse.
+	  \begin{enumerate}
+	    \item $\rT\in\cL(\R^2,\R^3)$ where $\rT\stwovec xy=\sthreevec x{x+y}{x-y}$
+	    \item $\rT:P_2(\R)\to P_1(\R)$ and $\rT(f)=f''$ where $\ip{f,g}:=\int_0^1f(x)g(x)\,\dx$
+	    \item $V=W=\Span\{1,\sin x,\cos x\}$ and $\ip{f,g}=\int_0^{2\pi}f(x)g(x)\,\dx$, with $\rT(f)=f'+2f$
+	  \end{enumerate}
   
   
-  \item Find an explicit formula for $\rT^\dag$ for each map in Exercise \hyperref[exs:pseudo1]{1}.
-  
-  
-  \item Find the pseudoinverse of each matrix in Exercise \ref{exs:pseudo2}.
-  
-  
+   
   \item Suppose $A=P\Sigma Q^*$ is a singular value decomposition.
   \begin{enumerate}
     \item Describe a singular value decomposition of $A^*$.
-    \item Explain why $A^\dag=Q\Sigma^\dag P^*$ \emph{isn't} a singular value decomposition of $A^\dag$; what would be the correct decomposition?   	(\emph{Hint: what is wrong with $\Sigma^\dag$?})
+    \item Explain why $A^\dag=Q\widetilde\Sigma P^*$ \emph{isn't} a singular value decomposition of $A^\dag$; what would be a correct decomposition?
   \end{enumerate}
   
   
@@ -3555,8 +3547,7 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
     \begin{smatrix}
     	0&1\\
     	1&0
-    \end{smatrix}$. Show that \emph{any} orthonormal basis $\beta$ of $\R^2$ satisfies the singular value theorem. What is $\gamma$ here? What is it about the \emph{eigenvalues} of $A$ that make this possible?\par
-    (\emph{Even when $\rT$ is self-adjoint, the vectors in $\beta$ need not also be eigenvectors of $\rT$!})
+    \end{smatrix}$. Show that \emph{any} orthonormal basis $\beta$ of $\R^2$ satisfies the singular value theorem. What is $\gamma$ here? What is it about the \emph{eigenvalues} of $A$ that make this possible?
   \end{enumerate}
   
   
@@ -3564,36 +3555,22 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
   (\emph{This is circular logic if you use the decomposition, so you must do without!})
   
 
-  \item Let $V,W$ be finite-dimensional inner product spaces and $\rT\in\cL(V,W)$. Prove:
+  \item Let $V,W$ be finite-dimensional inner product spaces and $\rT\in\cL(V,W)$.
   \begin{enumerate}
-    \item $\rT^*\rT\rT^\dag=\rT^\dag\rT\rT^*=\rT^*$.\par
-    (\emph{Hint: evaluate on the basis $\gamma=\{\vect wm\}$ in the singular value theorem})
+    \item By evaluating on the basis $\gamma$ in the singular value theorem, prove that $\rT^*\rT\rT^\dag=\rT^\dag\rT\rT^*=\rT^*$.
     \item If $\rT$ is injective, then $\rT^*\rT$ is invertible and $\rT^\dag=(\rT^*\rT)^{-1}\rT^*$.
     \item If $\rT$ is surjective, then $\rT\rT^*$ is invertible and $\rT^\dag=\rT^*(\rT\rT^*)^{-1}$.
+    \item If $A\in M_{m\times n}(\F)$ has linearly independent \emph{columns}, prove that $\pi_{\cR(A)}=A(A^*A)^{-1}A^*$.
   \end{enumerate}
   
   
-  \item Consider the equation $\rT(\vx)=\vb$, where $\rT$ is a linear map between finite-dimensional inner product spaces. A \emph{least-squares solution} is a vector $\vx$ which minimizes $\Nm{\rT(\vx)-\vb}$.
+  \item\label{exs:leastsquares} Suppose $\rT$ is a linear map between finite-dimensional inner product spaces. A \emph{least-squares solution} to the equation $\rT(\vx)=\vb$ is a vector $\vx$ which minimizes $\Nm{\rT(\vx)-\vb}$.
   \begin{enumerate}
-    \item Prove that $\vx_0=\rT^\dag(\vb)$ is a least-squares solution and that any other has the form $\vx_0+\vn$ for some $\vn\in\cN(\rT)$.\par
-		(\emph{Hint: Theorem \ref{thm:minthm} says that $\vx_0$ is a least-squares solution if and only if $\rT(\vx_0)=\pi_{\cR(\rT)}(\vb)$})
+    \item Use Theorem \ref{thm:minthm} to prove that $\vx_0=\rT^\dag(\vb)$ is a least-squares solution, and that any other has the form $\vx_0+\vn$ for some $\vn\in\cN(\rT)$.
     \item Prove that $\vx_0=\rT^\dag(\vb)$ has smaller norm than any other least-squares solution.
 		\item If $\rT$ is injective, prove that $\vx_0=\rT^\dag(\vb)$ is the unique least-squares solution.
 	\end{enumerate}
 
-	
-% 	\item For the following systems, find the minimal norm solution to the first and the vector which comes closest to solving the second:
-% 	\[\begin{cases}
-% 		-x+7y=6\\
-% 		3x+4y=7\\
-% 		7x+y=8
-% 		\end{cases}
-% 		\qquad\qquad
-% 		\begin{cases}
-% 		-x+7y=1\\
-% 		3x+4y=0\\
-% 		7x+y=0
-% 		\end{cases}\]
 		
 		\item Find the minimal norm solution to the first system, and the least-squares solution to the second:
 		\[
@@ -3608,74 +3585,35 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 				x+3y=0
 			\end{cases}
 		\]
+		(\emph{Hint: All the required details are in the various incarnations of Example \ref{ex:svd1}})
+		
+		
+		\item Compute the pseudoinverse of the matrix
+		$\smash[b]{\begin{smatrix}
+			-1&7\\
+			3&4\\
+			7&1
+		\end{smatrix}}$
+		and use it to find the point $(x,y)$ which comes closest to solving the system
+		\[
+	% 	\begin{cases}
+	% 		-x+7y=6\\
+	% 		3x+4y=7\\
+	% 		7x+y=8
+	% 		\end{cases}
+	% 		\qquad\qquad
+			\begin{cases}
+				-x+7y=1\\
+				3x+4y=0\\
+				7x+y=0
+			\end{cases}
+		\]
 	\end{enumerate}
 \end{exercises}
 
 \clearpage
 
-% \boldsubsubsection{Linear Regression and least-squares problems (non-examinable)}
-% 
-% Recall Exercise 8. The vector $\vx=A^\dag\vb$ is often known as a \emph{least-squares solution}\footnote{This is something of a misnomer; least-squares solutions are typically most useful when the equation has no solutions and we want to get as close as we can to a solution.} to the linear equation $A\vx=\vb$, since to minimize the (squared-)norm $\Nm{A\vx-\vb}^2$ means minimizing a sum of squares. 
-% 
-% \begin{defn}{}{}
-% Suppose $\rT\in\cL(X,Y)$ and $\vy\in Y$. A \emph{least-squares solution} to the linear equation $\rT(\vx)=\vy$ is any vector $\vx_0\in X$ which minimizes $\Nm{\rT(\vx)-\vy}$.
-% \end{defn}
-% 
-% In a common special situation, there is a unique least-squares solution.
-% 
-% \begin{thm}{}{}
-% Suppose $X,Y$ are finite-dimensional and that $\rT\in\cL(X,Y)$ is injective. Then the unique least squares solution to $\rT(\vx)=\vy$ is given by the pseudoinverse
-% \[\vx_0=\rT^\dag(\vy)=(\rT^*\rT)^{-1}\rT(\vy)\]
-% \end{thm}
-% 
-% \begin{proof}
-% By Theorem \ref{thm:minthm}, $\vx_0$ is a least-squares solution if and only if
-% \[\rT(\vx_0)=\pi_{\cR(\rT)}(\vy)=\rT\rT^\dag(\vy)\]
-% Since $\rT$ is injective, it follows that $\vx_0=\rT^\dag(\vy)$. Exercise 7 gives the alternative expression.
-% \end{proof}
-% 
-% Provided $X,Y$ are finite-dimensional, problem 8 shows that $\vx=\rT^\dag(\vy)$ is a least-squares solution.
-% 
-% If $\vy\in\cR(\rT)$, these are simply solutions: plainly $\rT(\vx_0)=\vy$ minimizes $\Nm{\vy-\rT(\vx_0)}$.\smallbreak
-% Otherwise, we want $\vx_0$ to come as close as possible to solving $\rT(\vx)=\vy$. With a little simplification, this can be attacked using a general method.
-% 
-% \begin{itemize}
-%   \item If $Y=\cR(\rT)\oplus \cR(\rT)^\perp$, the Theorem says that $\rT(\vx_0)=\pi_{\cR(\rT)}(\vy)$: equivalently
-%   \[\vy-\rT(\vx_0)\in\cR(\rT)^\perp\]
-%   \item Additionally, if $\rT$ has an adjoint, the Fundamental Subspaces Theorem says that $\vx_0$ is a least-squares solution if and only if
-%   \[
-% 	\vy-\rT(\vx_0)\in \cN(\rT^*) \iff \rT^*\rT(\vx_0)=\rT^*(\vy)
-% 	\]
-% \end{itemize}
-% These conditions are certainly met when $X,Y$ are finite-dimensional.
-% 
-% \begin{thm}{}{}
-% Suppose $X,Y$ are finite-dimensional and $\rT\in\cL(X,Y)$. Then:
-% \begin{enumerate}
-%   \item $\Rank\rT^*\rT=\Rank\rT=\Rank\rT^*$.
-%   \item $\rT^*\rT$ and $\rT^*$ have the same range and so $\rT^*\rT(\vx_0)=\rT^*(\vy)$ always has at least one solution.
-%   \item If $\Rank\rT=\dim X$ (equivalently $\Null\rT=0$), then $\rT(\vx)=\vy$ has a unique least-squares solution $\vx_0=(\rT^*\rT)^{-1}\rT^*(\vy)$. Moreover, the orthogonal projection onto $\cR(\rT)$ is
-%   \[\pi_{\cR(\rT)}=\rT(\rT^*\rT)^{-1}\rT^*\]
-% \end{enumerate}
-% \end{thm}
-% 
-% \goodbreak
-% 
-% \begin{proof}
-% \begin{enumerate}
-%   \item $\Rank\rT^*=\Rank\rT$ holds for any maps. By the rank--nullity theorem, it therefore suffices to check that $\rT^*\rT$ and $\rT$ have the same nullspace:
-% 	\begin{gather*}
-% 		\rT(\vx)=\V0\implies \rT^*\rT(\vx)=\V0 \quad\text{and,}\\
-% 		\rT^*\rT(\vx)=\V0\implies 0=\ip{\rT^*\rT(\vx),\vx}=\ip{\rT(\vx),\rT(\vx)} =\Nm{\rT(\vx)}^2\implies \rT(\vx)=\V0
-% 	\end{gather*}
-% 	\item This is immediate from part 1.
-% 	\item If $\Rank \rT=\dim V$, then $\rT^*\rT$ is invertible; $\vx_0$ is a least-squares solution if and only if
-% 	\[\rT^*\rT(\vx_0)=\rT^*(\vy)\iff\vx_0=(\rT^*\rT)^{-1}\rT^*(\vy)\]
-% 	In such a case, $\pi_{\cR(\rT)}(\vy)=\rT(\vx_0)=\rT(\rT^*\rT)^{-1}\rT^*(\vy)$.\hfill\qedhere
-% \end{enumerate}
-% \end{proof}
-% 
-% Least-squares problems are often phrased in terms of matrices: when $\rT=\rL_A$ for some $A\in M_{m\times n}(\F)$. Equivalently, we consider a system of linear equations.
+
 
 % \begin{example}{}{}
 % Find the unique least-squares solution to the overdetermined system
@@ -3755,79 +3693,107 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 % which may be verified directly by first finding an orthonormal basis $\left\{\frac 1{\sqrt 2}\sthreevec 101,\frac 1{\sqrt 6}\sthreevec 12{-1}\right\}$ of $\cR(A)$.
 % \end{example}
 
+
 \boldsubsubsection{Least-Squares Regression (non-examinable)}
 
-Given a data set $\{(t_j,y_j):1\le j\le m\}$, we may employ the least-squares method to find a \emph{best-fitting line} $y=c_0+c_1t$; often used to predict $y$ given a value of $t$.\smallbreak
-The trick is to minimize the sum of the squares of the \textcolor{Green}{vertical deviations} of the line from the data set.
-\[\sum_{j=1}^m\nm{y_j-c_0-c_1t_j}^2=\Nm{\vy-A\vx}^2\quad\text{where}\quad A=\begin{pmatrix}
-t_1&1\\
-\vdots&\vdots\\
-t_m&1
-\end{pmatrix}\quad \vx=\twovec{c_1}{c_0}\quad \vy=\threevec{y_1}{\vdots}{y_m} \]
-With the indicated notation, we recognize this as a least-squares problem. Indeed if there are at least two distinct $t$-values in the data set, then $\Rank A=2$ is maximal and we have a unique best-fitting line with coefficients given by
-\[\twovec{c_1}{c_0}=A^\dag\vy =(A^TA)^{-1}A^T\vy\]
+Given a data set $\big\{(t_j,y_j):1\le j\le m\big\}$, the least-squares method can be employed to find a \emph{best-fitting line} $y=c_0+c_1t$ to the data. This \emph{regression line} is used to predict $y$ given a value of $t$.\smallbreak
+The idea is to choose coefficients $c_0,c_1$ so as to minimize the sum of the squares of the \textcolor{Green}{vertical deviations} of the line from the data set.
+\[
+	SS=\sum_{j=1}^m\nm{y_j-c_0-c_1t_j}^2=\Nm{\vy-A\vx}^2
+	\quad\text{where}\quad 
+	A=\begin{pmatrix}
+		t_1&1\\
+		\vdots&\vdots\\
+		t_m&1
+	\end{pmatrix}
+	\quad \vx=\twovec{c_1}{c_0}\quad 
+	\vy=\threevec{y_1}{\vdots}{y_m}
+\]
+With the indicated matrix notation, we recognize this as a least-squares problem. Moreover, if there are at least two distinct $t$-values in the data set, then $\Rank A=2$ is maximal and we have a unique best-fitting least-squares line: By Exercise \ref{exs:leastsquares} its coefficients are
+\[
+	\twovec{c_1}{c_0}=A^\dag\vy =(A^TA)^{-1}A^T\vy
+\]
 
 
 \begin{example}{}{lsq}
-Given the data set $\{(0,1),(1,1),(2,0),(3,2),(4,2)\}$, we compute
-\begin{align*}
-A=\begin{pmatrix}
-0&1\\
-1&1\\
-2&1\\
-3&1\\
-4&1
-\end{pmatrix},\quad \vy=\begin{pmatrix}
-1\\1\\0\\2\\2
-\end{pmatrix} \implies \vx_0&=\twovec{c_1}{c_0} =(A^TA)^{-1}A^T\vy=\begin{pmatrix}
-30&10\\
-10&5
-\end{pmatrix}^{-1}
-\twovec{15}{6} =\frac 3{10}\twovec{1}{2}
-\end{align*}
-The regression line therefore has equation $y=\frac 3{10}(t+2)$.\smallbreak
-The process can be applied more generally to approximate using other functions. To find the best-fitting quadratic polynomial $y=c_0+c_1t+c_2t^2$, we'd instead work with
-\begin{gather*}
-A=\begin{pmatrix}
-t_1^2&t_1&1\\
-\vdots&\vdots&\vdots\\
-t_m^2&t_m&1
-\end{pmatrix}\quad \vx=\threevec{c_2}{c_1}{c_0}\quad \vy=\threevec{y_1}{\vdots}{y_m} \implies \sum_{j=1}^m\nm{y_j-c_0-c_1t-c_2t_j^2}^2 =\Nm{\vy-A\vx}^2
-\end{gather*}
-Provided we have at least three distinct values $t_1,t_2,t_3$, the matrix $A$ is guaranteed to have rank 3 and there will be a best-fitting least-squares quadratic: in this case
-\[y=\frac 1{70}(15t^2-39t+72)\]
-This curve and the best-fitting straight line are shown below.
-\begin{center}
-\includegraphics{least-sq-line}
-\qquad
-\includegraphics{least-sq-quad}
-\end{center}
+	Given the data set $\big\{(0,1),(1,1),(2,0),(3,2),(4,2)\big\}$, we compute
+	\begin{align*}
+		A=
+		\begin{pmatrix}
+			0&1\\
+			1&1\\
+			2&1\\
+			3&1\\
+			4&1
+		\end{pmatrix},
+		\quad \vy=
+		\begin{pmatrix}
+			1\\
+			1\\
+			0\\
+			2\\
+			2
+		\end{pmatrix} 
+		\implies \vx_0
+		&=\twovec{c_1}{c_0} =(A^TA)^{-1}A^T\vy=
+		\begin{pmatrix}
+			30&10\\
+			10&5
+		\end{pmatrix}^{-1}
+		\twovec{15}{6} =\frac 3{10}\twovec{1}{2}
+	\end{align*}
+	The regression line therefore has equation $y=\frac 3{10}(t+2)$.\smallbreak
+	The process can be applied more generally to approximate using other functions. To find the best-fitting quadratic polynomial $y=c_0+c_1t+c_2t^2$, we'd instead work with
+	\[
+		A=
+		\begin{pmatrix}
+			t_1^2&t_1&1\\
+			\vdots&\vdots&\vdots\\
+			t_m^2&t_m&1
+		\end{pmatrix}
+		\quad \vx=\threevec{c_2}{c_1}{c_0}\quad 
+		\vy=\threevec{y_1}{\vdots}{y_m} 
+		\implies \sum_{j=1}^m\nm{y_j-c_0-c_1t-c_2t_j^2}^2 =\Nm{\vy-A\vx}^2
+	\]
+	Provided we have at least three distinct values $t_1,t_2,t_3$, the matrix $A$ is guaranteed to have rank 3 and there will be a best-fitting least-squares quadratic: in this case
+	\[
+		y=\frac 1{70}(15t^2-39t+72)
+	\]
+	This curve and the best-fitting straight line are shown below.
+	\begin{center}
+		\includegraphics[alt={least-squares line}]{least-sq-line}
+		\qquad
+		\includegraphics[alt={least squares quadratic}]{least-sq-quad}
+	\end{center}
 \end{example}
 
- %For instance, to find the best-fitting curve of the form $y=ae^t+b$, we would apply the method to
-% \[A=\begin{pmatrix}
-% e^{t_1}&1\\
-% \vdots&\vdots\\
-% e^{t_m}&1
-% \end{pmatrix}\quad \vx=\twovec{a}{b}\quad \vy=\threevec{y_1}{\vdots}{y_m} \implies \sum_{j=1}^m\nm{y_j-ae^{t_j}-b}^2 =\Nm{\vy-A\vx}^2\]
 
-\begin{tcolorbox}[exercisestyle,title={Optional Problems\quad }]
-Use a computer to invert any $3\times 3$ matrices!
-\begin{enumerate}
+
+\begin{tcolorbox}[exercisestyle,title={Extra Problems\quad }]
+\begin{enumerate}[resume]
 	\item Check the calculation for the best-fitting least-squares quadratic in Example \ref{ex:lsq}.
   
-  \item Find the best-fitting least-squares linear and quadratic approximations to the data set
-  \[\left\{(1,2),(3,4),(5,7),(7,9),(9,12)\right\}\]
   
-  \item Suppose a data set $\{(t_j,y_j):1\le j\le m\}$ has unique regression line $y=ct+d$.
+  \item Find the best-fitting least-squares linear and quadratic approximations to the data set
+  \[
+  	\big\{(1,2),(3,4),(5,7),(7,9),(9,12)\big\}
+  \]
+  
+  
+  \item Suppose a data set $\big\{(t_j,y_j):1\le j\le m\big\}$ has unique regression line $y=ct+d$.
   \begin{enumerate}
     \item Show that the equations $A^TA\vx_0=A^T\vy$ can be written in matrix form
-    \[\begin{pmatrix}
-    \sum t^2_j&\sum t_j\\
-    \sum t_j&m
-    \end{pmatrix}\twovec cd =\twovec{\sum t_jy_j}{\sum y_j}\]
+    \[
+    	\begin{pmatrix}
+    		\sum t^2_j&\sum t_j\\
+    		\sum t_j&m
+    	\end{pmatrix}
+    	\twovec cd =\twovec{\sum t_jy_j}{\sum y_j}
+    \]
     \item Recover the standard expressions from statistics:
-    \[c=\frac{\Cov(t,y)}{\sigma^2_t}\ \text{ and }\ d=\cl y-c\cl t\]
+    \[
+    	c=\frac{\Cov(t,y)}{\sigma^2_t}\ \text{ and }\ d=\cl y-c\cl t
+    \]
     where
     \begin{itemize}
       \item $\displaystyle\cl t=\frac 1m\sum_{j=1}^m t_j$ and $\displaystyle\cl y=\frac 1m\sum_{j=1}^m y_j$ are the \emph{means} (averages),
@@ -3838,8 +3804,10 @@ Use a computer to invert any $3\times 3$ matrices!
 \end{enumerate}
 \end{tcolorbox}
 
+
 \clearpage
 \iffalse
+
 
 \subsection{Bilinear and Quadratic Forms}
 
