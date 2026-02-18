@@ -3770,345 +3770,500 @@ With the indicated matrix notation, we recognize this as a least-squares problem
 
 
 \begin{tcolorbox}[exercisestyle,title={Extra Problems\quad }]
-\begin{enumerate}[resume]
-	\item Check the calculation for the best-fitting least-squares quadratic in Example \ref{ex:lsq}.
-  
-  
-  \item Find the best-fitting least-squares linear and quadratic approximations to the data set
-  \[
-  	\big\{(1,2),(3,4),(5,7),(7,9),(9,12)\big\}
-  \]
-  
-  
-  \item Suppose a data set $\big\{(t_j,y_j):1\le j\le m\big\}$ has unique regression line $y=ct+d$.
-  \begin{enumerate}
-    \item Show that the equations $A^TA\vx_0=A^T\vy$ can be written in matrix form
-    \[
-    	\begin{pmatrix}
-    		\sum t^2_j&\sum t_j\\
-    		\sum t_j&m
-    	\end{pmatrix}
-    	\twovec cd =\twovec{\sum t_jy_j}{\sum y_j}
-    \]
-    \item Recover the standard expressions from statistics:
-    \[
-    	c=\frac{\Cov(t,y)}{\sigma^2_t}\ \text{ and }\ d=\cl y-c\cl t
-    \]
-    where
-    \begin{itemize}
-      \item $\displaystyle\cl t=\frac 1m\sum_{j=1}^m t_j$ and $\displaystyle\cl y=\frac 1m\sum_{j=1}^m y_j$ are the \emph{means} (averages),
-      \item $\displaystyle\sigma^2_t=\frac 1m\sum_{j=1}^m(t_j-\cl t)^2$ is the \emph{variance},
-      \item $\displaystyle\Cov(t,y)=\frac 1m\sum_{j=1}^m(t_j-\cl t)(y_j-\cl y)$ is the \emph{covariance.}
-    \end{itemize}
+	\begin{enumerate}[resume]
+		\item Check the calculation for the best-fitting least-squares quadratic in Example \ref{ex:lsq}.
+	  
+	  
+	  \item Find the best-fitting least-squares linear and quadratic approximations to the data set
+	  \[
+	  	\big\{(1,2),(3,4),(5,7),(7,9),(9,12)\big\}
+	  \]
+	  
+	  
+	  \item Suppose a data set $\big\{(t_j,y_j):1\le j\le m\big\}$ has unique regression line $y=ct+d$.
+	  \begin{enumerate}
+	    \item Show that the equations $A^TA\vx_0=A^T\vy$ can be written in matrix form
+	    \[
+	    	\begin{pmatrix}
+	    		\sum t^2_j&\sum t_j\\
+	    		\sum t_j&m
+	    	\end{pmatrix}
+	    	\twovec cd =\twovec{\sum t_jy_j}{\sum y_j}
+	    \]
+	    \item Recover the standard expressions from statistics:
+	    \[
+	    	c=\frac{\Cov(t,y)}{\sigma^2_t}\ \text{ and }\ d=\cl y-c\cl t
+	    \]
+	    where
+	    \begin{itemize}
+	      \item $\displaystyle\cl t=\frac 1m\sum_{j=1}^m t_j$ and $\displaystyle\cl y=\frac 1m\sum_{j=1}^m y_j$ are the \emph{means} (averages),
+	      \item $\displaystyle\sigma^2_t=\frac 1m\sum_{j=1}^m(t_j-\cl t)^2$ is the \emph{variance},
+	      \item $\displaystyle\Cov(t,y)=\frac 1m\sum_{j=1}^m(t_j-\cl t)(y_j-\cl y)$ is the \emph{covariance.}
+	    \end{itemize}
+		\end{enumerate}
 	\end{enumerate}
-\end{enumerate}
 \end{tcolorbox}
 
 
+
 \clearpage
-\iffalse
+
 
 
 \subsection{Bilinear and Quadratic Forms}
 
-In this section we slightly generalize the idea of an inner product. Throughout, $V$ is a vector space over a field $\F$; it need not be an inner product space and $\F$ can be any field (not just $\R$ or $\C$).
+In this section we slightly generalize the idea of an inner product. Throughout, $V$ is simply a vector space over a field $\F$: it need not be an inner product space.
 
 \begin{defn}{}{}
-A \emph{bilinear form} $B:V\times V\to\F$ is linear in each entry: $\forall \vv,\vx,\vy\in V,\lambda\in\F$,
-  \[B(\lambda\vx+\vy,\vv)=\lambda B(\vx,\vv)+B(\vy,\vv),\qquad B(\vv,\lambda\vx+\vy)=\lambda B(\vv,\vx)+B(\vv,\vy)\]
-Additionally, $B$ is \emph{symmetric} if $\forall \vx,\vy\in V$,\ $B(\vx,\vy)=B(\vy,\vx)$.
+	A \emph{bilinear form} $B:V\times V\to\F$ is linear in each entry: $\forall \vv,\vx,\vy\in V,\lambda\in\F$,
+	\[
+		B(\lambda\vx+\vy,\vv)=\lambda B(\vx,\vv)+B(\vy,\vv),\qquad 
+		B(\vv,\lambda\vx+\vy)=\lambda B(\vv,\vx)+B(\vv,\vy)
+	\]
+	Additionally, $B$ is \emph{symmetric} if $\forall \vx,\vy\in V$,\ $B(\vx,\vy)=B(\vy,\vx)$.
 \end{defn}
+
 
 \begin{examples}{}{bilinear}
-\exstart If $V$ is a \emph{real} inner product space, then the inner product $\ip{\ ,\ }$ is a symmetric bilinear form. Note that a \emph{complex} inner product is \emph{not bilinear!}
+	\exstart If $V$ is a \emph{real} inner product space, then the inner product $\ip{\ ,\ }$ is a symmetric bilinear form. Note that a \emph{complex} inner product is \emph{not bilinear!}
 
-\begin{enumerate}\setcounter{enumi}{1}
-	\item\label{ex:bilinear1} If $A\in M_n(\F)$, then $B(\vx,\vy):=\vx^TA\vy$ is a bilinear form on $\F^n$. For instance, on $\R^2$,
-	\[B(\vx,\vy)=\vx^T\begin{pmatrix}
-	1&2\\2&0
-	\end{pmatrix}\vy =x_1y_1+2x_1y_2+2x_2y_1\]
-	defines a symmetric bilinear form, though not an inner product since it isn't positive definite; for example $B(\vj,\vj)=0$.
-% 	
-%   \item On the vector space $V=\Z_3^2$ over the finite field $\Z_3=\{0,1,2\}$ of remainders modulo 3, define
-%   \[B(\vx,\vy)=\vx^T\begin{pmatrix}
-% 	2&0\\1&1
-% 	\end{pmatrix}\vy=2x_1y_1+x_2y_1+x_2y_2\]
-% 	For instance, $B\left(\stwovec 20,\stwovec 12\right)=1$. This isn't symmetric, since $B\left(\stwovec 12,\stwovec 20\right)=2$.
-\end{enumerate}
+	\begin{enumerate}\setcounter{enumi}{1}
+		\item\label{ex:bilinear1} If $A\in M_n(\F)$, then $B(\vx,\vy):=\vx^TA\vy$ is a bilinear form on $\F^n$. For instance, on $\R^2$,
+		\[
+			B(\vx,\vy)=\vx^T
+			\begin{pmatrix}
+				1&2\\
+				2&0
+			\end{pmatrix}
+			\vy =x_1y_1+2x_1y_2+2x_2y_1
+		\]
+		is a symmetric bilinear form; it isn't positive-definite so isn't an inner product (e.g.{} $B(\vj,\vj)=0$).
+	\end{enumerate}
 \end{examples}
 
-As seen above, we often make use of a matrix.
+As in the example, we often make use of a matrix.
 
 \begin{defn}{}{}
-Let $B$ be a bilinear form on a finite-dimensional space with basis $\epsilon=\{\vect{\vv}{n}\}$. The \emph{matrix of $B$ with respect to $\epsilon$} is the matrix $[B]_\epsilon=A\in M_n(\F)$ with $ij^\text{th}$ entry
-\[A_{ij}=B(\vv_i,\vv_j)\]
+	Let $B$ be a bilinear form on a finite-dimensional space with basis $\epsilon=\{\vect{\vv}{n}\}$. The \emph{matrix of $B$ with respect to $\epsilon$} is $[B]_\epsilon=A\in M_n(\F)$ whose $ij^\th$ entry is $A_{ij}=B(\vv_i,\vv_j)$.\par
+	Since $B$ is bilinear, if $\vx,\vy\in V$ have co-ordinate vectors $[\vx]_\epsilon$, $[\vy]_\epsilon$ with respect to $\epsilon$, then
+	\[
+		B(\vx,\vy)=[\vx]_\epsilon^TA[\vy]_\epsilon
+	\]
 \end{defn}
 
-Given $\vx,\vy\in V$, compute their co-ordinate vectors $[\vx]_\epsilon,[\vy]_\epsilon$ with respect to $\epsilon$, then
-\[B(\vx,\vy)=[\vx]_\epsilon^TA[\vy]_\epsilon\]
 The set of bilinear forms on $V$ is therefore in bijective correspondence with $M_n(\F)$. Moreover,
-\[B(\vy,\vx)=[\vy]_\epsilon^TA[\vx]_\epsilon=\left([\vy]_\epsilon^TA[\vx]_\epsilon\right)^T=[\vx]_\epsilon^TA^T[\vy]_\epsilon\]
-Finally, if $\beta$ is another basis of $V$, then an appeal to the change of co-ordinate matrix $Q_\epsilon^\beta$ yields
-\[B(\vx,\vy)=[\vx]_\epsilon^TA[\vy]_\epsilon =(Q_\beta^\epsilon[\vx]_\beta)^TA(Q_\beta^\epsilon[\vy]_\epsilon) =[\vx]_\beta^T(Q_\beta^\epsilon)^TAQ_\beta^\epsilon[\vy]_\beta \implies [B]_\beta=(Q_\beta^\epsilon)^T[B]_\epsilon Q_\beta^\epsilon\]
+\[
+	B(\vy,\vx)=[\vy]_\epsilon^TA[\vx]_\epsilon
+	=\left([\vy]_\epsilon^TA[\vx]_\epsilon\right)^T
+	=[\vx]_\epsilon^TA^T[\vy]_\epsilon
+\]
+so that $B$ is symmetric if and only if $A$ is also. Finally, if $\beta$ is another basis of $V$, then an appeal to the change of co-ordinate matrix $Q_\epsilon^\beta$ yields
+\begin{gather*}
+	B(\vx,\vy)=[\vx]_\epsilon^TA[\vy]_\epsilon 
+	=\big(Q_\beta^\epsilon[\vx]_\beta)^TA\big(Q_\beta^\epsilon[\vy]_\epsilon\big) 
+	=[\vx]_\beta^T(Q_\beta^\epsilon)^TAQ_\beta^\epsilon[\vy]_\beta \\
+	\implies [B]_\beta
+	=\big(Q_\beta^\epsilon\big)^T[B]_\epsilon Q_\beta^\epsilon
+\end{gather*}
 To summarize:
 
 \begin{lemm}{}{}
-Let $B$ be a bilinear form on a finite-dimensional vector space.
-\begin{enumerate}
-  \item If $A$ is the matrix of $B$ with respect to some basis, then every other matrix of $B$ has the form $Q^TAQ$ for some invertible $Q$.
-  \item $B$ is symmetric if and only if its matrix with respect to any (and all) bases is symmetric.
-\end{enumerate}
+	Let $B$ be a bilinear form on a finite-dimensional vector space.
+	\begin{enumerate}
+	  \item If $A$ is the matrix of $B$ with respect to some basis, then every other matrix of $B$ has the form $Q^TAQ$ for some invertible $Q$.
+	  \item $B$ is symmetric if and only if its matrix with respect to any (and all) bases is symmetric.
+	\end{enumerate}
 \end{lemm}
 
-Naturally, the simplest situation is when the matrix of $B$ is diagonal\ldots
-\goodbreak
+Naturally, the simplest situation is when the matrix of $B$ is diagonal. This can sometimes be done by brute force, but there is an algorithm\ldots
+
+
+\pagebreak[3]
+
 
 \begin{examples}{}{}
-\exstart Example \hyperref[ex:bilinear1]{\ref*{ex:bilinear}.\ref*{ex:bilinear1}} can be written
-\begin{align*}
-B(\vx,\vy)&=\vx^T\begin{pmatrix}
-1&2\\2&0
-\end{pmatrix}\vy =x_1y_1+2x_1y_2+2x_2y_1 =(x_1+2x_2)(y_1+2y_2)-4x_2y_2\\
-&=\bigl(x_1+2x_2\quad x_2\bigr)\begin{pmatrix}
-1&0\\0&-4
-\end{pmatrix}\twovec{y_1+2y_2}{y_2} =\vx^T\begin{pmatrix}
- 	1&2\\0&1
-\end{pmatrix}^T\begin{pmatrix}
-1&0\\0&-4
-\end{pmatrix}\begin{pmatrix}
- 	1&2\\0&1
-\end{pmatrix}\vy %\\
-% \implies &[B]_\gamma=\begin{pmatrix}
-% 1&0\\0&-4
-% \end{pmatrix}\quad\text{where}\quad\gamma=\left\{\twovec 10,\twovec{-2}1\right\}
-\end{align*}
-If $\epsilon$ is the standard basis, then $[B]_\beta=\begin{smatrix}
-1&0\\0&-4
-\end{smatrix}$ where $Q_\epsilon^\beta=\begin{smatrix}
- 	1&2\\0&1
-\end{smatrix}$. It follows that $Q_\beta^\epsilon=\begin{smatrix}
- 	1&-2\\0&1
-\end{smatrix}$ from which $\beta=\left\{\stwovec 10,\stwovec{-2}1\right\}$ is a diagonalizing basis.
-\begin{enumerate}\setcounter{enumi}{1}
-  \item In general, we may perform a sequence of \emph{simultaneous} row and column operations to diagonalize \emph{any} symmetric $B$; we require only elementary matrices $E_{ij}^{(\lambda)}$ of type III.\footnotemark For instance:
-\begin{align*}
-&B(\vx,\vy)=\vx^TA\vy=\vx^T
-\begin{pmatrix}
-	1&-2&3\\-2&0&4\\3&4&-1
-\end{pmatrix}\vy \tag{$A=[B]_\epsilon$ with respect to the standard basis}\\
-&E_{21}^{(2)}AE_{12}^{(2)}=\begin{pmatrix}
-	1&0&3\\0&-4&10\\3&10&-1
-\end{pmatrix} \tag{add twice row 1 to row 2, columns similarly}\\
-&E_{31}^{(-3)}E_{21}^{(2)}AE_{12}^{(2)}E_{13}^{(-3)}=\begin{pmatrix}
-	1&0&0\\0&-4&10\\0&10&-10
-\end{pmatrix} \tag{subtract 3 times row 1 from row 3, etc.}\\
-&E_{23}^{(1)}E_{31}^{(-3)}E_{21}^{(2)}AE_{12}^{(2)}E_{13}^{(-3)}E_{32}^{(1)}=\begin{pmatrix}
-	1&0&0\\0&6&0\\0&0&-10
-\end{pmatrix} \tag{add row 3 to row 2, etc.}
-\end{align*}
-If $\beta$ is the diagonalizing basis, the the change of co-ordinate matrix is
-\[Q_\beta^\epsilon=E_{12}^{(2)}E_{13}^{(-3)}E_{32}^{(1)}
-=\begin{pmatrix}
-	1&2&0\\0&1&0\\0&0&1
-\end{pmatrix}
-\begin{pmatrix}
-	1&0&-3\\0&1&0\\0&0&1
-\end{pmatrix}
-\begin{pmatrix}
-	1&0&0\\0&1&0\\0&1&1
-\end{pmatrix}
-=\begin{pmatrix}
-	1&-1&-3\\0&1&0\\0&1&1
-\end{pmatrix}\]
-from which $\beta=\left\{\sthreevec 100,\sthreevec{-1}11,\sthreevec{-3}01\right\}$. If you're having trouble believing this, invert the change of co-ordinate matrix and check that
-\[B(\vx,\vy)=(x_1-2x_2+3x_3)(y_1-2y_2+3y_3)+6x_2y_2-10(-x_2+x_3)(-y_2+y_3)\]
-\end{enumerate}
+	Performing a sequence of \emph{simultaneous} row and column operations will diagonalize \emph{any} symmetric $B$. Moreover, only elementary operations/matrices $E_{ij}^{(\lambda)}$ of type III are required.\footnotemark{}
+	\begin{enumerate}
+	  \item We diagonalize Example \ref*{ex:bilinear}.\ref{ex:bilinear1} where $[B]_\epsilon=A=
+	  \begin{smatrix}
+			1&2\\
+			2&0
+		\end{smatrix}$. The trick is to subtract twice row 1 from row 2, and then do the same thing with columns: subtract twice column 1 from column 2.
+		\[
+			E_{21}^{(-2)}AE_{12}^{(-2)}=
+			\begin{pmatrix}
+				1&0\\
+				-2&1
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&2\\
+				2&0
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&-2\\
+				0&1
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				1&2\\
+				0&-4
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&-2\\
+				0&1
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				1&0\\
+				0&-4
+			\end{pmatrix}
+		\]
+		can be written
+	\begin{align*}
+		B(\vx,\vy)&=\vx^T
+		\begin{pmatrix}
+			1&2\\
+			2&0
+		\end{pmatrix}
+		\vy =x_1y_1+2x_1y_2+2x_2y_1 =(x_1+2x_2)(y_1+2y_2)-4x_2y_2\\
+		&=\bigl(x_1+2x_2\quad x_2\bigr)
+		\begin{pmatrix}
+		1&0\\
+		0&-4
+		\end{pmatrix}\twovec{y_1+2y_2}{y_2} =\vx^T
+		\begin{pmatrix}
+		 	1&2\\
+		 	0&1
+		\end{pmatrix}^T
+		\begin{pmatrix}
+		1&0\\
+		0&-4
+		\end{pmatrix}
+		\begin{pmatrix}
+		 	1&2\\
+		 	0&1
+		\end{pmatrix}\vy
+	\end{align*}
+	If $\epsilon$ is the standard basis, then $[B]_\beta=
+		\begin{smatrix}
+			1&0\\
+			0&-4
+		\end{smatrix}$ where $Q_\epsilon^\beta=
+		\begin{smatrix}
+		 	1&2\\
+		 	0&1
+		\end{smatrix}$. It follows that $Q_\beta^\epsilon=
+		\begin{smatrix}
+		 	1&-2\\
+		 	0&1
+		\end{smatrix}$ 
+		from which $\beta=\left\{\stwovec 10,\stwovec{-2}1\right\}$ is a diagonalizing basis.
+		
+	  \item  For example:
+	\begin{align*}
+		&B(\vx,\vy)=\vx^TA\vy=\vx^T
+		\begin{pmatrix}
+			1&-2&3\\
+			-2&0&4\\
+			3&4&-1
+		\end{pmatrix}
+		\vy \tag{$A=[B]_\epsilon$ with respect to the standard basis}\\
+		&E_{21}^{(2)}AE_{12}^{(2)}=
+		\begin{pmatrix}
+			1&0&3\\
+			0&-4&10\\
+			3&10&-1
+		\end{pmatrix} 
+		\tag{add twice row 1 to row 2, columns similarly}\\
+		&E_{31}^{(-3)}E_{21}^{(2)}AE_{12}^{(2)}E_{13}^{(-3)}=
+		\begin{pmatrix}
+			1&0&0\\
+			0&-4&10\\
+			0&10&-10
+		\end{pmatrix} 
+		\tag{subtract 3 times row 1 from row 3, etc.}\\
+		&E_{23}^{(1)}E_{31}^{(-3)}E_{21}^{(2)}AE_{12}^{(2)}E_{13}^{(-3)}E_{32}^{(1)}=
+		\begin{pmatrix}
+			1&0&0\\
+			0&6&0\\
+			0&0&-10
+		\end{pmatrix} 
+		\tag{add row 3 to row 2, etc.}
+	\end{align*}
+	If $\beta$ is the diagonalizing basis, then the change of co-ordinate matrix is
+	\[
+		Q_\beta^\epsilon=E_{12}^{(2)}E_{13}^{(-3)}E_{32}^{(1)}
+		=\begin{pmatrix}
+			1&2&0\\
+			0&1&0\\
+			0&0&1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1&0&-3\\
+			0&1&0\\
+			0&0&1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1&0&0\\
+			0&1&0\\
+			0&1&1
+		\end{pmatrix}
+		=\begin{pmatrix}
+			1&-1&-3\\
+			0&1&0\\
+			0&1&1
+		\end{pmatrix}
+	\]
+	from which $\beta=\left\{\sthreevec 100,\sthreevec{-1}11,\sthreevec{-3}01\right\}$. If you're having trouble believing this, invert the change of co-ordinate matrix and check that
+	\[
+		B(\vx,\vy)=(x_1-2x_2+3x_3)(y_1-2y_2+3y_3)+6x_2y_2-10(-x_2+x_3)(-y_2+y_3)
+	\]
+	\end{enumerate}
 \end{examples}
 
-\footnotetext{Recall that $\smash[b]{E_{ij}^{(\lambda)}}$ is the identity matrix with an additional $\lambda$ in the $ij^\text{th}$ entry.
+\footnotetext{%
+	Recall that $\smash[b]{E_{ij}^{(\lambda)}}$ is the identity matrix with an additional $\lambda$ in the $ij^\text{th}$ entry.
  \begin{itemize}\itemsep0pt\parsep0pt
    \item As a \emph{column} operation (right-multiplication), $A\mapsto A\smash{E_{ij}^{(\lambda)}}$ adds $\lambda$ times the $i^\text{th}$ column to the $j^\text{th}$.
    \item As a \emph{row} operation (left-multiplication), $A\mapsto E_{ji}^{(\lambda)}A=(E_{ij}^{(\lambda)})^TA$ adds $\lambda$ times the $i^\text{th}$ row to the $j^\text{th}$.
- \end{itemize}} 
+ \end{itemize}%
+} 
 
-\textcolor{red}{Warning!} If $\F=\R$ then every symmetric $B$ may be diagonalized by an orthonormal basis (for the usual dot product on $\R^n$). It is \emph{very} unlikely that our algorithm will produce such! The algorithm has two main advantages over the spectral theorem: it is typically faster and it applies to vector spaces over any field. As a disadvantage, it is highly non-unique.
+\textcolor{red}{Warning!} If $\F=\R$, the Spectral Theorem says every symmetric $B$ may be diagonalized by an orthonormal basis (for the usual dot product). It is \emph{very} unlikely that our algorithm will produce such! The advantages of the algorithm are that it is typically faster and that it applies over any field.
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{example}{}{diagbilinear}
-We diagonalize $B(\vx,\vy)=\vx^T\begin{smatrix}1&6\\6&3\end{smatrix}\vy =x_1y_1+6x_1y_2+6x_2y_1+3x_2y_2$ in three ways.
-\begin{itemize}
-  \item $\begin{smatrix}1&0\\-6&1\end{smatrix}
-  \begin{smatrix}1&6\\6&3\end{smatrix}
-  \begin{smatrix}1&-6\\0&1\end{smatrix}
-  =\begin{smatrix}1&0\\0&-33\end{smatrix}=[B]_\beta$ where $\beta=\left\{\stwovec 10,\stwovec{-6}1\right\}$. This corresponds to 
-  \[B(\vx,\vy)=(x_1+6x_2)(y_1+6y_2)-33x_2y_2\]
-  \item $\begin{smatrix}1&-2\\0&1\end{smatrix}
-  \begin{smatrix}1&6\\6&3\end{smatrix}
-  \begin{smatrix}1&0\\-2&1\end{smatrix}
-  =\begin{smatrix}-11&0\\0&3\end{smatrix}=[B]_\gamma$ where $\gamma=\left\{\stwovec 1{-2},\stwovec 01\right\}$. This corresponds to 
-  \[B(\vx,\vy)=-11x_1y_1+3(2x_1+x_2)(2y_1+y_2)\]
-  \item If $\F=\R$, we may apply the spectral theorem to see that $[B]_\eta=\smash[t]{\begin{smatrix}2+\sqrt{37}&0\\0&2-\sqrt{37}\end{smatrix}}$ is diagonal with respect to $\eta=\left\{\stwovec 6{1+\sqrt{37}},\stwovec{-1-\sqrt{37}}6\right\}$. The expression for $B(\vx,\vy)$ in these co-ordinates is disgusting, so we omit it; that $B$ can be diagonalized orthogonally doesn't mean it should be! 
-  
-%   is an orthogonal eigenbasis, with respect to which $B$ is diagonal
-%   \begin{gather*}
-%   [B]_\eta=\frac 1{74+2\sqrt{37}}
-%   \begin{smatrix}6&1+\sqrt{37}\\-1-\sqrt{37}&6\end{smatrix}
-%   \begin{pmatrix}1&6\\6&3\end{pmatrix}
-%   \begin{smatrix}6&-1-\sqrt{37}\\1+\sqrt{37}&6\end{smatrix}
-%   =\begin{smatrix}2+\sqrt{37}&0\\0&2-\sqrt{37}\end{smatrix}%\\
-%   \begin{aligned}
-%   B(\vx,\vy)&=(2+\sqrt{37})\frac{(6x_1+(1+\sqrt{37})x_2)(6y_1+(1+\sqrt{37})y_2)}{74+2\sqrt{37}}\\
-%   &\qquad\qquad +(2-\sqrt{37})\frac{(6x_2-(1+\sqrt{37})x_1)(6y_2-(1+\sqrt{37})y_1)}{74+2\sqrt{37}}
-%   \end{aligned}
-  %\end{gather*}
-
-\end{itemize}
+	We diagonalize $B(\vx,\vy)=\vx^T
+	\begin{smatrix}
+		1&6\\
+		6&3
+	\end{smatrix}
+	\vy =x_1y_1+6x_1y_2+6x_2y_1+3x_2y_2$ in three ways.
+	\begin{itemize}
+	  \item $\begin{smatrix}
+	  	1&0\\
+	  	-6&1
+	  \end{smatrix}
+	  \begin{smatrix}
+	  	1&6\\
+	  	6&3
+	  \end{smatrix}
+	  \begin{smatrix}
+	  	1&-6\\
+	  	0&1
+	  \end{smatrix}
+	  =
+	  \begin{smatrix}
+	  	1&0\\
+	  	0&-33
+	  \end{smatrix}
+	  =[B]_\beta$ where $\beta=\left\{\stwovec 10,\stwovec{-6}1\right\}$. This corresponds to 
+	  \[
+	  	B(\vx,\vy)=(x_1+6x_2)(y_1+6y_2)-33x_2y_2
+	  \]
+	  
+	  \item $\begin{smatrix}
+	  	1&-2\\
+	  	0&1
+	  \end{smatrix}
+	  \begin{smatrix}
+	  	1&6\\
+	  	6&3
+	  \end{smatrix}
+	  \begin{smatrix}
+	  	1&0\\
+	  	-2&1
+	  \end{smatrix}
+	  =\begin{smatrix}
+	  	-11&0\\
+	  	0&3
+	  \end{smatrix}
+	  =[B]_\gamma$ where $\gamma=\left\{\stwovec 1{-2},\stwovec 01\right\}$. This corresponds to 
+	  \[
+	  	B(\vx,\vy)=-11x_1y_1+3(2x_1+x_2)(2y_1+y_2)
+	  \]
+	  
+	  \item If $\F=\R$, we may apply the spectral theorem to see that $[B]_\eta=\smash[t]{\begin{smatrix}2+\sqrt{37}&0\\0&2-\sqrt{37}\end{smatrix}}$ is diagonal with respect to $\eta=\left\{\stwovec 6{1+\sqrt{37}},\stwovec{-1-\sqrt{37}}6\right\}$. The expression for $B(\vx,\vy)$ in these co-ordinates is disgusting, so we omit it; that $B$ can be diagonalized orthogonally doesn't mean it should be! 
+	\end{itemize}
 \end{example}
 
+
 \begin{thm}{}{}
-Suppose $B$ is a bilinear form of a finite-dimensional space $V$ over $\F$.
-\begin{enumerate}
-  \item If $B$ is diagonalizable, then it is symmetric.
-  \item If $B$ is symmetric and $\F$ does not have characteristic two (see aside), then $B$ is diagonalizable. 
-\end{enumerate}
+	Suppose $B$ is a bilinear form on a finite-dimensional space $V$ over $\F$.
+	\begin{enumerate}
+	  \item If $B$ is diagonalizable, then it is symmetric.
+	  \item If $B$ is symmetric and $\F$ does not have characteristic two (see aside), then $B$ is diagonalizable. 
+	\end{enumerate}
 \end{thm}
 
 \begin{proof}
-\begin{enumerate}
-  \item If $B$ is diagonalizable, $\exists\beta$ such that $[B]_\beta$ is diagonal and thus symmetric.
-  \item Suppose $B$ is non-zero (otherwise the result is trivial). We prove by induction on $n=\dim V$.\smallbreak
-  If $n=1$, the result is trivial: $B(x,y)=axy$ for some $a\in \F$ is clearly symmetric.\smallbreak
-	Fix $n\in\N$ and assume that every non-zero symmetric bilinear form on a dimension $n$ vector space over $\F$ is diagonalizable. Let $\dim V=n+1$. By the discussion below, $\exists \vx\in V$ such that $B(\vx,\vx)\neq 0$. Consider the linear map
-\[\rT:V\to\F:\vv\mapsto B(\vx,\vv)\]
-Clearly $\Rank\rT=1\implies \dim\cN(\rT)=n$. Moreover, $B$ is symmetric when restricted to $\cN(\rT)$; by the induction hypothesis there exists a basis $\beta$ of $\cN(\rT)$ such that $[\at{B}{\cN(\rT)}]_\beta$ is diagonal. But then $B$ is diagonal with respect to the basis $\beta\cup\{\vx\}$.\qedhere 
-\end{enumerate}
+	\exstart If $B$ is diagonalizable, $\exists\beta$ such that $[B]_\beta$ is diagonal and thus symmetric.
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item Suppose $B$ is non-zero (otherwise the result is trivial). We prove by induction on $n=\dim V$.\smallbreak
+	  If $n=1$, the result is trivial: $B(x,y)=a xy$ for some $a\in \F$ is clearly symmetric.\smallbreak
+		Fix $n\in\N$ and assume that every non-zero symmetric bilinear form on a dimension $n$ vector space over $\F$ is diagonalizable. Let $\dim V=n+1$. By the aside (below), $\exists \vx\in V$ such that $B(\vx,\vx)\neq 0$. Consider the linear map
+		\[
+			\rT:V\to\F:\vv\mapsto B(\vx,\vv)
+		\]
+		Clearly $\Rank\rT=1\Longrightarrow \dim\cN(\rT)=n$. Moreover, $B$ is symmetric when restricted to $\cN(\rT)$; by the induction hypothesis there exists a basis $\beta$ of $\cN(\rT)$ such that $[\at{B}{\cN(\rT)}]_\beta$ is diagonal. But then $B$ is diagonal with respect to the basis $\beta\cup\{\vx\}$.\qedhere 
+	\end{enumerate}
 \end{proof}
 
 
 
 \begin{aside}{}{}
-{\bfseries Aside: Characteristic two fields}\quad This means $1+1=0$ in $\F$; this holds, for instance, in the field $\Z_2=\{0,1\}$ of remainders modulo 2. We now see the importance of $\operatorname{char}\F\neq 2$ to the above result.
-\begin{itemize}
-	\item The proof uses the existence of $\vx\in V$ such that $B(\vx,\vx)\neq 0$. If $B$ is non-zero, $\exists\vu,\vv$ such that $B(\vu,\vv)\neq 0$. If both $B(\vu,\vu)=0=B(\vv,\vv)$, then $\vx=\vu+\vv$ does the job whenever $\operatorname{char}\F\neq 2$:
-	\[B(\vx,\vx)=B(\vu,\vv)+B(\vv,\vu)=2B(\vu,\vv)\neq 0\]
-
-	\item To see that the requirement isn't idle, consider $B(\vx,\vy)=\vx^T\begin{smatrix}0&1\\1&0\end{smatrix}\vy$ on the finite vector space $\Z_2^2=\{\stwovec 00,\stwovec 10,\stwovec 01,\stwovec 11\}$ over $\Z_2$. Every element of this space satisfies $B(\vx,\vx)=0$! Perhaps surprisingly, the matrix of $B$ is identical with respect to \emph{any} basis of $\Z_2^2$, whence $B$ is symmetric but non-diagonalizable.
-\end{itemize}
-
-% : choose any  and if both $B(\vu,\vu)=0=B(\vv,\vv)$, then $\vx=\vu+\vv$ satisfies
-% \[B(\vx,\vx)=2B(\vu,\vv)\neq 0\]
-% This is where the characteristic $\neq 2$ condition comes in!
-% Why the problem with characteristic 2? Consider $B=\vv^T\begin{smatrix}0&1\\1&0\end{smatrix}\vw$. If we apply our algorithm:
-% \begin{align*}
-% &E_{12}^{(1)}\begin{pmatrix}
-% 	0&1\\1&0
-% \end{pmatrix}E_{21}^{(1)}=\begin{pmatrix}
-% 	2&1\\1&0
-% \end{pmatrix} \tag{add the second row to the first, columns similarly}\\
-% &E_{21}^{(-1/2)}E_{12}^{(1)}\begin{pmatrix}
-% 	0&1\\1&0
-% \end{pmatrix}E_{21}^{(1)}E_{12}^{(-1/2)}=\begin{pmatrix}
-% 	2&0\\0&-\frac 12
-% \end{pmatrix} \tag{subtract $\frac 12$ row 1 from row 2, etc.}
-% \end{align*}
-% Since $Q=E_{21}^{(1)}E_{12}^{(-1/2)}= \begin{smatrix}
-% 	1&0\\1&1
-% \end{smatrix}\begin{smatrix}
-% 	1&-\frac 12\\0&1
-% \end{smatrix}=\begin{smatrix}
-% 	1&-\frac 12\\1&\frac 12
-% \end{smatrix}$
-% we see that $B$ is diagonal with respect to the basis $\gamma=\left\{\stwovec 11,\stwovec{-1/2}{1/2}\right\}$. If the field has characteristic 2, however, then $\frac 12$ is meaningless! Perhaps surprisingly, the matrix of $B$ is the same with respect to \emph{any} basis of $\Z_2^2$: $B$ is therefore non-diagonalizable!
+	{\bfseries Aside}\quad A field has \emph{characteristic two} if $1+1=0$ in $\F$: this holds, for instance, in the field $\Z_2=\{0,1\}$ of remainders modulo 2.
+	\begin{itemize}
+		\item The proof uses the existence of $\vx\in V$ such that $B(\vx,\vx)\neq 0$. If $B$ is non-zero, $\exists\vu,\vv$ such that $B(\vu,\vv)\neq 0$. If both $B(\vu,\vu)=0=B(\vv,\vv)$, then $\vx=\vu+\vv$ does the job whenever $\operatorname{char}\F\neq 2$:
+		\[
+			B(\vx,\vx)=B(\vu,\vv)+B(\vv,\vu)=2B(\vu,\vv)\neq 0
+		\]
+	
+		\item To see that this requirement isn't idle, consider $B(\vx,\vy)=\vx^T
+		\begin{smatrix}
+			0&1\\
+			1&0
+		\end{smatrix}
+		\vy$ on the finite vector space $\Z_2^2=\{\stwovec 00,\stwovec 10,\stwovec 01,\stwovec 11\}$ over $\Z_2$. Every element of this space satisfies $B(\vx,\vx)=0$! Perhaps surprisingly, the matrix of $B$ is identical with respect to \emph{any} basis of $\Z_2^2$, whence $B$ is symmetric but non-diagonalizable.
+	\end{itemize}
 \end{aside}
 
-\goodbreak
 
+\pagebreak[3]
+
+
+\boldsubsubsection{Sylvester's Law of Inertia}
 
 In Example \ref{ex:diagbilinear} notice how the three diagonal matrix representations have something in common: one each of the diagonal entries are positive and negative. This is a general phenomenon:
 
-\begin{thm}{Sylvester's Law of Inertia}{}
-Suppose $B$ is a symmetric bilinear form on a real vector space $V$ with diagonal matrix representation $\diag(\lambda_1,\ldots,\lambda_n)$. Then the number of entries $\lambda_j$ which are positive/negative/zero is independent of the diagonal representation.
+\begin{thm}{Sylvester}{}
+	Suppose $B$ is a symmetric bilinear form on a real vector space $V$ with diagonal matrix representation $\diag(\lambda_1,\ldots,\lambda_n)$. Then the number of entries $\lambda_j$ which are positive/negative/zero is independent of the diagonal representation.
 \end{thm}
 
 \begin{defn}{}{}
-The \emph{signature} of a symmetric bilinear form $B$ is the triple $(n_+,n_-,n_0)$ representing how many positive, negative and zero terms are in any diagonal representation. Sylvester's Law says that the signature is an \emph{invariant} of a symmetric bilinear form.
+	The \emph{signature} of a symmetric bilinear form $B$ is the triple $(n_+,n_-,n_0)$ representing how many positive, negative and zero terms are in any diagonal representation. %Sylvester's Law says that the signature is an \emph{invariant} of a symmetric bilinear form.
 \end{defn}
 
 Positive-definiteness says that a real inner product on an $n$-dimensional space has signature $(n,0,0)$. Practitioners of relativity often work in \emph{Minkowski spacetime}: $\R^4$ equipped with a signature $(1,3,0)$ bilinear form, typically
-\[B(\vx,\vy)=\vx^T\begin{pmatrix}
-c^2&0&0&0\\
-0&-1&0&0\\
-0&0&-1&0\\
-0&0&0&-1
-\end{pmatrix}\vy =c^2x_1y_1-x_2y_2-x_3y_3-x_4y_4\]
+\[
+	B(\vx,\vy)=\vx^T
+	\begin{pmatrix}
+		c^2&0&0&0\\
+		0&-1&0&0\\
+		0&0&-1&0\\
+		0&0&0&-1
+	\end{pmatrix}
+	\vy =c^2x_1y_1-x_2y_2-x_3y_3-x_4y_4
+\]
 where $c$ is the speed of light. Vectors are \emph{time-, space-,} or \emph{light-like} depending on whether $B(\vx,\vx)$ is positive, negative or zero. For instance $\vx=3c^{-1}\ve_1+2\ve_2+2\ve_3+\ve_4$ is light-like.
 
-\begin{proof}
-For simplicity, let $V=\R^n$ and write $B(\vx,\vy)=\vx^TA\vy$ where $A$ is symmetric.
-\begin{enumerate}
-  \item Define $\Rank B:=\Rank A$ and observe this is independent of basis (exercises).
-  \item Let $\beta,\gamma$ be diagonalizing bases, ordered according to whether $B$ is \textcolor{red}{positive}, \textcolor{blue}{negative} or \textcolor{Green}{zero}.
-  \begin{gather*}
-  \beta=\{\textcolor{red}{\vv_1},\ldots,\textcolor{red}{\vv_p}, \textcolor{blue}{\vv_{p+1}},\ldots,\textcolor{blue}{\vv_r}, \textcolor{Green}{\vv_{r+1}},\ldots,\textcolor{Green}{\vv_n}  \}\\
-  \gamma=\{\textcolor{red}{\vw_1},\ldots,\textcolor{red}{\vw_q}, \textcolor{blue}{\vw_{q+1}},\ldots,\textcolor{blue}{\vw_r}, \textcolor{Green}{\vw_{r+1}},\ldots,\textcolor{Green}{\vw_n}  \}
-  \end{gather*}
-  Here $r=\Rank B$ in accordance with part 1: our goal is to prove that $p=q$.
-  \item Assume $p<q$, define the matrix $C$ and check what follows:
-  \[C=\begin{smatrix}
-    \textcolor{red}{\vv_1^T}A\\\vdots\\\textcolor{red}{\vv_p^T}A\\\textcolor{blue}{\vw_{q+1}^T}A\\\vdots\\\textcolor{blue}{\vw_{r}^T}A
-    \end{smatrix}\in M_{(r-q+p)\times n}(\R)\]
-    \begin{enumerate}
-      \item $\Rank C\le r-q+p<r\implies \Null C> n-r$, thus
-      \[\exists\vx\in\R^n\text{ such that }C\vx=\V0 \text{ and }\vx\not\in\Span\{\textcolor{Green}{\vv_{r+1}},\ldots,\textcolor{Green}{\vv_n}\}\]
-      \item The first $p$ entries of $C\vx=\V0$ mean that $\vx\in\Span\{\textcolor{blue}{\vv_{p+1}},\ldots,\textcolor{blue}{\vv_r}, \textcolor{Green}{\vv_{r+1}},\ldots,\textcolor{Green}{\vv_n}\}$ and so $B(\vx,\vx)<0$. Note how we use part (a) to get a strict inequality here.
-      \item Now write $\vx$ with respect to $\gamma$: this time we see that $\vx\in\Span\{\textcolor{red}{\vw_1},\ldots,\textcolor{red}{\vw_q}, \textcolor{Green}{\vw_{r+1}},\ldots,\textcolor{Green}{\vw_n}\}$, whence $B(\vx,\vx)\ge 0$: a contradiction.\qedhere
- 		\end{enumerate}
-\end{enumerate}
+\begin{proof}[Sketch Proof]
+	For simplicity, let $V=\R^n$ and write $B(\vx,\vy)=\vx^TA\vy$ where $A$ is symmetric.
+	\begin{enumerate}
+	  \item Define $\Rank B:=\Rank A$ and observe this is independent of basis (Exercise \ref{exs:sylvesterrank}).
+	  
+	  \item Let $\beta,\gamma$ be diagonalizing bases, ordered according to whether $B$ is \textcolor{red}{positive}, \textcolor{blue}{negative} or \textcolor{Green}{zero}.
+	  \begin{gather*}
+	  \beta=\{\textcolor{red}{\vv_1},\ldots,
+	  \textcolor{red}{\vv_p}, \textcolor{blue}{\vv_{p+1}},\ldots,
+	  \textcolor{blue}{\vv_r}, \textcolor{Green}{\vv_{r+1}},\ldots,
+	  \textcolor{Green}{\vv_n}  \}\\
+	  \gamma=\{\textcolor{red}{\vw_1},\ldots,\textcolor{red}{\vw_q}, \textcolor{blue}{\vw_{q+1}},\ldots,\textcolor{blue}{\vw_r}, \textcolor{Green}{\vw_{r+1}},\ldots,\textcolor{Green}{\vw_n}  \}
+	  \end{gather*}
+	  Here $r=\Rank B$ in accordance with part 1: our goal is to prove that $p=q$.
+	  
+	  \item Assume $p<q$, define the matrix $C$, and check what follows:
+	  \[
+	  	C=
+	  	\begin{smatrix}
+		    \textcolor{red}{\vv_1^T}A\\
+		    \vdots\\
+		    \textcolor{red}{\vv_p^T}A\\
+		    \textcolor{blue}{\vw_{q+1}^T}A\\
+		    \vdots\\
+		    \textcolor{blue}{\vw_{r}^T}A
+	    \end{smatrix}
+	    \in M_{(r-q+p)\times n}(\R)
+	  \]
+	  \begin{enumerate}
+	    \item $\Rank C\le r-q+p<r\Longrightarrow \Null C> n-r$, thus
+	    \[
+	     	\exists\vx\in\R^n\text{ such that }C\vx=\V0 \text{ and }
+	     	\vx\not\in\Span\{\textcolor{Green}{\vv_{r+1}},\ldots,
+	     	\textcolor{Green}{\vv_n}\}
+	    \]
+	    \item The first $p$ entries of $C\vx=\V0$ mean that $\vx\in\Span\{\textcolor{blue}{\vv_{p+1}},\ldots,\textcolor{blue}{\vv_r}, \textcolor{Green}{\vv_{r+1}},\ldots,\textcolor{Green}{\vv_n}\}$ and so $B(\vx,\vx)<0$. Note how we use part (a) to get a strict inequality here.
+	    \item Now write $\vx$ with respect to $\gamma$: this time we see that $\vx\in\Span\{\textcolor{red}{\vw_1},\ldots,\textcolor{red}{\vw_q}, \textcolor{Green}{\vw_{r+1}},\ldots,\textcolor{Green}{\vw_n}\}$, whence $B(\vx,\vx)\ge 0$: a contradiction.\qedhere
+	 		\end{enumerate}
+	\end{enumerate}
 \end{proof}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \boldsubsubsection{Quadratic Forms \& Diagonalizing Conics}
 
 
 \begin{defn}{}{}
-To every symmetric bilinear form $B:V\times V\to\F$ is associated a \emph{quadratic form}
-\[K:V\to\F:\vx\mapsto B(\vx,\vx)\]
-A function $K:V\to\F$ is termed a quadratic form when such a symmetric bilinear form exists.
+	To every symmetric bilinear form $B:V\times V\to\F$ is associated a \emph{quadratic form}
+	\[
+		K:V\to\F:\vx\mapsto B(\vx,\vx)
+	\]
+	A function $K:V\to\F$ is termed a quadratic form when such a symmetric bilinear form exists.
 \end{defn}
 
 
 \begin{examples}{}{}
-\exstart If $B$ is a real inner product, then $K(\vv)=\ip{\vv,\vv}=\Nm{\vv}^2$ is the square of the norm.
-\begin{enumerate}\setcounter{enumi}{1}  
-  \item Let $\dim V=n$ and $A$ be the matrix of $B$ with respect to a basis $\beta$. By the symmetry of $A$,
-  \[K(\vx)=\vx^TA\vx=\sum_{i,j=1}^nx_iA_{ij}x_j =\sum_{1\le i\le j\le n}\tilde a_{ij}x_ix_j
-  \quad\text{where}\ \tilde a_{ij}=\begin{cases}
-  A_{ij}&\text{if $i=j$}\\
-  2A_{ij}&\text{if }i\neq j
-  \end{cases}\]
-  E.g., $K(\vx)=3x_1^2+4x_2^2-2x_1x_2$ corresponds to the bilinear form $B(\vx,\vy)=\vx^T\begin{smatrix}
-  3&-1\\-1&4
-  \end{smatrix}\vy$
-%   where $\tilde a_{ij}=\begin{cases}
-%   A_{ij}&\text{if $i=j$}\\
-%   2A_{ij}&\text{if }i\neq j
-%   \end{cases}$
-\end{enumerate}
+	\exstart If $B$ is a real inner product, then $K(\vv)=\ip{\vv,\vv}=\Nm{\vv}^2$ is the square of the norm.
+	\begin{enumerate}\setcounter{enumi}{1}  
+	  \item Let $\dim V=n$ and $A$ be the matrix of $B$ with respect to a basis $\beta$. By the symmetry of $A$,
+	  \[
+		  K(\vx)=\vx^TA\vx=\sum_{i,j=1}^nx_iA_{ij}x_j 
+		  =\sum_{1\le i\le j\le n}\tilde a_{ij}x_ix_j
+		  \quad\text{where}\ \tilde a_{ij}=
+		  \begin{cases}
+			  A_{ij}&\text{if $i=j$}\\
+			  2A_{ij}&\text{if }i\neq j
+		  \end{cases}
+	  \]
+	  E.g., $K(\vx)=3x_1^2+4x_2^2-2x_1x_2$ corresponds to the bilinear form $B(\vx,\vy)=\vx^T\begin{smatrix}
+	  3&-1\\-1&4
+	  \end{smatrix}\vy$
+	%   where $\tilde a_{ij}=\begin{cases}
+	%   A_{ij}&\text{if $i=j$}\\
+	%   2A_{ij}&\text{if }i\neq j
+	%   \end{cases}$
+	\end{enumerate}
 \end{examples}
 
 
 As a fun application, we consider the diagonalization of conics in $\R^2$. The general non-zero conic has equation
-\[ax^2+2bxy+cy^2+dx+ey+f=0\]
+\[
+	ax^2+2bxy+cy^2+dx+ey+f=0
+\]
 where the first three terms comprise a quadratic form
-\[K(\vx)=ax^2+2bxy+cy^2\leftrightsquigarrow B(\vv,\vw)=\vv^T\begin{pmatrix}
-a&b\\b&c
-\end{pmatrix}\vw\]
+\[
+	K(\vx)=ax^2+2bxy+cy^2
+	\leftrightsquigarrow B(\vv,\vw)=\vv^T
+	\begin{pmatrix}
+		a&b\\
+		b&c
+	\end{pmatrix}
+	\vw
+\]
 If $\{\vv_1,\vv_2\}$ is a diagonalizing basis, then there exist scalars $\lambda_1,\lambda_2$ for which
-\[K(t_1\vv_1+t_2\vv_2)=\lambda_1t_1^2+\lambda_2t_2^2\]
+\[
+	K(t_1\vv_1+t_2\vv_2)=\lambda_1t_1^2+\lambda_2t_2^2
+\]
 whence the general conic becomes
-\[\lambda_1t_1^2+\lambda_2t_2^2+\mu_1t_1+\mu_2t_2=\eta,\quad \lambda_1,\lambda_2,\mu_1,\mu_2,\eta\in\R\]
+\[
+	\lambda_1t_1^2+\lambda_2t_2^2+\mu_1t_1+\mu_2t_2=\eta,\quad 
+	\lambda_1,\lambda_2,\mu_1,\mu_2,\eta\in\R
+\]
 If $\lambda_i\neq 0$, we may complete the square via the linear transformation $s_j=t_j+\frac{\mu_j}{2\lambda_j}$. The canonical forms are then recovered:
 \begin{itemize}
 	\item[]\normalfont\emph{Parabola}: $\lambda_1$ or $\lambda_2=0$ (but not both).
@@ -4116,44 +4271,61 @@ If $\lambda_i\neq 0$, we may complete the square via the linear transformation $
 	\item[]\normalfont\emph{Hyperbola}: $\lambda_1s_1^2+\lambda_2s_2^2=k\neq 0$ where $\lambda_1,\lambda_2$ have opposite signs.
 \end{itemize}
 Since $B$ is symmetric, we may take $\{\vv_1,\vv_2\}$ to be an \emph{orthonormal} basis of $\R^2$, whence any conic may be put in canonical form by applying only a rotation/reflection and translation (completing the square).\smallbreak
-Alternatively, we could diagonalize $K$ using our earlier algorithm; this additionally permits shear transforms. By Sylvester's Law, the diagonal entries will have the same number of $(+,-,0)$ terms regardless of the method, so the canonical form will be unchanged.
+Alternatively, we could diagonalize $K$ using our earlier algorithm; this additionally permits shear transforms. By Sylvester's Law, the diagonal entries will have the same number of $(+,-,0)$ terms regardless of the method, so the canonical form is unchanged.
 
 
 \begin{examples}{}{}
-\exstart We describe and plot the conic with equation $7x^2+24xy=144$.
-\begin{enumerate}\setcounter{enumi}{1} 
-\begin{minipage}[t]{0.6\linewidth}\vspace{-10pt}
-  \item[] The matrix of the associated bilinear form is $\begin{smatrix}
-7&12\\12&0
-  \end{smatrix}$ which has orthonormal eigenbasis
-	\[\beta=\{\vv_1,\vv_2\}=\left\{\frac 15\twovec 43,\frac 15\twovec{-3}4\right\}\]
-	with eigenvalues $(\lambda_1,\lambda_2)=(16,-9)$. In the rotated basis, this is the canonical hyperbola
-	\[16t_1^2-9t_2^2=144\iff \frac{t_1^2}{3^2}-\frac{t_2^2}{4^2}=1\]
-	which is easily plotted. In case this is too fast, use the change of co-ordinate matrix to compute directly:
-\end{minipage}\begin{minipage}[t]{0.4\linewidth}\vspace{-5pt}
-\flushright\includegraphics[scale=0.9]{quad-hyperbola}
-\end{minipage}\smallbreak
-\vspace{-10pt}
-	\[Q_\beta^\epsilon =\frac 15\begin{pmatrix}
-	4&-3\\3&4
-	\end{pmatrix}\implies \twovec{t_1}{t_2}=[\vx]_\beta=Q_\epsilon^\beta\twovec xy=
-	\frac 15\twovec{4x+3y}{-3x+4y}\]
-	which quickly recovers the original conic by substitution.
-
-
-\begin{minipage}[t]{0.64\linewidth}\vspace{0pt}
-\item The conic defined by $K(\vx)=x^2+12xy+3y^2=-33$ defines a hyperbola in accordance with Example \ref{ex:diagbilinear}. With respect to the basis $\gamma=\{\stwovec 1{-2},\stwovec 01\}$, we see that
-\begin{gather*}
-K(\vx)=-11x^2+3(2x+y)^2=-11t_1^2+3t_2^2=-33\\
-\iff \frac{t_1^2}{3}-\frac{t_2^2}{11}=1
-\end{gather*}
-Even though $\gamma$ is non-orthogonal, we can still plot the conic! If we instead used the orthonormal basis $\eta$, we'd obtain
-\[K(\vx)=(\sqrt{37}+2)s_1^2-(\sqrt{37}-2)s_2^2=-33\]
-however the calculation to find $\eta$ is time-consuming and the expressions for $s_1,s_2$ are extremely ugly.
-\end{minipage}\begin{minipage}[t]{0.36\linewidth}\vspace{0pt}
-\flushright\includegraphics[scale=0.97]{quad-hyperbola2}
-\end{minipage}
-\end{enumerate}
+	\exstart We describe and plot the conic with equation $7x^2+24xy=144$.\vspace{-5pt}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[] The matrix of the associated bilinear form is 
+	  $\begin{smatrix}
+			7&12\\
+			12&0
+	  \end{smatrix}$. 
+	  This has orthonormal eigenbasis
+		\[
+			\beta=\{\vv_1,\vv_2\}
+			=\left\{\frac 15\twovec 43,\frac 15\twovec{-3}4\right\}
+		\]
+		with eigenvalues $(\lambda_1,\lambda_2)=(16,-9)$. In the rotated basis, this is the canonical hyperbola
+		\[
+			16t_1^2-9t_2^2=144
+			\iff \frac{t_1^2}{3^2}-\frac{t_2^2}{4^2}=1
+		\]
+		In case this is too fast, use the change of co-ordinate matrix to compute directly:
+		\[
+			Q_\beta^\epsilon =\frac 15
+			\begin{pmatrix}
+				4&-3\\
+				3&4
+			\end{pmatrix}
+			\implies \twovec{t_1}{t_2}=[\vx]_\beta=Q_\epsilon^\beta\twovec xy
+			=\frac 15\twovec{4x+3y}{-3x+4y}
+		\]
+		which recovers the original conic by substitution.
+	
+		\item The conic defined by $K(\vx)=x^2+12xy+3y^2=-33$ defines a hyperbola in accordance with Example \ref{ex:diagbilinear}. With respect to the basis $\gamma=\big\{\stwovec 1{-2},\stwovec 01\big\}$,
+		\begin{gather*}
+			K(\vx)=-11x^2+3(2x+y)^2=-11t_1^2+3t_2^2=-33
+			\iff \frac{t_1^2}{3}-\frac{t_2^2}{11}=1
+		\end{gather*}
+		Even though $\gamma$ is non-orthogonal, we can still plot the conic! If we instead used the orthonormal basis $\eta$, we'd obtain
+		\[
+			K(\vx)=(\sqrt{37}+2)s_1^2-(\sqrt{37}-2)s_2^2=-33
+		\]
+		however finding $\eta$ is time-consuming and the expressions for $s_1,s_2$ are extremely ugly.
+		\begin{center}
+			\begin{tabular}{c@{\qquad\qquad}c}
+				\includegraphics[alt={hyperbola}]{quad-hyperbola}
+				&
+				\includegraphics[alt={hyperbola}]{quad-hyperbola2}
+				\\
+				Part 1
+				&
+				Part 2	
+			\end{tabular}
+		\end{center}
+	\end{enumerate}
 \end{examples}
 
 A similar approach can be applied to higher degree quadratic equations/manifolds: e.g.\ ellipsoids, paraboloids and hyperboloids in $\R^3$.
@@ -4161,65 +4333,85 @@ A similar approach can be applied to higher degree quadratic equations/manifolds
 \vfil
  
 \begin{exercises}
-\exstart Prove that the sum of any two bilinear forms is bilinear, and that any scalar multiple of a bilinear form is bilinear: thus the set of bilinear forms on $V$ is a vector space.\vspace{-5pt}
-  
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[](\emph{You can't use matrices here, since $V$ could be infinite-dimensional!}) 
-  \item Compute the matrix of the bilinear form
-  \[B(\vx,\vy)=x_1y_1-2x_1y_2+x_2y_1-x_3y_3\]
-  on $\R^3$ with respect to the basis $\beta=\left\{\sthreevec 101,\sthreevec 10{-1},\sthreevec 010\right\}$.
-  
-  \goodbreak
-  
-  \item Check that the function $B(f,g)=f'(0)g''(0)$ is a bilinear form on the vector space of twice-differentiable functions. Find the matrix of $B$ with respect to $\beta=\{\cos t,\sin t,\cos 2t,\sin 2t\}$ when restricted to the subspace $\Span\beta$.
-  
-  \item For each matrix $A$, find a diagonal matrix $D$ and an invertible matrix $Q$ such that $Q^TAQ=D$.
-  \begin{enumerate}
-    \item $\begin{pmatrix}
-    1&3\\3&2
-    \end{pmatrix}$\qquad
-    (b)\ \ $\begin{pmatrix}
-    3&1&2\\1&4&0\\2&0&-1
-    \end{pmatrix}$
-  \end{enumerate}
-  
-  \item If $K$ is a quadratic form and $K(\vx)=2$, what is the value of $K(3\vx)$?
-  
-  \item If $\F$ does not have characteristic 2, and $K(\vx)=B(\vx,\vx)$ is a quadratic form, prove that we can recover the bilinear form $B$ via
-		\[B(\vx,\vy)=\frac 12\left(K(\vx+\vy)-K(\vx)-K(\vy)\right)\]
-  
-  \item If $B(\vx,\vy)=\vx^T\begin{smatrix}0&1\\1&0\end{smatrix}\vy$ is a bilinear form on $\F^2$, compute the quadratic form $K(\vx)$.
-  
-  \item Suppose $B$ is a symmetric bilinear form on a real finite-dimensional space. With reference to the proof of Sylvester's Law, explain why $\Rank B$ is independent of the choice of diagonalizing basis.
-  
-  \item If $\operatorname{char}\F\neq 2$, apply the diagonalizing algorithm to the symmetric bilinear form $B=\vx^T\begin{smatrix}0&1\\1&0\end{smatrix}\vy$ on $\F^2$. What goes wrong if $\operatorname{char}\F=2$? 
-  
-  \item Describe and plot the following conics:
-  \begin{enumerate}
-    \item $x^2+y^2+xy=6$
-    
-    \item $35x^2+120xy=4x+3y$
-  \end{enumerate}
-  
-  \item Suppose that a non-empty, non-degenerate\footnotemark conic $C$ in $\R^2$ has the form $ax^2+2bxy+cy^2+dx+ey+f=0$, where at least one of $a,b,c\neq 0$, and define $\Delta=b^2-ac$. Prove that:
-  \begin{itemize}
-    \item $C$ is a parabola if and only if $\Delta=0$;
-    \item $C$ is an ellipse if and only if $\Delta<0$;
-    \item $C$ is a hyperbola if and only if $\Delta>0$.
-  \end{itemize}
-  (\emph{Hint: $\lambda_1,\lambda_2$ are the eigenvalues of a symmetric matrix, so\ldots})
-  
-  %\item Consider the quadratic form $K(x,y,z)=x^2+y^2-z^2$ which describes a cone in three dimensions. Let $ax+by+cz=1$ be the equation of a plane in $\R^3$ which does not pass through the origin. Prove that 
-\end{enumerate}
+	\exstart Prove that the sum of any two bilinear forms is bilinear, and that any scalar multiple of a bilinear form is bilinear (the set of bilinear forms on $V$ is therefore a vector space).\vspace{-8pt}
+	\begin{enumerate}\setcounter{enumi}{1}
+	  \item[](\emph{You can't use matrices here since $V$ could be infinite-dimensional!}) 
+	  
+	  \item Compute the matrix of the bilinear form
+	  \[
+	  	B(\vx,\vy)=x_1y_1-2x_1y_2+x_2y_1-x_3y_3
+	  \]
+	  on $\R^3$ with respect to the basis $\beta=\left\{\sthreevec 101,\sthreevec 10{-1},\sthreevec 010\right\}$.
+	  
+	  
+	  \item Check that $B(f,g)=f'(0)g''(0)$ is a bilinear form on the vector space of twice-differentiable functions. Find the matrix of $B$ with respect to $\beta=\{\cos t,\sin t,\cos 2t,\sin 2t\}$ on $\Span\beta$.
+	  
+	  
+	  \item For each matrix $A$, find a diagonal matrix $D$ and an invertible matrix $Q$ such that $Q^TAQ=D$.
+	  \begin{enumerate}
+	    \item $\begin{pmatrix}
+	    	1&3\\
+	    	3&2
+	    \end{pmatrix}$
+	    \qquad
+	    (b)\ \ $\begin{pmatrix}
+	    	3&1&2\\
+	    	1&4&0\\
+	    	2&0&-1
+	    \end{pmatrix}$
+	  \end{enumerate}
+	  
+	  
+	  \item If $K$ is a quadratic form and $K(\vx)=2$, what is the value of $K(3\vx)$?
+	  
+	  
+	  \item If $\F$ does not have characteristic 2, and $K(\vx)=B(\vx,\vx)$ is a quadratic form, prove that we can recover the bilinear form $B$ via
+		\[
+			B(\vx,\vy)=\frac 12\left(K(\vx+\vy)-K(\vx)-K(\vy)\right)
+		\]
+	  
+	  
+	  \item If $B(\vx,\vy)=\vx^T
+	  \begin{smatrix}
+	  	0&1\\
+	  	1&0
+	  \end{smatrix}
+	  \vy$ is a bilinear form on $\F^2$, compute the quadratic form $K(\vx)$.
+	  
+	  
+	  \item\label{exs:sylvesterrank} Suppose $B$ is a symmetric bilinear form on a real finite-dimensional space. With reference to the proof of Sylvester's Law, explain why $\Rank B$ is independent of the choice of diagonalizing basis.
+	  
+	  
+	  \item If $\operatorname{char}\F\neq 2$, apply the diagonalizing algorithm to the symmetric bilinear form $B=\vx^T\begin{smatrix}0&1\\1&0\end{smatrix}\vy$ on $\F^2$. What goes wrong if $\operatorname{char}\F=2$? 
+	  
+	  
+	  \item Describe and plot the conics:
+	  \begin{enumerate}
+	    \item $x^2+y^2+xy=6$ \qquad\qquad
+	    (b) \ $35x^2+120xy=4x+3y$
+	  \end{enumerate}
+	  
+	  
+	  \item Suppose that a non-empty, non-degenerate\footnotemark{} conic $C$ in $\R^2$ has the form $ax^2+2bxy+cy^2+dx+ey+f=0$, where at least one of $a,b,c\neq 0$, and define $\Delta=b^2-ac$. Prove that:
+	  \begin{itemize}
+	    \item $C$ is a parabola if and only if $\Delta=0$;
+	    \item $C$ is an ellipse if and only if $\Delta<0$;
+	    \item $C$ is a hyperbola if and only if $\Delta>0$.
+	  \end{itemize}
+	  %(\emph{Hint: $\lambda_1,\lambda_2$ are the eigenvalues of a symmetric matrix, so\ldots})
+	\end{enumerate}
 \end{exercises}
 
-\footnotetext{The conic contains at least two points and cannot be factorized as a product of two straight lines: for example, the following are disallowed;
+\footnotetext{The conic contains at least two points and isn't two straight lines: e.g., the following are disallowed;
   \begin{itemize}
-    \item $x^2+y^2+1=0$ is empty (unless one allows conics over $\C\ldots$)
+    \item $x^2+y^2+1=0$ is empty over the real numbers;
     \item $x^2+y^2=0$ contains only one point;
     \item $x^2-xy-x+y=(x-1)(x-y)=0$ is the product of two lines.
   \end{itemize}}
+  
 \clearpage
+
+
 
 \iffalse
 
@@ -4477,8 +4669,5 @@ performs two rotations. It has no `axis' of rotation, since it has no eigenspace
 % 	\end{enumerate}
 \end{enumerate}
 \end{exercises}
-
-\fi
-
 
 \fi
