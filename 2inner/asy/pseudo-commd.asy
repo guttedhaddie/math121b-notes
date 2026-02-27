@@ -1,27 +1,62 @@
-settings.prc=false;
-settings.outformat="pdf";
+settings.tex="lualatex";
+defaultpen(fontsize(11pt));
 
 texpreamble("\usepackage{amsmath}
 \usepackage{amsthm,amssymb}
-\usepackage{mathpazo}
+\usepackage[otfmath,theoremfont,trueslanted,largesc]{newpx}
+\setmathfont{TeX Gyre Pagella Math}
+%\everydisplay{\Umathoperatorsize\displaystyle=4.5ex}
 \usepackage[svgnames]{xcolor}
-\def\rT{\mathrm{T}}
-\def\cR{\mathcal{R}}
-\def\cN{\mathcal{N}}
-\def\V0{\mathbf{0}}
+\def\rT{\mathrm T}
+\def\cN{\mathcal N}
+\def\cR{\mathcal R}
+\def\Span{\operatorname{Span}}
+\def\V#1{\mathbf{#1}}
+\def\vv{\V{v}}
+\def\vw{\V{w}}
+\def\lst#1#2{{#1}_1,\ldots,{#1}_{#2}}
+\def\vect#1#2{\lst{\V{#1}}{#2}}
 ");
 import graph;
 
-size(180);
+//size(240);
 
-pair l=(-1,1);
-pair r=(1,1);
 
-label("$\begin{matrix} V\\[8pt]\cN(\rT)^\perp\\\bigoplus\ \ \\\cN(\rT)\ \ \\[8pt]\{\V0_V\}\ \ \end{matrix}$",l);
+label("$\begin{array}{c@{\ }c@{\ }c@{\ }c@{\ }c@{\quad}c}
+	V
+	&
+	=
+	&
+	\underbrace{\Span\{\vect vr\}}_{\cN(\rT)^\perp=\cR(\rT^\dag)}
+	&
+	\oplus
+	&
+	\underbrace{\Span\{\vv_{r+1},\ldots,\vv_n\}}_{\cN(\rT)=\cR(\rT^\dag)^\perp}
+	&
+	\{\V0_V\}
+	\\[85pt]
+	W
+	&
+	=
+	&
+	\overbrace{\Span\{\vect wr\}}^{\cR(\rT)=\cN(\rT^\dag)^\perp} 
+	&
+	\oplus
+	&
+	\overbrace{\Span\{\vw_{r+1},\ldots,\vw_m\}}^{\cR(\rT)^\perp=\cN(\rT^\dag)}
+	&
+	\{\V0_W\}
+\end{array}$",(0,0));
 
-label("$\begin{matrix} W\\[8pt]\cR(\rT)\ \ \\\bigoplus\ \ \\\cR(\rT)^\perp\\[8pt]\{\V0_W\}\ \ \end{matrix}$",r);
 
-draw(Label("$\rT$",align=N),l+(0.4,0.23)--r+(-0.4,0.23),red,Arrow);
-draw(Label("$\rT^\dag$",align=S),r+(-0.4,0.17)--l+(0.4,0.17),blue,Arrow);
-draw(l+(0.25,-0.22)--r+(-0.35,-0.5),red,Arrow);
-draw(r+(-0.35,-0.22)--l+(0.25,-0.5),blue,Arrow);
+draw(Label("$\rT$",align=W,fontsize(8)+red),(-123,-45)--(-123,45),red,Arrow(SimpleHead));
+draw(Label("$\rT^\dag$",align=E,fontsize(8)+blue),(-119,45)--(-119,-45),blue,Arrow(SimpleHead));
+
+draw((-62,-32)--(-62,32),red,Arrow(SimpleHead));
+draw((-58,32)--(-58,-32),blue,Arrow(SimpleHead));
+
+fill(box((-65,-8),(-55,8)),white);
+label("bijection",(-60,0));
+
+draw((60,-32)--(110,43),red,Arrow(SimpleHead));
+draw((60,32)--(110,-43),blue,Arrow(SimpleHead));
