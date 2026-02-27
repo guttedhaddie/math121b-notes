@@ -1861,7 +1861,6 @@ In general, it is difficult to quickly find a suitable basis satisfying Schur's 
 
 
 
-
 \subsection{Unitary and Orthogonal Operators and their Matrices}\label{sec:unitary}
 
 % In this section considering the diagonalization of a normal or self-adjoint matrix in accordance with the spectral theorem. Here is an example:
@@ -2381,6 +2380,7 @@ As suggested by the name, this is indeed an equivalence relation (Exercise \ref{
 
 
 \clearpage
+
 
 
 \subsection{Orthogonal Projections}
@@ -2959,7 +2959,6 @@ This set-up can be used to compute accurate approximations in many contexts.
 \clearpage
 	
 
-
 \subsection{The Singular Value Decomposition and the Pseudoinverse}\label{sec:svd}
 
 
@@ -3048,6 +3047,7 @@ Our main result says that such bases always exist!
 \end{thm}
 
 
+
 \pagebreak[3]
 
 
@@ -3072,6 +3072,7 @@ Our main result says that such bases always exist!
 	\]
   \item[Freedom of Choice] While the singular values are uniquely determined, there is often some freedom regarding $\beta$ and $\gamma$, particularly if an eigenspace of $\rT^*\rT$ has dimension $\ge 2$. The block-diagonal matrix $[\rT]_\beta^\gamma$ remains independent of the bases chosen.
 \end{description}
+
 
 \begin{example*}{\ref{ex:svd1} cont}
 	We apply the method in the Theorem to the matrix $A$.\smallbreak
@@ -3277,10 +3278,6 @@ Our main result says that such bases always exist!
 
 
 
-
-
-
-
 % \begin{example}{}{}
 % We find the singular value decomposition of the matrix $A=\begin{smatrix}
 %   -1&7\\3&4\\7&1
@@ -3312,6 +3309,7 @@ Our main result says that such bases always exist!
 %   \frac 35&\frac{-4}5\\\frac 45&\frac 35 
 %   \end{pmatrix}^T\]
 % \end{example}
+
 
 
 
@@ -3350,26 +3348,9 @@ Restricted to $\Span\{\vect vr\}\to\Span\{\vect wr\}$, the pseudoinverse really 
 \hfill
 \begin{minipage}[t]{0.65\linewidth}\vspace{-2pt}
 	\hfill\includegraphics[alt={The pseudoinverse}]{svd}
-% 	$\xymatrix @C0pt @R23pt{
-% 	V \ar@<-0.4ex>@[red][dd]_{\textcolor{red}{\rT}}
-% 		& = 
-% 		& \underbrace{\Span\{\vect vr\}}_{\cN(\rT)^\perp=\cR(\rT^\dag)} \ar@<-0.4ex>@[red]@{-}[d]
-% 		& \oplus
-% 		& \underbrace{\Span\{\vv_{r+1},\ldots,\vv_n\}}_{\cN(\rT)=\cR(\rT^\dag)^\perp} \ar@[red][ddrr]
-% 		&& \{\V0_V\} 
-% 		\\
-% &&\text{bijection} \ar@<-0.4ex>@[blue][u] \ar@<-0.4ex>@[red][d]&&&\\
-% 	W \ar@<-0.4ex>@[blue][uu]_{\textcolor{blue}{\rT^\dag}}
-% 		& =
-% 		& \overbrace{\Span\{\vect wr\}}^{\cR(\rT)=\cN(\rT^\dag)^\perp} \ar@<-0.4ex>@[blue]@{-}[u]
-% 		& \oplus
-% 		& \overbrace{\Span\{\vw_{r+1},\ldots,\vw_m\}}^{\cR(\rT)^\perp=\cN(\rT^\dag)} \ar@[blue][uurr]
-% 		&& \{\V0_W\}
-% 	}
-% $
 \end{minipage}\smallbreak
-Otherwise said, the combinations are \emph{orthogonal projections}: $\rT^\dag\rT=\pi^\perp_{\cN(\rT)}$ and $\rT\rT^\dag=\pi_{\cR(\rT)}$
 
+Otherwise said, the combinations are \emph{orthogonal projections}: $\rT^\dag\rT=\pi^\perp_{\cN(\rT)}$ and $\rT\rT^\dag=\pi_{\cR(\rT)}$
 
 \pagebreak[3]
 
@@ -3495,7 +3476,6 @@ Given a singular value decomposition of a matrix $A=P\Sigma Q^*$, its pseudoinve
 %   \begin{pmatrix}
 %   -6&6&18\\17&8&-1
 %   \end{pmatrix}\threevec 100 =\frac 1{150}\twovec{-6}{17} \implies A\vx=\threevec{5/6}{2/6}{-1/6}\]
-
 
 
 
@@ -3810,7 +3790,6 @@ With the indicated matrix notation, we recognize this as a least-squares problem
 
 
 \clearpage
-
 
 
 \subsection{Bilinear and Quadratic Forms}
