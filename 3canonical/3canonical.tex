@@ -1,5 +1,4 @@
 \graphicspath{{notes/3canonical/asy/}}
-\def\at#1#2{#1_{#2}}
 
 \setcounter{section}{2}
 
@@ -7,677 +6,956 @@
 
 \subsection{Jordan Forms \& Generalized Eigenvectors}
 
-Throughout this course we've concerned ourselves with variations of a general question: for a given  map $\rT\in\cL(V)$, find a basis $\beta$ such that the matrix $[\rT]_\beta$ is as close to diagonal as possible. In this chapter we see what is possible when $\rT$ is non-diagonalizable.
+Essentially everything in these notes is a variation of a single question: given a linear map $\rT$ on a finite-dimensional vector space $V$, how can we find a basis $\beta$ such that the matrix $[\rT]_\beta$ is as close to diagonal as possible? In this chapter we see what is possible when $\rT$ is non-diagonalizable.
 
 
 \begin{example}{}{jordan1}
-The matrix $A=\begin{smatrix}
--8&4\\-25&12
-\end{smatrix}\in M_2(\R)$ has characteristic equation
-\[p(t)=(-8-t)(12-t)+4\cdot 25=t^2-4t+4=(t-2)^2\]
-and thus a single eigenvalue $\lambda=2$. It is non-diagonalizable since the eigenspace is one-dimensional
-\[E_2 =\cN\begin{pmatrix}
--10&4\\-25&10
-\end{pmatrix}=\Span\twovec 25\]
-However, if we consider a basis $\beta=\{\vv_1,\vv_2\}$ where $\vv_1=\stwovec 25$ is an eigenvector, then $[\rL_A]_\beta$ is upper-triangular, which is better than nothing! How simple can we make this matrix? Let $\vv_2=\stwovec xy$, then
-\begin{align*}
-&A\vv_2=\twovec{-8x+4y}{-25x+12y}=2\twovec xy+\twovec{-10x+4y}{-25x+10y}=2\vv_2+(-5x+2y)\vv_1\\
-&\implies [\rL_A]_\beta=\begin{pmatrix}
-2&-5x+2y\\0&2
-\end{pmatrix}
-\end{align*}
-Since $\vv_2$ cannot be parallel to $\vv_1$, the only thing we cannot have is a diagonal matrix. The next best thing is for the upper right corner be 1; for instance we could choose
-\[\beta=\{\vv_1,\vv_2\}=\left\{\twovec 25,\twovec 13\right\}\implies [\rL_A]_\beta=\begin{pmatrix}
-2&1\\0&2
-\end{pmatrix}\]
+	The matrix $A=
+	\begin{smatrix}
+		-8&4\\
+		-25&12
+	\end{smatrix}
+	\in M_2(\R)$ has characteristic equation
+	\[
+		p(t)=(-8-t)(12-t)+4\cdot 25=t^2-4t+4=(t-2)^2
+	\]
+	and thus a single eigenvalue $\lambda=2$ of algebraic multiplicity two. The matrix is non-diagonalizable since the corresponding eigenspace is one-dimensional (Theorem \ref{thm:diagcrit}):
+	\[
+		E_2 =\cN
+		\begin{pmatrix}
+			-10&4\\
+			-25&10
+		\end{pmatrix}
+		=\Span\twovec 25
+	\]
+	However, with respect to a basis $\beta=\{\vv_1,\vv_2\}$ where $\vv_1=\stwovec 25$ is an eigenvector, $[\rL_A]_\beta$ is \emph{upper-triangular} which is better than nothing! How simple can we make this matrix? If $\vv_2=\stwovec xy$, then
+	\begin{align*}
+		&A\vv_2=\twovec{-8x+4y}{-25x+12y}=2\twovec xy+\twovec{-10x+4y}{-25x+10y}=2\vv_2+(-5x+2y)\vv_1\\
+		&\implies [\rL_A]_\beta=
+		\begin{pmatrix}
+			2&-5x+2y\\
+			0&2
+		\end{pmatrix}
+	\end{align*}
+	Since $\vv_2$ cannot be parallel to $\vv_1$, the only thing we cannot have is a diagonal matrix. The next best thing is to make the upper right corner 1; this can be achieved by, for instance, choosing
+	\[
+		\beta=\{\vv_1,\vv_2\}=\left\{\twovec 25,\twovec 13\right\}
+		\implies [\rL_A]_\beta=
+		\begin{pmatrix}
+			2&1\\
+			0&2
+		\end{pmatrix}
+	\]
 \end{example}
 
 
 \begin{defn}{}{}
-A \emph{Jordan block} is a square matrix of the form
-\[J=\begin{pmatrix}
-\lambda&1&&\\[-2pt]
-&\lambda&\ddots&\\[-2pt]
-&&\ddots&1\\
-&&&\lambda
-\end{pmatrix}\]
-where all non-indicated entries are zero. Any $1\times 1$ matrix is also a Jordan block.\smallbreak
-A \emph{Jordan canonical form} is a block-diagonal matrix $\diag(J_1,\ldots,J_m)$ where each $J_k$ is a Jordan block.\smallbreak
-A \emph{Jordan canonical basis} for $\rT\in\cL(V)$ is a basis $\beta$ of $V$ such that $[\rT]_\beta$ is a Jordan canonical form.
+	A \emph{Jordan block} is a square matrix of the form
+	\[
+		J=
+		\begin{pmatrix}
+			\lambda&1&&\\[-2pt]
+			&\lambda&\ddots&\\[-2pt]
+			&&\ddots&1\\
+			&&&\lambda
+		\end{pmatrix}
+	\]
+	where all non-indicated entries are zero. Any $1\times 1$ matrix is also a Jordan block.\par
+	A \emph{Jordan canonical form} is a block-diagonal matrix $\diag(J_1,\ldots,J_m)$ where each $J_k$ is a Jordan block.\par
+	A \emph{Jordan canonical basis} for $\rT\in\cL(V)$ is a basis $\beta$ of $V$ such that $[\rT]_\beta$ is a Jordan canonical form.\footnotemark
 \end{defn}
 
-%In the above example, $\beta$ is a Jordan canonical basis, and $[\rL_A]_\beta$ and Jordan canonical form.\smallbreak
+\footnotetext{%
+	If $\rT=\rL_A$ is left-multiplication by a matrix $A\in M_n(\F)$, we simply refer to a Jordan canonical basis for $A$.}
+
+In Example \ref{ex:jordan1}, $\beta$ is a Jordan canonical basis and $[\rL_A]_\beta$ a Jordan canonical form.\smallbreak
 
 If a map is diagonalizable, then any eigenbasis is Jordan canonical and the corresponding Jordan canonical form is diagonal. What about more generally? Does every non-diagonalizable map have a Jordan canonical basis? If so, how can we find such?
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{example}{}{jordan2}
-It can easily be checked that
-$\beta=\{\vv_1,\vv_2,\vv_3\}=\left\{\sthreevec 101,\sthreevec 120,\sthreevec 111\right\}$
-is a Jordan canonical basis for 
-\[A=\begin{pmatrix}
--1&2&3\\-4&5&4\\-2&1&4
-\end{pmatrix}\]
-(really $\rL_A\in\cL(\R^3)$). Indeed
-\[A\vv_1=2\vv_1,\quad A\vv_2=3\vv_2,\quad A\vv_3=\threevec 453=\threevec{1+3}{2+3}{0+3}=\vv_2+3\vv_3\implies [\rL_A]_\beta=\begin{pmatrix}
-2&0&0\\
-0&3&1\\
-0&0&3
-\end{pmatrix}\]
+	We check that
+	$\beta=\{\vv_1,\vv_2,\vv_3\}=\left\{\sthreevec 101,\sthreevec 120,\sthreevec 111\right\}$
+	is a Jordan canonical basis for 
+	\[
+		A=
+		\begin{pmatrix}
+			-1&2&3\\
+			-4&5&4\\
+			-2&1&4
+		\end{pmatrix}
+	\]
+	Indeed
+	\[
+		A\vv_1=2\vv_1,\quad 
+		A\vv_2=3\vv_2,\quad 
+		A\vv_3=\threevec 453=\threevec{1+3}{2+3}{0+3}=\vv_2+3\vv_3\implies [\rL_A]_\beta=
+		\begin{pmatrix}
+			2&0&0\\
+			0&3&1\\
+			0&0&3
+		\end{pmatrix}
+	\]
+	This last is a Jordan canonical form for $A$.
 \end{example}
+
 
 \boldsubsubsection{Generalized Eigenvectors}
 
-Example \ref{ex:jordan2} was easy to check, but how would we go about finding a suitable $\beta$ if we were merely given $A$? We brute-forced this in Example \ref{ex:jordan1}, but such is not a reasonable approach in general. Eigenvectors get us some of the way:
+Example \ref{ex:jordan2} was easy to verify, but how would we go about finding a suitable basis in general? We brute-forced this in Example \ref{ex:jordan1}, but this is not a reasonable way to proceed for harder problems. Considering the shape of a Jordan form, any basis vector corresponding to a column with at most one non-zero entry must be an eigenvector:
 \begin{itemize}
-  \item $\vv_1$ is an eigenvector in Example \ref{ex:jordan1}, but $\vv_2$ is not. 
-  \item $\vv_1$ and $\vv_2$ are eigenvectors in Example \ref{ex:jordan2}, but $\vv_3$ is not.
+  \item In Example \ref{ex:jordan1}, $\vv_1$ is an eigenvector but $\vv_2$ is not.
+  \item In Example \ref{ex:jordan2}, $\vv_1$ and $\vv_2$ are eigenvectors but $\vv_3$ is not.
 \end{itemize}
-The practical question is how to fill out a Jordan canonical basis once we have a maximal independent set of eigenvectors. We now define the necessary objects.
+The practical question, therefore, is how to fill out a Jordan canonical basis once we have a maximal independent set of eigenvectors. We now define the necessary objects.
 
 \begin{defn}{}{}
-Suppose $\rT\in\cL(V)$ has an eigenvalue $\lambda$. Its \emph{generalized eigenspace} is
-\[K_\lambda:=\{\vx\in V:(\rT-\lambda \I)^k(\vx)=\V0\text{ for some }k\in\N\}=\bigcup_{k\in\N}\cN(\rT-\lambda\I)^k\]
-A \emph{generalized eigenvector} is any non-zero $\vv\in K_\lambda$.
+	Suppose $\rT\in\cL(V)$ has an eigenvalue $\lambda$. Its \emph{generalized eigenspace} is
+	\[
+		K_\lambda:=
+		\big\{\vx\in V:(\rT-\lambda \I)^k(\vx)=\V0\text{ for some }k\in\N\big\}
+		=\smash[b]{\bigcup_{k\in\N}\cN(\rT-\lambda\I)^k}
+	\]
+	A \emph{generalized eigenvector} is any non-zero $\vv\in K_\lambda$.
 \end{defn}
 
 As with eigenspaces, the generalized eigenspaces of $A\in M_n(\F)$ are those of the map $\rL_A\in\cL(\F^n)$.\smallbreak
 
-\begin{tcolorbox}[exstyle]
-It is easy to check that our earlier Jordan canonical bases consist of generalized eigenvectors.
-\begin{description}
-  \item[\normalfont{Example \ref{ex:jordan1}}:] We have one eigenvalue $\lambda=2$. Since $(A-2I)^2=\begin{smatrix}
-  0&0\\0&0
-  \end{smatrix}$ is the zero matrix, every non-zero vector is a generalized eigenvector; plainly $K_2=\R^2$.
+\begin{examples*}{cont.}{}
+	Our earlier Jordan canonical bases consist of generalized eigenvectors.
+	\begin{description}
+	  \item[{Example \ref{ex:jordan1}}.] We have one eigenvalue $\lambda=2$. Since $(A-2I)^2=
+	  \begin{smatrix}
+	  	0&0\\
+	  	0&0
+	  \end{smatrix}$
+	  is the zero matrix, every non-zero vector is a generalized eigenvector: that is, $K_2=\R^2$.
+	
+	  \item[Example \ref{ex:jordan2}.] We see that
+	  \[
+	  	(A-2I)\vv_1=\V0,\qquad 
+	  	(A-3I)\vv_2=\V0,\qquad 
+	  	(A-3I)^2\vv_3=(A-3I)\vv_2=\V0
+	  \]
+	  whence $\beta$ is a basis of generalized eigenvectors. Indeed
+	  \[
+	  	K_3=\Span\{\vv_1,\vv_2\},\quad 
+	  	K_2=E_2=\Span\{\vv_3\}
+	  \]
+	  though verifying this with current technology is a little awkward\ldots
+	\end{description}
+\end{examples*}
 
-  \item[\normalfont Example \ref{ex:jordan2}:] We see that
-  \[(A-2I)\vv_1=\V0,\qquad (A-3I)\vv_2=\V0,\qquad (A-3I)^2\vv_3=(A-3I)\vv_2=\V0\]
-  whence $\beta$ is a basis of generalized eigenvectors. Indeed
-  \[K_3=\Span\{\vv_1,\vv_2\},\quad K_2=E_2=\Span\{\vv_3\}\]
-  though verifying this with current technology is a little awkward\ldots
-\end{description}
-\end{tcolorbox}
 
-\goodbreak
+\pagebreak[3]
 
-In order to easily compute generalized eigenspaces, it is useful to invoke the main result of this section. We postpone the proof for a while due to its meatiness.
+
+To  help compute generalized eigenspaces, we invoke the main result of this section; the proof is postponed due to its meatiness. Make sure to compare this with the diagonalizability criterion (Theorem \ref{thm:diagcrit2}).
 
 \begin{thm}{}{generalized1}
-Suppose that the characteristic polynomial of $\rT\in\cL(V)$ splits over $\F$:
-\[p(t)=(\lambda_1-t)^{m_1}\cdots (\lambda_k-t)^{m_k}\]
-where the $\lambda_j$ are the \emph{distinct} eigenvalues of $\rT$ with algebraic multiplicities $m_j$. Then:
-\begin{enumerate}\itemsep0pt
-  \item For each eigenvalue; \ (a) \ $K_{\lambda}=\cN(\rT-\lambda \I)^{m}$ and \ (b) \ $\dim K_{\lambda}=m$.
-	\item $V=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_k}$: there exists a basis of generalized eigenvectors.
-\end{enumerate}
+	Suppose that the characteristic polynomial of $\rT\in\cL(V)$ splits over $\F$:
+	\[
+		p(t)=(\lambda_1-t)^{m_1}\cdots (\lambda_k-t)^{m_k}
+	\]
+	where the $m_j$ are the algebraic multiplicities of the \emph{distinct} eigenvalues $\lambda_j$. Then:
+	\begin{enumerate}\itemsep0pt
+	  \item For each eigenvalue, \ (a) \ $K_{\lambda}=\cN(\rT-\lambda \I)^{m}$, \ and \ (b) \ $\dim K_{\lambda}=m$.
+		\item $V=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_k}$. In particular, there exists a basis of generalized eigenvectors.
+	\end{enumerate}
 \end{thm}
 
-Compare this with the statement on diagonalizability from the start of the course.\smallbreak
-
-With regard to part 2; we shall eventually be able to \emph{choose} this to be a Jordan canonical basis. In conclusion: a map has a Jordan canonical basis if and only if its characteristic polynomial splits.
+With regard to part 2, we shall eventually be able to \emph{choose} the basis to be Jordan canonical. In conclusion: a map has a Jordan canonical basis if and only if its characteristic polynomial splits.
 
 
 
 \begin{examples}{}{}
-\exstart Observe how Example \ref{ex:jordan2} works in this language:
-\begin{gather*}
-A=\begin{pmatrix}
--1&2&3\\-4&5&4\\-2&1&4
-\end{pmatrix}\implies p(t)=(2-t)^{\textcolor{blue}{1}}(3-t)^{\textcolor{red}{2}}\\
-K_2=\cN(A-2I)^{\textcolor{blue}{1}}=\Span\threevec 101\implies\dim K_2={\textcolor{blue}{1}}\\
-K_3=\cN(A-3I)^{\textcolor{red}{2}}=\cN\begin{pmatrix}
-2&-1&-1\\0&0&0\\2&-1&-1
-\end{pmatrix} =\Span\left\{\threevec 120,\threevec 111\right\}\implies\dim K_3={\textcolor{red}{2}}\\
-\R^3=\textcolor{blue}{K_2}\oplus \textcolor{red}{K_3}
-\end{gather*}
-\begin{enumerate}\setcounter{enumi}{1}
-  \item We find the generalized eigenspaces of the matrix $A=\begin{smatrix}
-5&2&-1\\0&0&0\\9&6&-1
-\end{smatrix}$\\
-The characteristic polynomial is
-\[p(t)=\det(A-\lambda I)=-t\begin{vmatrix}
-5-t&-1\\9&-1-t
-\end{vmatrix} =-t(t^2-5t+t-5+9)=-(0-t)^{\textcolor{blue}{1}}(2-t)^{\textcolor{red}{2}}\]
-\begin{itemize}
-  \item $\textcolor{blue}{\lambda=0}$ has multiplicity \textcolor{blue}{1}; indeed $K_0=\cN(A-0I)^{\textcolor{blue}{1}}=\cN(A)=\Span\sthreevec 1{-1}3$ is just the eigenspace $E_0$.
-  \item $\textcolor{red}{\lambda=2}$ has multiplicity $\textcolor{red}{2}$,
-  \[K_2=\cN(A-2I)^{\textcolor{red}{2}} =\cN\begin{pmatrix}
-  3&2&-1\\0&-2&0\\9&6&-3
-  \end{pmatrix}^2 =\cN\begin{pmatrix}
-  0&-4&0\\0&4&0\\0&-12&0
-  \end{pmatrix}=\Span\left\{\threevec 100,\threevec 001\right\}\]
-  In this case the corresponding eigenspace is \emph{one}-dimensional, $E_2=\Span\sthreevec 103\lneq K_2$, and the matrix is non-diagonalizable.
-\end{itemize}
-Observe also that $\R^3=\textcolor{blue}{K_0}\oplus \textcolor{red}{K_2}$ in accordance with the Theorem.
-\end{enumerate}
+	We revisit the previous example in this new language, and consider a second matrix from scratch.
+	\begin{enumerate}%\setcounter{enumi}{1}
+  	\item (Example \ref{ex:jordan2}) \ $A=
+  	\begin{smatrix}
+			-1&2&3\\
+			-4&5&4\\
+			-2&1&4
+		\end{smatrix}$
+		has characteristic polynomial $p(t)=(2-t)^{\textcolor{blue}{1}}(3-t)^{\textcolor{red}{2}}$. Therefore,
+		\begin{gather*}
+			K_2=\cN(A-2I)^{\textcolor{blue}{1}}=\Span\threevec 101\implies\dim K_2={\textcolor{blue}{1}}\\
+			K_3=\cN(A-3I)^{\textcolor{red}{2}}=\cN\begin{pmatrix}
+			2&-1&-1\\0&0&0\\2&-1&-1
+			\end{pmatrix} =\Span\left\{\threevec 120,\threevec 111\right\}\implies\dim K_3={\textcolor{red}{2}}
+		\end{gather*}
+		In accordance with the theorem, $\R^3=\textcolor{blue}{K_2}\oplus \textcolor{red}{K_3}$.
+	
+	  \item We find the generalized eigenspaces of the matrix $B=
+	  \begin{smatrix}
+			5&2&-1\\
+			0&0&0\\
+			9&6&-1
+		\end{smatrix}$.\par
+		The characteristic polynomial is
+		\[
+			p(t)=\det(B-\lambda I)=-t
+			\begin{vmatrix}
+				5-t&-1\\
+				9&-1-t
+			\end{vmatrix}
+			=-t(t^2-5t+t-5+9)
+			=-(0-t)^{\textcolor{blue}{1}}(2-t)^{\textcolor{red}{2}}
+		\]
+		\begin{description}
+		  \item[\normalfont$\mult 0=\textcolor{blue}{1}$:] Indeed $K_0=\cN(B-0I)^{\textcolor{blue}{1}}
+		  =\cN(B)=
+		  \Span\sthreevec 1{-1}3$ is the eigenspace $E_0$.
+		  \item[\normalfont$\mult 2=\textcolor{red}{2}$:] This time, the generalized eigenspace is
+		  \[
+		  	K_2=\cN(B-2I)^{\textcolor{red}{2}} 
+		  	=\cN
+		  	\begin{pmatrix}
+		  		3&2&-1\\
+		  		0&-2&0\\
+		  		9&6&-3
+		  	\end{pmatrix}
+		  	^2 =\cN
+		  	\begin{pmatrix}
+		  		0&-4&0\\
+		  		0&4&0\\
+		  		0&-12&0
+		  	\end{pmatrix}
+		  	=\Span\left\{\threevec 100,\threevec 001\right\}
+		  \]
+		  The corresponding eigenspace $\smash[b]{E_2=\Span\sthreevec 103}$ is a \emph{one}-dimensional subspace of $K_2$. The matrix is non-diagonalizable.
+		\end{description}
+		Observe also that $\R^3=\textcolor{blue}{K_0}\oplus \textcolor{red}{K_2}$.
+	\end{enumerate}
 \end{examples}
 
-\subsubsection*{Properties of Generalized Eigenspaces and the Proof of Theorem \ref{thm:generalized1}}
 
-A lot of work is required to justify our main result. Feel free to skip the proofs at first reading.
+\pagebreak[3]
+
+
+\boldsubsubsection{Properties of Generalized Eigenspaces and the Proof of Theorem \ref{thm:generalized1}}
+
+A lot of work is required to justify the main result. Feel free to skip the proofs at first reading.
 
 \begin{lemm}{}{gevectorbasic}
-Let $\lambda$ be an eigenvalue of $\rT\in\cL(V)$. Then:
-\begin{enumerate}
-  \item $E_\lambda$ is a subspace of $K_\lambda$, which is itself a subspace of $V$.
-  \item $K_\lambda$ is $\rT$-invariant.
-  \item Suppose $K_\lambda$ is finite-dimensional and $\mu\neq \lambda$. Then:
-  \begin{enumerate}
-    \item $K_\lambda$ is $(\rT-\mu \I)$-invariant and the restriction of $\rT-\mu\I$ to $K_\lambda$ is an isomorphism.
-    \item If $\mu$ is another eigenvalue, then $K_\lambda\cap K_\mu=\{\V0\}$. In particular $K_\lambda$ contains no eigenvectors other than those in $E_\lambda$. 
+	Let $\lambda$ be an eigenvalue of $\rT\in\cL(V)$. Then:
+	\begin{enumerate}
+	  \item $E_\lambda$ is a subspace of $K_\lambda$, which is itself a subspace of $V$.
+	  \item $K_\lambda$ is $\rT$-invariant.
+	  \item Suppose $K_\lambda$ is finite-dimensional and $\mu\neq \lambda$. Then:
+	  \begin{enumerate}
+	    \item $K_\lambda$ is $(\rT-\mu \I)$-invariant and the restriction of $\rT-\mu\I$ to $K_\lambda$ is an isomorphism.
+	    \item If $\mu$ is another eigenvalue, then $K_\lambda\cap K_\mu=\{\V0\}$. In particular $K_\lambda$ contains no eigenvectors other than those in $E_\lambda$. 
+		\end{enumerate}
 	\end{enumerate}
-\end{enumerate}
 \end{lemm}
 
 \begin{proof}
-\begin{enumerate}
-  \item These are an easy exercise.
-  
-  \item Let $\vx\in K_\lambda$, then $\exists k$ such that $(\rT-\lambda \I)^k(\vx)=\V0$. But then
-  \begin{align*}
-  (\rT-\lambda \I)^k\bigl(\rT(\vx)\bigr)&=(\rT-\lambda \I)^{k}\bigl(\rT(\vx)-\lambda \vx+\lambda\vx\bigr)\\
-  &=(\rT-\lambda \I)^{k+1}(\vx)+\lambda(\rT-\lambda \I)^k(\vx) =\V0
-  \end{align*}
-  Otherwise said, $\rT(\vx)\in K_\lambda$.
-  
-  \item\begin{enumerate}
-    \item Let $\vx\in K_\lambda$. Part 2 tells us that
-    \[(\rT-\mu\I)(\vx)=\rT(\vx)-\mu\vx\in K_\lambda\]
-    whence $K_\lambda$ is $(\rT-\mu \I)$-invariant.\smallbreak
-    Suppose, for a contradiction, that $\rT-\mu\I$ is \emph{not injective} on $K_\lambda$. Then
-		\[\exists\vy\in K_\lambda\setminus\{\V0\}\text{ such that }(\rT-\mu \I)(\vy)=\V0\]
-		Let $k\in\N$ be minimal such that $(\rT-\lambda \I)^k(\vy)=\V0$ and let $\vz=(\rT-\lambda \I)^{k-1}(\vy)$. Plainly $\vz\neq\V0$, for otherwise $k$ is not minimal. Moreover,
-		\[(\rT-\lambda\I)(\vz)=(\rT-\lambda \I)^k(\vy)=\V0\implies \vz\in E_\lambda\]
-		Since $\rT-\mu\I$ and $\rT-\lambda\I$ commute, we can also compute the effect of $\rT-\mu\I$;
+	Some of the details are left to Exercise \ref{exs:genevecbasic}.
+	\begin{enumerate}
+	  \item These are an exercise.
+	  
+	  \item Let $\vx\in K_\lambda$. We must show that $\rT(\vx)\in K_\lambda$. We know $\exists k$ such that $(\rT-\lambda \I)^k(\vx)=\V0$, but then
+	  \begin{align*}
+		  (\rT-\lambda \I)^k\bigl(\rT(\vx)\bigr)&=(\rT-\lambda \I)^{k}\bigl(\rT(\vx)-\lambda \vx+\lambda\vx\bigr)\\
+		  &=(\rT-\lambda \I)^{k+1}(\vx)+\lambda(\rT-\lambda \I)^k(\vx) =\V0
+	  \end{align*}
+	  Otherwise said, $\rT(\vx)\in K_\lambda$.
+	  
+	  \item\begin{enumerate}
+	    \item Since $K_\lambda$ is $\rT$-invariant (part 2), it is also $(\rT-\mu \I)$-invariant: if $\vx\in K_\lambda$, then
+	    \[
+	    	(\rT-\mu\I)(\vx)=\rT(\vx)-\mu\vx\in K_\lambda
+	    \]
+	    Suppose, for contradiction, that $\rT-\mu\I$ is \emph{not injective} on $K_\lambda$. Then
+			\[
+				\exists\vy\in K_\lambda\setminus\{\V0\}
+				\text{ such that }
+				(\rT-\mu \I)(\vy)=\V0
+			\]
+			Let $k\in\N$ be \textbf{minimal} such that $(\rT-\lambda \I)^k(\vy)=\V0$ ($\vy\in K_\lambda$!) and define $\vz=(\rT-\lambda \I)^{k-1}(\vy)\neq\V0$. We compute both $(\rT-\lambda\I)(\vz)$ and $(\rT-\mu\I)(\vz)$:
+			\begin{itemize}
+			  \item $(\rT-\lambda\I)(\vz)=(\rT-\lambda \I)^k(\vy)=\V0$ says $\vz$ is an eigenvector with eigenvalue $\lambda$.
+				\item Since $\rT-\mu\I$ and $\rT-\lambda\I$ commute (easy exercise),
+				\begin{align*}
+					(\rT-\mu \I)(\vz)
+					&=(\rT-\mu\I)(\rT-\lambda \I)^{k-1}(\vy)\\
+					&=(\rT-\lambda \I)^{k-1}(\rT-\mu \I)(\vx)
+					=\V0
+				\end{align*}
+				whence $\vz$ is also an eigenvector with eigenvalue $\mu$! If $\mu$ isn't an eigenvalue, then we already have a contradiction. Even if it is, $E_\mu\cap E_\lambda=\{\V0\}$ contradicts $\vz\neq\V0$.
+			\end{itemize}
+			\smallbreak
+			We conclude that the restriction $(\rT-\mu\I)_{K_\lambda}\in\cL(K_\lambda)$ is injective. Since $\dim K_\lambda<\infty$, the restriction is automatically an isomorphism.
+			\item	This is another exercise.\qedhere
+	  \end{enumerate} 
+	\end{enumerate}
+\end{proof}
+
+
+\pagebreak[3]
+
+
+\begin{proof}[Proof of Theorem \ref{thm:generalized1}]
+	Assume that the characteristic polynomial splits: $p(t)=(\lambda_1-t)^{m_1}\cdots (\lambda_k-t)^{m_k}$.
+	\begin{description}
+		\item[\normalfont{1. (a)}] Fix an eigenvalue $\lambda$. By definition, $\cN(\rT-\lambda \I)^m\le K_\lambda =\bigcup_{n\in\N}\cN(\rT-\lambda \I)^n$.\par
+		The opposite inclusion follows from Lemma \ref{lemm:gevectorbasic}). Since $K_\lambda$ contains no eigenvectors from any eigenvalue other than $\lambda$, the characteristic polynomial of the restriction $\at\rT{K_\lambda}$ must be
 		\[
-		(\rT-\mu \I)(\vz)=(\rT-\mu\I)(\rT-\lambda \I)^{k-1}(\vy) =(\rT-\lambda \I)^{k-1}(\rT-\mu \I)(\vx)=\V0
+			p_{K_\lambda}(t)=(\lambda-t)^{\dim K_\lambda}
 		\]
-		which says that $\vz$ is an eigenvector in $E_\mu$; if $\mu$ isn't an eigenvalue, then we already have our contradiction! Even if $\mu$ is an eigenvalue, $E_\mu\cap E_\lambda=\{\V0\}$ provides the desired contradiction.\smallbreak
-		We conclude that $(\rT-\mu\I)_{K_\lambda}\in\cL(K_\lambda)$ is injective. Since $\dim K_\lambda<\infty$, the restriction is automatically an isomorphism.
-		\item	This is another exercise.\qedhere
-  \end{enumerate} 
-\end{enumerate}
+		By $\rT$-invariance, $p_{K_\lambda}(t)$ divides $p(t)$ (Theorem \ref{thm:invariantsub}), whence $\dim K_{\lambda}\le m$.	By Cayley--Hamilton (Theorem \ref{thm:cayley-hamilton}), $p_{K_\lambda}(\at\rT{K_\lambda})=0$, whence
+		\[
+			\forall \vx\in K_\lambda,\  \left(\lambda \I-\rT\right)^{\dim K_\lambda}(\vx)=\V0 \implies K_\lambda\le \cN(\rT-\lambda \I)^m
+		\]
+		
+		\item[\normalfont{1. (b) and 2.}] We prove simultaneously by induction\footnotemark{} on the number of distinct eigenvalues of $\rT$.
+		\begin{description}
+			\item[\normalfont\emph{Base case}] If $\rT$ has only one eigenvalue, then $p(t)=(\lambda-t)^m$ where $m=\dim V$. Cayley--Hamilton says that $(\rT-\lambda \I)^m(\vx)=\V0$ for all $\vx\in V$. Thus $V=K_\lambda$ and $\dim K_\lambda=m$.		
+			\item[\normalfont\emph{Induction step}] Fix $k$ and suppose the results hold for all maps with $k$ distinct eigenvalues. Let $\rT$ have distinct eigenvalues $\lambda_1,\ldots,\lambda_k,\mu$, with multiplicities $m_1,\ldots,m_k,m$ respectively. Define
+			\[
+				W:=\cR(\rT-\mu\I)^m
+			\]
+			The subspace $W$ has several properties, the first two of which are left to Exercise \ref{exs:genevecproof}:
+			\begin{itemize}
+			  \item $W$ is $\rT$-invariant.
+			  \item $W\cap K_\mu=\{\V0\}$ so that $\mu$ is not an eigenvalue of the restriction $\at\rT W$.
+			  \item Each $K_{\lambda_j}\le W$: since $(\rT-\mu\I)_{K_{\lambda_j}}$ is an isomorphism (Lemma part 3), we can invert,
+			  \[
+			  	\smash{\vx\in K_{\lambda_j}
+			  	\implies \vx=(\rT-\mu\I)^{m}\Bigl((\rT-\mu\I)_{K_{\lambda_j}}^{-1}\Bigr)^m(\vx) 
+			  	\in \cR(\rT-\mu\I)^{m}=W}
+			  \]
+			\end{itemize}
+			We conclude that each $\lambda_j$ is an eigenvalue of the restriction $\at\rT W$ with generalized eigenspace $K_{\lambda_j}$. Since $\at\rT W$ has $k$ distinct eigenvalues, the induction hypotheses apply:
+			\[
+				\smash{W=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_{k}}\quad\text{and}\quad p_{W}(t)=(\lambda_1-t)^{\dim K_{\lambda_1}}\cdots (\lambda_{k}-t)^{\dim K_{\lambda_{k}}}}
+			\]
+			Since $W\cap K_\mu=\{\V0\}$, we finish by using the rank--nullity theorem to count dimensions:\vspace{-8pt}
+			\begin{align*}
+				\dim V&=\Rank (\rT-\mu\I)^{m}+\Null (\rT-\mu\I)^{m}=\dim W+\dim K_\mu =\smash[b]{\sum_{j=1}^k}\dim K_{\lambda_j}+\dim K_\mu\\
+				&\le m_1+\cdots+m_k+m =\operatorname{deg}(p(t))=\dim V
+			\end{align*}
+			We therefore have \emph{equality}; each $\dim K_{\lambda_j}=m_j$ and $\dim K_\mu=m$. We conclude that
+			\[
+				V=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_{k}}\oplus K_\mu
+			\]
+			which completes the induction step and thus the proof. Whew!\qedhere
+		\end{description}
+	\end{description}
 \end{proof}
 
-\goodbreak
-
-Now to prove Theorem \ref{thm:generalized1}: remember that the characteristic polynomial of $\rT$ is assumed to split.
-
-
-
-\begin{proof}
-\begin{description}
-\item[\normalfont{(Part 1(a))}] Fix an eigenvalue $\lambda$. By definition, we have $\cN(\rT-\lambda \I)^m\le K_\lambda$.\smallbreak
-	For the converse, parts 2 and 3 of the Lemma tell us (why?) that
-	\[p_\lambda(t)=(\lambda-t)^{\dim K_\lambda}\quad\text{from which}\quad \dim K_{\lambda}\le m \tag{$\ast$}\]
-	By the Cayley--Hamilton Theorem, $\at\rT{K_\lambda}$ satisfies its characteristic polynomial, whence
-	\[\forall \vx\in K_\lambda,\  \left(\lambda \I-\rT\right)^{\dim K_\lambda}(\vx)=\V0 \implies K_\lambda\le \cN(\rT-\lambda \I)^m\]
-	%We've therefore established that $K_\lambda=\cN(\rT-\lambda \I)^m$.
-	
-	\item[\normalfont{(Parts 1(b) and 2)}] We prove simultaneously by induction on the number of distinct eigenvalues of $\rT$.\smallbreak
-(\emph{Base case})\quad If $\rT$ has only one eigenvalue, then $p(t)=(\lambda-t)^m$. Another appeal to Cayley--Hamilton says $(\rT-\lambda \I)^m(\vx)=\V0$ for all $\vx\in V$. Thus $V=K_\lambda$ and $\dim K_\lambda=m$.\smallbreak
-(\emph{Induction step})\quad Fix $k$ and suppose the results hold for maps with $k$ distinct eigenvalues. Let $\rT$ have distinct eigenvalues $\lambda_1,\ldots,\lambda_k,\mu$, with multiplicities $m_1,\ldots,m_k,m$ respectively. Define\footnotemark
-\[\smash{W=\cR(\rT-\mu\I)^{m}}\]
-The subspace $W$ has the following properties, the first two of which we leave as exercises:\vspace{-3pt}
-\begin{itemize}\itemsep1pt
-  \item $W$ is $\rT$-invariant.
-  \item $W\cap K_\mu=\{\V0\}$ so that $\mu$ is not an eigenvalue of the restriction $\at\rT W$.
-  \item Each $K_{\lambda_j}\le W$: since $(\rT-\mu\I)_{K_{\lambda_j}}$ is an isomorphism (Lemma part 3), we can invert,
-  \[\smash{\vx\in K_{\lambda_j}\implies \vx=(\rT-\mu\I)^{m}\Bigl((\rT-\mu\I)_{K_{\lambda_j}}^{-1}\Bigr)^m(\vx) \in \cR(\rT-\mu\I)^{m}=W}\]
-  We conclude that $\lambda_j$ is an eigenvalue of the restriction $\at\rT W$ with generalized eigenspace $K_{\lambda_j}$.
-\end{itemize}
-Since $\at\rT W$ has $k$ distinct eigenvalues, the induction hypotheses apply:
-\[\smash{W=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_{k}}\quad\text{and}\quad p_{W}(t)=(\lambda_1-t)^{\dim K_{\lambda_1}}\cdots (\lambda_{k}-t)^{\dim K_{\lambda_{k}}}}\]
-Since $W\cap K_\mu=\{\V0\}$ it is enough finally to use the rank--nullity theorem and count dimensions:\vspace{-8pt}
-\begin{align*}
-\dim V&=\Rank (\rT-\mu\I)^{m}+\Null (\rT-\mu\I)^{m}=\dim W+\dim K_\mu =\smash[b]{\sum_{j=1}^k}\dim K_{\lambda_j}+\dim K_\mu\\
-&\overset{(\ast)}{\le} m_1+\cdots+m_k+m =\operatorname{deg}(p(t))=\dim V
-\end{align*}
-The inequality is thus an \emph{equality}; each $\dim K_{\lambda_j}=m_j$ and $\dim K_\mu=m$. We conclude that
-\[V=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_{k}}\oplus K_\mu\]
-which completes the induction step and thus the proof. Whew!\qedhere
-\end{description}
-\end{proof}
-
-\footnotetext{This is yet another argument where we consider a suitable subspace to which we can apply an induction hypothesis; recall the spectral theorem, Schur's lemma, bilinear form diagonalization, etc. Theorem \ref{thm:jordanbasis} will provide one more!}
+\footnotetext{%
+	This is yet another argument where we consider a suitable subspace to which we can apply an induction hypothesis; recall the spectral theorem, Schur's lemma, bilinear form diagonalization, etc. Theorem \ref{thm:jordanbasis} will provide one more!%
+}
 
 
-\goodbreak
+\pagebreak[3]
+
 
 \boldsubsubsection{Cycles of Generalized Eigenvectors}
 
-By Theorem \ref{thm:generalized1}, for every linear map whose characteristic polynomial splits there exists generalized eigenbasis. This isn't the same as a Jordan canonical basis, but we're very close!
+Theorem \ref{thm:generalized1} says that every linear map whose characteristic polynomial splits has a generalized eigenbasis. This isn't quite the same as a Jordan canonical basis, but we're very close!
 
 \begin{example}{}{}
-The matrix $A=\begin{smatrix}
-5&1&0\\0&5&1\\0&0&5
-\end{smatrix}\in M_3(\R)$ is a single Jordan block, whence there is a single generalized eigenspace $K_5=\R^3$ and the standard basis $\epsilon=\{\ve_1,\ve_2,\ve_3\}$ is Jordan canonical.\smallbreak
-The crucial observation for what follows is that one of these vectors $\ve_3$ \emph{generates} the others via repeated applications of $A-5I$:
-\[\ve_2=(A-5I)\ve_3,\qquad \ve_1=(A-5I)\ve_2=(A-5I)^2\ve_3\]
+	The matrix $A=
+	\begin{smatrix}
+		5&1&0\\
+		0&5&1\\
+		0&0&5
+	\end{smatrix}
+	\in M_3(\R)$ is a single Jordan block. There is a single generalized eigenspace $K_5=\R^3$, and the standard basis $\epsilon=\{\ve_1,\ve_2,\ve_3\}$ is Jordan canonical.\smallbreak
+	The crucial observation for what follows is that one of these vectors $\ve_3$ \emph{generates} the others via repeated applications of $A-5I$:
+	\[
+		\ve_2=(A-5I)\ve_3,\qquad \ve_1=(A-5I)\ve_2=(A-5I)^2\ve_3
+	\]
 \end{example}
 
+In the arguments and examples that follow, it will be helpful to refer to the linear map $\rU=\rT-\lambda\I$, where $\lambda$ is an eigenvalue of $\rT$. Note the following:
+\begin{itemize}
+  \item The nullspace of $\rU$ is the \emph{eigenspace}: $\cN(\rU)=E_\lambda\le K_\lambda$.
+  \item $\rT$ and $\rU$ commute, that is $\rT\rU=\rU\rT$.
+\end{itemize}
 
 \begin{defn}{}{}
-A \emph{cycle of generalized eigenvectors} for a linear operator $\rT$ is a set
-\[\beta_\vx:=\smash{\left\{(\rT-\lambda \I)^{k-1}(\vx),\ldots,(\rT-\lambda \I)(\vx),\vx\right\}}\]
-where the \emph{generator} $\vx\in K_\lambda$ is non-zero and $k$ is minimal such that $(\rT-\lambda \I)^k(\vx)=\V0$.
+	Let $\rT$ have eigenvalue $\lambda$, suppose $\vx\in K_\lambda$ is a generalized eigenvector and let $k$ be minimal such that $(\rT-\lambda\I)^k(\vx)=\V0$. The \emph{cycle of generalized eigenvectors generated by $\vx$} is the set
+	\[
+		\beta_\vx:=\left\{(\rT-\lambda \I)^{k-1}(\vx),\ldots,(\rT-\lambda \I)(\vx),\vx\right\}
+		=\left\{\rU^{k-1}(\vx),\ldots,\rU(\vx),\vx\right\}
+	\]
 \end{defn}
 
-Note that the first element $(\rT-\lambda\I)^{k-1}(\vx)$ is an \emph{eigenvector}.
+Note that only the first element $(\rT-\lambda\I)^{k-1}(\vx)$ of $\beta_{\vx}$ is an \emph{eigenvector}. Moreover,  $\Span\beta_\vx=\ip{\vx}$ is the $\rU$-cyclic subspace generated by $\vx$.\smallbreak
 
 Our goal is to show that $K_\lambda$ has a basis consisting of cycles of generalized eigenvectors; putting these together results in a Jordan canonical basis.
 
 \begin{lemm}{}{gencyclesbasic}
-Let $\beta_\vx$ be a cycle of generalized eigenvectors of $\rT$ with length $k$. Then:
-\begin{enumerate}%\itemsep2pt
-  \item $\beta_\vx$ is linearly independent and thus a basis of $\Span\beta_\vx$.
-  \item $\Span\beta_\vx$ is $\rT$-invariant. With respect to $\beta_\vx$, the matrix of the restriction of $\rT$ is the $k\times k$ Jordan block $[\rT_{\Span\beta_\vx}]_{\beta_\vx}=\begin{smatrix}
-  \lambda&1&&\\[-6pt]
-  &\lambda&\ddots&\\[-6pt]
-  &&\ddots&1\\
-  &&&\lambda
-  \end{smatrix}$.
-\end{enumerate}
+	Let $\beta_\vx$ be a cycle of generalized eigenvectors of $\rT$ with length $k$. Then:
+	\begin{enumerate}
+	  \item $\beta_\vx$ is linearly independent and thus a basis of $\Span\beta_\vx$ (which necessarily has dimension $k$).
+	  \item $\Span\beta_\vx$ is $\rT$-invariant. With respect to $\beta_\vx$, the matrix of the restriction of $\rT$ is the $k\times k$ Jordan block $[\rT_{\Span\beta_\vx}]_{\beta_\vx}=
+	  \begin{smatrix}
+		  \lambda&1&&\\
+		  &\lambda&\ddots&\\
+		  &&\ddots&1\\
+		  &&&\lambda
+	  \end{smatrix}$.
+	\end{enumerate}
 \end{lemm}
 
-In what follows, it will be useful to consider the linear map $\rU=\rT-\lambda\I$. Note the following:
-\begin{itemize}%\itemsep2pt
-  \item The nullspace of $\rU$ is the \emph{eigenspace}: $\cN(\rU)=E_\lambda\le K_\lambda$.
-  \item $\rT$ commutes with $\rU$: that is $\rT\rU=\rU\rT$.
-  \item $\beta_\vx=\{\rU^{k-1}(\vx),\ldots,\rU(\vx),\vx\}$; that is, $\Span\beta_\vx=\ip{\vx}$ is the $\rU$-cyclic subspace generated by $\vx$.
-\end{itemize}
+
 
 \begin{proof}
-\begin{enumerate}%\itemsep2pt
-  \item Feed the linear combination $\sum_{j=0}^{k-1}a_j\rU^j(\vx)=\V0$ to $\rU^{k-1}$ to obtain
-  \[a_0\rU^{k-1}(\vx)=\V0\implies a_0=0\]
-  Now feed the same combination to $\rU^{k-2}$, etc., to see that all coefficients $a_j=0$.
-  \item Since $\rT$ and $\rU$ commute, we see that
-  \[\rT\bigl(\rU^j(\vx)\bigr)=\rU^j\bigl(\rT(\vx)\bigr)=\rU^j\bigl((\rU+\lambda\I)(\vx)\bigr)=\rU^{j+1}(\vx)+\lambda\rU^j(\vx)\in\Span\beta_\vx\]
-  This justifies both $\rT$-invariance and the Jordan block claim!\qedhere
-\end{enumerate}
+	As indicated above, we write $\rU=\rT-\lambda\I$.
+	\begin{enumerate}
+	  \item Feed the linear combination $\sum_{j=0}^{k-1}a_j\rU^j(\vx)=\V0$ to $\rU^{k-1}$ to obtain
+	  \[
+	  	a_0\rU^{k-1}(\vx)=\V0\implies a_0=0
+	  	\tag{remember $\rU^k(\vx)=\V0$!}
+	  \]
+	  Now feed the same linear combination to $\rU^{k-2}$, etc., to see that all coefficients $a_j=0$.
+	  \item Since $\rT$ and $\rU$ commute,
+	  \[
+	  	\rT\bigl(\rU^j(\vx)\bigr)=\rU^j\bigl(\rT(\vx)\bigr)=\rU^j\bigl((\rU+\lambda\I)(\vx)\bigr)=\rU^{j+1}(\vx)+\lambda\rU^j(\vx)\in\Span\beta_\vx
+	  \]
+	  This justifies both $\rT$-invariance and the Jordan block claim!\qedhere
+	\end{enumerate}
 \end{proof}
 
-\goodbreak
 
-The basic approach to finding a Jordan canonical basis is to find the generalized eigenspaces and play with cycles until you find a basis for each $K_\lambda$. \emph{Many} choices of canonical basis exist for a given map! We'll consider a more systematic method in the next section.
+\pagebreak[3]
+
+
+Once we have the generalized eigenspaces of $\rT$, the naïve approach to finding a Jordan canonical basis is to play with cycles until we find a basis for each $K_\lambda$. \emph{Many} choices of canonical basis exist for a given map! We'll consider a more systematic method in the next section.
 
 \begin{examples}{}{jordansimple1}
-\exstart The characteristic polynomial of $A=\begin{smatrix}
-	1&0&2\\0&1&6\\6&-2&1
-\end{smatrix}\in M_3(\R)$ splits:
-	\[p(t)=(1-t)\smash{\begin{vmatrix}
-		1-t&6\\-2&1-t
-		\end{vmatrix}} +2\smash{\begin{vmatrix}
-		0&1-t\\6&-2
-	\end{vmatrix}} =(1-t)\left((1-t)^2+12-12\right)=(1-t)^3\]
-	With only one eigenvalue we see that $K_1=\R^3$. Simply choose any vector in $\R^3$ and see what $U=A-I$ does to it! For instance, with $\vx=\ve_1$,
-	\[\beta_\vx=\left\{\rU^2\sthreevec 100,\rU\sthreevec 100,\sthreevec 100\right\}=\left\{\sthreevec{12}{36}0,\sthreevec 006,\sthreevec 100\right\}\]
-	provides a Jordan canonical basis of $\R^3$. We conclude
-	\[A=QJQ^{-1}=
-	\begin{smatrix}
-		12&0&1\\36&0&0\\0&6&0
+	We compute Jordan canonical bases for three linear maps/matrices.
+	\begin{enumerate}
+	  \item\label{ex:jordansimple11} The characteristic polynomial $p(t)=(1-t)^3$ of $A=
+	  \begin{smatrix}
+			1&0&2\\
+			0&1&6\\
+			6&-2&1
+		\end{smatrix}$
+		splits over $\R$.\par
+		We hack our way to a Jordan canonical basis by choosing some $\vx\in K_1=\R^3$ and considering what $U=A-I$ does to it! For instance, with $\vx=\ve_1$,
+		\[
+			\beta_\vx
+			=\left\{\rU^2\threevec 100,\rU\threevec 100,\threevec 100\right\}
+			=\left\{\threevec{12}{36}0,\threevec 006,\threevec 100\right\}
+		\]
+		is a Jordan canonical basis. Otherwise said,
+		\[
+			A=QJQ^{-1}=
+			\begin{pmatrix}
+				12&0&1\\
+				36&0&0\\
+				0&6&0
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&1&0\\
+				0&1&1\\
+				0&0&1
+			\end{pmatrix}
+			\begin{pmatrix}
+				12&0&1\\
+				36&0&0\\
+				0&6&0
+			\end{pmatrix}
+			^{-1}
+		\] 
+		In practice, almost any choice of $\vx\in\R^3$ will generate a cycle of length three and thus a basis!
+		
+	  \item The matrix $B=
+	  \begin{smatrix}
+			7&1&-4\\
+			0&3&0\\
+			8&1&-5
 		\end{smatrix}
-	\begin{smatrix}
-		1&1&0\\0&1&1\\0&0&1
-	\end{smatrix}
-	\begin{smatrix}
-		12&0&1\\36&0&0\\0&6&0
-	\end{smatrix}^{-1}\] 
-	In practice, almost any choice of $\vx\in\R^3$ will generate a cycle of length three!
-
-\begin{enumerate}\setcounter{enumi}{1}
-  \item The matrix $B=\begin{smatrix}
-7&1&-4\\0&3&0\\8&1&-5
-\end{smatrix}\in M_3(\R)$ has characteristic equation
-\[p(t)=(3-t)(t^2-2t-3)=-(t+1)^{\textcolor{blue}1}(t-3)^{\textcolor{red}2}\]
-$\dim K_{-1}=\textcolor{blue}1\implies K_{-1}=E_{-1}=\Span\smash{\sthreevec 102}$, spanned by a cycle of length one.\smallbreak
-Since $\dim K_3=\textcolor{red}2$, we have
-  \[K_3=\cN(B-3I)^{\textcolor{red}2}=\cN\smash{\begin{smatrix}
-  4&1&-4\\0&0&0\\8&1&-8
-  \end{smatrix}^2=
-  \cN\begin{smatrix}
-  -16&0&16\\0&0&0\\-32&0&32
-  \end{smatrix}=\Span\left\{\sthreevec 101,\sthreevec 010\right\}}\]
-  This is spanned by a cycle of length two: $\sthreevec 101$ is an eigenvector and
-  \[\smash{\sthreevec 101=(B-3I)\sthreevec 010}\]
-  We conclude that $\beta=\left\{\sthreevec 102,\sthreevec 101,\sthreevec 010\right\}$ is a Jordan canonical basis for $B$, and that
-	\[B=QJQ^{-1}=
+		\in M_3(\R)$ has characteristic polynomial $p(t)=-(t+1)^{\textcolor{blue}1}(t-3)^{\textcolor{red}2}$.\smallbreak
+		Since $\dim K_{-1}=\textcolor{blue}1$, we see that $K_{-1}=E_{-1}=\smash{\Span\sthreevec 102}$ is spanned by a cycle of length one.\smallbreak
+	Since $\dim K_3=\textcolor{red}2$, we have
+	  \[
+	  	K_3=\cN(B-3I)^{\textcolor{red}2}
+	  	=\cN
+	  	\begin{pmatrix}
+	  		4&1&-4\\
+	  		0&0&0\\
+	  		8&1&-8
+	  	\end{pmatrix}
+	  	^2=
+	  	\cN
+	  	\begin{pmatrix}
+	  		-16&0&16\\
+	  		0&0&0\\
+	  		-32&0&32
+	  	\end{pmatrix}
+	  	=\Span\left\{\threevec 101,\threevec 010\right\}
+	  \]
+	  which is spanned by a cycle of length two: $\sthreevec 101=(B-3I)\sthreevec 010$ is an eigenvector.\smallbreak
+	  Putting it together, $\beta=\left\{\sthreevec 102,\sthreevec 101,\sthreevec 010\right\}$ is a Jordan canonical basis for $B$, and
+		\[
+			B=QJQ^{-1}=
+			\begin{pmatrix}
+				1&1&0\\
+				0&0&1\\
+				2&1&0
+			\end{pmatrix}
+			\begin{pmatrix}
+				-1&0&0\\
+				0&3&1\\
+				0&0&3
+			\end{pmatrix}
+			\begin{pmatrix}
+				1&1&0\\
+				0&0&1\\
+				2&1&0
+			\end{pmatrix}
+			^{-1}
+		\]
+	 
+		\item Let $\rT=\diff x\in\cL\big(P_3(\R)\big)$. With respect to the standard basis $\epsilon=\{1,x,x^2,x^3\}$, $[\rT]_\epsilon=
 		\begin{smatrix}
-		1&1&0\\0&0&1\\2&1&0
-	\end{smatrix}
-	\begin{smatrix}
-		-1&0&0\\0&3&1\\0&0&3
-	\end{smatrix}
-	\begin{smatrix}
-		1&1&0\\0&0&1\\2&1&0
-	\end{smatrix}^{-1}\]
- 
-	\item Let $\rT=\diff x$ on $P_3(\R)$. With respect to the standard basis $\epsilon=\{1,x,x^2,x^3\}$,
-	\[A=[\rT]_\epsilon =\begin{smatrix}
-		0&1&0&0\\0&0&2&0\\0&0&0&3\\0&0&0&0
-	\end{smatrix}\]
-	With only one eigenvalue $\lambda=0$, we have a single generalized eigenspace $K_0=P_3(\R)$. It is easy to check that $f(x)=x^3$ generates a cycle of length three and thus a Jordan canonical basis:
-	\[\beta=\{6,6x,3x^2,x^3\}\implies[\rT]_\beta =\begin{smatrix}
-		0&1&0&0\\0&0&1&0\\0&0&0&1\\0&0&0&0
-	\end{smatrix}
-	=
-	\begin{smatrix}
-		6&0&0&0\\0&6&0&0\\0&0&3&0\\0&0&0&1
-	\end{smatrix}^{-1}
-	\begin{smatrix}
-		0&1&0&0\\0&0&2&0\\0&0&0&3\\0&0&0&0
-	\end{smatrix}
-	\begin{smatrix}
-		6&0&0&0\\0&6&0&0\\0&0&3&0\\0&0&0&1
-	\end{smatrix}\]
-\end{enumerate}
+			0&1&0&0\\
+			0&0&2&0\\
+			0&0&0&3\\
+			0&0&0&0
+		\end{smatrix}$.\par
+		We have a single generalized eigenspace $K_0=P_3(\R)$. It is easy to check that $f(x)=x^3$ generates a cycle of length three and thus a Jordan canonical basis:
+		\[
+			\beta=\big\{6,6x,3x^2,x^3\big\}
+			\implies[\rT]_\epsilon =
+% 			\begin{smatrix}				
+% 				0&1&0&0\\
+% 				0&0&2&0\\
+% 				0&0&0&3\\
+% 				0&0&0&0
+% 			\end{smatrix}
+% 			=
+			\begin{pmatrix}
+				6&0&0&0\\
+				0&6&0&0\\
+				0&0&3&0\\
+				0&0&0&1
+			\end{pmatrix}
+			\begin{pmatrix}
+				0&1&0&0\\
+				0&0&1&0\\
+				0&0&0&1\\
+				0&0&0&0
+			\end{pmatrix}
+			\begin{pmatrix}
+				6&0&0&0\\
+				0&6&0&0\\
+				0&0&3&0\\
+				0&0&0&1
+			\end{pmatrix}
+			^{-1}
+		\]
+	\end{enumerate}
 \end{examples}
 
-Our final results state that this process works generally.
+
+\pagebreak[3]
+
+
+Our final results state that this process works in general.
 
 \begin{thm}{}{jordanbasis}
-Let $\rT\in\cL(V)$ have an eigenvalue $\lambda$. If $\dim K_\lambda<\infty$, then there exists a basis $\beta_\lambda=\beta_{\vx_1}\cup\cdots\cup\beta_{\vx_n}$ of $K_\lambda$ consisting of finitely many linearly independent cycles.
+	Let $\rT\in\cL(V)$ have an eigenvalue $\lambda$. If $\dim K_\lambda<\infty$, then there exists a basis $\beta_\lambda=\beta_{\vx_1}\cup\cdots\cup\beta_{\vx_n}$ of $K_\lambda$ consisting of finitely many linearly independent cycles.
 \end{thm}
 
-Intuition suggests that we create cycles $\beta_{\vx_j}$ by starting with a basis of the eigenspace $E_\lambda$ and extending backwards: for each $\vx$, if $\vx=(\rT-\lambda\I)(\vy)$, then $\vx\in\beta_\vy$; now repeat until you have a maximum length cycle. This is essentially what we do, though a sneaky induction is required to make sure we keep track of everything and guarantee that the result really is a basis of $K_\lambda$.
+Intuition suggests that we start with a basis of the eigenspace $E_\lambda$ and extend backwards: for each $\vx$, if $\vx=(\rT-\lambda\I)(\vy)$, then $\vx\in\beta_\vy$; now repeat until you have a maximum length cycle. This is essentially what we do, though a sneaky induction is required to make sure we keep track of everything and guarantee that the result really is a basis of $K_\lambda$.
 
 \begin{proof}
-We prove by induction on $m=\dim K_\lambda$.\smallbreak
-(\emph{Base case})\quad  If $m=1$, then $K_\lambda=E_\lambda=\Span\vx$ for some eigenvector $\vx$. Plainly $\{\vx\}=\beta_\vx$.\smallbreak
-(\emph{Induction step})\quad  Fix $m\ge 2$. Write $n=\dim E_\lambda\le m$ and $\rU=(\rT-\lambda\I)_{K_\lambda}$. 
-\begin{enumerate}\renewcommand{\labelenumi}{(\roman{enumi})}\itemsep0pt
-  \item For the induction hypothesis, suppose \emph{every} generalized eigenspace with dimension $<m$ (for \emph{any} linear map!) has a basis consisting of independent cycles of generalized eigenvectors.
-  \item Define $W=\cR(\rU)\cap E_\lambda$: that is
-  \[\vw\in W\iff\begin{cases}
-  \rU(\vw)=\V0\quad\text{and}\\
-  \vw=\rU(\vv)\text{ for some }\vv\in K_\lambda
-  \end{cases}\]
-  Let $k=\dim W$, choose a complementary subspace $X$ such that $E_\lambda=W\oplus X$ and select a basis $\{\vx_{k+1},\ldots,\vx_n\}$ of $X$. If $k=0$, the induction step is finished (why?). Otherwise we continue\ldots
-  \item The calculation in the proof of Lemma \ref{lemm:gencyclesbasic} (take $j=1$) shows that $\cR(\rU)$ is $\rT$-invariant; it is therefore the single generalized eigenspace $\tilde{K}_\lambda$ of $\rT_{\cR(\rU)}$.
-  \item By the rank--nullity theorem,
-	\[\dim \cR(\rU)=\Rank\rU=\dim K_\lambda-\Null\rU=m-\dim E_\lambda <m\]
-	By the induction hypothesis, $\cR(\rU)$ has a basis of independent cycles. Since the last non-zero element in each cycle is an eigenvector, this basis consists of $k$ distinct cycles $\beta_{\hat\vx_1}\cup\cdots\cup\beta_{\hat\vx_k}$ whose terminal vectors form a basis of $W$.
-  \item Since each $\hat\vx_j\in\cR(\rU)$, there exist vectors $\vect xk$ such that $\hat\vx_j=\rU(\vx_j)$. Including the length-one cycles generated by the basis of $X$, the cycles $\beta_{\vx_1},\ldots,\beta_{\vx_n}$ now contain
-  \[\dim\cR(\rU)+k+(n-k)=\Rank\rU+\Null\rU=m\]
-  vectors. We leave as an exercise the verification that these vectors are linearly independent.\qedhere
-\end{enumerate} 
+	We prove by induction on $m=\dim K_\lambda$.
+	\begin{description}
+		\item[\normalfont\emph{Base case} ($m=1$)] $K_\lambda=E_\lambda=\Span\vx$ for some eigenvector $\vx$. Plainly $\{\vx\}=\beta_\vx$ does the job.
+		\item[\normalfont\emph{Induction step}] Fix $m\ge 2$, and suppose \emph{every} generalized eigenspace with dimension $<m$ (for \emph{any} linear map!) has a basis consisting of independent cycles of generalized eigenvectors.\par
+		Write $n=\dim E_\lambda\le m$ and $\rU=(\rT-\lambda\I)_{K_\lambda}$. We break the argument into several steps. 
+	\end{description}
+	\begin{enumerate}
+	  \item Define $W=E_\lambda\cap \cR(\rU)$: that is
+	  \[
+	  	\vw\in W\iff
+	  	\rU(\vw)=\V0\ \text{ and }\ 
+	  	\vw=\rU(\vv)\text{ for some }\vv\in K_\lambda
+	  \]
+	  Let $k=\dim W$, choose a subspace $X$ such that $E_\lambda=W\oplus X$ and select a basis $\{\vx_{k+1},\ldots,\vx_n\}$ of $X$. If $k=0$, the induction step is finished (Exercise \ref{exs:jordanproof} shows that $K_\lambda=E_\lambda$\ldots).
+	  
+	  \item Otherwise, take $j=1$ in the proof of Lemma \ref{lemm:gencyclesbasic} to see that $\cR(\rU)$ is $\rT$-invariant; it follows that $\cR(U)=\widetilde K_\lambda$ is the single generalized eigenspace of $\rT_{\cR(\rU)}$. By the rank--nullity theorem,
+		\[
+			\dim \widetilde K_\lambda=\dim \cR(\rU)=\Rank\rU=\dim K_\lambda-\Null\rU=m-\dim E_\lambda <m
+		\]
+		By the induction hypothesis, $\cR(\rU)$ has a basis of independent cycles. Since the last non-zero element in each cycle is an eigenvector, this basis consists of $k$ distinct cycles $\beta_{\hat\vx_1}\cup\cdots\cup\beta_{\hat\vx_k}$ whose terminal vectors form a basis of $W$.
+		
+	  \item Since each $\hat\vx_j\in\cR(\rU)$, there exist vectors $\vect xk$ such that $\hat\vx_j=\rU(\vx_j)$. Including the length-one cycles generated by the basis of $X$, the cycles $\beta_{\vx_1},\ldots,\beta_{\vx_n}$ now contain
+	  \[
+	  	\dim\cR(\rU)+k+(n-k)=\Rank\rU+\Null\rU=m
+	  \]
+	  vectors. Exercise \ref{exs:jordanproof} verifies that these vectors are linearly independent.\qedhere
+	\end{enumerate} 
 \end{proof}
+
+
+Recall (Theorem \ref{thm:generalized1}) that if the characteristic polynomial of $\rT\in\cL(V)$ splits, then $V=K_{\lambda_1}\oplus\cdots\oplus K_{\lambda_k}$ is the direct sum of generalized eigenspaces. But each of these now has a basis $\beta_\lambda$ consisting of finitely many cycles. By Lemma \ref{lemm:gencyclesbasic}, the matrix $[\rT_{K_\lambda}]_{\beta_\lambda}$ is a Jordan canonical form, whence $\beta=\bigcup\beta_\lambda$ is a Jordan canonical basis for $\rT$. In conclusion:
 
 \begin{cor}{}{jordanbasiscor}
-Suppose that the characteristic polynomial of $\rT\in\cL(V)$ splits (necessarily $\dim V<\infty$). Then there exists a Jordan canonical basis, namely the union of bases $\beta_\lambda$ from Theorem \ref{thm:jordanbasis}.
+	If the characteristic polynomial of $\rT$ splits, then it has a Jordan canonical basis.
 \end{cor}
 
-\begin{proof}
-By Theorem \ref{thm:generalized1}, $V$ is the direct sum of generalized eigenspaces. By the previous result, each $K_\lambda$ has a basis $\beta_\lambda$ consisting of finitely many cycles. By Lemma \ref{lemm:gencyclesbasic}, the matrix of $\rT_{K_\lambda}$ has Jordan canonical form with respect to $\beta_\lambda$. It follows that $\beta=\bigcup\beta_\lambda$ is a Jordan canonical basis for $\rT$.
-\end{proof}
 
-\goodbreak
+\pagebreak[3]
+
 
 \begin{exercises}
-\exstart For each matrix, find the generalized eigenspaces $K_\lambda$, find bases consisting of unions of disjoint cycles of generalized eigenvectors, and thus find a Jordan canonical form $J$ and invertible $Q$ so that the matrix may be expressed as $QJQ^{-1}$.
-\begin{enumerate}\setcounter{enumi}{1}
-  \item[]\begin{enumerate}
-    \item $A=\begin{pmatrix}
-    1&1\\-1&3
-    \end{pmatrix}$
-    \qquad
-    (b)\ \ $B=\begin{pmatrix}
-    1&2\\3&2
-    \end{pmatrix}$
-		\qquad
-    (c)\ \ $C=\begin{pmatrix}
-    11&-4&-5\\21&-8&-11\\3&-1&0
-    \end{pmatrix}$
-    \item[(d)] $D=\begin{pmatrix}
-    2&1&0&0\\0&2&1&0\\0&0&3&0\\0&1&-1&3
-    \end{pmatrix}$
-	\end{enumerate}
+	\hangindent\leftmargini\emph{Key concepts:\quad Jordan blocks, canonical forms \& bases,\quad Generalized eigenvectors \& spaces,\quad Building Jordan bases using cycles of generalized eigenvectors}
 	
-	\item If $\beta=\{\vect vn\}$ is a Jordan canonical basis, what can you say about $\vv_1$? Briefly explain why the linear map $\rL_A\in\cL(\R^2)$ where $A=\begin{smatrix}
-	0&-1\\1&0
-	\end{smatrix}$ has no Jordan canonical form.
 	
-	\item Find a Jordan canonical basis for each linear map $\rT$:
 	\begin{enumerate}
-	  \item $\rT\in\cL(P_2(\R))$ defined by $\rT(f(x))=2f(x)-f'(x)$
-	  \item $\rT(f)=f'$ defined on $\Span\{1,t,t^2,e^t,te^t\}$
-	  \item $\rT(A)=2A+A^T$ defined on $M_2(\R)$
-	\end{enumerate}
+	  \item Compute the generalized eigenspaces $K_\lambda$, find bases consisting of unions of disjoint cycles of generalized eigenvectors, and thus find a Jordan canonical form $J$ and invertible $Q$ so as to express the matrix in the form $QJQ^{-1}$.
+		\begin{enumerate}
+	    \item $A=
+	    \begin{smatrix}
+	    	1&1\\
+	    	-1&3
+	    \end{smatrix}$
+	    \qquad
+	    (b)\ \ $B=\begin{smatrix}
+	    	1&2\\
+	    	3&2
+	    \end{smatrix}$
+			\qquad
+	    (c)\ \ $C=\begin{smatrix}
+	    	11&-4&-5\\
+	    	21&-8&-11\\
+	    	3&-1&0
+	    \end{smatrix}$
+	    \qquad
+	    (d)\ \ $D=\begin{smatrix}
+	    	2&1&0&0\\
+	   		0&2&1&0\\
+	    	0&0&3&0\\
+	    	0&1&-1&3
+	    \end{smatrix}$
+		\end{enumerate}
+		
+		
+		\item If $\beta=\{\vect vn\}$ is a Jordan canonical basis, what can you say about $\vv_1$?
+		
+		
+		\item Briefly explain why matrix $A=
+		\begin{smatrix}
+			0&-1\\
+			1&0
+		\end{smatrix}$
+		has no Jordan canonical form.
+		
+		
+		\item Find a Jordan canonical basis for each linear map $\rT$:
+		\begin{enumerate}
+		  \item $\rT\in\cL\big(P_2(\R)\big)$ defined by $\rT\big(f(x)\big)=2f(x)-f'(x)$
+		  \item $\rT(f)=f'$ defined on $\Span\{1,t,t^2,e^t,te^t\}$
+		  \item $\rT(A)=2A+A^T$ defined on $M_2(\R)$
+		\end{enumerate}
+		
+		
+		\item In Example \ref*{ex:jordansimple1}.\ref*{ex:jordansimple11}, suppose $\vx=\sthreevec abc$. Show that almost any choice of $a,b,c$ produces a Jordan canonical basis $\beta_\vx$.
 	
-	\item In Example \hyperref[ex:jordansimple1]{\ref*{ex:jordansimple1}.1}, suppose $\vx=\sthreevec abc$. Show that almost any choice of $a,b,c$ produces a Jordan canonical basis $\beta_\vx$.
-
-  
-  \item We complete the proof of Lemma \ref{lemm:gevectorbasic}.
-  \begin{enumerate}
-    \item Prove part 1: that $E_\lambda\le K_\lambda\le V$.
-    \item Verify that $\rT-\mu\I$ and $\rT-\lambda\I$ commute.
-    \item Prove part 3(b): generalized eigenspaces for distinct eigenvalues have trivial intersection.
-  \end{enumerate}
-  
-  \item Consider the induction step in the proof of Theorem \ref{thm:generalized1}.
-  \begin{enumerate}
-    \item Prove that $W$ is $\rT$-invariant.
-    \item Explain why $W\cap K_\mu=\{\V0\}$.
-    \item The assumption $p_W(t)=(\lambda_1-t)^{\dim K_{\lambda_1}}\cdots (\lambda_k-t)^{\dim K_{\lambda_k}}$ near the end of the proof is the induction hypothesis for part 1(b). Why can't we also assume that $\dim K_{\lambda_j}=m_j$ and thus tidy the inequality argument near the end of the proof?
-  \end{enumerate}
-  
-  \item We finish some of the details of Theorem \ref{thm:jordanbasis}.
-  \begin{enumerate}
-    \item In step (ii), suppose $\dim W=k=0$. Explain why $\{\vx_1,\ldots,\vx_n\}$ is in fact a basis of $K_\lambda$, so that the rest of the proof is unnecessary.
-    \item In step (v), prove that the $m$ vectors in the cycles $\beta_{\vx_1},\ldots,\beta_{\vx_n}$ are linearly independent.\smallbreak
-    (\emph{Hint: model your argument on part 1 of Lemma \ref{lemm:gencyclesbasic}})
-  \end{enumerate}
- 
-\end{enumerate}
+	  
+	  \item\label{exs:genevecbasic} Complete the proof of Lemma \ref{lemm:gevectorbasic}.
+	  \begin{enumerate}
+	    \item Prove part 1, that $E_\lambda\le K_\lambda\le V$.
+	    \item Verify that $\rT-\mu\I$ and $\rT-\lambda\I$ commute.
+	    \item Prove part 3(b): generalized eigenspaces for distinct eigenvalues have trivial intersection.
+	  \end{enumerate}
+	  
+	  
+	  \item\label{exs:genevecproof} Consider the induction step in the proof of Theorem \ref{thm:generalized1}.
+	  \begin{enumerate}
+	    \item Prove that $W$ is $\rT$-invariant.
+	    \item Explain why $W\cap K_\mu=\{\V0\}$.
+	    \item The assumption $p_W(t)=(\lambda_1-t)^{\dim K_{\lambda_1}}\cdots (\lambda_k-t)^{\dim K_{\lambda_k}}$ near the end of the proof is the induction hypothesis for part 1(b). Why can't we also assume that $\dim K_{\lambda_j}=m_j$ and thus tidy the inequality argument near the end of the proof?
+	  \end{enumerate}
+	  
+	  
+	  \item\label{exs:jordanproof} We finish some of the details of Theorem \ref{thm:jordanbasis}.
+	  \begin{enumerate}
+	    \item In step 1, suppose $\dim W=k=0$. Explain why $\{\vx_1,\ldots,\vx_n\}$ is in fact a basis of $K_\lambda$, so that the rest of the proof is unnecessary.
+	    \item In step 3, prove that the $m$ vectors in the cycles $\beta_{\vx_1},\ldots,\beta_{\vx_n}$ are linearly independent.\par
+	    (\emph{Hint: model your argument on part 1 of Lemma \ref{lemm:gencyclesbasic}})
+	  \end{enumerate}
+	 
+	\end{enumerate}
 \end{exercises}
+
 
 
 \clearpage
 
 
+
 \subsection{Cycle Patterns and the Dot Diagram}
 
 
-In this section we obtain a useful result that helps us compute Jordan forms more efficiently and systematically. To give us some clues how to proceed, here is a lengthy example.
+In this section we develop a method for computing Jordan forms more efficiently and systematically. We start with a lengthy example that provides some clues how to proceed.
 
 \begin{example}{}{dotdiagmotiv}
-Precisely three Jordan canonical forms $A,B,C\in M_3(\R)$ correspond to the characteristic polynomial $p(t)=(5-t)^3$:
-\[A=\begin{pmatrix}
-5&0&0\\
-0&5&0\\
-0&0&5
-\end{pmatrix}
-\qquad
-B=\begin{pmatrix}
-5&1&0\\
-0&5&0\\
-0&0&5
-\end{pmatrix}
-\qquad
-C=\begin{pmatrix}
-5&1&0\\
-0&5&1\\
-0&0&5
-\end{pmatrix}\]
-In all three cases the standard basis $\beta=\{\ve_1,\ve_2,\ve_3\}$ is Jordan canonical, so how do we distinguish things? By considering the \emph{\textcolor{blue}{number}} and \emph{\textcolor{red}{lengths}} of the cycles of generalized eigenvectors.
-\begin{itemize}
-  \item $A$ has eigenspace $E_5=K_5=\R^3$. Since $(A-5I)\vv=\V0$ for all $\vv\in\R^3$, we have maximum \textcolor{red}{cycle-length one}. We therefore need \textcolor{blue}{three distinct cycles} to construct a Jordan basis, e.g.
-  \[\beta_{\ve_1}=\{\ve_1\},\quad \beta_{\ve_2}=\{\ve_2\},\quad \beta_{\ve_3}=\{\ve_3\} \implies \beta=\beta_{\ve_1}\cup\beta_{\ve_2}\cup\beta_{\ve_3}=\{\ve_1,\ve_2,\ve_3\}\]
-  
-  \item $B$ has eigenspace $E_5=\Span\{\ve_1,\ve_3\}$. By computing
-  \[\vv=\threevec abc\implies (B-5I)\vv=\threevec{b}00 \implies (B-5I)^2\vv=\V0\]
-  we see that $\beta_\vv$ is a cycle with \textcolor{red}{maximum length two}, provided $b\neq 0$ ($\vv\not\in E_5$). We therefore need \textcolor{blue}{two distinct cycles,} of lengths \textcolor{red}{two} and \textcolor{red}{one}, to construct a Jordan basis, e.g.
-  \[\beta_{\ve_2}=\bigl\{(B-5I)\ve_2,\,\ve_2\bigr\}=\{\ve_1,\ve_2\},\quad \beta_{\ve_3}=\{\ve_3\}\implies \beta=\beta_{\ve_2}\cup\beta_{\ve_3}=\{\ve_1,\ve_2,\ve_3\}\]
-  
-  \item $C$ has eigenspace $E_5=\Span\ve_1$. This time
-  \[\vv=\threevec abc\implies (C-5I)\vv=\threevec{b}c0,\quad (C-5I)^2\vv=\threevec c00,\quad (C-5I)^3\vv=\V0\]
-  generates a cycle with \textcolor{red}{maximum length two} provided $c\neq 0$. Indeed this cycle is a Jordan basis, so \textcolor{blue}{one cycle} is all we need:
-  \[\beta=\beta_{\ve_3}=\bigl\{(C-5I)^2\ve_3,\,(C-5I)\ve_3,\,\ve_3\bigr\}=\{\ve_1,\ve_2,\ve_3\}\]
-\end{itemize}
+	Precisely three Jordan canonical forms $A,B,C\in M_3(\R)$ correspond to the characteristic polynomial $p(t)=(5-t)^3$:
+	\[
+		A=
+		\begin{pmatrix}
+			5&0&0\\
+			0&5&0\\
+			0&0&5
+		\end{pmatrix}
+		\qquad
+		B=\begin{pmatrix}
+			5&1&0\\
+			0&5&0\\
+			0&0&5
+		\end{pmatrix}
+		\qquad
+		C=\begin{pmatrix}
+			5&1&0\\
+			0&5&1\\
+			0&0&5
+		\end{pmatrix}
+	\]
+	In all three cases the standard basis $\beta=\{\ve_1,\ve_2,\ve_3\}$ is Jordan canonical, so how do we distinguish things? By considering the \emph{\textcolor{blue}{number}} and \emph{\textcolor{red}{lengths}} of the cycles of generalized eigenvectors.
+	\begin{itemize}
+	  \item $A$ has eigenspace $E_5=K_5=\R^3$. Since $(A-5I)\vv=\V0$ for all $\vv\in\R^3$, we have \textcolor{red}{maximum cycle-length one}. We therefore need \textcolor{blue}{three distinct cycles} to construct a Jordan basis, e.g.
+	  \[
+		  \beta_{\ve_1}=\{\ve_1\},\quad 
+		  \beta_{\ve_2}=\{\ve_2\},\quad 
+		  \beta_{\ve_3}=\{\ve_3\} 
+		  \implies \beta=\beta_{\ve_1}\cup\beta_{\ve_2}\cup\beta_{\ve_3}
+		  =\{\ve_1,\ve_2,\ve_3\}
+	  \]
+	  
+	  \item $B$ has eigenspace $E_5=\Span\{\ve_1,\ve_3\}$. Provided $\vv\not\in E_5$,
+	  \[
+	  	\vv=\threevec abc\implies (B-5I)\vv=\threevec{b}00 \implies (B-5I)^2\vv=\V0
+	  \]
+	  shows that $\beta_\vv$ is a cycle with \textcolor{red}{maximum length two}. We therefore need \textcolor{blue}{two distinct cycles} with lengths \textcolor{red}{two} and \textcolor{red}{one} to construct a Jordan basis, e.g.
+	  \[
+	  	\beta_{\ve_2}=\bigl\{(B-5I)\ve_2,\,\ve_2\bigr\}=\{\ve_1,\ve_2\},\quad 
+	  	\beta_{\ve_3}=\{\ve_3\}
+	  	\implies \beta=\beta_{\ve_2}\cup\beta_{\ve_3}=\{\ve_1,\ve_2,\ve_3\}
+	 	\]
+	  
+	  \item $C$ has eigenspace $E_5=\Span\ve_1$. This time
+	  \[
+	  	\vv=\threevec abc
+	  	\implies (C-5I)\vv=\threevec{b}c0,\quad 
+	  	(C-5I)^2\vv=\threevec c00,\quad (C-5I)^3\vv=\V0
+	  \]
+	  Provided $c\neq 0$, this generates a cycle with \textcolor{red}{maximum length three}. Indeed this cycle is a Jordan basis, so \textcolor{blue}{one cycle} is all we need:
+	  \[
+	  	\beta=\beta_{\ve_3}=\bigl\{(C-5I)^2\ve_3,\,(C-5I)\ve_3,\,\ve_3\bigr\}=\{\ve_1,\ve_2,\ve_3\}
+	  \]\vspace{-5pt}
+	\end{itemize}
 \end{example}
 
-Why is the example relevant? Suppose that $\dim_\R V=3$ and that $\rT\in\cL(V)$ has characteristic polynomial $p(t)=(5-t)^3$. Theorem \ref{thm:jordanbasis} tells us that $\rT$ has a Jordan canonical form, and that is is moreover one of the above matrices $A,B,C$. Our goal is to develop a method whereby the pattern of cycle-lengths can be determined, thus allowing us to be able to discern which Jordan form is correct. As a side-effect, this will also demonstrate that the pattern of cycle lengths for a given $\rT$ is independent of the Jordan basis so that, up to some reasonable restriction, the Jordan \emph{form} of $\rT$ is unique. To aid us in this endeavor, we require some terminology\ldots
+Why is the example relevant? If $\rT\in\cL(V)$ has characteristic polynomial $p(t)=(5-t)^3$, Theorem \ref{thm:jordanbasis} tells us that $\rT$ has a Jordan canonical form: one of the matrices $A,B,C$. Our goal is to develop a method whereby the pattern of cycle-lengths can be determined, thus allowing us to discern which Jordan form is correct. As a side-effect, this will also demonstrate that the pattern of cycle lengths for a given $\rT$ is independent of the Jordan basis so that (modulo some reasonable restriction) the Jordan \emph{form} of $\rT$ is unique. To aid us in this endeavor, we require some terminology\ldots
+
+
+\pagebreak[3]
+
 
 \begin{defn}{}{dotdiag}
-Let $V$ be finite dimensional and $K_\lambda$ a generalized eigenspace of $\rT\in\cL(V)$. Following the Theorem \ref{thm:jordanbasis}, assume that $\beta_\lambda=\beta_{\vx_1}\cup\cdots\cup\beta_{\vx_n}$ is a Jordan canonical basis of $\at\rT{K_\lambda}$, where the cycles are arranged in \emph{non-increasing} length. That is:
-\begin{enumerate}%\itemsep2pt
-  \item $\beta_{\vx_j}=\{(\rT-\lambda \I)^{k_j-1}(\vx_j),\ldots,\vx_j\}$ has length $k_j$, and
-  \item $k_1\ge k_2\ge\cdots\ge k_n$
-\end{enumerate}
-The \emph{dot diagram} of $\at\rT{K_\lambda}$ is a representation of the elements of $\beta_\lambda$, one dot for each vector: the $j\th$ column represents the elements of $\beta_{\vx_j}$ arranged vertically with $\vx_j$ at the bottom.
+	Let $K_\lambda$ be a generalized eigenspace of $\rT\in\cL(V)$ and suppose  $\beta_\lambda=\beta_{\vx_1}\cup\cdots\cup\beta_{\vx_n}$ is a Jordan canonical basis of $\at\rT{K_\lambda}$, whose cycles are arranged in \emph{non-increasing} length. That is:
+	\begin{enumerate}
+	  \item $\beta_{\vx_j}=\big\{(\rT-\lambda \I)^{k_j-1}(\vx_j),\ldots,\vx_j\big\}$ has length $k_j$, \ and,
+	  \item $k_1\ge k_2\ge\cdots\ge k_n$
+	\end{enumerate}
+	The \emph{dot diagram} of $\at\rT{K_\lambda}$ is a representation of the elements of $\beta_\lambda$, one dot for each vector: the $j\th$ column represents the elements of $\beta_{\vx_j}$ arranged vertically with $\vx_j$ at the bottom.
 \end{defn}
 
-Given a linear map, our eventual goal is to identify the dot diagram as an intermediate step in the computation of a Jordan basis. First, however, we observe how the conversion of dot diagrams to a Jordan form is essentially trivial.
+Given a linear map, our goal is to identify the dot diagram as an intermediate step in the computation of a Jordan basis. First we observe how the conversion of dot diagrams to Jordan forms is essentially trivial.
 
 \begin{example}{}{}
-Suppose $\dim V=14$ and that $\rT\in\cL(V)$ has the following eigenvalues and dot diagrams:
-  \[\begin{array}{c@{\qquad}c@{\qquad}c}
-  \lambda_1=-4&\lambda_2=7&\lambda_3=12\\
-  \begin{array}{cccc}
-  \bullet&\bullet&\bullet&\bullet\\
-  \bullet&\bullet&\\
-  &&
-  \end{array}
-  &
-  \begin{array}{cc}
-  \bullet&\bullet\\
-  \bullet&\bullet\\
-  \bullet&
-  \end{array}
-  &
-  \begin{array}{ccc}
-  \bullet&\bullet&\bullet\\
-  &&\\
-  &&
-  \end{array}
-  \end{array}\]
-  Then generalized eigenspaces of $\rT$ satisfy:
-  \begin{itemize}
-    \item $K_{-4}=\cN(\rT+4\I)^2$ and $\dim K_{-4}=6$;
-    \item $K_{7}=\cN(\rT-7\I)^3$ and $\dim K_{7}=5$;
-    \item $K_{12}=\cN(\rT-12\I)=E_{12}$ and $\dim K_{12}=3$;
-  \end{itemize}
-	$\rT$ has a Jordan canonical basis $\beta$ with respect to which its Jordan canonical form is
-	\[[\rT]_\beta =\scalebox{0.9}{$\left(\begin{array}{@{}c@{}c@{}c@{}c@{}c@{}c@{}c@{}c@{}c@{}}
-		\begin{array}{@{}cc|@{}}
-			-4 & 1\\
-			0 & -4\\\hline
-		\end{array}&&&&&&&&\\[-0.4pt]
-		&\begin{array}{|cc|}\hline
-			-4 & 1\\
-			0 & -4\\\hline
-		\end{array}&&&&&&&\\[-0.4pt]
-		&&\begin{array}{|c|}\hline
-			-4\\\hline
-		\end{array}&&&&&&\\[-0.4pt]
-		&&&\begin{array}{|c|}\hline
-			-4\\\hline
-		\end{array}&&&&&\\[-0.4pt]
-		&&&&\begin{array}{|ccc|}\hline
-			7 & 1 & 0\\
-			0 & 7 & 1\\
-			0 & 0 & 7\\\hline
-		\end{array}&&&&\\[-0.4pt]
-		&&&&&\begin{array}{|cc|}\hline
-			7 & 1\\
-			0 & 7\\\hline
-		\end{array}&&&\\[-0.4pt]
-		&&&&&&\begin{array}{|c|}\hline
-			12\\\hline
-		\end{array}&&\\[-0.4pt]
-		&&&&&&&\begin{array}{|c|}\hline
-			12\\\hline
-		\end{array}&\\[-0.4pt]
-		&&&&&&&&\begin{array}{|c}\hline
-			12
+	Suppose $\rT\in\cL(\R^{12})$ has the following eigenvalues and dot diagrams:
+  \[
+	  \begin{array}{c@{\qquad}c@{\qquad}c}
+	  	\lambda_1=-4&\lambda_2=7&\lambda_3=9\\
+	  	\begin{array}{cc}
+	  		\bullet&\bullet\\
+	  		\bullet&\bullet\\
+	  		\bullet
+	  	\end{array}
+	  	&
+	  	\begin{array}{cc}
+	  		\bullet&\bullet\\
+	  		\bullet\\
+	 			\bullet
+	 		\end{array}
+	 		&
+	  	\begin{array}{ccc}
+	  		\bullet&\bullet&\bullet\\
+	  		&&\\
+	  		&&
+	  	\end{array}
+	  \end{array}
+	\]
+	\begin{minipage}[t]{0.74\linewidth}\vspace{0pt}
+  	Consider the diagram for $\lambda_1=-4$. Each dot depicts a single vector in basis $\beta_{-4}=\beta_{\vx_1}\cup\beta_{\vx_2}$ of $K_{-4}$, as shown on the right.
+  	\begin{enumeratea}\itemsep0pt
+  	  \item The columns are the cycles: $\dim K_{-4}=3+2=5$.
+  	  \item The top row is the eigenspace: $E_{-4}=\Span\big\{(\rT+4\I)^2\vx_1,(\rT+4\I)\vx_2\big\}$ has dimension 2. 
+  	  \item The maximum cycle length is three: $K_{-4}=\cN(\rT+4\I)^3$.
+  	\end{enumeratea}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.25\linewidth}\vspace{0pt}
+	  \hfill$\begin{array}[t]{@{}cc@{}}
+			(\rT+4\I)^2\vx_1&(\rT+4\I)\vx_2\\
+			(\rT+4\I)\vx_1&\vx_2\\
+			\vx_1
+		\end{array}$
+	\end{minipage}\bigbreak
+	Similarly for $\lambda_2=7$: $\dim K_7=4$, $\dim E_7=2$ and $K_7=\cN(\rT-7\I)^3$.\par
+	Finally, for $\lambda_3=9$ the generalized eigenspace is the eigenspace: $K_9=E_9=\cN(\rT-9\I)$ has dimension 3.\smallbreak
+	The map $\rT$ has a Jordan canonical basis $\beta$ with respect to which its Jordan canonical form is
+	\[
+		[\rT]_\beta =\left(
+		\begin{array}{@{}c@{}c@{}c@{}c@{}c@{}c@{}c@{}c@{}}
+			\begin{array}{@{}ccc|@{}}
+				-4 & 1 & 0\\
+ 				0 & -4 & 1\\
+ 				0 & 0 & -4\\\hline
+			\end{array}
+			\\
+ 			&
+ 			\begin{array}{@{}|cc|@{}}
+ 				\hline
+ 				-4 & 1\\
+ 				0 & -4\\\hline
+ 			\end{array}
+ 			\\
+			&&
+			\begin{array}{|ccc|}\hline
+ 				7 & 1 & 0\\
+ 				0 & 7 & 1\\
+ 				0 & 0 & 7\\\hline
+ 			\end{array}
+ 			\\
+ 			&&&
+ 			\begin{array}{|c|}\hline
+ 				7\\\hline
+ 			\end{array}
+ 			\\
+			&&&&
+			\begin{array}{|c|}\hline
+				9\\\hline
+			\end{array}
+			\\
+			&&&&&
+			\begin{array}{|c|}\hline
+				9\\\hline
+			\end{array}
+			\\
+			&&&&&&
+			\begin{array}{|c}\hline
+				9
+			\end{array}
 		\end{array}
-		\end{array}\right)$}\]
-	Note how the sizes of the Jordan blocks are \emph{non-increasing} within each eigenvalue. For instance, for $\lambda_1=-4$, the sequence of cycle lengths ($k_j$) is $2\ge 2\ge 1\ge 1$.
+		\right)
+	\]
+	Note how the sizes of the Jordan blocks are \emph{non-increasing} within each eigenvalue.
 \end{example}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{thm}{}{}
-Suppose $\beta_\lambda$ is a Jordan canonical basis of $\at\rT{K_\lambda}$ as described in Definition \ref{defn:dotdiag}, and suppose the $i^\text{th}$ row of the dot diagram has $r_i$ entries. Then:
-\begin{enumerate}%\itemsep2pt
-  \item For each $r\in\N$, the vectors associated to the dots in the first $r$ rows form a basis of $\cN(\rT-\lambda \I)^r$.
-  \item $r_1=\Null(\rT-\lambda\I)=\dim V-\Rank(\rT-\lambda \I)$
-  \item When $i>1$, $r_i=\Null(\rT-\lambda \I)^{i}-\Null(\rT-\lambda \I)^{i-1}= \Rank(\rT-\lambda \I)^{i-1}-\Rank(\rT-\lambda \I)^{i}$
-\end{enumerate}
+	Suppose $\beta_\lambda$ is a Jordan canonical basis of $\at\rT{K_\lambda}$ as described in Definition \ref{defn:dotdiag}, and suppose the $i$\th{} row of the dot diagram has $r_i$ entries. Then:
+	\begin{enumerate}
+	  \item For each $r\in\N$, the vectors associated to the dots in the first $r$ rows form a basis of $\cN(\rT-\lambda \I)^r$.
+	  \item The dimension of the eigenspace is $r_1=\Null(\rT-\lambda\I)=\dim V-\Rank(\rT-\lambda \I)$.
+	  \item When $i>1$, $r_i=\Null(\rT-\lambda \I)^{i}-\Null(\rT-\lambda \I)^{i-1}= \Rank(\rT-\lambda \I)^{i-1}-\Rank(\rT-\lambda \I)^{i}$
+	\end{enumerate}
 \end{thm}
 
 \begin{example*}{\ref{ex:dotdiagmotiv} cont}{}
-We describe the dot diagrams of the three matrices $A$, $B$, $C$, along with the corresponding vectors in the Jordan canonical basis $\beta$ and the values $r_i$.
+We describe the dot diagrams of the three matrices $A$, $B$, $C$, the corresponding vectors in the Jordan canonical basis $\beta$, and the values $r_i$.
 \begin{itemize}
-	\item[$A:$] $\begin{array}{lll}
-		\bullet&\bullet&\bullet
+	\item[$A:$] $\begin{array}{ccc}
+			\bullet&\bullet&\bullet
 		\end{array}
 		\qquad
-		\begin{array}{lll}
-		\vx_1&\vx_2&\vx_3
-		\end{array}
-		\qquad
-		\begin{array}{lll}
-		\ve_1&\ve_2&\ve_3
-		\end{array}$
-		\begin{itemize}
-		  \item[]\hspace*{-20pt}Since $A-5I$ is the zero matrix, $r_1=3-\Rank(A-5I)=3$. The dot diagram has one row, corresponding to three independent cycles of length one: $\beta=\beta_{\ve_1}\cup\beta_{\ve_2}\cup\beta_{\ve_3}$.
-		\end{itemize}
+		\begin{array}{ccc}
+			\ve_1&\ve_2&\ve_3
+		\end{array}$\par
+		Since $A-5I$ is the zero matrix, $r_1=3-\Rank(A-5I)=3$. The dot diagram has one row, corresponding to three independent cycles of length one: $\beta=\beta_{\ve_1}\cup\beta_{\ve_2}\cup\beta_{\ve_3}$.
 		
-	\item[$B:$] $\begin{array}[t]{ll}
-		\bullet&\bullet\\
-		\bullet&
+	\item[$B:$] $\begin{array}[t]{cc}
+			\bullet&\bullet\\
+			\bullet
 		\end{array}
 		\qquad
-		\begin{array}[t]{cl}
-		(B-5I)\vx_1&\vx_2\\
-		\vx_1&
+		\begin{array}[t]{cc}
+			\ve_1&\ve_3\\
+			\ve_2
 		\end{array}
 		\qquad
-		\begin{array}[t]{ll}
-		\ve_1&\ve_3\\
-		\ve_2
-		\end{array}$
-		\begin{itemize}
-		  \item[]\hspace*{-20pt}Row 1:\quad $B-5I=\smash[t]{\begin{smatrix}
-			0&1&0\\0&0&0\\0&0&0
-		  \end{smatrix}}\implies \Rank(B-5I)=1$ and $r_1=3-1=2$. The first row $\{\ve_1,\ve_3\}$ is a basis of $E_5=\cN(B-5I)$.
-			\item[]\hspace*{-20pt}Row 2:\quad $(B-5I)^2$ is the zero matrix, whence $r_2=\Rank(B-5I)-\Rank(B-5I)^2=1-0=1$.
-		\end{itemize}
+		\begin{array}[t]{cc}
+			(B-5I)\ve_2&\ve_3\\
+			\ve_2
+		\end{array}$\smallbreak
+		Row 1: \ $B-5I=
+		\begin{smatrix}
+			0&1&0\\
+			0&0&0\\
+			0&0&0
+		\end{smatrix}$
+		has rank 1, whence $r_1=3-1=2$. This row $\{\ve_1,\ve_3\}$ spans $E_5=\cN(B-5I)$.\par
+		Row 2: \ $(B-5I)^2$ is the zero matrix, whence $r_2=\Rank(B-5I)-\Rank(B-5I)^2=1-0=1$.\smallbreak
 		The dot diagram corresponds to $\beta=\beta_{\ve_2}\cup\beta_{\ve_3}=\{\ve_1,\ve_2\}\cup\{\ve_3\}$.
 		
 		
-	\item[$C:$] $\begin{array}[t]{lll}
+	\item[$C:$] $\begin{array}[t]{ccc}
 		\bullet\\\bullet\\\bullet
 		\end{array}
 		\qquad
 		\begin{array}[t]{c}
-		(C-5I)^2\vx_1\\
-		(C-5I)\vx_1\\
-		\vx_1
+		\ve_1\\
+		\ve_2\\
+		\ve_3
 		\end{array}
 		\qquad
-		\begin{array}[t]{l}
-		\ve_1\\\ve_2\\\ve_3
-		\end{array}$
-		\begin{itemize}
-		  \item[]\hspace*{-20pt}Row 1:\quad $C-5I=\smash[t]{\begin{smatrix}
-			0&1&0\\0&0&1\\0&0&0
-		  \end{smatrix}}			\implies r_1=3-\Rank(C-5I)=1$. The first row $\{\ve_1\}$ is a basis of $E_5=\cN(C-5I)$.
-			\item[]\hspace*{-20pt}Row 2:\quad $(C-5I)^2=\begin{smatrix}
-			0&0&1\\0&0&0\\0&0&0
-			\end{smatrix}\implies r_2=\Rank(C-5I)-\Rank(C-5I)^2=2-1=1$. The first two rows $\{\ve_1,\ve_2\}$ form a basis of $\cN(C-5I)^2$.
-			\item[]\hspace*{-20pt}Row 3:\quad $(C-5I)^3$ is the zero matrix, whence $r_3=\Rank(C-5I)^2-\Rank(C-5I)^3=1-0=1$.
-		\end{itemize}
-\end{itemize}
+		\begin{array}[t]{c}
+		(C-5I)^2\ve_3\\
+		(C-5I)\ve_3\\
+		\ve_3
+		\end{array}$\smallbreak
+		Row 1: \ $C-5I=
+		\begin{smatrix}
+			0&1&0\\
+			0&0&1\\
+			0&0&0
+		\end{smatrix}$
+		has rank 2, whence $r_1=3-2=1$. This row $\{\ve_1\}$ spans $E_5=\cN(C-5I)$.\par
+		Row 2: \ $(C-5I)^2=
+		\begin{smatrix}
+			0&0&1\\
+			0&0&0\\
+			0&0&0
+		\end{smatrix}$
+		has rank 1, whence $r_2=2-1=1$. The first two rows $\{\ve_1,\ve_2\}$ form a basis of $\cN(C-5I)^2$.\par
+		Row 3: \ $(C-5I)^3$ is the zero matrix, whence $r_3=\Rank(C-5I)^2-\Rank(C-5I)^3=1-0=1$.
+	\end{itemize}
 \end{example*}
+
 
 \begin{proof}
 As previously, let $\rU=\rT-\lambda\I$.
 \begin{enumerate}
-  \item Since each dot represents a basis vector $\rU^p(\vv_j)$, any $\vv\in K_\lambda$ may be written uniquely as a linear combination of the dots. Applying $\rU$ simply moves all the dots up a row and all dots in the top row to $\V0$. It follows that $\vv\in \cN(\rU^r)\iff$ it lies in the span of the first $r$ rows. Since the dots are linearly independent, they form a basis.
+  \item Since each dot represents a basis vector $\rU^p(\vv_j)$, any $\vv\in K_\lambda$ may be written uniquely as a linear combination of the dots. Applying $\rU$ moves all dots up a row and all dots in the top row to $\V0$. It follows that $\vv\in \cN(\rU^r)\Longleftrightarrow$ it lies in the span of the first $r$ rows. Since the dots are linearly independent, they form a basis.
   \item By part 1, $r_1=\dim \cN(\rU)=\Null(\rT-\lambda \I)=\dim V-\Rank(\rT-\lambda \I)$.
   \item More generally,
   \begin{align*}
@@ -687,315 +965,344 @@ As previously, let $\rU=\rT-\lambda\I$.
 \end{enumerate}
 \end{proof}
 
-\goodbreak
 
-Since the ranks of maps $(\rT-\lambda\I)^i$ are independent of basis, so also is the dot diagram\ldots
+\pagebreak[3]
+
+
+Since the ranks of the maps $(\rT-\lambda\I)^i$ are independent of basis, so also is the dot diagram\ldots
 
 \begin{cor}{}{jordanunique}
-For any eigenvalue $\lambda$, the dot diagram is uniquely determined by $\rT$ and $\lambda$. If we list Jordan blocks for each eigenspace in non-increasing order, then the Jordan form of a linear map is unique up to the order of the eigenvalues.
+	For any eigenvalue $\lambda$, the dot diagram is uniquely determined by $\rT$ and $\lambda$. If Jordan blocks for each eigenspace are listed in non-increasing order, then the Jordan form of a linear map is unique up to the order of its eigenvalues.
 \end{cor}
 
 We now have a slightly more systematic method for finding Jordan canonical bases.
 
-\begin{example}{}{}
-The matrix $A=\begin{smatrix}
-6&2&-4&-6\\
-0&3&0&0\\
-0&0&3&0\\
-2&1&-2&-1
-\end{smatrix}$ has characteristic equation
-\[p(t)=(3-t)^2\begin{vmatrix}
-6-t&-6\\2&-1-t
-\end{vmatrix}
-=(2-t)(3-t)^3\]
-We have two generalized eigenspaces:
-\begin{itemize}
-  \item $K_2=E_2=\cN(A-2I)=\cN\begin{smatrix}
-		4&2&-4&-6\\
-		0&1&0&0\\
-		0&0&1&0\\
-		2&1&-2&-3
-	\end{smatrix}=\Span\sfourvec 3002$. The trivial dot diagram $\bullet$ corresponds to this single eigenvector.
-  \item $K_3=\cN(A-3I)^3$. To find the dot diagram, compute powers of $A-3I$:
-		\begin{itemize}
-		  \item[]\hspace*{-20pt}Row 1:\quad $A-3I=\begin{smatrix}
-				3&2&-4&-6\\
-				0&0&0&0\\
-				0&0&0&0\\
-				2&1&-2&-4
-		  \end{smatrix}$ has rank 2 and the first row has $r_1=4-2=2$ entries.
-			\item[]\hspace*{-20pt}Row 2:\quad $(A-3I)^2=\begin{smatrix}
-				-3&0&0&6\\
-				0&0&0&0\\
-				0&0&0&0\\
-				-2&0&0&4
-			\end{smatrix}$ has rank 1 and the second row has $r_2=2-1=1$ entry.
-		\end{itemize}
-		Since we now have three dots (equalling $\dim K_3$), the algorithm terminates and the dot diagram for $K_3$ is $\begin{array}[t]{cc}
-\bullet&\bullet\\\bullet&
-\end{array}$\\
-For the single dot in the second row, we choose something in $\cN(A-3I)^2$ which isn't an eigenvector; perhaps the simplest choice is $\vx_1=\ve_2$, which yields the two-cycle
-\[\beta_{\vx_1}=\left\{(A-3I)\vx_1,\vx_1\right\} =\left\{\sfourvec 2001,\sfourvec 0100\right\}\]
-To complete the first row, choose any eigenvector to complete the span: for instance $\vx_2=\sfourvec 0210$.
-\end{itemize}
+\begin{example}{}{jordanpenult}
+	The matrix $A=
+	\smash[b]{\begin{smatrix}
+		6&2&-4&-6\\
+		0&3&0&0\\
+		0&0&3&0\\
+		2&1&-2&-1
+	\end{smatrix}}$ 
+	has characteristic polynomial $p(t)=(2-t)^{\textcolor{blue}{1}}(3-t)^{\textcolor{red}{3}}$, and two generalized eigenspaces:
+	\begin{description}
+	  \item[$(\lambda=2)$] $K_2=\cN(A-2I)^{\textcolor{blue}{1}}$ is the one-dimensional eigenspace itself! The trivial dot diagram $\bullet$ corresponds to a single eigenvector in
+	  \[
+		  E_2=\cN
+		  \begin{pmatrix}
+				4&2&-4&-6\\
+				0&1&0&0\\
+				0&0&1&0\\
+				2&1&-2&-3
+			\end{pmatrix}
+			=\Span\fourvec 3002
+		\]
+	  \item[$(\lambda=3)$] $K_3=\cN(A-3I)^3$. To find the dot diagram, compute powers of $A-3I$:\smallbreak
+		Row 1: \ $A-3I=
+		\begin{smatrix}
+			3&2&-4&-6\\
+			0&0&0&0\\
+			0&0&0&0\\
+			2&1&-2&-4
+		\end{smatrix}$
+		has rank 2 and the first row has $r_1=4-2=2$ entries.\par
+		Row 2: \ $(A-3I)^2=
+		\begin{smatrix}
+			-3&0&0&6\\
+			0&0&0&0\\
+			0&0&0&0\\
+			-2&0&0&4
+		\end{smatrix}$
+		has rank 1 and the second row has $r_2=2-1=1$ entry.\smallbreak
+		Since we now have three dots ($=\dim K_3$), the algorithm terminates and we conclude that the dot diagram for $K_3$ is 
+		$\begin{array}[t]{cc}
+			\bullet&\bullet\\\bullet&
+		\end{array}$\par
+		For the single dot in the second row, choose anything in $\cN(A-3I)^2$ that isn't an eigenvector; perhaps the simplest choice is $\vx_1=\ve_2$, which yields the two-cycle
+		\[
+			\beta_{\vx_1}
+			=\big\{(A-3I)\vx_1,\vx_1\big\} 
+			=\left\{\sfourvec 2001,\sfourvec 0100\right\}
+		\]
+		To finish the first row, choose any eigenvector to complete the span: for instance $\vx_2=\smash[t]{\sfourvec 0210}$.
+	\end{description}
 
-We now have suitable cycles and a Jordan canonical basis/form: 
-\[\beta=\left\{\sfourvec 3002, \sfourvec 2001, \sfourvec 0100, \sfourvec 0210\right\},
-\qquad
-A=QJQ^{-1}=\begin{smatrix}
-3&2&0&0\\
-0&0&1&2\\
-0&0&0&1\\
-2&1&0&0
-\end{smatrix}
-\begin{smatrix}
-2&0&0&0\\
-0&3&1&0\\
-0&0&3&0\\
-0&0&0&3
-\end{smatrix}
-\begin{smatrix}
-3&2&0&0\\
-0&0&1&2\\
-0&0&0&1\\
-2&1&0&0
-\end{smatrix}^{-1}\]
-Other choices are available! For instance, if we'd chosen the two-cycle generated by $\vx_1=\ve_3$, we'd obtain a different Jordan basis but the same canonical form $J$:
-\[\tilde\beta=\left\{\sfourvec 3002, \sfourvec{-4}00{-2}, \sfourvec 0010, \sfourvec 0210\right\}, \qquad
-A=\begin{smatrix}
-3&-4&0&0\\
-0&0&0&2\\
-0&0&1&1\\
-2&-2&0&0
-\end{smatrix}
-\begin{smatrix}
-2&0&0&0\\
-0&3&1&0\\
-0&0&3&0\\
-0&0&0&3
-\end{smatrix}
-\begin{smatrix}
-3&-4&0&0\\
-0&0&0&2\\
-0&0&1&1\\
-2&-2&0&0
-\end{smatrix}^{-1}\]  
+	We now have suitable cycles and a Jordan canonical basis/form: 
+	\[
+		\beta=\left\{\fourvec 3002, \fourvec 2001, \fourvec 0100, \fourvec 0210\right\},
+		\qquad
+		A=QJQ^{-1}=
+		\begin{pmatrix}
+			3&2&0&0\\
+			0&0&1&2\\
+			0&0&0&1\\
+			2&1&0&0
+		\end{pmatrix}
+		\begin{pmatrix}
+			2&0&0&0\\
+			0&3&1&0\\
+			0&0&3&0\\
+			0&0&0&3
+		\end{pmatrix}
+		\begin{pmatrix}
+			3&2&0&0\\
+			0&0&1&2\\
+			0&0&0&1\\
+			2&1&0&0
+		\end{pmatrix}
+		^{-1}
+	\]
+	Other choices of basis are available: for instance, we could generate a two-cycle $\beta_{\vx_1}$ using any vector $\vx_1=a\ve_2+b\ve_3+c(2\ve_1+\ve_4)\in\cN(A-2I)^2$ for which $a,b$ are not both zero\ldots
 \end{example}
 
-\goodbreak
+%\vfil
 
-We do one final example for a non-matrix map.
+\pagebreak[3]
+
+
 
 \begin{example}{}{}
-Let $\epsilon=\{1,x,y,x^2,y^2,xy\}$ and define $\rT\bigl(f(x,y)\bigr)=2\partials[f]{x}-\partials[f]{y}$ as a linear operator on $V=\Span_\R\epsilon$. The matrix and characteristic polynomial of $\rT$ is easy to compute:
-\[[\rT]_\epsilon=\begin{smatrix}
-0 & 2 & -1 & 0 & 0 & 0\\
-0 & 0 & 0 & 4 & 0 & -1\\
-0 & 0 & 0 & 0 & -2 & 2\\
-0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0
-\end{smatrix} \implies p(t)=t^6,\qquad [\rT^2]_\epsilon=\begin{smatrix}
-0 & 0 & 0 & 8 & 2 & -4\\
-0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0
-\end{smatrix},\qquad [\rT^3]_\epsilon=O\]
-There is only one eigenvalue $\lambda=0$ and therefore one generalized eigenspace $K_0=V$. We could keep working with matrices, but it is easy to translate the nullspaces of the matrices back to subspaces of $V$, from which the necessary data can be read off:
-\begin{align*}
-&\cN(\rT)=\Span\{1,x+2y,x^2+4y^2+4xy\}\qquad &&\Null \rT=3,\ \Rank \rT=3,\ r_1=3\\[2pt]
-&\cN(\rT^2)=\Span\{1,x,y,x^2+2xy,2y^2+xy\}\qquad &&\Null \rT^2=5,\ \Rank \rT^2=1,\ r_2=3-1=2
-\end{align*}
-We now have five dots; since $\dim K_0=6$, the last row has one, and the dot diagram is\ $\begin{array}[t]{ccc}
-\bullet&\bullet&\bullet\\
-\bullet&\bullet&\\
-\bullet&&
-\end{array}$\\
-Since the first two rows span $\cN(\rT^2)$, we may choose any $f_1\not\in\cN(\rT^2)$ for the final dot: $f_1=xy$ is suitable, from which the first column of the dot diagram becomes
-\[\begin{matrix}
-\rT^2(xy)&\bullet&\bullet\\[2pt]
-\rT(xy)&\bullet&\\[2pt]
-xy&&
-\end{matrix}\qquad\quad\begin{matrix}
--4&\bullet&\bullet\\[2pt]
-2y-x&\bullet&\\[2pt]
-xy&&
-\end{matrix}\]
-Now choose the second dot on the second row to be anything in $\cN(\rT^2)$ such that the first two rows span $\cN(\rT^2)$: this time $f_2=x^2-4y^2$ is suitable, and the diagram becomes:
-\[\begin{matrix}
-\rT^2(xy)&\rT(x^2-4y^2)&\bullet\\[2pt]
-\rT(xy)&x^2-4y^2&\\[2pt]
-xy&&
-\end{matrix}\qquad\quad\begin{matrix}
--4&4x+8y&\bullet\\[2pt]
-2y-x&x^2-4y^2&\\[2pt]
-xy&&
-\end{matrix}\]
-The final dot is now chosen so that the first row spans $\cN(\rT)$: this time $f_3=x^2+4y^2+4xy$ works. The result is a Jordan canonical basis and form for $\rT$
-\[\beta=\bigl\{-4,\ 2y-x,\ xy,\ 4x+8y,\ x^2-4y^2,\ x^2+4y^2+4xy\bigr\},\quad\qquad J=[\rT]_\beta=
-% \begin{smatrix}
-% 0 & 1 & 0 & 0 & 0 & 0\\
-% 0 & 0 & 1 & 0 & 0 & 0\\
-% 0 & 0 & 0 & 0 & 0 & 0\\
-% 0 & 0 & 0 & 0 & 1 & 0\\
-% 0 & 0 & 0 & 0 & 0 & 0\\
-% 0 & 0 & 0 & 0 & 0 & 0
-% \end{smatrix}
-% \left(\scriptsize\begin{array}{@{}c@{}c@{}c@{}}
-% 		\begin{array}{@{\ }c@{\,}c@{\,}c@{\ }|}
-% 			0 & 1 & 0\\
-% 			0 & 0 & 1\\
-% 			0 & 0 & 0\\\hline
-% 		\end{array}&&\\
-% 		&\begin{array}{|@{\ }c@{\,}c@{\ }|}\hline
-% 			0 & 1\\
-% 			0 & 0\\\hline
-% 		\end{array}&\\
-% 		&&\begin{array}{|@{\ }c@{\ }}\hline
-% 			0
-% 		\end{array}
-% 	\end{array}\right)
-	\scalebox{0.8}{$\left(\begin{array}{@{}c@{}c@{}c@{}}
-		\begin{array}{@{\ }ccc@{\ }|}
-			0 & 1 & 0\\
-			0 & 0 & 1\\
-			0 & 0 & 0\\\hline
-		\end{array}&&\\[-0.4pt]
-		&\begin{array}{|@{\ }cc@{\ }|}\hline
-			0 & 1\\
-			0 & 0\\\hline
-		\end{array}&\\[-0.4pt]
-		&&\begin{array}{|@{\ }c@{\ }}\hline
-			0
-		\end{array}
-		\end{array}\right)$}
-\]
-As previously, many other choices of cycle-generators $f_1,f_2,f_3$ are available; while these result in different Jordan canonical bases, Corollary \ref{cor:jordanunique} assures us that we'll always obtain the same canonical form $J$.
+	For variety, here is an example with a non-matrix map.\medbreak
+	Let $\epsilon=\{1,x,y,x^2,y^2,xy\}$ and define the partial differential operator $\rT\bigl(f(x,y)\bigr)=2\partials[f]{x}-\partials[f]{y}$ on the real vector space $V=\Span_{\R}\epsilon$. We quickly compute:
+	\[
+		[\rT]_\epsilon=
+		\begin{pmatrix}
+			0 & 2 & -1 & 0 & 0 & 0\\
+			0 & 0 & 0 & 4 & 0 & -1\\
+			0 & 0 & 0 & 0 & -2 & 2\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0
+		\end{pmatrix}
+		\implies p(t)=t^6,\quad
+		[\rT^2]_\epsilon=
+		\begin{pmatrix}
+			0 & 0 & 0 & 8 & 2 & -4\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0
+		\end{pmatrix},
+		\quad [\rT^3]_\epsilon=O
+	\]
+	There is only one eigenvalue $\lambda=0$ and therefore one generalized eigenspace $K_0=V$. We could keep working with matrices, but it is easy to translate their nullspaces back to subspaces of $V$, from which the necessary data can be read off:
+	\begin{align*}
+		&\cN(\rT)=\Span\big\{1,x+2y,x^2+4y^2+4xy\big\}\qquad 
+		&&\Null \rT=3,\ \Rank \rT=3,\ r_1=3\\[2pt]
+		&\cN(\rT^2)=\Span\big\{1,x,y,x^2+2xy,2y^2+xy\big\}\qquad 
+		&&\Null \rT^2=5,\ \Rank \rT^2=1,\ r_2=3-1=2
+	\end{align*}
+	\begin{minipage}[t]{0.8\linewidth}\vspace{0pt}
+		These calculations produce five dots; since $\dim K_0=6$, the last row has one dot and the dot diagram is as shown.
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.15\linewidth}\vspace{0pt}
+		\hfill$\begin{array}[t]{ccc}
+		\bullet&\bullet&\bullet\\
+		\bullet&\bullet&\\
+		\bullet&&
+	\end{array}$
+	\end{minipage}\smallbreak
+	Since the first two rows span $\cN(\rT^2)$, we may choose any $f_1\not\in\cN(\rT^2)$ for the final dot. A suitable choice is $f_1=xy$, from which the first column of the dot diagram becomes
+	\[
+		\begin{matrix}
+			\rT^2(xy)&\bullet&\bullet\\[2pt]
+			\rT(xy)&\bullet&\\[2pt]
+			xy&&
+		\end{matrix}
+		\qquad\quad
+		\begin{matrix}
+			-4&\bullet&\bullet\\[2pt]
+			2y-x&\bullet&\\[2pt]
+			xy&&
+		\end{matrix}
+	\]
+	Now choose the second dot on the second row to be anything in $\cN(\rT^2)$ such that the first two rows span $\cN(\rT^2)$. This time $f_2=x^2-4y^2$ is suitable and the diagram becomes
+	\[
+		\begin{matrix}
+			\rT^2(xy)&\rT(x^2-4y^2)&\bullet\\[2pt]
+			\rT(xy)&x^2-4y^2&\\[2pt]
+			xy&&
+		\end{matrix}
+		\qquad\quad
+		\begin{matrix}
+			-4&4x+8y&\bullet\\[2pt]
+			2y-x&x^2-4y^2&\\[2pt]
+			xy&&
+		\end{matrix}
+	\]
+	The final dot is chosen so that the first row spans $\cN(\rT)$: this time $f_3=x^2+4y^2+4xy$ works. The result is a Jordan canonical basis and form for $\rT$:
+	\[
+		\beta=\bigl\{-4,\ \ 2y-x,\ \ xy,\ \ 4x+8y,\ \ x^2-4y^2,\ \ x^2+4y^2+4xy\bigr\},\quad\qquad 
+		J=[\rT]_\beta=
+		\left(
+			\begin{array}{@{}c@{}c@{}c@{}}
+				\begin{array}{@{\ }ccc@{\ }|}
+					0 & 1 & 0\\
+					0 & 0 & 1\\
+					0 & 0 & 0\\\hline
+				\end{array}&&\\[-0.4pt]
+				&\begin{array}{|@{\ }cc@{\ }|}\hline
+					0 & 1\\
+					0 & 0\\\hline
+				\end{array}&\\[-0.4pt]
+				&&\begin{array}{|@{\ }c@{\ }}\hline
+					0
+				\end{array}
+			\end{array}
+		\right)
+	\]
+	As previously, other choices of cycle-generators $f_1,f_2,f_3$ are available. While alternatives result in different Jordan bases, Corollary \ref{cor:jordanunique} assures us that we'll always obtain the same canonical form $J$.
 \end{example}
 
-\goodbreak
+
+\pagebreak[3]
+
 
 \begin{exercises}
-\exstart Let $\rT$ be a linear operator whose characteristic polynomial splits. Suppose the eigenvalues and the dot diagrams for the generalized eigenspaces $K_{\lambda_i}$ are as follows:
-  \[\begin{array}{c@{\qquad}c@{\qquad}c}
-  \lambda_1=2&\lambda_2=4&\lambda_3=-3\\
-  \begin{array}{ccc}
-  \bullet&\bullet&\bullet\\
-  \bullet&\bullet&\\
-  \bullet&&
-  \end{array}
-  &
-  \begin{array}{cc}
-  \bullet&\bullet\\
-  \bullet&\\
-  \bullet&
-  \end{array}
-  &
-  \begin{array}{cc}
-  \bullet&\bullet\\
-  &\\
-  &
-  \end{array}
-  \end{array}\]
-  Find the Jordan form $J$ of $\rT$.
+	\hangindent\leftmargini\emph{Key concepts:\quad Dot diagrams: meaning \& computation,\quad Uniqueness of Jordan form}
   
-\begin{enumerate}\setcounter{enumi}{1}
-	\item Suppose $\rT$ has Jordan canonical form
-	\[J=\scalebox{0.8}{$\left(\begin{array}{@{}c@{}c@{}c@{}c@{}}
-		\begin{array}{@{\ }ccc@{\ }|}
-			2 & 1 & 0\\
-			0 & 2 & 1\\
-			0 & 0 & 2\\\hline
-		\end{array}&&&\\[-0.4pt]
-		&\begin{array}{|@{\ }cc@{\ }|}\hline
-			2 & 1\\
-			0 & 2\\\hline
-		\end{array}&&\\[-0.4pt]
-		&&\begin{array}{|@{\ }c@{\ }|}\hline
-			3\\\hline
-		\end{array}&\\[-0.4pt]
-		&&&\begin{array}{|@{\ }c@{\ }}\hline
-			3
-		\end{array}
-		\end{array}\right)$}
-% 	\begin{smatrix}
-% 	2 & 1 & 0 & 0 & 0 & 0 & 0\\
-% 	0 & 2 & 1 & 0 & 0 & 0 & 0\\
-% 	0 & 0 & 2 & 0 & 0 & 0 & 0\\
-% 	0 & 0 & 0 & 2 & 1 & 0 & 0\\
-% 	0 & 0 & 0 & 0 & 2 & 0 & 0\\
-% 	0 & 0 & 0 & 0 & 0 & 3 & 0\\
-% 	0 & 0 & 0 & 0 & 0 & 0 & 3
+	\begin{enumerate}
+	  \item Let $\rT$ be a linear operator whose characteristic polynomial splits. Suppose the eigenvalues and the dot diagrams for the generalized eigenspaces $K_{\lambda_i}$ are as follows:
+	  \[
+	  	\begin{array}{c@{\qquad}c@{\qquad}c}
+			  \lambda_1=2&\lambda_2=4&\lambda_3=-3\\
+			  \begin{array}{ccc}
+				  \bullet&\bullet&\bullet\\
+				  \bullet&\bullet&\\
+				  \bullet&&
+			  \end{array}
+			  &
+			  \begin{array}{cc}
+				  \bullet&\bullet\\
+				  \bullet&\\
+				  \bullet&
+			  \end{array}
+			  &
+			  \begin{array}{cc}
+				  \bullet&\bullet\\
+				  &\\
+				  &
+		  	\end{array}
+	  	\end{array}
+	  \]
+	  Describe the Jordan form $J$ of $\rT$.
+  
+  
+		\item Suppose $\rT$ has Jordan canonical form $J$.\par
+		\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+					\begin{enumerate}
+		  \item State the characteristic polynomial of $\rT$.
+		  \item For each eigenvalue $\lambda$, find the dot diagram and the smallest $k$ such that $K_{\lambda}=\cN(\rT-\lambda\I)^k$.
+		\end{enumerate}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.39\linewidth}\vspace{-25pt}
+			\hfill
+			$J=\left(
+			\begin{array}{@{}c@{}c@{}c@{}c@{}}
+				\begin{array}{@{\ }ccc@{\ }|}
+					2 & 1 & 0\\
+					0 & 2 & 1\\
+					0 & 0 & 2\\\hline
+				\end{array}&&&\\[-0.4pt]
+				&\begin{array}{|@{\ }cc@{\ }|}\hline
+					2 & 1\\
+					0 & 2\\\hline
+				\end{array}&&\\[-0.4pt]
+				&&\begin{array}{|@{\ }c@{\ }|}\hline
+					3\\\hline
+				\end{array}&\\[-0.4pt]
+				&&&\begin{array}{|@{\ }c@{\ }}\hline
+					3
+				\end{array}
+			\end{array}
+			\right)$
+		\end{minipage}
+
+		
+		\item In Example \ref{ex:jordanpenult}, compute the two-cycle $\beta_{\vx_1}$ generated by $\vx_1=\ve_3$. Hence obtain an alternative Jordan canonical basis.
+		
+% 	\[
+% 		\tilde\beta=\left\{\sfourvec 3002, \sfourvec{-4}00{-2}, \sfourvec 0010, \sfourvec 0210\right\}, \qquad
+% 	A=\begin{smatrix}
+% 	3&-4&0&0\\
+% 	0&0&0&2\\
+% 	0&0&1&1\\
+% 	2&-2&0&0
 % 	\end{smatrix}
-% 		\left(\begin{array}{@{}c@{}c@{}c@{}c@{}}
-% 		\begin{array}{@{\ }ccc@{\ }|}
-% 			2 & 1 & 0\\
-% 			0 & 2 & 1\\
-% 			0 & 0 & 2\\\hline
-% 		\end{array}&&&\\
-% 		&\begin{array}{|@{\ }cc@{\ }|}\hline
-% 			2 & 1\\
-% 			0 & 2\\\hline
-% 		\end{array}&&\\
-% 		&&\begin{array}{|@{\ }c@{\ }|}\hline
-% 			3\\\hline
-% 		\end{array}&\\
-% 		&&&\begin{array}{|@{\ }c@{\ }}\hline
-% 			3
-% 		\end{array}
-% 		\end{array}\right)
-		\]
-	\begin{enumerate}
-	  \item Find the characteristic polynomial of $\rT$.
-	  \item Find the dot diagram for each eigenvalue.
-	  \item For each eigenvalue find the smallest $k_j$ such that $K_{\lambda_j}=\cN(\rT-\lambda_j\I)^{k_j}$.
-	\end{enumerate}
+% 	\begin{smatrix}
+% 	2&0&0&0\\
+% 	0&3&1&0\\
+% 	0&0&3&0\\
+% 	0&0&0&3
+% 	\end{smatrix}
+% 	\begin{smatrix}
+% 	3&-4&0&0\\
+% 	0&0&0&2\\
+% 	0&0&1&1\\
+% 	2&-2&0&0
+% 	\end{smatrix}^{-1}\]  
 	  
-	\item For each matrix $A$ find a Jordan canonical form and an invertible $Q$ such that $A=QJQ^{-1}$.
-	\begin{enumerate}
-	  \item $A=\begin{pmatrix}
-	  -3 & 3 & -2\\
-		-7 & 6 & -3\\
-		1 & -1 & 2
-	  \end{pmatrix}$\qquad
-	  (b)\ \ $A=\begin{pmatrix}
-	  0 & 1 & -1\\
-		-4 & 4 & -2\\
-		-2 & 1 & 1
-	  \end{pmatrix}$\qquad
-	  (c)\ \ $A=$\scalebox{0.9}{$\begin{pmatrix}
-	  0 & -3 & 1 & 2\\
-		-2 & 1 & -1 & 2\\
-		-2 & 1 & -1 & 2\\
-		-2 & -3 & 1 & 4
-	  \end{pmatrix}$}
-	\end{enumerate}
+	  
+		\item For each matrix $A$ find a Jordan canonical form and an invertible $Q$ such that $A=QJQ^{-1}$.
+		\begin{enumerate}
+		  \item $A=\begin{pmatrix}
+		  -3 & 3 & -2\\
+			-7 & 6 & -3\\
+			1 & -1 & 2
+		  \end{pmatrix}$\qquad
+		  (b)\ \ $A=\begin{pmatrix}
+		  0 & 1 & -1\\
+			-4 & 4 & -2\\
+			-2 & 1 & 1
+		  \end{pmatrix}$\qquad
+		  (c)\ \ $A=\begin{pmatrix}
+		  0 & -3 & 1 & 2\\
+			-2 & 1 & -1 & 2\\
+			-2 & 1 & -1 & 2\\
+			-2 & -3 & 1 & 4
+		  \end{pmatrix}$
+		\end{enumerate}
 	
-	\item For each linear operator $\rT$, find a Jordan canonical form $J$ and basis $\beta$:
-	\begin{enumerate}
-	  \item $\rT(f)=f'$ on $\Span_\R\{e^t,te^t,t^2e^{t},e^{2t}\}$
-	  
-	  \item $\rT\bigl(f(x)\bigr)=xf''(x)$ on $P_3(\R)$
-	  
-	  \item $\rT(f)=af_x+bf_y$ on $\Span_\R\{1,x,y,x^2,y^2,xy\}$. How does your answer depend on $a,b$?
-	\end{enumerate}
 	
-	\item (Generalized Eigenvector Method for ODEs)\quad Let $A\in M_n(\R)$ have an eigenvalue $\lambda$ and suppose $\beta_{\vv_0}=\{\vv_{k-1},\ldots,\vv_1,\vv_0\}$ is a cycle of generalized eigenvectors for this eigenvalue. Show that
-	\[\vx(t):=e^{\lambda t}\sum_{j=0}^{k-1}b_j(t)\vv_j\quad\text{satisfies}\quad\vx'(t)=A\vx\iff \begin{cases}
-	b_0'(t)=0,\text{ and}\\
-	b'_j(t)=b_{j-1}(t)\text{ when $j\ge 1$}
-	\end{cases}\]
-	Use this method to solve the system of differential equations
-	\[\vx'=\scalebox{0.9}{$\begin{pmatrix}
-	3&1&0&0\\
-	0&3&1&0\\
-	0&0&3&0\\
-	0&0&0&2
-	\end{pmatrix}\vx$}\]
-\end{enumerate}
+		\item For each linear operator $\rT$, find a Jordan canonical form $J$ and basis $\beta$:
+		\begin{enumerate}
+		  \item $\rT(f)=f'$ on $\Span_{\R}\big\{e^t,te^t,t^2e^{t},e^{2t}\big\}$
+		  
+		  \item $\rT\bigl(f(x)\bigr)=xf''(x)$ on $P_3(\R)$
+		  
+		  \item $\rT(f)=af_x+bf_y$ on $\Span_{\R}\big\{1,x,y,x^2,y^2,xy\big\}$. How does your answer depend on $a,b$?
+		\end{enumerate}
+		
+		
+		\item (Generalized Eigenvector Method for ODEs)\quad Let $A\in M_n(\R)$ have an eigenvalue $\lambda$ and suppose $\beta_{\vv_0}=\{\vv_{k-1},\ldots,\vv_1,\vv_0\}$ is a cycle of generalized eigenvectors for this eigenvalue.
+		\begin{enumerate}
+		  \item Show that $\vx(t):=e^{\lambda t}\sum\limits_{j=0}^{k-1}b_j(t)\vv_j$ is a solution to $\vx'(t)=A\vx$ if and only if
+			\[
+				\begin{cases}
+					b_0'(t)=0,\text{ and}\\
+					b'_j(t)=b_{j-1}(t)\text{ when $j\ge 1$}
+				\end{cases}
+			\]
+			\item Use this method to find the general solution to the system of differential equations
+			\[
+				\vx'=\begin{pmatrix}
+					3&1&0&0\\
+					0&3&1&0\\
+					0&0&3&0\\
+					0&0&0&2
+				\end{pmatrix}
+				\vx
+			\]
+		\end{enumerate}
+	\end{enumerate}
 \end{exercises}
+
+
+\iffalse
 
 %\setcounter{subsection}{3}
  
@@ -1170,3 +1477,4 @@ then there are two possible rational canonical forms; here is an example of each
 %  \subsection{The Minimal Polynomial}
 %  
 %  Wed week 10
+\fi
