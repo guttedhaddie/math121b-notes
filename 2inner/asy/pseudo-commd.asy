@@ -49,8 +49,8 @@ label("$\begin{array}{c@{\ }c@{\ }c@{\ }c@{\ }c@{\quad}c}
 \end{array}$",(0,0));
 
 
-draw(Label("$\rT$",align=W,fontsize(8)+red),(-123,-45)--(-123,45),red,Arrow(SimpleHead));
-draw(Label("$\rT^\dag$",align=E,fontsize(8)+blue),(-119,45)--(-119,-45),blue,Arrow(SimpleHead));
+draw(Label("$\rT^\dag$",align=W,fontsize(8)+red),(-123,-45)--(-123,45),red,Arrow(SimpleHead));
+draw(Label("$\rT$",align=E,fontsize(8)+blue),(-119,45)--(-119,-45),blue,Arrow(SimpleHead));
 
 draw((-62,-32)--(-62,32),red,Arrow(SimpleHead));
 draw((-58,32)--(-58,-32),blue,Arrow(SimpleHead));
